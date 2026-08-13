@@ -1,0 +1,16 @@
+# Always run both methods. Do not average them into one fake number (ADR 0009).
+methods:
+  - sarima
+  - holt_winters
+
+default_symbol: BZ=F
+symbols:
+  brent: BZ=F
+  wti: CL=F
+  # Urals: no Yahoo series in v1 — tool must say so.
+
+horizon_default_days: 90
+history_period: 5y
+interval: 1d
+
+# If yfinance fails, error. No CSV fallback.

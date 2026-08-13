@@ -1,0 +1,12 @@
+.git
+.env
+env
+.venv
+data/chroma
+data/reports
+__pycache__
+.pytest_cache
+.chainlit
+.DS_Store
+tests
+.scratch

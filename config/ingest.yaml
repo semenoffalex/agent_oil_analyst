@@ -1,0 +1,43 @@
+embedding_model: intfloat/multilingual-e5-base
+chroma_path: data/chroma
+retrieve_k: 5
+max_tokens: 512
+overlap_tokens: 50
+tokenizer: intfloat/multilingual-e5-base
+
+samples_dir: data/samples
+reports_dir: data/reports
+
+samples:
+  - path: data/samples/opec-momr-excerpt.pdf
+    title: OPEC Monthly Oil Market Report — March 2026 (excerpt, World Oil Demand)
+    agency: OPEC
+    date: 2026-03
+  - path: data/samples/eia-steo-excerpt.pdf
+    title: EIA Short-Term Energy Outlook — August 2026 (excerpt, Global Oil Markets)
+    agency: EIA
+    date: 2026-08
+
+full_reports:
+  - id: eia-steo-latest
+    title: EIA Short-Term Energy Outlook
+    agency: EIA
+    url: https://www.eia.gov/outlooks/steo/pdf/steo_full.pdf
+  - id: opec-momr
+    title: OPEC Monthly Oil Market Report
+    agency: OPEC
+    # Latest MOMR is often behind a form. This dated PDF is a known public asset.
+    # Override via OPEC_MOMR_URL if you have a newer direct link.
+    url: https://www.opec.org/assets/assetdb/momr-march-2026.pdf
+
+heading_patterns:
+  OPEC:
+    - '^(?:\\d+(?:\\.\\d+)*\\s+)?(?:Crude Oil Price Movements|World Oil Demand|World Oil Supply|Product Markets and Refinery Operations|Tanker Market|Crude and Refined Products Trade|Stock Movements|Balance of Supply and Demand|Feature Article)\\b'
+    - '^Appendix'
+  EIA:
+    - '^(?:Global (?:liquid fuels|petroleum)|U\\.S\\. (?:petroleum|natural gas|electricity|coal|economy)|Crude oil|Petroleum products|Natural gas|Electricity|Coal|Renewables)\\b'
+    - '^(?:Highlights|Overview|Discussion of assumptions)\\b'
+
+e5_prefixes:
+  passage: "passage: "
+  query: "query: "

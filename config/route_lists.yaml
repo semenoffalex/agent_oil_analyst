@@ -1,0 +1,48 @@
+forecast_verbs:
+  - forecast
+  - predict
+  - projection
+  - "what if"
+  - what-if
+  - "range of"
+  - "price range"
+  - estimate
+  - "scenario if"
+  - спрогнозируй
+  - спрогнозировать
+  - прогноз
+  - прогнозир
+  - "оцени диапазон"
+  - "диапазон цен"
+  - "что если"
+  - "что, если"
+
+# Bare "estimate" in English is on the list on purpose (ADR 0004).
+# Horizon without a verb is not a Forecast request.
+
+time_sensitive:
+  - today
+  - tonight
+  - "this morning"
+  - "this week"
+  - "this month"
+  - yesterday
+  - now
+  - latest
+  - "live"
+  - spot
+  - "current price"
+  - "right now"
+  - statement
+  - announced
+  - breaking
+  - сегодня
+  - сейчас
+  - "на этой неделе"
+  - вчера
+  - спот
+  - "текущ"
+  - заявление
+  - объявил
+  - свеж
+  - актуальн
