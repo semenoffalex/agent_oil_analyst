@@ -64,7 +64,7 @@ class OpenAICompatibleEmbeddingFunction:
         base_url: str,
         model_name: str,
         api_key: str = "lm-studio",
-        timeout: float = 60,
+        timeout: float = 120,
     ):
         base = base_url.rstrip("/")
         if not base.endswith("/v1"):
@@ -153,6 +153,13 @@ class ChromaRetriever:
     def is_empty(self) -> bool:
         return self._col.count() == 0
 
+    def reset(self) -> None:
+        self._client.delete_collection("reports")
+        self._col = self._client.get_or_create_collection(
+            name="reports",
+            metadata={"hnsw:space": "cosine"},
+        )
+
     def index_chunks(self, chunks: list[Chunk], id_prefix: str) -> None:
         if not chunks:
             return
@@ -186,6 +193,17 @@ class ChromaRetriever:
         return out
 
 
+def _agency_from_name(name: str, default: str = "OPEC") -> str:
+    n = name.lower()
+    if "cbr" in n:
+        return "CBR"
+    if "steo" in n or "eia" in n:
+        return "EIA"
+    if "momr" in n or "opec" in n:
+        return "OPEC"
+    return default
+
+
 def ingest_samples_and_reports(
     retriever: ChromaRetriever,
     *,
@@ -194,16 +212,19 @@ def ingest_samples_and_reports(
 ) -> int:
     cfg = load_ingest_config()
     total = 0
+    seen: set[Path] = set()
     for i, sample in enumerate(cfg.get("samples") or []):
         path = Path(sample["path"])
         if not path.exists():
             path = samples_dir / path.name
         if not path.exists():
             raise FileNotFoundError(f"Sample Report missing: {sample['path']}")
+        seen.add(path.resolve())
+        excerpt = bool(sample.get("excerpt", True))
         chunks = chunk_pdf(
             path,
-            agency=sample.get("agency", "OPEC"),
-            excerpt=True,
+            agency=sample.get("agency") or _agency_from_name(path.name),
+            excerpt=excerpt,
             date=sample.get("date"),
             title=sample.get("title", path.stem),
             config=cfg,
@@ -211,12 +232,30 @@ def ingest_samples_and_reports(
         )
         retriever.index_chunks(chunks, id_prefix=f"sample-{i}")
         total += len(chunks)
-    if reports_dir.exists():
-        for j, pdf in enumerate(sorted(reports_dir.glob("*.pdf"))):
-            agency = "EIA" if "steo" in pdf.name.lower() or "eia" in pdf.name.lower() else "OPEC"
+        print(f"indexed {path.name}: {len(chunks)} chunks")
+    extra = 0
+    if samples_dir.exists():
+        for pdf in sorted(samples_dir.glob("*.pdf")):
+            if pdf.resolve() in seen:
+                continue
             chunks = chunk_pdf(
                 pdf,
-                agency=agency,
+                agency=_agency_from_name(pdf.name),
+                excerpt=False,
+                date=None,
+                title=pdf.stem,
+                config=cfg,
+                token_count=e5_token_count,
+            )
+            retriever.index_chunks(chunks, id_prefix=f"sample-extra-{extra}")
+            total += len(chunks)
+            extra += 1
+            print(f"indexed {pdf.name}: {len(chunks)} chunks")
+    if reports_dir.exists():
+        for j, pdf in enumerate(sorted(reports_dir.glob("*.pdf"))):
+            chunks = chunk_pdf(
+                pdf,
+                agency=_agency_from_name(pdf.name),
                 excerpt=False,
                 date=None,
                 title=pdf.stem,
@@ -225,4 +264,5 @@ def ingest_samples_and_reports(
             )
             retriever.index_chunks(chunks, id_prefix=f"full-{j}")
             total += len(chunks)
+            print(f"indexed {pdf.name}: {len(chunks)} chunks")
     return total

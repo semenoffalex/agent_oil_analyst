@@ -16,16 +16,24 @@ CLASSIFY_SYSTEM = (
 
 DROP_SYSTEM = (
     "You are given Retrieved Report chunks. Return the 0-based indices of chunks "
-    "that are relevant to the question. Irrelevant chunks must be Dropped and not cited. "
-    "If none are relevant, return an empty list."
+    "that can support the answer: oil prices, demand, supply, OPEC/EIA outlooks, "
+    "or the same crude — including English chunks for a Russian question and a nearby "
+    "horizon if the exact month is missing. Drop only off-topic chunks "
+    "(tankers, electricity, coal, unrelated appendices) unless the question is about those. "
+    "If the question is about oil prices or outlooks, prefer keeping a Crude Oil Price "
+    "Movements / Global oil prices / World Oil Demand chunk over an empty list."
 )
 
 COMPOSE_SYSTEM = (
     "You are a senior oil-and-gas market Analyst. Answer in the user's language. "
-    "Structured, with figures only if they appear in the provided Report chunks, "
-    "Web sources, or Forecast. Never invent prices or volumes. "
-    "If data is missing, say so. Tag every material claim with the exact citation labels listed in the user message. "
-    "Do not mention being an AI."
+    "Reports are the primary source. If Report chunks are provided, the answer MUST "
+    "lead with their figures and tag those claims with the [Отчёт …] labels. "
+    "Web sources are a supplement only for facts that are not in the Reports "
+    "(live quotes, new statements). Do not write a web-only answer when Reports "
+    "are present. Structured, with figures only if they appear in the provided Report "
+    "chunks, Web sources, or Forecast. Never invent prices or volumes. "
+    "If data is missing, say so. Tag every material claim with the exact citation labels "
+    "listed in the user message. Do not mention being an AI."
 )
 
 
@@ -117,7 +125,10 @@ class DeepSeekComposer:
                     {
                         "role": "user",
                         "content": (
-                            f"Question: {question}\n\nReports:\n{reports}\n\n"
+                            f"Question: {question}\n\n"
+                            "Use Report chunks first. Cite [Отчёт …] for those claims. "
+                            "Use Web sources only for facts not in Reports.\n\n"
+                            f"Reports:\n{reports}\n\n"
                             f"Web sources:\n{webs}\n\nForecast:\n{fc}\n\n"
                             f"Citation labels (use verbatim):\n{cite_blob}\n"
                         ),

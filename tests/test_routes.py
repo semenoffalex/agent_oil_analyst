@@ -18,6 +18,17 @@ def test_horizon_without_verb_is_not_forecast_request():
     assert is_forecast_request("Where is Brent headed?", lists) is False
 
 
+def test_prognoz_as_request_hits_but_prognozakh_does_not():
+    lists = load_route_lists()
+    assert is_forecast_request("прогноз цены Brent на 3 месяца", lists) is True
+    assert (
+        is_forecast_request(
+            "Какой тренд в прогнозах цен на нефть на ближайший месяц?", lists
+        )
+        is False
+    )
+
+
 def test_time_sensitive_today_hits():
     lists = load_route_lists()
     assert is_time_sensitive("What's Brent today?", lists) is True

@@ -1,6 +1,9 @@
-Committed Sample Reports (ADR 0011). Citations must say excerpt.
+Sample Reports (ADR 0011). Excerpt citations must say excerpt.
 
-- `opec-momr-excerpt.pdf` — OPEC MOMR March 2026, World Oil Demand (source pages 42–46)
-- `eia-steo-excerpt.pdf` — EIA STEO August 2026, Global Oil Markets (source pages 6–10)
+- `momr-june-2024.pdf` — OPEC MOMR June 2024 (full)
+- `momr-june-2026.pdf` — OPEC MOMR June 2026 (full)
+- `eia-steo-excerpt.pdf` — EIA STEO August 2026, Global Oil Markets (excerpt)
+- `steo_full.pdf` — EIA STEO August 2026 (full)
+- `cbr_ec_research_mb_bulletin_26-05.pdf` — Банк России, «О чем говорят тренды» № 5 (88), июль 2026
 
-Full OPEC MOMR / EIA STEO go in `data/reports/` via ingest (gitignored).
+Optional extra Full Reports: `data/reports/` via ingest (gitignored).

@@ -62,7 +62,7 @@ def _web_citation(hit: WebHit) -> Citation:
     host = urlparse(hit.url).hostname or hit.title
     if host.startswith("www."):
         host = host[4:]
-    return Citation(kind="web", label=f"[Источник: {host}, web]")
+    return Citation(kind="web", label=f"[Источник: {host}, web]", url=hit.url)
 
 
 def _forecast_citations(result: ForecastResult) -> list[Citation]:
@@ -147,3 +147,19 @@ def run_turn(question: str, deps: AnalystDeps) -> Reply:
         forecast_ran=forecast_ran,
         refused=False,
     )
+
+
+def markdown_cite(citation: Citation) -> str:
+    if not citation.url:
+        return citation.label
+    if citation.label.startswith("[") and citation.label.endswith("]"):
+        return f"{citation.label[:-1]}]({citation.url})"
+    return f"[{citation.label}]({citation.url})"
+
+
+def apply_citation_links(text: str, citations: list[Citation]) -> str:
+    out = text
+    for citation in sorted(citations, key=lambda c: len(c.label), reverse=True):
+        if citation.url:
+            out = out.replace(citation.label, markdown_cite(citation))
+    return out

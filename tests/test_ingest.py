@@ -33,8 +33,8 @@ def test_sample_momr_pdf_yields_demand_chunk():
 
     from oil_gas_analyst.ingest import chunk_pdf
 
-    pdf = Path("data/samples/opec-momr-excerpt.pdf")
-    chunks = chunk_pdf(pdf, agency="OPEC", excerpt=True, date="2026-03", title="OPEC MOMR excerpt")
+    pdf = Path("data/samples/momr-june-2026.pdf")
+    chunks = chunk_pdf(pdf, agency="OPEC", excerpt=False, date="2026-06", title="OPEC MOMR June 2026")
     assert chunks
     assert any("Demand" in c.heading or "demand" in c.text.lower() for c in chunks)
     assert all(c.page_start is not None for c in chunks)

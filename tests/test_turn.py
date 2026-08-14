@@ -130,6 +130,16 @@ def test_report_covered_question_cites_excerpt_and_skips_web():
     assert any(c.kind == "report" and "excerpt" in c.label.lower() and "OPEC" in c.label for c in reply.citations)
 
 
+def test_outlook_in_published_forecasts_stays_on_reports():
+    reply = run_turn(
+        "Какой тренд в прогнозах цен на нефть на ближайший месяц?",
+        _deps(retriever=_Retr([MOMR])),
+    )
+    assert reply.forecast_ran is False
+    assert reply.web_ran is False
+    assert any(c.kind == "report" for c in reply.citations)
+
+
 def test_dropped_chunks_are_not_cited():
     reply = run_turn(
         "What is OPEC's 2026 world oil demand outlook?",
@@ -150,6 +160,13 @@ def test_time_sensitive_runs_web_and_keeps_report_tags():
     assert "report" in kinds
     assert "web" in kinds
     assert any("web" in c.label.lower() for c in reply.citations if c.kind == "web")
+    web = next(c for c in reply.citations if c.kind == "web")
+    assert web.url == REUTERS.url
+    from oil_gas_analyst.turn import markdown_cite
+
+    linked = markdown_cite(web)
+    assert REUTERS.url in linked
+    assert linked.startswith("[Источник:")
 
 
 def test_denylist_domain_never_cited():
@@ -204,4 +221,20 @@ def test_forecast_failure_is_uncertainty_not_invented_price():
     assert reply.forecast_ran is True
     assert "uncertain" in reply.text.lower() or "unavailable" in reply.text.lower()
     assert "80.0" not in reply.text
+
+
+def test_web_citation_markdown_includes_full_url():
+    from oil_gas_analyst.turn import apply_citation_links, markdown_cite
+
+    reply = run_turn(
+        "What's Brent today?",
+        _deps(retriever=_Retr([MOMR]), dropper=_Drop(keep_all=False), web=_Web([REUTERS])),
+    )
+    web = next(c for c in reply.citations if c.kind == "web")
+    assert web.url == "https://www.reuters.com/markets/brent"
+    linked = markdown_cite(web)
+    assert linked == "[Источник: reuters.com, web](https://www.reuters.com/markets/brent)"
+    body = apply_citation_links(f"Price rose {web.label}.", [web])
+    assert "https://www.reuters.com/markets/brent" in body
+    assert "](https://" in body
 

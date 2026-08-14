@@ -9,14 +9,31 @@ samples_dir: data/samples
 reports_dir: data/reports
 
 samples:
-  - path: data/samples/opec-momr-excerpt.pdf
-    title: OPEC Monthly Oil Market Report — March 2026 (excerpt, World Oil Demand)
+  - path: data/samples/momr-june-2024.pdf
+    title: OPEC Monthly Oil Market Report — June 2024
     agency: OPEC
-    date: 2026-03
+    date: 2024-06
+    excerpt: false
+  - path: data/samples/momr-june-2026.pdf
+    title: OPEC Monthly Oil Market Report — June 2026
+    agency: OPEC
+    date: 2026-06
+    excerpt: false
   - path: data/samples/eia-steo-excerpt.pdf
     title: EIA Short-Term Energy Outlook — August 2026 (excerpt, Global Oil Markets)
     agency: EIA
     date: 2026-08
+    excerpt: true
+  - path: data/samples/steo_full.pdf
+    title: EIA Short-Term Energy Outlook — August 2026
+    agency: EIA
+    date: 2026-08
+    excerpt: false
+  - path: data/samples/cbr_ec_research_mb_bulletin_26-05.pdf
+    title: Банк России — О чем говорят тренды № 5 (88), июль 2026
+    agency: CBR
+    date: 2026-07
+    excerpt: false
 
 full_reports:
   - id: eia-steo-latest
@@ -37,6 +54,8 @@ heading_patterns:
   EIA:
     - '^(?:Global (?:liquid fuels|petroleum)|U\\.S\\. (?:petroleum|natural gas|electricity|coal|economy)|Crude oil|Petroleum products|Natural gas|Electricity|Coal|Renewables)\\b'
     - '^(?:Highlights|Overview|Discussion of assumptions)\\b'
+  CBR:
+    - '^(?:О чем говорят тренды|Ключевые выводы|Нефть|Валютный рынок|Инфляция)'
 
 e5_prefixes:
   passage: "passage: "

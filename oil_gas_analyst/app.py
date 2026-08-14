@@ -14,6 +14,7 @@ import chainlit as cl
 
 from oil_gas_analyst.deps import build_deps
 from oil_gas_analyst.graph import invoke_analyst
+from oil_gas_analyst.turn import apply_citation_links, markdown_cite
 from oil_gas_analyst.types import Reply
 
 _DEPS = None
@@ -45,10 +46,10 @@ def _wait_deps():
 
 
 def format_reply(reply: Reply) -> str:
-    parts = [reply.text.strip()]
+    parts = [apply_citation_links(reply.text.strip(), reply.citations)]
     if reply.citations:
         parts.append("\n**Sources**")
-        parts.extend(f"- {c.label}" for c in reply.citations)
+        parts.extend(f"- {markdown_cite(c)}" for c in reply.citations)
     flags = []
     if reply.refused:
         flags.append("refused")

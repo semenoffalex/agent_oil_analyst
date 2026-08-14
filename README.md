@@ -48,7 +48,7 @@ pytest -q
 3. Всегда retrieve k=5 Chunks. Модель может Drop.
 4. Web: Time-sensitive **или** все Chunks Dropped, и только если `in`.
 5. Forecast только при явном глаголе (forecast / спрогнозируй / оцени диапазон / …). «Brent in 3 months» без глагола — не Forecast.
-6. Цитаты: `[Отчёт …]` / `[Источник: …, web]` / `[Forecast …]`. Sample Reports помечаются excerpt.
+6. Цитаты: `[Отчёт …]` / `[Источник: …, web](url)` / `[Forecast …]`. Web — кликабельный URL. Sample Reports помечаются excerpt.
 
 ## Демо-диалоги (минимум 5)
 
@@ -65,8 +65,8 @@ pytest -q
 
 ## Данные
 
-- Sample Reports в `data/samples/` (фрагменты MOMR March 2026, STEO August 2026). Без них установка сломана.
-- Full Reports: `python -m oil_gas_analyst` качает EIA STEO и публичный MOMR в `data/reports/`. Сбой скачивания — громкий, индекс samples остаётся.
+- Sample Reports в `data/samples/`: OPEC MOMR June 2024/2026, EIA STEO August 2026 (excerpt + full), бюллетень ЦБ «О чем говорят тренды» июль 2026. Без samples установка сломана.
+- Переиндексация: `python -m oil_gas_analyst` (сбрасывает Chroma, эмбеддит samples + `data/reports/`).
 
 ## Ограничения v1
 

@@ -45,6 +45,7 @@ class ForecastResult:
 class Citation:
     kind: CitationKind
     label: str
+    url: str | None = None
 
 
 @dataclass(frozen=True)

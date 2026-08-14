@@ -23,12 +23,24 @@ def load_route_lists(path: Path | None = None) -> RouteLists:
     )
 
 
+_CYR = re.compile(r"[а-яё]", re.IGNORECASE)
+
+
+def _is_cyr_stem(phrase: str) -> bool:
+    """Truncated Route-list stems (прогнозир, текущ, актуальн, свеж)."""
+    return phrase.endswith(("ир", "щ", "н", "ж")) and phrase != "прогноз"
+
+
 def _contains(phrase: str, question: str) -> bool:
     q = question.casefold()
     p = phrase.casefold().strip()
     if not p:
         return False
-    if " " in p or any(ord(c) > 127 for c in p):
+    if _CYR.search(p):
+        if _is_cyr_stem(p):
+            return re.search(rf"(?<![а-яё]){re.escape(p)}[а-яё]*", q) is not None
+        return re.search(rf"(?<![а-яё]){re.escape(p)}(?![а-яё])", q) is not None
+    if " " in p:
         return p in q
     return re.search(rf"\b{re.escape(p)}\b", q) is not None
 
