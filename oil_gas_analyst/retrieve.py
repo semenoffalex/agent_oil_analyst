@@ -1,18 +1,50 @@
 from __future__ import annotations
 
+import json
+import os
 from pathlib import Path
+from urllib.request import Request, urlopen
 
 import chromadb
 from oil_gas_analyst.ingest import chunk_pdf, e5_token_count, load_ingest_config
 from oil_gas_analyst.types import Chunk
 
+_PASSAGE = "passage: "
+_QUERY = "query: "
+_EMBED_BATCH = 32
+
 
 class E5EmbeddingFunction:
-    def __init__(self, model_name: str = "intfloat/multilingual-e5-base"):
+    def __init__(self, model_name: str | None = None):
+        import os
+
         from sentence_transformers import SentenceTransformer
 
-        self._model = SentenceTransformer(model_name)
-        self._prefix = "passage: "
+        model_name = model_name or os.environ.get(
+            "EMBEDDING_MODEL", "intfloat/multilingual-e5-base"
+        )
+        from pathlib import Path
+
+        local = Path(model_name)
+        offline = os.environ.get("HF_HUB_OFFLINE", "").strip().lower() in {
+            "1",
+            "true",
+            "yes",
+        } or os.environ.get("TRANSFORMERS_OFFLINE", "").strip().lower() in {
+            "1",
+            "true",
+            "yes",
+        } or local.is_dir()
+        try:
+            self._model = SentenceTransformer(
+                str(local) if local.is_dir() else model_name,
+                local_files_only=offline,
+            )
+        except TypeError:
+            self._model = SentenceTransformer(
+                str(local) if local.is_dir() else model_name
+            )
+        self._prefix = _PASSAGE
 
     def __call__(self, input):
         texts = [self._prefix + t for t in input]
@@ -20,8 +52,72 @@ class E5EmbeddingFunction:
         return [v.tolist() for v in vecs]
 
     def embed_query(self, text: str) -> list[float]:
-        vec = self._model.encode(["query: " + text], normalize_embeddings=True)[0]
+        vec = self._model.encode([_QUERY + text], normalize_embeddings=True)[0]
         return vec.tolist()
+
+
+class OpenAICompatibleEmbeddingFunction:
+    """OpenAI-compatible /v1/embeddings (LM Studio). Same e5 query/passage prefixes."""
+
+    def __init__(
+        self,
+        base_url: str,
+        model_name: str,
+        api_key: str = "lm-studio",
+        timeout: float = 60,
+    ):
+        base = base_url.rstrip("/")
+        if not base.endswith("/v1"):
+            base = f"{base}/v1"
+        self._url = f"{base}/embeddings"
+        self._model = model_name
+        self._api_key = api_key or "lm-studio"
+        self._timeout = timeout
+
+    def _embed(self, texts: list[str]) -> list[list[float]]:
+        out: list[list[float]] = []
+        for i in range(0, len(texts), _EMBED_BATCH):
+            out.extend(self._embed_batch(texts[i : i + _EMBED_BATCH]))
+        return out
+
+    def _embed_batch(self, texts: list[str]) -> list[list[float]]:
+        payload = json.dumps({"model": self._model, "input": texts}).encode("utf-8")
+        req = Request(
+            self._url,
+            data=payload,
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {self._api_key}",
+            },
+            method="POST",
+        )
+        with urlopen(req, timeout=self._timeout) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        rows = sorted(data.get("data") or [], key=lambda row: int(row.get("index", 0)))
+        vecs = [row["embedding"] for row in rows]
+        if len(vecs) != len(texts):
+            raise RuntimeError(
+                f"Embedding endpoint returned {len(vecs)} vectors for {len(texts)} inputs"
+            )
+        return vecs
+
+    def __call__(self, input):
+        return self._embed([_PASSAGE + t for t in input])
+
+    def embed_query(self, text: str) -> list[float]:
+        return self._embed([_QUERY + text])[0]
+
+
+def make_embedding_function():
+    base = os.environ.get("EMBEDDING_BASE_URL", "").strip()
+    model = os.environ.get("EMBEDDING_MODEL", "intfloat/multilingual-e5-base")
+    if base:
+        return OpenAICompatibleEmbeddingFunction(
+            base,
+            model,
+            api_key=os.environ.get("EMBEDDING_API_KEY", "lm-studio"),
+        )
+    return E5EmbeddingFunction(model)
 
 
 def _meta_bool(value: str | bool) -> bool:

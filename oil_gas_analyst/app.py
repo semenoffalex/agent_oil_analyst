@@ -1,5 +1,15 @@
 from __future__ import annotations
 
+import asyncio
+import threading
+
+try:
+    import engineio.payload
+
+    engineio.payload.Payload.max_decode_packets = 500
+except Exception:
+    pass
+
 import chainlit as cl
 
 from oil_gas_analyst.deps import build_deps
@@ -7,12 +17,30 @@ from oil_gas_analyst.graph import invoke_analyst
 from oil_gas_analyst.types import Reply
 
 _DEPS = None
+_ERR: BaseException | None = None
+_READY = threading.Event()
 
 
-def _deps():
-    global _DEPS
-    if _DEPS is None:
+def _warm() -> None:
+    global _DEPS, _ERR
+    try:
         _DEPS = build_deps()
+    except BaseException as exc:
+        _ERR = exc
+    finally:
+        _READY.set()
+
+
+threading.Thread(target=_warm, daemon=True, name="warm-deps").start()
+
+
+def _wait_deps():
+    if not _READY.wait(timeout=600):
+        raise TimeoutError("Timed out loading embeddings / Report index")
+    if _ERR is not None:
+        raise _ERR
+    if _DEPS is None:
+        raise RuntimeError("Analyst deps failed to load")
     return _DEPS
 
 
@@ -37,19 +65,26 @@ def format_reply(reply: Reply) -> str:
 
 @cl.on_chat_start
 async def start():
-    await cl.Message(
-        content=(
+    msg = cl.Message(content="Loading embedding model and Report index…")
+    await msg.send()
+    try:
+        await asyncio.to_thread(_wait_deps)
+        msg.content = (
             "Senior oil-and-gas market Analyst. Ask about OPEC/EIA Reports, "
             "live market news, or a Forecast (use an explicit verb: "
             "forecast / спрогнозируй)."
         )
-    ).send()
+        await msg.update()
+    except Exception as exc:
+        msg.content = f"Startup failed. I will not invent figures. ({exc})"
+        await msg.update()
 
 
 @cl.on_message
 async def on_message(message: cl.Message):
     try:
-        reply = invoke_analyst(message.content, _deps())
+        deps = await asyncio.to_thread(_wait_deps)
+        reply = await asyncio.to_thread(invoke_analyst, message.content, deps)
         await cl.Message(content=format_reply(reply)).send()
     except Exception as exc:
         await cl.Message(

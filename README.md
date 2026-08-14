@@ -33,7 +33,7 @@ cp .env.example .env   # DEEPSEEK_API_KEY
 docker compose up --build
 ```
 
-Открыть http://localhost:8000. Первый старт качает веса e5 и строит индекс Sample Reports.
+Открыть http://localhost:8000. `docker-compose.yml` ходит за e5 на `http://192.168.0.55:1234/v1` (`text-embedding-multilingual-e5-base`). Пустой `EMBEDDING_BASE_URL` — локальный SentenceTransformer из образа. Чат по-прежнему DeepSeek. Индекс Sample Reports — при первом старте, если том Chroma пуст.
 
 Тесты (без сети и без LLM):
 

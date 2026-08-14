@@ -43,13 +43,15 @@ def make_chat(api_key: str, base_url: str, model: str) -> ChatOpenAI:
         base_url=base_url,
         model=model,
         temperature=0,
+        timeout=120,
         extra_body={"thinking": {"type": "disabled"}},
     )
 
 
 class DeepSeekClassifier:
     def __init__(self, llm: ChatOpenAI):
-        self._llm = llm.with_structured_output(CompetenceLabel)
+        # DeepSeek rejects json_schema / json_object response_format (HTTP 400).
+        self._llm = llm.with_structured_output(CompetenceLabel, method="function_calling")
 
     def classify(self, question: str) -> Literal["in", "out"]:
         try:
@@ -66,7 +68,7 @@ class DeepSeekClassifier:
 
 class DeepSeekDropper:
     def __init__(self, llm: ChatOpenAI):
-        self._llm = llm.with_structured_output(KeepIndices)
+        self._llm = llm.with_structured_output(KeepIndices, method="function_calling")
 
     def keep(self, question: str, chunks: list[Chunk]) -> list[Chunk]:
         if not chunks:

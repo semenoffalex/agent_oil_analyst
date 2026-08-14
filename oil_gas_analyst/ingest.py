@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import re
 from pathlib import Path
 from typing import Callable, Iterable
@@ -27,11 +28,26 @@ _E5_TOK = None
 
 def e5_token_count(text: str) -> int:
     global _E5_TOK
+    if os.environ.get("EMBEDDING_BASE_URL", "").strip():
+        return _word_tokens(text)
     try:
         if _E5_TOK is None:
             from transformers import AutoTokenizer
 
-            _E5_TOK = AutoTokenizer.from_pretrained("intfloat/multilingual-e5-base")
+            model = os.environ.get("EMBEDDING_MODEL", "intfloat/multilingual-e5-base")
+            kwargs: dict = {}
+            offline = os.environ.get("HF_HUB_OFFLINE", "").strip().lower() in {
+                "1",
+                "true",
+                "yes",
+            } or os.environ.get("TRANSFORMERS_OFFLINE", "").strip().lower() in {
+                "1",
+                "true",
+                "yes",
+            } or Path(model).is_dir()
+            if offline:
+                kwargs["local_files_only"] = True
+            _E5_TOK = AutoTokenizer.from_pretrained(model, **kwargs)
         return len(_E5_TOK.encode(text, add_special_tokens=False))
     except Exception:
         return _word_tokens(text)

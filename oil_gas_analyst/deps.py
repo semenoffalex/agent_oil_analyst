@@ -10,7 +10,7 @@ from oil_gas_analyst.denylist import load_denylist
 from oil_gas_analyst.forecast import run_forecast
 from oil_gas_analyst.ingest import load_ingest_config
 from oil_gas_analyst.llm import DeepSeekClassifier, DeepSeekComposer, DeepSeekDropper, make_chat
-from oil_gas_analyst.retrieve import ChromaRetriever, E5EmbeddingFunction, ingest_samples_and_reports
+from oil_gas_analyst.retrieve import ChromaRetriever, ingest_samples_and_reports, make_embedding_function
 from oil_gas_analyst.turn import AnalystDeps
 from oil_gas_analyst.web import DuckDuckGoWeb
 
@@ -40,7 +40,7 @@ def build_deps(*, ingest_if_empty: bool = True) -> AnalystDeps:
     persist = os.environ.get("CHROMA_PATH", str(ROOT / "data" / "chroma"))
     samples = Path(os.environ.get("SAMPLES_PATH", str(ROOT / "data" / "samples")))
     reports = Path(os.environ.get("REPORTS_PATH", str(ROOT / "data" / "reports")))
-    embedding = E5EmbeddingFunction()
+    embedding = make_embedding_function()
     retriever = ChromaRetriever(persist, embedding)
     if ingest_if_empty and retriever.is_empty():
         ingest_samples_and_reports(retriever, samples_dir=samples, reports_dir=reports)
