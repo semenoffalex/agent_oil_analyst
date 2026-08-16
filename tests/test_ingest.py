@@ -119,6 +119,84 @@ def test_outlook_prefers_newer_price_section_over_tanker():
     assert all("Tanker" not in c.heading for c in picked)
 
 
+def test_full_report_outranks_same_date_excerpt():
+    from oil_gas_analyst.retrieve import select_report_chunks
+    from oil_gas_analyst.types import Chunk
+
+    excerpt = Chunk(
+        text="Brent averaged $78/b in the excerpt.",
+        title="EIA STEO August 2026 (excerpt, Global Oil Markets)",
+        date="2026-08",
+        page_start=1,
+        page_end=2,
+        heading="Global oil prices",
+        excerpt=True,
+        agency="EIA",
+    )
+    full = Chunk(
+        text="Brent averaged $78/b in the full STEO.",
+        title="EIA Short-Term Energy Outlook — August 2026",
+        date="2026-08",
+        page_start=8,
+        page_end=12,
+        heading="Global oil prices",
+        excerpt=False,
+        agency="EIA",
+    )
+    picked = select_report_chunks("What is the EIA oil price outlook?", [excerpt, full], k=1)
+    assert len(picked) == 1
+    assert picked[0].excerpt is False
+    assert "full STEO" in picked[0].text
+
+
+def test_drop_redundant_excerpts_skips_steo_excerpt_when_full_listed():
+    from oil_gas_analyst.retrieve import drop_redundant_excerpts
+
+    kept = drop_redundant_excerpts(
+        [
+            {
+                "path": "data/samples/eia-steo-excerpt.pdf",
+                "agency": "EIA",
+                "date": "2026-08",
+                "excerpt": True,
+            },
+            {
+                "path": "data/samples/steo_full.pdf",
+                "agency": "EIA",
+                "date": "2026-08",
+                "excerpt": False,
+            },
+            {
+                "path": "data/samples/momr-june-2026.pdf",
+                "agency": "OPEC",
+                "date": "2026-06",
+                "excerpt": False,
+            },
+        ]
+    )
+    paths = [sample["path"] for sample in kept]
+    assert "data/samples/eia-steo-excerpt.pdf" not in paths
+    assert "data/samples/steo_full.pdf" in paths
+    assert "data/samples/momr-june-2026.pdf" in paths
+
+
+def test_drop_redundant_excerpts_keeps_excerpt_without_full():
+    from oil_gas_analyst.retrieve import drop_redundant_excerpts
+
+    kept = drop_redundant_excerpts(
+        [
+            {
+                "path": "data/samples/eia-steo-excerpt.pdf",
+                "agency": "EIA",
+                "date": "2026-08",
+                "excerpt": True,
+            }
+        ]
+    )
+    assert len(kept) == 1
+    assert kept[0]["excerpt"] is True
+
+
 def test_e5_token_count_uses_tokenizer_when_embedding_url_set(monkeypatch):
     import oil_gas_analyst.ingest as ingest
 

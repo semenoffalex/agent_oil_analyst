@@ -236,10 +236,31 @@ def select_report_chunks(question: str, chunks: list[Chunk], k: int = 5) -> list
         return []
     ranked = sorted(
         chunks,
-        key=lambda chunk: (_heading_rank(question, chunk.heading), _date_key(chunk.date)),
+        key=lambda chunk: (
+            _heading_rank(question, chunk.heading),
+            _date_key(chunk.date),
+            0 if chunk.excerpt else 1,
+        ),
         reverse=True,
     )
     return ranked[: max(k, 0)]
+
+
+def drop_redundant_excerpts(samples: list[dict]) -> list[dict]:
+    """Skip a Sample excerpt when a full Report of the same agency and date is listed."""
+    full_keys = {
+        (str(sample.get("agency") or ""), str(sample.get("date") or ""))
+        for sample in samples
+        if not bool(sample.get("excerpt", False))
+    }
+    kept: list[dict] = []
+    for sample in samples:
+        excerpt = bool(sample.get("excerpt", False))
+        key = (str(sample.get("agency") or ""), str(sample.get("date") or ""))
+        if excerpt and key in full_keys:
+            continue
+        kept.append(sample)
+    return kept
 
 
 def _chunk_from_meta(text: str, meta: dict) -> Chunk:
@@ -375,7 +396,15 @@ def ingest_samples_and_reports(
     cfg = load_ingest_config()
     total = 0
     seen: set[Path] = set()
-    for i, sample in enumerate(cfg.get("samples") or []):
+    listed = list(cfg.get("samples") or [])
+    samples = drop_redundant_excerpts(listed)
+    for sample in listed:
+        path = Path(sample["path"])
+        if not path.exists():
+            path = samples_dir / path.name
+        if path.exists():
+            seen.add(path.resolve())
+    for i, sample in enumerate(samples):
         path = Path(sample["path"])
         if not path.exists():
             path = samples_dir / path.name
