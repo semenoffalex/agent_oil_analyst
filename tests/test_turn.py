@@ -80,6 +80,7 @@ def test_out_of_competence_refuses_without_tools():
     assert reply.forecast_ran is False
     assert reply.citations == []
     assert "outside" in reply.text.lower()
+    assert reply.steps == ["classify"]
 
 
 def test_out_of_competence_python_refuses():
@@ -218,6 +219,7 @@ def test_dropped_off_topic_chunks_open_web():
     )
     assert not any(c.kind == "report" for c in reply.citations)
     assert reply.web_ran is True
+    assert reply.web_reason == "no-kept-reports"
     assert any(c.kind == "web" for c in reply.citations)
 
 
@@ -253,6 +255,12 @@ def test_time_sensitive_runs_web_and_keeps_report_tags():
         _deps(retriever=_Retr([MOMR]), web=_Web([REUTERS])),
     )
     assert reply.web_ran is True
+    assert reply.web_reason == "time-sensitive"
+    from oil_gas_analyst.turn import footer_flags
+
+    flags = footer_flags(reply)
+    assert "web (time-sensitive)" in flags
+    assert "classify → retrieve → drop → tools → compose" in flags
     kinds = {c.kind for c in reply.citations}
     assert "report" in kinds
     assert "web" in kinds
@@ -446,8 +454,18 @@ def test_retrieve_connection_refused_still_answers_via_web():
     )
     assert reply.refused is False
     assert reply.web_ran is True
+    assert reply.web_reason == "time-sensitive"
     assert any(c.kind == "web" for c in reply.citations)
     assert "80.0" not in reply.text
+
+
+def test_retrieve_error_without_freshness_marker_sets_reason():
+    reply = run_turn(
+        "What is OPEC's 2026 world oil demand outlook?",
+        _deps(retriever=_BoomRetr(), web=_Web([REUTERS])),
+    )
+    assert reply.web_ran is True
+    assert reply.web_reason == "retrieve-error"
 
 
 def test_remote_embedding_falls_back_to_local_on_connection_refused():

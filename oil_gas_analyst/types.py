@@ -60,6 +60,8 @@ class Reply:
     forecast_ran: bool = False
     forecast_failed: bool = False
     refused: bool = False
+    steps: list[str] = field(default_factory=list)
+    web_reason: str | None = None
 
 
 class CompetenceClassifier(Protocol):

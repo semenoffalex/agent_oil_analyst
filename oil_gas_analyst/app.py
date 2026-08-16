@@ -14,7 +14,7 @@ import chainlit as cl
 
 from oil_gas_analyst.deps import build_deps
 from oil_gas_analyst.graph import invoke_analyst
-from oil_gas_analyst.turn import apply_citation_links, markdown_cite
+from oil_gas_analyst.turn import apply_citation_links, footer_flags, markdown_cite
 from oil_gas_analyst.types import Reply
 
 _DEPS = None
@@ -50,15 +50,7 @@ def format_reply(reply: Reply) -> str:
     if reply.citations:
         parts.append("\n**Sources**")
         parts.extend(f"- {markdown_cite(c)}" for c in reply.citations)
-    flags = []
-    if reply.refused:
-        flags.append("refused")
-    if reply.retrieved:
-        flags.append("Reports retrieved")
-    if reply.web_ran:
-        flags.append("web")
-    if reply.forecast_ran:
-        flags.append("Forecast unavailable" if reply.forecast_failed else "Forecast")
+    flags = footer_flags(reply)
     if flags:
         parts.append("\n_" + " · ".join(flags) + "_")
     return "\n".join(parts)
