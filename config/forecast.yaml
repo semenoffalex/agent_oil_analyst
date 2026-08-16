@@ -10,6 +10,42 @@ symbols:
   # Urals: no Yahoo series in v1 — tool must say so.
 
 horizon_default_days: 90
+# Closed list. Longest phrase wins so «3 месяца» is not «месяц».
+# Values are forecast steps on daily history (≈ trading days).
+horizon_phrases:
+  - days: 21
+    phrases:
+      - ближайший месяц
+      - на месяц
+      - за месяц
+      - месяц
+      - 1 month
+      - one month
+      - month
+      - 30 days
+      - 30 дней
+      - на 30 дней
+  - days: 90
+    phrases:
+      - 3 месяца
+      - три месяца
+      - на квартал
+      - 3 months
+      - three months
+      - 90 days
+      - 90 дней
+      - на 90 дней
+  - days: 252
+    phrases:
+      - на год
+      - за год
+      - a year
+      - 1 year
+      - one year
+      - 12 months
+      - 12 месяцев
+      - на 12 месяцев
+
 history_period: 5y
 interval: 1d
 

@@ -126,6 +126,7 @@ TWO_METHODS = ForecastResult(
             name="holt_winters", point=81.0, low=72.0, high=91.0, interpretation="Holt-Winters path"
         ),
     ],
+    horizon_days=90,
 )
 
 
@@ -252,6 +253,25 @@ def test_forecast_verb_runs_both_methods_not_average():
     assert "sarima" in blob
     assert "holt" in blob
     assert "average" not in blob
+    assert "90d" in blob
+
+
+def test_forecast_citation_shows_month_horizon():
+    month = ForecastResult(
+        symbol="BZ=F",
+        methods=[
+            MethodForecast(name="sarima", point=78.0, low=70.0, high=86.0, interpretation="month"),
+            MethodForecast(name="holt_winters", point=79.0, low=71.0, high=87.0, interpretation="month"),
+        ],
+        horizon_days=21,
+    )
+    reply = run_turn(
+        "спрогнозируй Brent на ближайший месяц",
+        _deps(retriever=_Retr([MOMR]), forecast=_Forecast(month)),
+    )
+    blob = " ".join(c.label for c in reply.citations if c.kind == "forecast")
+    assert "21d" in blob
+    assert "90d" not in blob
 
 
 def test_bare_forecast_request_runs_even_if_classifier_says_out():
@@ -266,6 +286,7 @@ def test_bare_forecast_request_runs_even_if_classifier_says_out():
     assert reply.refused is False
     assert reply.forecast_ran is True
     assert any(c.kind == "forecast" for c in reply.citations)
+    assert any("90d" in c.label for c in reply.citations if c.kind == "forecast")
 
 
 def test_forecast_verb_on_weather_still_refuses():

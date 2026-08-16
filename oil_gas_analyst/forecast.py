@@ -35,6 +35,23 @@ def detect_symbol(question: str, config: dict | None = None) -> str:
     return str(cfg["symbols"].get("brent", cfg.get("default_symbol", "BZ=F")))
 
 
+def detect_horizon(question: str, config: dict | None = None) -> int:
+    cfg = config or load_forecast_config()
+    default = int(cfg.get("horizon_default_days", 90))
+    q = question.casefold()
+    ranked: list[tuple[int, int]] = []
+    for rule in cfg.get("horizon_phrases") or []:
+        days = int(rule["days"])
+        for phrase in rule.get("phrases") or []:
+            p = str(phrase).casefold().strip()
+            if p and p in q:
+                ranked.append((len(p), days))
+    if not ranked:
+        return default
+    ranked.sort(reverse=True)
+    return ranked[0][1]
+
+
 def _interval(pred: np.ndarray, resid_std: float) -> tuple[float, float, float]:
     point = float(pred[-1])
     band = 1.96 * float(max(resid_std, 1e-6))
@@ -64,7 +81,7 @@ def _fit_sarima(y: pd.Series, horizon: int) -> MethodForecast:
             point=point,
             low=low,
             high=high,
-            interpretation="SARIMA on daily closes; last point is the horizon.",
+            interpretation=f"SARIMA on daily closes; last point is day {horizon}.",
         )
     except Exception:
         resid_std = float(endog.diff().std() or 1.0)
@@ -76,7 +93,7 @@ def _fit_sarima(y: pd.Series, horizon: int) -> MethodForecast:
             point=point,
             low=low,
             high=high,
-            interpretation="SARIMA fallback (random-walk with drift) after fit failure.",
+            interpretation=f"SARIMA fallback (random-walk with drift) after fit failure; day {horizon}.",
         )
 
 
@@ -99,7 +116,7 @@ def _fit_holt(y: pd.Series, horizon: int) -> MethodForecast:
             point=point,
             low=low,
             high=high,
-            interpretation="Holt–Winters additive; last point is the horizon.",
+            interpretation=f"Holt–Winters additive; last point is day {horizon}.",
         )
     except Exception:
         resid_std = float(endog.diff().std() or 1.0)
@@ -110,7 +127,7 @@ def _fit_holt(y: pd.Series, horizon: int) -> MethodForecast:
             point=point,
             low=low,
             high=high,
-            interpretation="Holt–Winters fallback to last close after fit failure.",
+            interpretation=f"Holt–Winters fallback to last close after fit failure; day {horizon}.",
         )
 
 
@@ -150,6 +167,6 @@ def run_forecast(question: str, load_history: HistoryLoader | None = None) -> Fo
         raise ForecastError(str(exc)) from exc
     if history is None or len(history) < 30:
         raise ForecastError("not enough price history")
-    horizon = int(cfg.get("horizon_default_days", 90))
+    horizon = detect_horizon(question, cfg)
     methods = [_fit_sarima(history, horizon), _fit_holt(history, horizon)]
-    return ForecastResult(symbol=symbol, methods=methods)
+    return ForecastResult(symbol=symbol, methods=methods, horizon_days=horizon)

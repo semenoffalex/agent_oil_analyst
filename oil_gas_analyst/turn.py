@@ -148,12 +148,13 @@ def _forecast_citations(result: ForecastResult) -> list[Citation]:
             )
         ]
     out: list[Citation] = []
+    horizon = f"{result.horizon_days}d " if result.horizon_days else ""
     for method in result.methods:
         out.append(
             Citation(
                 kind="forecast",
                 label=(
-                    f"[Forecast {method.name} {result.symbol} "
+                    f"[Forecast {method.name} {result.symbol} {horizon}"
                     f"{method.point} ({method.low}–{method.high})]"
                 ),
             )

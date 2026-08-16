@@ -41,6 +41,7 @@ class ForecastResult:
     symbol: str
     methods: list[MethodForecast]
     unavailable_reason: str | None = None
+    horizon_days: int | None = None
 
 
 @dataclass(frozen=True)

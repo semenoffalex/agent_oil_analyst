@@ -34,7 +34,9 @@ COMPOSE_SYSTEM = (
     "(live quotes, new statements). Do not write a web-only answer when Reports "
     "are present. Structured, with figures only if they appear in the provided Report "
     "chunks, Web sources, or Forecast. Never invent prices or volumes. "
-    "If data is missing, say so. Tag every material claim with the exact citation labels "
+    "If data is missing, say so. If a Forecast is provided, name its horizon_days "
+    "and do not treat a one-month path as a 90-day path. "
+    "Tag every material claim with the exact citation labels "
     "listed in the user message. Do not mention being an AI."
 )
 
@@ -117,8 +119,13 @@ class DeepSeekComposer:
                 fc = f"{forecast.symbol}: {forecast.unavailable_reason}"
             else:
                 fc = "\n".join(
-                    f"{m.name}: point={m.point} low={m.low} high={m.high} ({m.interpretation})"
-                    for m in forecast.methods
+                    [
+                        f"horizon_days={forecast.horizon_days}" if forecast.horizon_days else "horizon_days=default",
+                        *(
+                            f"{m.name}: point={m.point} low={m.low} high={m.high} ({m.interpretation})"
+                            for m in forecast.methods
+                        ),
+                    ]
                 )
         try:
             msg = self._llm.invoke(
