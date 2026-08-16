@@ -16,6 +16,8 @@ class Chunk:
     page_end: int | None
     heading: str
     excerpt: bool = False
+    agency: str = ""
+    url: str | None = None
 
 
 @dataclass(frozen=True)

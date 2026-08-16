@@ -97,6 +97,7 @@ MOMR = Chunk(
     page_end=46,
     heading="World Oil Demand",
     excerpt=True,
+    url="https://www.opec.org/assets/assetdb/momr-march-2026.pdf",
 )
 
 TANKER = Chunk(
@@ -253,6 +254,29 @@ def test_forecast_verb_runs_both_methods_not_average():
     assert "average" not in blob
 
 
+def test_bare_forecast_request_runs_even_if_classifier_says_out():
+    reply = run_turn(
+        "Построй свой прогноз.",
+        _deps(
+            classifier=_FixedClassifier("out"),
+            retriever=_Retr([MOMR]),
+            forecast=_Forecast(TWO_METHODS),
+        ),
+    )
+    assert reply.refused is False
+    assert reply.forecast_ran is True
+    assert any(c.kind == "forecast" for c in reply.citations)
+
+
+def test_forecast_verb_on_weather_still_refuses():
+    reply = run_turn(
+        "спрогнозируй погоду на неделю",
+        _deps(classifier=_FixedClassifier("out"), forecast=_Forecast(TWO_METHODS)),
+    )
+    assert reply.refused is True
+    assert reply.forecast_ran is False
+
+
 def test_no_forecast_without_verb():
     reply = run_turn("What's Brent?", _deps(retriever=_Retr([MOMR]), web=_Web([REUTERS])))
     assert reply.forecast_ran is False
@@ -298,6 +322,60 @@ def test_web_citation_markdown_includes_full_url():
     body = apply_citation_links(f"Price rose {web.label}.", [web])
     assert "https://www.reuters.com/markets/brent" in body
     assert "](https://" in body
+
+
+def test_report_citation_markdown_includes_pdf_page_url():
+    from oil_gas_analyst.turn import apply_citation_links, markdown_cite
+
+    reply = run_turn(
+        "What is OPEC's 2026 world oil demand outlook?",
+        _deps(retriever=_Retr([MOMR])),
+    )
+    report = next(c for c in reply.citations if c.kind == "report")
+    assert report.url == "https://www.opec.org/assets/assetdb/momr-march-2026.pdf#page=42"
+    linked = markdown_cite(report)
+    assert linked.startswith("[Отчёт ")
+    assert linked.endswith("](https://www.opec.org/assets/assetdb/momr-march-2026.pdf#page=42)")
+    body = apply_citation_links(f"Demand grew {report.label}.", [report])
+    assert "#page=42" in body
+
+
+def test_html_report_url_has_no_page_fragment():
+    html_report = Chunk(
+        text="The global oil demand growth forecast for 2026 remains at 1.4 mb/d.",
+        title="OPEC Monthly Oil Market Report — June 2026",
+        date="2026-06",
+        page_start=9,
+        page_end=11,
+        heading="Crude Oil Price Movements",
+        url="https://www.opec.org/monthly-oil-market-report.html",
+    )
+    reply = run_turn(
+        "What is OPEC's oil price outlook?",
+        _deps(retriever=_Retr([html_report])),
+    )
+    report = next(c for c in reply.citations if c.kind == "report")
+    assert report.url == "https://www.opec.org/monthly-oil-market-report.html"
+
+
+def test_report_without_stored_url_links_agency_page():
+    from oil_gas_analyst.turn import markdown_cite
+
+    bare = Chunk(
+        text="The global oil demand growth forecast for 2026 remains at 1.4 mb/d.",
+        title="OPEC Monthly Oil Market Report — June 2026",
+        date="2026-06",
+        page_start=9,
+        page_end=11,
+        heading="Crude Oil Price Movements",
+    )
+    reply = run_turn(
+        "What is OPEC's oil price outlook?",
+        _deps(retriever=_Retr([bare])),
+    )
+    report = next(c for c in reply.citations if c.kind == "report")
+    assert report.url == "https://www.opec.org/monthly-oil-market-report.html"
+    assert "opec.org" in markdown_cite(report)
 
 
 class _BoomRetr:

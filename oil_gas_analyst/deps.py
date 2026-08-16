@@ -45,7 +45,8 @@ def build_deps(*, ingest_if_empty: bool = True) -> AnalystDeps:
         embedding.embed_query("warmup")
     except Exception as exc:
         print(f"embedding warmup failed: {exc}")
-    retriever = ChromaRetriever(persist, embedding)
+    retrieve_k = int(os.environ.get("RETRIEVE_K", "10"))
+    retriever = ChromaRetriever(persist, embedding, k=retrieve_k)
     if ingest_if_empty and retriever.is_empty():
         ingest_samples_and_reports(retriever, samples_dir=samples, reports_dir=reports)
     return AnalystDeps(
@@ -56,7 +57,7 @@ def build_deps(*, ingest_if_empty: bool = True) -> AnalystDeps:
         forecast=YFinanceForecast(),
         composer=DeepSeekComposer(llm),
         denied_domains=list(load_denylist()),
-        retrieve_k=int(os.environ.get("RETRIEVE_K", "5")),
+        retrieve_k=retrieve_k,
     )
 
 

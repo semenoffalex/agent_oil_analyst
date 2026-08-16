@@ -51,3 +51,32 @@ def is_forecast_request(question: str, lists: RouteLists) -> bool:
 
 def is_time_sensitive(question: str, lists: RouteLists) -> bool:
     return any(_contains(p, question) for p in lists.time_sensitive)
+
+
+# Spec out-of-competence demos. A Forecast verb does not override these.
+_OUT_OF_SCOPE = (
+    "weather",
+    "погод",
+    "python",
+    "world cup",
+    "чемпионат мира",
+    "uranium",
+    "уран",
+    "medicine",
+    "медицин",
+)
+
+
+def is_out_of_scope_topic(question: str) -> bool:
+    q = question.casefold()
+    for phrase in _OUT_OF_SCOPE:
+        p = phrase.casefold().strip()
+        if not p:
+            continue
+        if _CYR.search(p):
+            if re.search(rf"(?<![а-яё]){re.escape(p)}[а-яё]*", q):
+                return True
+            continue
+        if _contains(p, question):
+            return True
+    return False

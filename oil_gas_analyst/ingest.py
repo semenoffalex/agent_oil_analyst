@@ -119,6 +119,8 @@ def _flush(
     max_tokens: int,
     overlap: int,
     token_count: TokenCount,
+    agency: str = "",
+    url: str | None = None,
 ) -> list[Chunk]:
     text = "\n".join(buf).strip()
     if not text:
@@ -135,6 +137,8 @@ def _flush(
                 page_end=page_end,
                 heading=heading,
                 excerpt=excerpt,
+                agency=agency,
+                url=url,
             )
         )
         return chunks
@@ -151,6 +155,8 @@ def _flush(
                 page_end=page_end,
                 heading=heading,
                 excerpt=excerpt,
+                agency=agency,
+                url=url,
             )
         )
         i += step
@@ -166,6 +172,7 @@ def chunk_pages(
     agency: str,
     config: dict,
     token_count: TokenCount | None = None,
+    url: str | None = None,
 ) -> list[Chunk]:
     token_count = token_count or _word_tokens
     max_tokens = int(config.get("max_tokens", 512))
@@ -193,6 +200,8 @@ def chunk_pages(
                 max_tokens=max_tokens,
                 overlap=overlap,
                 token_count=token_count,
+                agency=agency,
+                url=url,
             )
         )
         buf = []
@@ -222,6 +231,7 @@ def chunk_pdf(
     title: str,
     config: dict | None = None,
     token_count: TokenCount | None = None,
+    url: str | None = None,
 ) -> list[Chunk]:
     cfg = config or load_ingest_config()
     reader = PdfReader(str(path))
@@ -236,4 +246,5 @@ def chunk_pdf(
         agency=agency,
         config=cfg,
         token_count=token_count,
+        url=url,
     )

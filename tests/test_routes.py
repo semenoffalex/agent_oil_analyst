@@ -1,4 +1,9 @@
-from oil_gas_analyst.routes import is_forecast_request, is_time_sensitive, load_route_lists
+from oil_gas_analyst.routes import (
+    is_forecast_request,
+    is_out_of_scope_topic,
+    is_time_sensitive,
+    load_route_lists,
+)
 
 
 def test_forecast_verb_russian_hits():
@@ -21,6 +26,7 @@ def test_horizon_without_verb_is_not_forecast_request():
 def test_prognoz_as_request_hits_but_prognozakh_does_not():
     lists = load_route_lists()
     assert is_forecast_request("прогноз цены Brent на 3 месяца", lists) is True
+    assert is_forecast_request("Построй свой прогноз.", lists) is True
     assert (
         is_forecast_request(
             "Какой тренд в прогнозах цен на нефть на ближайший месяц?", lists
@@ -38,3 +44,9 @@ def test_time_sensitive_today_hits():
 def test_bare_demand_question_is_not_time_sensitive():
     lists = load_route_lists()
     assert is_time_sensitive("What is OPEC's 2026 world oil demand outlook?", lists) is False
+
+
+def test_weather_is_out_of_scope_even_in_inflected_russian():
+    assert is_out_of_scope_topic("спрогнозируй погоду на неделю") is True
+    assert is_out_of_scope_topic("what's the weather today?") is True
+    assert is_out_of_scope_topic("Построй свой прогноз.") is False

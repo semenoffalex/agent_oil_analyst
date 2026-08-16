@@ -5,7 +5,13 @@ from dataclasses import dataclass
 from urllib.parse import urlparse
 
 from oil_gas_analyst.denylist import is_denied
-from oil_gas_analyst.routes import is_forecast_request, is_time_sensitive, load_route_lists
+from oil_gas_analyst.ingest import load_ingest_config
+from oil_gas_analyst.routes import (
+    is_forecast_request,
+    is_out_of_scope_topic,
+    is_time_sensitive,
+    load_route_lists,
+)
 from oil_gas_analyst.types import (
     Chunk,
     ChunkDropper,
@@ -76,8 +82,38 @@ class AnalystDeps:
     forecast: ForecastModule
     composer: Composer
     denied_domains: list[str]
-    retrieve_k: int = 5
+    retrieve_k: int = 10
     route_lists: object | None = None
+
+
+def _agency_of(chunk: Chunk) -> str:
+    if chunk.agency:
+        return chunk.agency
+    blob = f"{chunk.title} {chunk.heading}"
+    upper = blob.upper()
+    if "OPEC" in upper or "MOMR" in upper:
+        return "OPEC"
+    if "EIA" in upper or "STEO" in upper:
+        return "EIA"
+    if "CBR" in upper or "Банк России" in blob:
+        return "CBR"
+    return ""
+
+
+def _agency_urls() -> dict[str, str]:
+    cfg = load_ingest_config()
+    raw = cfg.get("agency_urls") or {}
+    return {str(key): str(value) for key, value in raw.items() if value}
+
+
+def _report_url(chunk: Chunk) -> str | None:
+    base = (chunk.url or "").strip() or _agency_urls().get(_agency_of(chunk), "")
+    if not base:
+        return None
+    path = urlparse(base).path.lower()
+    if chunk.page_start is not None and path.endswith(".pdf"):
+        return f"{base}#page={chunk.page_start}"
+    return base
 
 
 def _report_citation(chunk: Chunk) -> Citation:
@@ -92,6 +128,7 @@ def _report_citation(chunk: Chunk) -> Citation:
     return Citation(
         kind="report",
         label=f"[Отчёт {chunk.title}{date}{pages}{excerpt}]",
+        url=_report_url(chunk),
     )
 
 
@@ -125,12 +162,14 @@ def _forecast_citations(result: ForecastResult) -> list[Citation]:
 
 
 def run_turn(question: str, deps: AnalystDeps) -> Reply:
-    if deps.classifier.classify(question) == "out":
-        return Reply(text=REFUSAL_TEXT, refused=True)
-
     lists = deps.route_lists or load_route_lists()
     want_forecast = is_forecast_request(question, lists)
     want_web = is_time_sensitive(question, lists)
+    classified_out = deps.classifier.classify(question) == "out"
+    # Forecast verbs are in Competence (default Brent) unless the topic is a
+    # spec out-of-scope demo. Classify must not block the calculation module.
+    if classified_out and not (want_forecast and not is_out_of_scope_topic(question)):
+        return Reply(text=REFUSAL_TEXT, refused=True)
 
     chunks = []
     try:

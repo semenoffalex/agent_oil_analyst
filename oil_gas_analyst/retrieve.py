@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import socket
 from pathlib import Path
 from urllib.parse import urlparse, urlunparse
@@ -195,6 +196,58 @@ def _meta_bool(value: str | bool) -> bool:
     return str(value).lower() in {"1", "true", "yes"}
 
 
+_OUTLOOK_HEADINGS = (
+    "crude oil price",
+    "world oil demand",
+    "world oil supply",
+    "balance of supply and demand",
+    "global oil price",
+    "global oil market",
+    "global liquid fuel",
+    "нефть",
+)
+_OFFTOPIC_HEADINGS = (
+    "tanker",
+    "electricity",
+    "coal",
+    "appendix",
+    "product markets",
+    "refined products trade",
+)
+
+
+def _date_key(date: str | None) -> str:
+    return (date or "").strip() or "0000"
+
+
+def _heading_rank(question: str, heading: str) -> int:
+    h = (heading or "").casefold()
+    q = question.casefold()
+    if any(word in q for word in ("tanker", "танкер", "фрахт", "vlcc")):
+        return 2 if "tanker" in h else 0
+    if any(word in q for word in ("electric", "электрич")):
+        return 2 if "electric" in h else 0
+    if "coal" in q or "угол" in q:
+        return 2 if "coal" in h else 0
+    if any(marker in h for marker in _OUTLOOK_HEADINGS):
+        return 2
+    if any(marker in h for marker in _OFFTOPIC_HEADINGS):
+        return -1
+    return 0
+
+
+def select_report_chunks(question: str, chunks: list[Chunk], k: int = 5) -> list[Chunk]:
+    """Prefer outlook sections and newer Report dates, then cut to k."""
+    if not chunks:
+        return []
+    ranked = sorted(
+        chunks,
+        key=lambda chunk: (_heading_rank(question, chunk.heading), _date_key(chunk.date)),
+        reverse=True,
+    )
+    return ranked[: max(k, 0)]
+
+
 def _chunk_from_meta(text: str, meta: dict) -> Chunk:
     ps = meta.get("page_start")
     pe = meta.get("page_end")
@@ -206,11 +259,13 @@ def _chunk_from_meta(text: str, meta: dict) -> Chunk:
         page_end=int(pe) if pe not in (None, "", "None") else None,
         heading=str(meta.get("heading") or "(untitled)"),
         excerpt=_meta_bool(meta.get("excerpt", False)),
+        agency=str(meta.get("agency") or ""),
+        url=str(meta.get("url") or "").strip() or None,
     )
 
 
 class ChromaRetriever:
-    def __init__(self, persist_path: str, embedding: E5EmbeddingFunction, k: int = 5):
+    def __init__(self, persist_path: str, embedding: E5EmbeddingFunction, k: int = 10):
         import chromadb
 
         self._k = k
@@ -245,23 +300,53 @@ class ChromaRetriever:
                 "page_end": "" if c.page_end is None else str(c.page_end),
                 "heading": c.heading,
                 "excerpt": str(c.excerpt),
+                "agency": c.agency or "",
+                "url": c.url or "",
             }
             for c in chunks
         ]
         self._col.upsert(ids=ids, documents=docs, embeddings=embeddings, metadatas=metas)
 
-    def retrieve(self, question: str, k: int = 5) -> list[Chunk]:
-        n = min(k or self._k, max(self._col.count(), 1))
-        if self._col.count() == 0:
+    def retrieve(self, question: str, k: int = 10) -> list[Chunk]:
+        k = k or self._k
+        total = self._col.count()
+        if total == 0:
             return []
+        pool = min(max(k * 3, 10), total)
         q = self._embedding.embed_query(question)
-        got = self._col.query(query_embeddings=[q], n_results=min(n, self._col.count()))
+        got = self._col.query(query_embeddings=[q], n_results=pool)
         docs = (got.get("documents") or [[]])[0]
         metas = (got.get("metadatas") or [[]])[0]
         out: list[Chunk] = []
         for text, meta in zip(docs, metas):
             out.append(_chunk_from_meta(text, meta or {}))
-        return out
+        return select_report_chunks(question, out, k=k)
+
+
+def _date_from_name(name: str) -> str | None:
+    stem = Path(name).stem.lower()
+    m = re.search(r"(20\d{2})[-_.](\d{2})", stem)
+    if m:
+        return f"{m.group(1)}-{m.group(2)}"
+    months = {
+        "january": "01",
+        "february": "02",
+        "march": "03",
+        "april": "04",
+        "may": "05",
+        "june": "06",
+        "july": "07",
+        "august": "08",
+        "september": "09",
+        "october": "10",
+        "november": "11",
+        "december": "12",
+    }
+    for month, num in months.items():
+        m = re.search(rf"{month}[-_ ]?(20\d{{2}})", stem)
+        if m:
+            return f"{m.group(1)}-{num}"
+    return None
 
 
 def _agency_from_name(name: str, default: str = "OPEC") -> str:
@@ -273,6 +358,18 @@ def _agency_from_name(name: str, default: str = "OPEC") -> str:
     if "momr" in n or "opec" in n:
         return "OPEC"
     return default
+
+
+def _url_for_agency(agency: str, cfg: dict, explicit: str | None = None) -> str | None:
+    if explicit and str(explicit).strip():
+        return str(explicit).strip()
+    mapped = (cfg.get("agency_urls") or {}).get(agency)
+    if mapped:
+        return str(mapped).strip()
+    for item in cfg.get("full_reports") or []:
+        if item.get("agency") == agency and item.get("url"):
+            return str(item["url"]).strip()
+    return None
 
 
 def ingest_samples_and_reports(
@@ -292,14 +389,16 @@ def ingest_samples_and_reports(
             raise FileNotFoundError(f"Sample Report missing: {sample['path']}")
         seen.add(path.resolve())
         excerpt = bool(sample.get("excerpt", True))
+        agency = sample.get("agency") or _agency_from_name(path.name)
         chunks = chunk_pdf(
             path,
-            agency=sample.get("agency") or _agency_from_name(path.name),
+            agency=agency,
             excerpt=excerpt,
-            date=sample.get("date"),
+            date=sample.get("date") or _date_from_name(path.name),
             title=sample.get("title", path.stem),
             config=cfg,
             token_count=e5_token_count,
+            url=_url_for_agency(agency, cfg, sample.get("url")),
         )
         retriever.index_chunks(chunks, id_prefix=f"sample-{i}")
         total += len(chunks)
@@ -309,14 +408,16 @@ def ingest_samples_and_reports(
         for pdf in sorted(samples_dir.glob("*.pdf")):
             if pdf.resolve() in seen:
                 continue
+            agency = _agency_from_name(pdf.name)
             chunks = chunk_pdf(
                 pdf,
-                agency=_agency_from_name(pdf.name),
+                agency=agency,
                 excerpt=False,
-                date=None,
+                date=_date_from_name(pdf.name),
                 title=pdf.stem,
                 config=cfg,
                 token_count=e5_token_count,
+                url=_url_for_agency(agency, cfg),
             )
             retriever.index_chunks(chunks, id_prefix=f"sample-extra-{extra}")
             total += len(chunks)
@@ -324,14 +425,16 @@ def ingest_samples_and_reports(
             print(f"indexed {pdf.name}: {len(chunks)} chunks")
     if reports_dir.exists():
         for j, pdf in enumerate(sorted(reports_dir.glob("*.pdf"))):
+            agency = _agency_from_name(pdf.name)
             chunks = chunk_pdf(
                 pdf,
-                agency=_agency_from_name(pdf.name),
+                agency=agency,
                 excerpt=False,
-                date=None,
+                date=_date_from_name(pdf.name),
                 title=pdf.stem,
                 config=cfg,
                 token_count=e5_token_count,
+                url=_url_for_agency(agency, cfg),
             )
             retriever.index_chunks(chunks, id_prefix=f"full-{j}")
             total += len(chunks)

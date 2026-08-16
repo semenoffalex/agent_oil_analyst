@@ -9,7 +9,9 @@ from oil_gas_analyst.types import Chunk, ForecastResult, WebHit
 CLASSIFY_SYSTEM = (
     "You classify user questions for a senior oil-and-gas market Analyst. "
     "Competence is only: upstream, midstream, downstream, Brent/WTI/Urals, OPEC+, "
-    "sanctions as they affect the oil market, supply and demand. "
+    "sanctions as they affect the oil market, supply and demand, and oil-price "
+    "Forecast requests (including 'построй прогноз' / 'forecast' with no crude named — "
+    "that defaults to Brent). "
     "Weather, software, sports, uranium, medicine, and general trivia are out. "
     "Reply with label in or out only."
 )

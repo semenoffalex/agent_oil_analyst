@@ -1,6 +1,6 @@
 embedding_model: intfloat/multilingual-e5-base
 chroma_path: data/chroma
-retrieve_k: 5
+retrieve_k: 10
 max_tokens: 512
 overlap_tokens: 50
 tokenizer: intfloat/multilingual-e5-base
@@ -8,32 +8,42 @@ tokenizer: intfloat/multilingual-e5-base
 samples_dir: data/samples
 reports_dir: data/reports
 
+agency_urls:
+  OPEC: https://www.opec.org/monthly-oil-market-report.html
+  EIA: https://www.eia.gov/outlooks/steo/pdf/steo_full.pdf
+  CBR: https://www.cbr.ru/analytics/dkp/ddb/
+
 samples:
   - path: data/samples/momr-june-2024.pdf
     title: OPEC Monthly Oil Market Report — June 2024
     agency: OPEC
     date: 2024-06
     excerpt: false
+    url: https://www.opec.org/monthly-oil-market-report.html
   - path: data/samples/momr-june-2026.pdf
     title: OPEC Monthly Oil Market Report — June 2026
     agency: OPEC
     date: 2026-06
     excerpt: false
+    url: https://www.opec.org/monthly-oil-market-report.html
   - path: data/samples/eia-steo-excerpt.pdf
     title: EIA Short-Term Energy Outlook — August 2026 (excerpt, Global Oil Markets)
     agency: EIA
     date: 2026-08
     excerpt: true
+    url: https://www.eia.gov/outlooks/steo/pdf/steo_full.pdf
   - path: data/samples/steo_full.pdf
     title: EIA Short-Term Energy Outlook — August 2026
     agency: EIA
     date: 2026-08
     excerpt: false
+    url: https://www.eia.gov/outlooks/steo/pdf/steo_full.pdf
   - path: data/samples/cbr_ec_research_mb_bulletin_26-05.pdf
     title: Банк России — О чем говорят тренды № 5 (88), июль 2026
     agency: CBR
     date: 2026-07
     excerpt: false
+    url: https://www.cbr.ru/analytics/dkp/ddb/
 
 full_reports:
   - id: eia-steo-latest
