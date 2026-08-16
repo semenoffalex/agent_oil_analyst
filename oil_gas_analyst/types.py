@@ -58,6 +58,7 @@ class Reply:
     retrieved: bool = False
     web_ran: bool = False
     forecast_ran: bool = False
+    forecast_failed: bool = False
     refused: bool = False
 
 

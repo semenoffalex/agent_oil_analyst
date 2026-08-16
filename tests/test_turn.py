@@ -89,6 +89,30 @@ def test_out_of_competence_python_refuses():
     assert reply.forecast_ran is False
 
 
+class _BoomClassifier:
+    def classify(self, question: str) -> str:
+        raise TimeoutError("deepseek down")
+
+
+def test_classify_infra_error_still_answers_oil_question():
+    reply = run_turn(
+        "What is OPEC's 2026 world oil demand outlook?",
+        _deps(classifier=_BoomClassifier(), retriever=_Retr([MOMR])),
+    )
+    assert reply.refused is False
+    assert any(c.kind == "report" for c in reply.citations)
+
+
+def test_classify_infra_error_still_refuses_weather():
+    reply = run_turn(
+        "what's the weather today?",
+        _deps(classifier=_BoomClassifier()),
+    )
+    assert reply.refused is True
+    assert reply.web_ran is False
+    assert reply.retrieved is False
+
+
 MOMR = Chunk(
     text="The global oil demand growth forecast for 2026 remains at 1.4 mb/d.",
     title="OPEC Monthly Oil Market Report — March 2026 (excerpt, World Oil Demand)",
@@ -150,6 +174,16 @@ def test_outlook_in_published_forecasts_stays_on_reports():
     assert reply.forecast_ran is False
     assert reply.web_ran is False
     assert any(c.kind == "report" for c in reply.citations)
+
+
+def test_now_consensus_stays_on_reports():
+    reply = run_turn(
+        "Каков сейчас консенсус по ценам на нефть?",
+        _deps(retriever=_Retr([MOMR]), web=_Web([REUTERS])),
+    )
+    assert reply.web_ran is False
+    assert any(c.kind == "report" for c in reply.citations)
+    assert not any(c.kind == "web" for c in reply.citations)
 
 
 def test_compose_without_report_tag_appends_report_block():
@@ -325,6 +359,7 @@ def test_forecast_failure_is_uncertainty_not_invented_price():
         _deps(forecast=_Forecast(error=RuntimeError("yahoo down"))),
     )
     assert reply.forecast_ran is True
+    assert reply.forecast_failed is True
     assert "uncertain" in reply.text.lower() or "unavailable" in reply.text.lower()
     assert "80.0" not in reply.text
 
@@ -435,4 +470,22 @@ def test_remote_embedding_falls_back_to_local_on_connection_refused():
     emb = FallbackEmbeddingFunction(Boom(), lambda: Local())
     assert emb.embed_query("oil prices") == [0.3, 0.4]
     assert emb(["passage"]) == [[0.1, 0.2]]
+
+
+def test_dropper_sees_figure_past_800_chars():
+    from oil_gas_analyst.turn import drop_listing
+
+    marker = "DEMAND_GROWTH_REMAINS_1.4_MBD"
+    chunk = Chunk(
+        text=("Lead-in. " * 120) + marker,
+        title="OPEC MOMR June 2026",
+        date="2026-06",
+        page_start=42,
+        page_end=46,
+        heading="World Oil Demand",
+    )
+    assert marker not in chunk.text[:800]
+    listed = drop_listing([chunk])
+    assert marker in listed
+    assert "World Oil Demand" in listed
 

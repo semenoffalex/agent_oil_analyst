@@ -8,7 +8,7 @@ from pathlib import Path
 from urllib.parse import urlparse, urlunparse
 from urllib.request import Request, urlopen
 
-from oil_gas_analyst.ingest import chunk_pdf, e5_token_count, load_ingest_config
+from oil_gas_analyst.ingest import chunk_pdf, e5_token_count, e5_tokenizer_name, load_ingest_config
 from oil_gas_analyst.types import Chunk
 
 _PASSAGE = "passage: "
@@ -167,13 +167,7 @@ class FallbackEmbeddingFunction:
 
 
 def local_embedding_model_name() -> str:
-    override = os.environ.get("EMBEDDING_LOCAL_MODEL", "").strip()
-    if override:
-        return override
-    baked = Path("/opt/models/multilingual-e5-base")
-    if baked.is_dir():
-        return str(baked)
-    return "intfloat/multilingual-e5-base"
+    return e5_tokenizer_name()
 
 
 def make_embedding_function():

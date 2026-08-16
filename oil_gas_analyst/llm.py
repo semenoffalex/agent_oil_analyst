@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field
 from typing import Literal
 
 from oil_gas_analyst.types import Chunk, ForecastResult, WebHit
+from oil_gas_analyst.turn import drop_listing
 
 CLASSIFY_SYSTEM = (
     "You classify user questions for a senior oil-and-gas market Analyst. "
@@ -66,16 +67,13 @@ class DeepSeekClassifier:
         self._llm = llm.with_structured_output(CompetenceLabel, method="function_calling")
 
     def classify(self, question: str) -> Literal["in", "out"]:
-        try:
-            out = self._llm.invoke(
-                [
-                    {"role": "system", "content": CLASSIFY_SYSTEM},
-                    {"role": "user", "content": question},
-                ]
-            )
-            return out.label
-        except Exception:
-            return "out"
+        out = self._llm.invoke(
+            [
+                {"role": "system", "content": CLASSIFY_SYSTEM},
+                {"role": "user", "content": question},
+            ]
+        )
+        return out.label
 
 
 class DeepSeekDropper:
@@ -85,7 +83,7 @@ class DeepSeekDropper:
     def keep(self, question: str, chunks: list[Chunk]) -> list[Chunk]:
         if not chunks:
             return []
-        listed = "\n".join(f"[{i}] {c.heading}: {c.text[:800]}" for i, c in enumerate(chunks))
+        listed = drop_listing(chunks)
         try:
             out = self._llm.invoke(
                 [

@@ -6,6 +6,7 @@ __pycache__/
 .files/
 data/reports/
 data/chroma/
+data/forecast_cache/
 *.pyc
 .DS_Store
 .pytest_cache/
@@ -16,5 +17,6 @@ __pycache__/
 .files/
 data/reports/
 data/chroma/
+data/forecast_cache/
 *.pyc
 .DS_Store

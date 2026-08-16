@@ -69,3 +69,49 @@ def test_history_failure_raises():
         assert False, "expected ForecastError"
     except ForecastError:
         pass
+
+
+def test_stooq_used_when_yahoo_empty(tmp_path):
+    from oil_gas_analyst.forecast import load_live_history
+
+    calls: list[str] = []
+
+    def yahoo(symbol: str):
+        calls.append("yahoo")
+        return pd.Series(dtype=float)
+
+    def stooq(symbol: str):
+        calls.append("stooq")
+        return _series()
+
+    out = load_live_history("BZ=F", fetchers=[yahoo, stooq], cache_dir=tmp_path)
+    assert calls == ["yahoo", "stooq"]
+    assert len(out) >= 30
+    cached = pd.read_csv(tmp_path / "BZ-F.csv")
+    assert list(cached.columns) == ["date", "close"]
+    assert "Unnamed" not in "".join(cached.columns)
+
+
+def test_cache_used_when_live_sources_fail(tmp_path):
+    from oil_gas_analyst.forecast import load_live_history
+
+    load_live_history("BZ=F", fetchers=[lambda symbol: _series()], cache_dir=tmp_path)
+
+    def boom(symbol: str):
+        raise RuntimeError("blocked")
+
+    out = load_live_history("BZ=F", fetchers=[boom, boom], cache_dir=tmp_path)
+    assert len(out) >= 30
+
+
+def test_no_live_history_or_cache_raises(tmp_path):
+    from oil_gas_analyst.forecast import load_live_history
+
+    def boom(symbol: str):
+        raise RuntimeError("blocked")
+
+    try:
+        load_live_history("BZ=F", fetchers=[boom], cache_dir=tmp_path)
+        assert False, "expected ForecastError"
+    except ForecastError:
+        pass

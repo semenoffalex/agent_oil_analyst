@@ -10,6 +10,7 @@ services:
       CHROMA_PATH: /app/data/chroma
       SAMPLES_PATH: /app/data/samples
       REPORTS_PATH: /app/data/reports
+      FORECAST_CACHE_PATH: /app/data/forecast_cache
       HF_HOME: /opt/hf-cache
       HF_HUB_CACHE: /opt/hf-cache/hub
       HF_HUB_OFFLINE: "1"
@@ -23,8 +24,10 @@ services:
     volumes:
       - chroma_data:/app/data/chroma
       - reports_data:/app/data/reports
+      - forecast_cache:/app/data/forecast_cache
     restart: unless-stopped
 
 volumes:
   chroma_data:
   reports_data:
+  forecast_cache:

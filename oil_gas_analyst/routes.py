@@ -13,6 +13,8 @@ _CONFIG = Path(__file__).resolve().parent.parent / "config" / "route_lists.yaml"
 class RouteLists:
     forecast_verbs: tuple[str, ...]
     time_sensitive: tuple[str, ...]
+    time_sensitive_weak: tuple[str, ...] = ()
+    published_outlook: tuple[str, ...] = ()
 
 
 def load_route_lists(path: Path | None = None) -> RouteLists:
@@ -20,6 +22,8 @@ def load_route_lists(path: Path | None = None) -> RouteLists:
     return RouteLists(
         forecast_verbs=tuple(data["forecast_verbs"]),
         time_sensitive=tuple(data["time_sensitive"]),
+        time_sensitive_weak=tuple(data.get("time_sensitive_weak") or ()),
+        published_outlook=tuple(data.get("published_outlook") or ()),
     )
 
 
@@ -50,7 +54,13 @@ def is_forecast_request(question: str, lists: RouteLists) -> bool:
 
 
 def is_time_sensitive(question: str, lists: RouteLists) -> bool:
-    return any(_contains(p, question) for p in lists.time_sensitive)
+    hits = [p for p in lists.time_sensitive if _contains(p, question)]
+    if not hits:
+        return False
+    if not any(_contains(p, question) for p in lists.published_outlook):
+        return True
+    weak = {p.casefold() for p in lists.time_sensitive_weak}
+    return any(p.casefold() not in weak for p in hits)
 
 
 # Spec out-of-competence demos. A Forecast verb does not override these.

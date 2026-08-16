@@ -25,6 +25,9 @@ def build_graph(deps: AnalystDeps):
 
 
 def invoke_analyst(question: str, deps: AnalystDeps) -> Reply:
-    graph = build_graph(deps)
+    graph = getattr(deps, "_compiled_graph", None)
+    if graph is None:
+        graph = build_graph(deps)
+        deps._compiled_graph = graph
     out = graph.invoke({"question": question})
     return out["reply"]

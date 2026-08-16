@@ -49,4 +49,8 @@ horizon_phrases:
 history_period: 5y
 interval: 1d
 
-# If yfinance fails, error. No CSV fallback.
+# Last successful live history (Yahoo or Stooq). Not a shipped CSV (ADR 0009).
+cache_dir: data/forecast_cache
+stooq_symbols:
+  BZ=F: bz.f
+  CL=F: cl.f

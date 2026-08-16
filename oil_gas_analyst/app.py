@@ -58,7 +58,7 @@ def format_reply(reply: Reply) -> str:
     if reply.web_ran:
         flags.append("web")
     if reply.forecast_ran:
-        flags.append("Forecast")
+        flags.append("Forecast unavailable" if reply.forecast_failed else "Forecast")
     if flags:
         parts.append("\n_" + " · ".join(flags) + "_")
     return "\n".join(parts)

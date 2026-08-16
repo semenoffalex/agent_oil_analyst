@@ -53,7 +53,7 @@ A heading-bounded piece of a Report, capped at 512 tokens, with title, date, pag
 _Avoid_: page, passage, document, “the context”
 
 **Time-sensitive question**:
-A question that needs data newer than the Report corpus. In the first version this is a closed EN+RU keyword list (today, spot, now, latest, statement, сегодня, сейчас, спот, заявление, …), not a classifier.
+A question that needs data newer than the Report corpus. In the first version this is a closed EN+RU keyword list (today, spot, now, latest, statement, сегодня, сейчас, спот, заявление, …), not a classifier. now / latest / сейчас do not open Web when the question is about a published agency outlook or consensus.
 _Avoid_: fresh, latest, current (as unanalyzed adjectives)
 
 **Competence**:

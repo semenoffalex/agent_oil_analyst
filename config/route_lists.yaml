@@ -46,3 +46,21 @@ time_sensitive:
   - объявил
   - свеж
   - актуальн
+
+# Weak recency does not open Web when the question is a published agency
+# outlook or consensus. today/spot/statement still open Web (ADR 0005).
+time_sensitive_weak:
+  - now
+  - latest
+  - сейчас
+  - текущ
+  - актуальн
+  - свеж
+
+published_outlook:
+  - consensus
+  - консенсус
+  - outlook
+  - "в прогнозах"
+  - momr
+  - steo

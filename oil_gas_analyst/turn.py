@@ -67,6 +67,10 @@ def _is_report_relevant(chunk: Chunk) -> bool:
     return any(marker in blob for marker in _REPORT_TEXT_MARKERS)
 
 
+def drop_listing(chunks: list[Chunk]) -> str:
+    return "\n".join(f"[{i}] {c.heading}: {c.text}" for i, c in enumerate(chunks))
+
+
 def _keep_or_restore(chunks: list[Chunk], kept: list[Chunk]) -> list[Chunk]:
     if kept:
         return kept
@@ -166,7 +170,11 @@ def run_turn(question: str, deps: AnalystDeps) -> Reply:
     lists = deps.route_lists or load_route_lists()
     want_forecast = is_forecast_request(question, lists)
     want_web = is_time_sensitive(question, lists)
-    classified_out = deps.classifier.classify(question) == "out"
+    try:
+        classified_out = deps.classifier.classify(question) == "out"
+    except Exception:
+        # Infrastructure error only: fail-open to in, except spec out-of-scope demos.
+        classified_out = is_out_of_scope_topic(question)
     # Forecast verbs are in Competence (default Brent) unless the topic is a
     # spec out-of-scope demo. Classify must not block the calculation module.
     if classified_out and not (want_forecast and not is_out_of_scope_topic(question)):
@@ -227,6 +235,7 @@ def run_turn(question: str, deps: AnalystDeps) -> Reply:
         retrieved=True,
         web_ran=web_ran,
         forecast_ran=forecast_ran,
+        forecast_failed=forecast_failed,
         refused=False,
     )
 

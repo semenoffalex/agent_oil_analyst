@@ -46,6 +46,14 @@ def test_bare_demand_question_is_not_time_sensitive():
     assert is_time_sensitive("What is OPEC's 2026 world oil demand outlook?", lists) is False
 
 
+def test_now_consensus_is_published_outlook_not_web():
+    lists = load_route_lists()
+    assert is_time_sensitive("Каков сейчас консенсус по ценам на нефть?", lists) is False
+    assert is_time_sensitive("What's the latest OPEC outlook for demand?", lists) is False
+    assert is_time_sensitive("What's Brent now?", lists) is True
+    assert is_time_sensitive("What's Brent today given OPEC demand?", lists) is True
+
+
 def test_weather_is_out_of_scope_even_in_inflected_russian():
     assert is_out_of_scope_topic("спрогнозируй погоду на неделю") is True
     assert is_out_of_scope_topic("what's the weather today?") is True

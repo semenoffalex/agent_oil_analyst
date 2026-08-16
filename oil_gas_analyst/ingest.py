@@ -26,15 +26,23 @@ def _word_tokens(text: str) -> int:
 _E5_TOK = None
 
 
+def e5_tokenizer_name() -> str:
+    override = os.environ.get("EMBEDDING_LOCAL_MODEL", "").strip()
+    if override:
+        return override
+    baked = Path("/opt/models/multilingual-e5-base")
+    if baked.is_dir():
+        return str(baked)
+    return "intfloat/multilingual-e5-base"
+
+
 def e5_token_count(text: str) -> int:
     global _E5_TOK
-    if os.environ.get("EMBEDDING_BASE_URL", "").strip():
-        return _word_tokens(text)
     try:
         if _E5_TOK is None:
             from transformers import AutoTokenizer
 
-            model = os.environ.get("EMBEDDING_MODEL", "intfloat/multilingual-e5-base")
+            model = e5_tokenizer_name()
             kwargs: dict = {}
             offline = os.environ.get("HF_HUB_OFFLINE", "").strip().lower() in {
                 "1",

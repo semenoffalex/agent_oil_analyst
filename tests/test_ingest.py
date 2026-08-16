@@ -117,3 +117,28 @@ def test_outlook_prefers_newer_price_section_over_tanker():
     assert picked[0].heading == "Crude Oil Price Movements"
     assert picked[0].text == "Brent averaged $78/b in May 2026."
     assert all("Tanker" not in c.heading for c in picked)
+
+
+def test_e5_token_count_uses_tokenizer_when_embedding_url_set(monkeypatch):
+    import oil_gas_analyst.ingest as ingest
+
+    class Tok:
+        def encode(self, text, add_special_tokens=False):
+            return [1, 2, 3, 4, 5, 6, 7]
+
+    monkeypatch.setenv("EMBEDDING_BASE_URL", "http://host.docker.internal:1234/v1")
+    previous = ingest._E5_TOK
+    ingest._E5_TOK = Tok()
+    try:
+        assert ingest.e5_token_count("one two three") == 7
+    finally:
+        ingest._E5_TOK = previous
+
+
+def test_e5_tokenizer_name_prefers_local_model_over_lm_studio_id(monkeypatch):
+    monkeypatch.setenv("EMBEDDING_BASE_URL", "http://host.docker.internal:1234/v1")
+    monkeypatch.setenv("EMBEDDING_MODEL", "text-embedding-multilingual-e5-base")
+    monkeypatch.setenv("EMBEDDING_LOCAL_MODEL", "/opt/models/multilingual-e5-base")
+    from oil_gas_analyst.ingest import e5_tokenizer_name
+
+    assert e5_tokenizer_name() == "/opt/models/multilingual-e5-base"

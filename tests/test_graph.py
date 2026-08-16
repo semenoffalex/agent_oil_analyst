@@ -46,3 +46,22 @@ def test_graph_same_refuse_as_run_turn():
     reply = invoke_analyst("what's the weather today?", deps)
     assert reply.refused is True
     assert reply.text == REFUSAL_TEXT
+
+
+def test_invoke_analyst_reuses_compiled_graph():
+    deps = AnalystDeps(
+        classifier=C(),
+        retriever=R(),
+        dropper=D(),
+        web=W(),
+        forecast=F(),
+        composer=P(),
+        denied_domains=[],
+    )
+    first = invoke_analyst("what's the weather today?", deps)
+    graph = getattr(deps, "_compiled_graph", None)
+    second = invoke_analyst("what's the weather today?", deps)
+    assert first.refused is True
+    assert second.refused is True
+    assert graph is not None
+    assert getattr(deps, "_compiled_graph") is graph
