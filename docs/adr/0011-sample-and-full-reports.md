@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Partially superseded: a CBR Sample Report is in the corpus — [0016](0016-cbr-sample-report.md). IEA is still out. OPEC and EIA English remain the primary offline demo.
 
 ## Context
 

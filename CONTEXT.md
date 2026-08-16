@@ -9,7 +9,7 @@ The senior oil-and-gas market analyst the user talks to. It answers industry que
 _Avoid_: agent, chatbot, assistant, Ouroboros
 
 **Report**:
-A document in the loaded industry corpus (for example OPEC, IEA, EIA), split into chunks that keep title, date, and page.
+A document in the loaded industry corpus (OPEC, EIA, and the CBR trends bulletin), split into chunks that keep title, date, and page.
 _Avoid_: source, document, PDF, “the knowledge base”
 
 **Sample Report**:

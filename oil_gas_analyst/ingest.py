@@ -107,11 +107,22 @@ _EIA_HEADINGS = (
 )
 
 
+_CBR_HEADINGS = (
+    "О чем говорят тренды",
+    "Ключевые выводы",
+    "Нефть",
+    "Валютный рынок",
+    "Инфляция",
+)
+
+
 def _known_for(agency: str) -> tuple[str, ...]:
     if agency == "OPEC":
         return _OPEC_HEADINGS
     if agency == "EIA":
         return _EIA_HEADINGS
+    if agency == "CBR":
+        return _CBR_HEADINGS
     return ()
 
 

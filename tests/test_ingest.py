@@ -46,6 +46,49 @@ def test_sample_momr_pdf_yields_demand_chunk():
     assert all(c.date == "2026-06" for c in chunks)
 
 
+def test_sample_cbr_pdf_keeps_oil_mention_and_bulletin_heading():
+    from pathlib import Path
+
+    from oil_gas_analyst.ingest import chunk_pdf
+
+    pdf = Path("data/samples/cbr_ec_research_mb_bulletin_26-05.pdf")
+    chunks = chunk_pdf(
+        pdf,
+        agency="CBR",
+        excerpt=False,
+        date="2026-07",
+        title="Банк России — О чем говорят тренды № 5 (88), июль 2026",
+    )
+    assert chunks
+    assert all(c.agency == "CBR" for c in chunks)
+    assert all(c.date == "2026-07" for c in chunks)
+    assert any("О чем говорят тренды" in c.heading for c in chunks)
+    blob = " ".join(c.text.lower() for c in chunks)
+    assert "нефтян" in blob
+
+
+def test_cbr_heading_split_assigns_oil_section():
+    cfg = load_ingest_config()
+    pages = [
+        (1, "О чем говорят тренды\nМакрообзор Банка России."),
+        (2, "Нефть\nИюньская деэскалация вызвала коррекцию вниз нефтяных цен."),
+    ]
+    chunks = chunk_pages(
+        pages,
+        title="Банк России — О чем говорят тренды",
+        date="2026-07",
+        excerpt=False,
+        agency="CBR",
+        config=cfg,
+        token_count=lambda text: len(text.split()),
+        url="https://www.cbr.ru/analytics/dkp/ddb/",
+    )
+    oil = next(c for c in chunks if c.heading == "Нефть")
+    assert "нефтяных цен" in oil.text
+    assert oil.agency == "CBR"
+    assert oil.page_start == 2
+
+
 def test_june_2026_momr_outranks_older_price_chunk():
     from pathlib import Path
 
