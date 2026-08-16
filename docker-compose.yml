@@ -14,9 +14,12 @@ services:
       HF_HUB_CACHE: /opt/hf-cache/hub
       HF_HUB_OFFLINE: "1"
       TRANSFORMERS_OFFLINE: "1"
-      EMBEDDING_BASE_URL: http://192.168.0.55:1234/v1
+      EMBEDDING_BASE_URL: http://host.docker.internal:1234/v1
       EMBEDDING_MODEL: text-embedding-multilingual-e5-base
       EMBEDDING_API_KEY: lm-studio
+      EMBEDDING_LOCAL_MODEL: /opt/models/multilingual-e5-base
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - chroma_data:/app/data/chroma
       - reports_data:/app/data/reports

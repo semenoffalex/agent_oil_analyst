@@ -29,6 +29,43 @@ FORECAST_UNAVAILABLE = (
     "Forecast unavailable: price history could not be loaded. Any oil-price figures would be uncertain."
 )
 
+# Closed markers: a Retrieved chunk may support a price/demand/supply answer.
+# Used when Drop empties the set so Web does not replace an on-topic Report.
+_REPORT_HEADING_MARKERS = (
+    "crude oil price",
+    "world oil demand",
+    "world oil supply",
+    "balance of supply and demand",
+    "global oil price",
+    "global oil market",
+    "global liquid fuel",
+    "нефть",
+)
+_REPORT_TEXT_MARKERS = (
+    "oil demand",
+    "oil supply",
+    "oil price",
+    "crude oil price",
+    "mb/d",
+    "спрос на нефть",
+    "цены на нефть",
+    "цен на нефть",
+)
+
+
+def _is_report_relevant(chunk: Chunk) -> bool:
+    heading = (chunk.heading or "").casefold()
+    if any(marker in heading for marker in _REPORT_HEADING_MARKERS):
+        return True
+    blob = f"{chunk.heading}\n{chunk.text}".casefold()
+    return any(marker in blob for marker in _REPORT_TEXT_MARKERS)
+
+
+def _keep_or_restore(chunks: list[Chunk], kept: list[Chunk]) -> list[Chunk]:
+    if kept:
+        return kept
+    return [chunk for chunk in chunks if _is_report_relevant(chunk)]
+
 
 @dataclass
 class AnalystDeps:
@@ -95,8 +132,12 @@ def run_turn(question: str, deps: AnalystDeps) -> Reply:
     want_forecast = is_forecast_request(question, lists)
     want_web = is_time_sensitive(question, lists)
 
-    chunks = deps.retriever.retrieve(question, k=deps.retrieve_k)
-    kept = deps.dropper.keep(question, chunks)
+    chunks = []
+    try:
+        chunks = deps.retriever.retrieve(question, k=deps.retrieve_k)
+    except Exception:
+        want_web = True
+    kept = _keep_or_restore(chunks, deps.dropper.keep(question, chunks))
     if not kept:
         want_web = True
 
@@ -134,6 +175,7 @@ def run_turn(question: str, deps: AnalystDeps) -> Reply:
         citations=citations,
         refused=False,
     )
+    text = _ensure_report_tags(text, kept, citations)
     if forecast_failed:
         text = f"{text}\n{FORECAST_UNAVAILABLE}"
     if web_ran and not web_hits:
@@ -155,6 +197,19 @@ def markdown_cite(citation: Citation) -> str:
     if citation.label.startswith("[") and citation.label.endswith("]"):
         return f"{citation.label[:-1]}]({citation.url})"
     return f"[{citation.label}]({citation.url})"
+
+
+def _ensure_report_tags(text: str, kept: list[Chunk], citations: list[Citation]) -> str:
+    if not kept or "[Отчёт" in text:
+        return text
+    report_cites = [c for c in citations if c.kind == "report"]
+    lines = [text.rstrip(), ""]
+    for chunk, cite in zip(kept, report_cites):
+        snippet = " ".join(chunk.text.split())
+        if len(snippet) > 400:
+            snippet = snippet[:400].rstrip() + "…"
+        lines.append(f"{snippet} {cite.label}")
+    return "\n".join(lines)
 
 
 def apply_citation_links(text: str, citations: list[Citation]) -> str:

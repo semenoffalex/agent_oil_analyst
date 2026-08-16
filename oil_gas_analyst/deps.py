@@ -41,6 +41,10 @@ def build_deps(*, ingest_if_empty: bool = True) -> AnalystDeps:
     samples = Path(os.environ.get("SAMPLES_PATH", str(ROOT / "data" / "samples")))
     reports = Path(os.environ.get("REPORTS_PATH", str(ROOT / "data" / "reports")))
     embedding = make_embedding_function()
+    try:
+        embedding.embed_query("warmup")
+    except Exception as exc:
+        print(f"embedding warmup failed: {exc}")
     retriever = ChromaRetriever(persist, embedding)
     if ingest_if_empty and retriever.is_empty():
         ingest_samples_and_reports(retriever, samples_dir=samples, reports_dir=reports)

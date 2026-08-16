@@ -99,6 +99,16 @@ MOMR = Chunk(
     excerpt=True,
 )
 
+TANKER = Chunk(
+    text="VLCC freight rates on the Middle East-to-Asia route rose.",
+    title="OPEC Monthly Oil Market Report — March 2026 (Tanker Market)",
+    date="2026-03",
+    page_start=80,
+    page_end=82,
+    heading="Tanker Market",
+    excerpt=True,
+)
+
 REUTERS = WebHit(
     title="Brent rises on OPEC statement",
     url="https://www.reuters.com/markets/brent",
@@ -140,14 +150,65 @@ def test_outlook_in_published_forecasts_stays_on_reports():
     assert any(c.kind == "report" for c in reply.citations)
 
 
-def test_dropped_chunks_are_not_cited():
+def test_compose_without_report_tag_appends_report_block():
     reply = run_turn(
         "What is OPEC's 2026 world oil demand outlook?",
-        _deps(retriever=_Retr([MOMR]), dropper=_Drop(keep_all=False), web=_Web([REUTERS])),
+        _deps(retriever=_Retr([MOMR])),
+    )
+    assert "[Отчёт" in reply.text
+    assert "1.4 mb/d" in reply.text
+
+
+class _TaggedComposer:
+    def compose(self, question: str, **kwargs) -> str:
+        cites = kwargs.get("citations") or []
+        report = next(c.label for c in cites if c.kind == "report")
+        return f"Demand stays at 1.4 mb/d {report}."
+
+
+def test_compose_that_already_tags_report_is_not_duplicated():
+    reply = run_turn(
+        "What is OPEC's 2026 world oil demand outlook?",
+        _deps(retriever=_Retr([MOMR]), composer=_TaggedComposer()),
+    )
+    assert reply.text.count("[Отчёт") == 1
+    assert "1.4 mb/d" in reply.text
+
+
+def test_dropped_off_topic_chunks_open_web():
+    reply = run_turn(
+        "What is happening on European gas pipelines?",
+        _deps(retriever=_Retr([TANKER]), dropper=_Drop(keep_all=False), web=_Web([REUTERS])),
     )
     assert not any(c.kind == "report" for c in reply.citations)
     assert reply.web_ran is True
     assert any(c.kind == "web" for c in reply.citations)
+
+
+def test_overdrop_of_on_topic_chunks_stays_on_reports():
+    reply = run_turn(
+        "What is OPEC's 2026 world oil demand outlook?",
+        _deps(retriever=_Retr([MOMR]), dropper=_Drop(keep_all=False), web=_Web([REUTERS])),
+    )
+    assert reply.web_ran is False
+    assert any(c.kind == "report" and "OPEC" in c.label for c in reply.citations)
+    assert not any(c.kind == "web" for c in reply.citations)
+
+
+def test_overdrop_restores_demand_not_tanker():
+    reply = run_turn(
+        "What is OPEC's 2026 world oil demand outlook?",
+        _deps(
+            retriever=_Retr([TANKER, MOMR]),
+            dropper=_Drop(keep_all=False),
+            web=_Web([REUTERS]),
+        ),
+    )
+    assert reply.web_ran is False
+    labels = " ".join(c.label for c in reply.citations if c.kind == "report")
+    assert "World Oil Demand" in labels
+    assert "Tanker Market" not in labels
+    assert not any(c.kind == "web" for c in reply.citations)
 
 
 def test_time_sensitive_runs_web_and_keeps_report_tags():
@@ -237,4 +298,42 @@ def test_web_citation_markdown_includes_full_url():
     body = apply_citation_links(f"Price rose {web.label}.", [web])
     assert "https://www.reuters.com/markets/brent" in body
     assert "](https://" in body
+
+
+class _BoomRetr:
+    def retrieve(self, question: str, k: int = 5):
+        raise OSError(111, "Connection refused")
+
+
+def test_retrieve_connection_refused_still_answers_via_web():
+    reply = run_turn(
+        "What's Brent today?",
+        _deps(retriever=_BoomRetr(), web=_Web([REUTERS])),
+    )
+    assert reply.refused is False
+    assert reply.web_ran is True
+    assert any(c.kind == "web" for c in reply.citations)
+    assert "80.0" not in reply.text
+
+
+def test_remote_embedding_falls_back_to_local_on_connection_refused():
+    from oil_gas_analyst.retrieve import FallbackEmbeddingFunction
+
+    class Boom:
+        def __call__(self, input):
+            raise OSError(111, "Connection refused")
+
+        def embed_query(self, text: str):
+            raise OSError(111, "Connection refused")
+
+    class Local:
+        def __call__(self, input):
+            return [[0.1, 0.2] for _ in input]
+
+        def embed_query(self, text: str):
+            return [0.3, 0.4]
+
+    emb = FallbackEmbeddingFunction(Boom(), lambda: Local())
+    assert emb.embed_query("oil prices") == [0.3, 0.4]
+    assert emb(["passage"]) == [[0.1, 0.2]]
 

@@ -2,16 +2,39 @@ from __future__ import annotations
 
 import json
 import os
+import socket
 from pathlib import Path
+from urllib.parse import urlparse, urlunparse
 from urllib.request import Request, urlopen
 
-import chromadb
 from oil_gas_analyst.ingest import chunk_pdf, e5_token_count, load_ingest_config
 from oil_gas_analyst.types import Chunk
 
 _PASSAGE = "passage: "
 _QUERY = "query: "
 _EMBED_BATCH = 32
+
+
+def _prefer_ipv4(url: str) -> str:
+    """Resolve host.docker.internal (and similar) to IPv4 so urllib does not hang on IPv6."""
+    parsed = urlparse(url)
+    host = parsed.hostname
+    if not host:
+        return url
+    try:
+        ipv4 = socket.getaddrinfo(host, parsed.port or 80, socket.AF_INET)[0][4][0]
+    except OSError:
+        return url
+    if ipv4 == host:
+        return url
+    auth = ""
+    if parsed.username:
+        auth = parsed.username
+        if parsed.password:
+            auth += f":{parsed.password}"
+        auth += "@"
+    port = f":{parsed.port}" if parsed.port else ""
+    return urlunparse(parsed._replace(netloc=f"{auth}{ipv4}{port}"))
 
 
 class E5EmbeddingFunction:
@@ -64,12 +87,12 @@ class OpenAICompatibleEmbeddingFunction:
         base_url: str,
         model_name: str,
         api_key: str = "lm-studio",
-        timeout: float = 120,
+        timeout: float = 15,
     ):
         base = base_url.rstrip("/")
         if not base.endswith("/v1"):
             base = f"{base}/v1"
-        self._url = f"{base}/embeddings"
+        self._url = _prefer_ipv4(f"{base}/embeddings")
         self._model = model_name
         self._api_key = api_key or "lm-studio"
         self._timeout = timeout
@@ -108,16 +131,62 @@ class OpenAICompatibleEmbeddingFunction:
         return self._embed([_QUERY + text])[0]
 
 
+class FallbackEmbeddingFunction:
+    """Try remote OpenAI-compatible embeddings; on connection errors use local e5."""
+
+    def __init__(self, primary, fallback_factory):
+        self._primary = primary
+        self._fallback_factory = fallback_factory
+        self._fallback = None
+        self._active = primary
+
+    def _switch(self, exc: BaseException) -> None:
+        if self._fallback is None:
+            print(f"remote embeddings failed ({exc}); falling back to local e5")
+            self._fallback = self._fallback_factory()
+        self._active = self._fallback
+
+    def __call__(self, input):
+        try:
+            return self._active(input)
+        except Exception as exc:
+            if self._active is not self._primary:
+                raise
+            self._switch(exc)
+            return self._active(input)
+
+    def embed_query(self, text: str) -> list[float]:
+        try:
+            return self._active.embed_query(text)
+        except Exception as exc:
+            if self._active is not self._primary:
+                raise
+            self._switch(exc)
+            return self._active.embed_query(text)
+
+
+def local_embedding_model_name() -> str:
+    override = os.environ.get("EMBEDDING_LOCAL_MODEL", "").strip()
+    if override:
+        return override
+    baked = Path("/opt/models/multilingual-e5-base")
+    if baked.is_dir():
+        return str(baked)
+    return "intfloat/multilingual-e5-base"
+
+
 def make_embedding_function():
     base = os.environ.get("EMBEDDING_BASE_URL", "").strip()
     model = os.environ.get("EMBEDDING_MODEL", "intfloat/multilingual-e5-base")
     if base:
-        return OpenAICompatibleEmbeddingFunction(
+        remote = OpenAICompatibleEmbeddingFunction(
             base,
             model,
             api_key=os.environ.get("EMBEDDING_API_KEY", "lm-studio"),
         )
-    return E5EmbeddingFunction(model)
+        return FallbackEmbeddingFunction(remote, lambda: E5EmbeddingFunction(local_embedding_model_name()))
+    local = Path(model)
+    return E5EmbeddingFunction(str(local) if local.is_dir() else model)
 
 
 def _meta_bool(value: str | bool) -> bool:
@@ -142,6 +211,8 @@ def _chunk_from_meta(text: str, meta: dict) -> Chunk:
 
 class ChromaRetriever:
     def __init__(self, persist_path: str, embedding: E5EmbeddingFunction, k: int = 5):
+        import chromadb
+
         self._k = k
         self._embedding = embedding
         self._client = chromadb.PersistentClient(path=persist_path)
