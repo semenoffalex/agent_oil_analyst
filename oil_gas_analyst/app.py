@@ -14,12 +14,18 @@ import chainlit as cl
 
 from oil_gas_analyst.deps import build_deps
 from oil_gas_analyst.graph import invoke_analyst
+from oil_gas_analyst.rate_limit import RateLimiter, client_key, load_rate_limit_config
 from oil_gas_analyst.turn import apply_citation_links, footer_flags, markdown_cite
 from oil_gas_analyst.types import Reply
 
 _DEPS = None
 _ERR: BaseException | None = None
 _READY = threading.Event()
+_RATE_LIMITER = RateLimiter()
+_RATE_LIMIT_MSG = (
+    "Demo rate limit reached for your IP. "
+    "Try again in {retry_after}s. This is not a login gate."
+)
 
 
 def _warm() -> None:
@@ -88,6 +94,14 @@ async def start():
 
 @cl.on_message
 async def on_message(message: cl.Message):
+    cfg = load_rate_limit_config()
+    if cfg.enabled:
+        session = cl.context.session
+        key = client_key(getattr(session, "environ", None), session.id)
+        allowed, retry_after = _RATE_LIMITER.check(key, cfg)
+        if not allowed:
+            await cl.Message(content=_RATE_LIMIT_MSG.format(retry_after=retry_after)).send()
+            return
     try:
         deps = await asyncio.to_thread(_wait_deps)
         reply = await asyncio.to_thread(invoke_analyst, message.content, deps)
