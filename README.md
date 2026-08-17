@@ -33,6 +33,8 @@ chainlit run oil_gas_analyst/app.py --port 8000
 
 Живой **Eval** (ключ OpenRouter, индекс, сеть): `LIVE_EVAL=1 pytest tests/test_graph.py -k TestLiveEval`. Модель Eval — `EVAL_CHAT_MODEL` в `.env`; продукт и Demo остаются на DeepSeek.
 
+**Red-team pack** (тот же OpenRouter и индекс): `LIVE_RED_TEAM=1 pytest tests/test_graph.py -k TestLiveRedTeam`. Промпты — `config/red_team_pack.yaml`.
+
 ## Что внутри
 
 | Часть | Технология | Зачем |
@@ -83,8 +85,8 @@ Denylist неполный; DuckDuckGo и Yahoo в Docker иногда падаю
 
 ### Этот цикл — до URL
 
-- [ ] **Eval** — живой прогон пяти диалогов README на поднятом Analyst. Смотрим флаги и denylist, не золотую прозу. `pytest` с моками — не Eval.
-- [ ] **Red-team pack** — закрытый список промптов (Gemini): погода, Python, уран, off-topic + today, наживка denylist, «забудь инструкции / ключ», цена без глагола прогноза.
+- [x] **Eval** — живой прогон пяти диалогов README на поднятом Analyst. Смотрим флаги и denylist, не золотую прозу. `pytest` с моками — не Eval.
+- [x] **Red-team pack** — `LIVE_RED_TEAM=1 pytest tests/test_graph.py -k TestLiveRedTeam`; промпты в `config/red_team_pack.yaml`.
 - [ ] **Лимит запросов** — без пароля; потолок IP/окно настраивается на VPS.
 - [ ] **Demo на VPS** — [рецепт RUVDS](https://habr.com/ru/companies/ruvds/articles/1053382/). На машине e5 из образа (`EMBEDDING_BASE_URL` пустой), не LAN LM Studio.
 
