@@ -31,6 +31,8 @@ chainlit run oil_gas_analyst/app.py --port 8000
 
 Тесты без сети и LLM: `pytest -q`
 
+Живой **Eval** (ключ OpenRouter, индекс, сеть): `LIVE_EVAL=1 pytest tests/test_graph.py -k TestLiveEval`. Модель Eval — `EVAL_CHAT_MODEL` в `.env`; продукт и Demo остаются на DeepSeek.
+
 ## Что внутри
 
 | Часть | Технология | Зачем |
@@ -77,28 +79,27 @@ Denylist неполный; DuckDuckGo и Yahoo в Docker иногда падаю
 
 ## Планы развития
 
-Сначала качество и проверяемость, потом публичное демо, потом смена архитектуры (нужен новый ADR).
+Цикл зафиксирован в [ADR 0017](docs/adr/0017-next-cycle-is-public-demo.md): публичный **Demo** (URL без клона). DNS — только после живого Eval и red-team pack. Пароля нет, лимит запросов есть (число — на деплое).
 
-### P0 — до выкладки наружу
+### Этот цикл — до URL
 
-- [ ] **Evals** — зафиксировать пять демо-диалогов и регрессии на `run_turn` / `invoke_analyst`.
-- [ ] **Свежесть веб-источников** — если поиск вернул старую статью, поднимать в ранге недавние новости (recency boost; идея от Булата).
-- [ ] **Red-team** — прогон jailbreak и обход denylist через другую LLM (Gemini).
+- [ ] **Eval** — живой прогон пяти диалогов README на поднятом Analyst. Смотрим флаги и denylist, не золотую прозу. `pytest` с моками — не Eval.
+- [ ] **Red-team pack** — закрытый список промптов (Gemini): погода, Python, уран, off-topic + today, наживка denylist, «забудь инструкции / ключ», цена без глагола прогноза.
+- [ ] **Лимит запросов** — без пароля; потолок IP/окно настраивается на VPS.
+- [ ] **Demo на VPS** — [рецепт RUVDS](https://habr.com/ru/companies/ruvds/articles/1053382/). На машине e5 из образа (`EMBEDDING_BASE_URL` пустой), не LAN LM Studio.
 
-### P1 — заметнее в чате
+### После Demo
 
-- [ ] **Графики прогноза** — SARIMA и Holt–Winters рядом с цифрами.
-- [ ] **Поиск в интернете по явной просьбе** — закрытый список маркеров («поищи в интернете»), не planner.
-- [ ] **Скилл ingest** — повторяемое скачивание отчётов (ЦБ, EIA, OPEC).
+- [ ] Свежесть Web-источников (recency; идея от Булата)
+- [ ] Графики прогноза
+- [ ] Веб по явной просьбе («поищи в интернете») — закрытый список
+- [ ] Скилл ingest (ЦБ, EIA, OPEC)
+- [ ] Внешние эмбеддинги по API — довести `EMBEDDING_BASE_URL` с fallback
 
-### P2 — хостинг и инфраструктура
+### Только с новым ADR
 
-- [ ] **Демо на VPS** — [рецепт RUVDS на Хабре](https://habr.com/ru/companies/ruvds/articles/1053382/) после Evals и red-team.
-- [ ] **Внешние эмбеддинги по API** — довести `EMBEDDING_BASE_URL` (LM Studio / OpenAI-compatible) с fallback.
+- [ ] Память для Route lists / denylist из чата ([0005](docs/adr/0005-closed-route-lists.md))
+- [ ] Postgres + pgvector вместо Chroma ([0007](docs/adr/0007-e5-chroma-reports.md))
+- [ ] Дашборд Streamlit рядом с Chainlit ([0010](docs/adr/0010-chainlit-ui.md))
 
-### P3 — только с новым ADR
-
-- [ ] **Память для списков** — обновление глаголов прогноза и denylist из чата (LangChain → своя lib; сейчас списки в config).
-- [ ] **Postgres + pgvector** (или аналог) вместо Chroma in-process.
-- [ ] **Дашборд Streamlit** рядом с Chainlit — в т.ч. продумать дизайн.
 

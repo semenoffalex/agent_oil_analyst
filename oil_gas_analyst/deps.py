@@ -31,25 +31,7 @@ def _require_key() -> str:
     return key
 
 
-def build_deps(*, ingest_if_empty: bool = True) -> AnalystDeps:
-    """Wire production classifier, retriever, web, forecast, and composer.
-
-    Args:
-        ingest_if_empty: When True, call ``ensure_index`` if Chroma is stale or empty.
-
-    Returns:
-        ``AnalystDeps`` ready for ``run_turn`` or ``invoke_analyst``.
-
-    Example:
-        >>> deps = build_deps()
-        >>> deps.retrieve_k
-        10
-    """
-    llm = make_chat(
-        api_key=_require_key(),
-        base_url=os.environ.get("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
-        model=os.environ.get("DEEPSEEK_MODEL", "deepseek-v4-flash"),
-    )
+def _analyst_deps(llm, *, ingest_if_empty: bool) -> AnalystDeps:
     persist = os.environ.get("CHROMA_PATH", str(ROOT / "data" / "chroma"))
     samples = Path(os.environ.get("SAMPLES_PATH", str(ROOT / "data" / "samples")))
     reports = Path(os.environ.get("REPORTS_PATH", str(ROOT / "data" / "reports")))
@@ -72,6 +54,67 @@ def build_deps(*, ingest_if_empty: bool = True) -> AnalystDeps:
         denied_domains=list(load_denylist()),
         retrieve_k=retrieve_k,
     )
+
+
+def build_deps(*, ingest_if_empty: bool = True) -> AnalystDeps:
+    """Wire production classifier, retriever, web, forecast, and composer.
+
+    Args:
+        ingest_if_empty: When True, call ``ensure_index`` if Chroma is stale or empty.
+
+    Returns:
+        ``AnalystDeps`` ready for ``run_turn`` or ``invoke_analyst``.
+
+    Example:
+        >>> deps = build_deps()
+        >>> deps.retrieve_k
+        10
+    """
+    llm = make_chat(
+        api_key=_require_key(),
+        base_url=os.environ.get("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
+        model=os.environ.get("DEEPSEEK_MODEL", "deepseek-v4-flash"),
+        extra_body={"thinking": {"type": "disabled"}},
+    )
+    return _analyst_deps(llm, ingest_if_empty=ingest_if_empty)
+
+
+def _require_eval_chat() -> tuple[str, str, str]:
+    key = os.environ.get("OPENROUTER_API_KEY", "").strip()
+    model = os.environ.get("EVAL_CHAT_MODEL", "").strip()
+    base_url = os.environ.get("OPENROUTER_BASE_URL", "").strip()
+    missing = [
+        name
+        for name, value in (
+            ("OPENROUTER_API_KEY", key),
+            ("OPENROUTER_BASE_URL", base_url),
+            ("EVAL_CHAT_MODEL", model),
+        )
+        if not value
+    ]
+    if missing:
+        raise RuntimeError(
+            "Live Eval env is incomplete: " + ", ".join(missing) + ". Copy .env.example to .env."
+        )
+    return key, base_url, model
+
+
+def build_eval_deps(*, ingest_if_empty: bool = True) -> AnalystDeps:
+    """Wire live Eval deps: same graph, OpenRouter chat from ``.env`` (ADR 0018)."""
+    key, base_url, model = _require_eval_chat()
+    llm = make_chat(
+        api_key=key,
+        base_url=base_url,
+        model=model,
+        default_headers={
+            "HTTP-Referer": os.environ.get(
+                "OPENROUTER_HTTP_REFERER",
+                "https://github.com/semenoffalex/agent_oil_analyst",
+            ),
+            "X-Title": os.environ.get("OPENROUTER_APP_TITLE", "oil-gas-analyst-eval"),
+        },
+    )
+    return _analyst_deps(llm, ingest_if_empty=ingest_if_empty)
 
 
 def download_full_reports() -> list[Path]:

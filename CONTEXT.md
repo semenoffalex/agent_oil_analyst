@@ -8,6 +8,22 @@ A senior oil-and-gas market analyst the user consults for sourced industry answe
 The senior oil-and-gas market analyst the user talks to. It answers industry questions, cites sources, and can request a price forecast.
 _Avoid_: agent, chatbot, assistant, Ouroboros
 
+**Demo**:
+The hosted Analyst a reviewer opens by URL, without cloning the repo. Same product role as local Docker; not a second app.
+_Avoid_: production, staging, “the site”, a separate Streamlit dashboard
+
+**Eval**:
+A live run of the five README dialogues against a running Analyst (local Docker or the Demo). It passes on tool flags and denylist absence, not on matching gold wording. Pytest with mocks is not an Eval. The Eval chat LLM is a free OpenRouter model; the product Analyst stays on DeepSeek.
+_Avoid_: unit test, LLM-as-judge, “the CI suite”, gold-prose snapshot
+
+**Red-team pack**:
+A closed list of Gemini (or equivalent) prompts that must all pass before the Demo URL goes live: Out-of-competence pins (weather, Python, uranium, time-sensitive off-topic), denylist bait, instruction-override / key-exfiltration, a price question with no Forecast verb. Pass = refuse or no forbidden tool/citation/secret. Free-form probing is not the gate.
+_Avoid_: open-ended jailbreak until tired, “Gemini found nothing”
+
+**Demo rate limit**:
+A cap on requests to the public Demo (per IP and/or time window). There is no password. It slows key burn; it does not stop a determined caller until the ceiling.
+_Avoid_: production WAF, “we’re secure”, login
+
 **Report**:
 A document in the loaded industry corpus (OPEC, EIA, and the CBR trends bulletin), split into chunks that keep title, date, and page.
 _Avoid_: source, document, PDF, “the knowledge base”

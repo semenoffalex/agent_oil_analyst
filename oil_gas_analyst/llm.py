@@ -50,15 +50,26 @@ class KeepIndices(BaseModel):
     indices: list[int] = Field(default_factory=list)
 
 
-def make_chat(api_key: str, base_url: str, model: str) -> ChatOpenAI:
-    return ChatOpenAI(
-        api_key=api_key,
-        base_url=base_url,
-        model=model,
-        temperature=0,
-        timeout=120,
-        extra_body={"thinking": {"type": "disabled"}},
-    )
+def make_chat(
+    api_key: str,
+    base_url: str,
+    model: str,
+    *,
+    extra_body: dict | None = None,
+    default_headers: dict | None = None,
+) -> ChatOpenAI:
+    kwargs: dict = {
+        "api_key": api_key,
+        "base_url": base_url,
+        "model": model,
+        "temperature": 0,
+        "timeout": 120,
+    }
+    if extra_body is not None:
+        kwargs["extra_body"] = extra_body
+    if default_headers:
+        kwargs["default_headers"] = default_headers
+    return ChatOpenAI(**kwargs)
 
 
 class DeepSeekClassifier:

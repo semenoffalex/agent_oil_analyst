@@ -1,3 +1,7 @@
+import os
+
+import pytest
+
 from oil_gas_analyst.graph import invoke_analyst
 from oil_gas_analyst.turn import AnalystDeps, REFUSAL_TEXT
 from oil_gas_analyst.types import Chunk, ForecastResult, MethodForecast
@@ -141,3 +145,80 @@ def test_forecast_graph_runs_tools_node():
     reply = invoke_analyst("спрогнозируй цену Brent на 3 месяца", _in_deps(forecast=Fc()))
     assert reply.forecast_ran is True
     assert reply.steps == ["classify", "retrieve", "drop", "tools", "compose"]
+
+
+def _live_eval_on() -> bool:
+    return os.environ.get("LIVE_EVAL", "").strip().lower() in {"1", "true", "yes"}
+
+
+def _live_eval_ready() -> bool:
+    from dotenv import load_dotenv
+
+    load_dotenv()
+    return (
+        _live_eval_on()
+        and bool(os.environ.get("OPENROUTER_API_KEY", "").strip())
+        and bool(os.environ.get("OPENROUTER_BASE_URL", "").strip())
+        and bool(os.environ.get("EVAL_CHAT_MODEL", "").strip())
+    )
+
+
+def _citation_blob(reply) -> str:
+    return " ".join((c.label or "") + " " + (c.url or "") for c in reply.citations).casefold()
+
+
+def _assert_no_denylist(reply) -> None:
+    from oil_gas_analyst.denylist import is_denied, load_denylist
+
+    domains = load_denylist()
+    for citation in reply.citations:
+        if citation.url:
+            assert not is_denied(citation.url, domains), citation.url
+
+
+@pytest.mark.skipif(
+    not _live_eval_ready(),
+    reason="set LIVE_EVAL=1 plus OPENROUTER_API_KEY, OPENROUTER_BASE_URL, EVAL_CHAT_MODEL",
+)
+class TestLiveEval:
+    """Live Eval: five README dialogues against OpenRouter :free chat. Flags, not gold prose."""
+
+    @pytest.fixture(scope="class")
+    def deps(self):
+        from oil_gas_analyst.deps import build_eval_deps
+
+        return build_eval_deps()
+
+    def test_report_outlook(self, deps):
+        reply = invoke_analyst("What is OPEC's 2026 world oil demand outlook?", deps)
+        assert reply.refused is False
+        assert reply.forecast_ran is False
+        _assert_no_denylist(reply)
+
+    def test_web_latest_statement(self, deps):
+        reply = invoke_analyst("What's the latest OPEC statement on output?", deps)
+        assert reply.refused is False
+        assert reply.web_ran is True
+        _assert_no_denylist(reply)
+        blob = _citation_blob(reply)
+        assert "kp.ru" not in blob
+        assert "dailymail" not in blob
+
+    def test_combined_brent_today(self, deps):
+        reply = invoke_analyst("What's Brent today given OPEC demand?", deps)
+        assert reply.refused is False
+        assert reply.web_ran is True
+        _assert_no_denylist(reply)
+
+    def test_forecast_brent(self, deps):
+        reply = invoke_analyst("спрогнозируй цену Brent на 3 месяца", deps)
+        assert reply.refused is False
+        assert reply.forecast_ran is True
+        _assert_no_denylist(reply)
+
+    def test_out_of_competence_weather(self, deps):
+        reply = invoke_analyst("what's the weather today?", deps)
+        assert reply.refused is True
+        assert reply.web_ran is False
+        assert reply.forecast_ran is False
+        assert reply.retrieved is False

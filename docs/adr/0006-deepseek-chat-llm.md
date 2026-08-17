@@ -24,4 +24,5 @@ Thinking mode is **off** for every graph node (non-thinking only). We do not lea
 - `.env` / LangChain model name is `deepseek-v4-flash`, not `deepseek-chat`.
 - The client must explicitly disable thinking; omitting the flag would silently turn it back on.
 - Tool-calling quality, cache pricing, and rate limits are Flash’s, not Pro’s.
-- Embeddings, web search, and the Forecast module can use other libraries; they must not sneak in a second chat LLM.
+- Embeddings, web search, and the Forecast module can use other libraries; they must not sneak in a second chat LLM on the product path.
+- Live **Eval** chat is a documented exception: [0018](0018-eval-chat-openrouter-free.md). Docker and Chainlit still call only DeepSeek.
