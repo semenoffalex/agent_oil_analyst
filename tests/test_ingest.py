@@ -240,6 +240,110 @@ def test_drop_redundant_excerpts_keeps_excerpt_without_full():
     assert kept[0]["excerpt"] is True
 
 
+def test_corpus_fingerprint_omits_steo_excerpt_when_full_exists():
+    from pathlib import Path
+
+    from oil_gas_analyst.retrieve import corpus_fingerprint, iter_ingest_jobs
+
+    samples = Path("data/samples")
+    reports = Path("data/reports")
+    names = [job["path"].name for job in iter_ingest_jobs(samples, reports)]
+    assert "eia-steo-excerpt.pdf" not in names
+    assert "steo_full.pdf" in names
+    fp = corpus_fingerprint(samples, reports)
+    assert len(fp) == 64
+    assert fp == corpus_fingerprint(samples, reports)
+
+
+def test_ensure_index_rebuilds_stale_volume_then_skips(monkeypatch):
+    from pathlib import Path
+
+    from oil_gas_analyst.retrieve import ensure_index
+
+    ingest_calls: list[str] = []
+
+    class Fake:
+        def __init__(self):
+            self._empty = False
+            self.fp = None
+            self.resets = 0
+
+        def is_empty(self) -> bool:
+            return self._empty
+
+        def reset(self) -> None:
+            self.resets += 1
+            self._empty = True
+
+        def stored_fingerprint(self) -> str | None:
+            return self.fp
+
+        def write_fingerprint(self, fp: str) -> None:
+            self.fp = fp
+            self._empty = False
+
+    def fake_ingest(retriever, *, samples_dir, reports_dir):
+        ingest_calls.append("ingest")
+        retriever._empty = False
+        return 1
+
+    monkeypatch.setattr("oil_gas_analyst.retrieve.ingest_samples_and_reports", fake_ingest)
+    monkeypatch.setattr("oil_gas_analyst.retrieve.corpus_fingerprint", lambda *a, **k: "abc")
+    fake = Fake()
+    samples = Path("data/samples")
+    reports = Path("data/reports")
+    ensure_index(fake, samples_dir=samples, reports_dir=reports)
+    assert fake.resets == 1
+    assert ingest_calls == ["ingest"]
+    assert fake.fp == "abc"
+    ensure_index(fake, samples_dir=samples, reports_dir=reports)
+    assert fake.resets == 1
+    assert ingest_calls == ["ingest"]
+
+
+def test_ensure_index_force_rebuilds_matching_fingerprint(monkeypatch):
+    from pathlib import Path
+
+    from oil_gas_analyst.retrieve import ensure_index
+
+    ingest_calls = []
+
+    class Fake:
+        def __init__(self):
+            self._empty = False
+            self.fp = "abc"
+            self.resets = 0
+
+        def is_empty(self) -> bool:
+            return self._empty
+
+        def reset(self) -> None:
+            self.resets += 1
+            self._empty = True
+
+        def stored_fingerprint(self) -> str | None:
+            return self.fp
+
+        def write_fingerprint(self, fp: str) -> None:
+            self.fp = fp
+            self._empty = False
+
+    monkeypatch.setattr(
+        "oil_gas_analyst.retrieve.ingest_samples_and_reports",
+        lambda *a, **k: ingest_calls.append(1) or 1,
+    )
+    monkeypatch.setattr("oil_gas_analyst.retrieve.corpus_fingerprint", lambda *a, **k: "abc")
+    fake = Fake()
+    ensure_index(
+        fake,
+        samples_dir=Path("data/samples"),
+        reports_dir=Path("data/reports"),
+        force=True,
+    )
+    assert fake.resets == 1
+    assert ingest_calls == [1]
+
+
 def test_e5_token_count_uses_tokenizer_when_embedding_url_set(monkeypatch):
     import oil_gas_analyst.ingest as ingest
 

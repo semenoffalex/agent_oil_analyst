@@ -8,7 +8,7 @@ A reviewer (or any user) needs a senior oil-and-gas market Analyst they can open
 
 ## Solution
 
-The user talks to the Analyst in Chainlit. LangGraph runs the turn: Competence classify, Route lists, retrieve k=5 Chunks, Drop irrelevant Chunks, optionally DuckDuckGo behind the Yellow-press denylist, optionally the Forecast module. Every claim in the reply is tagged as Report, Web source, or Forecast. Sample Reports ship in git so retrieval works offline; an ingest step can pull Full Reports.
+The user talks to the Analyst in Chainlit. LangGraph runs the turn: Competence classify, Route lists, retrieve k=10 Chunks, Drop irrelevant Chunks, optionally DuckDuckGo behind the Yellow-press denylist, optionally the Forecast module. Every claim in the reply is tagged as Report, Web source, or Forecast. Sample Reports ship in git so retrieval works offline; an ingest step can pull Full Reports.
 
 ## User Stories
 
@@ -35,7 +35,7 @@ The user talks to the Analyst in Chainlit. LangGraph runs the turn: Competence c
 21. As a user, I ask a Time-sensitive question that also has Report overlap, so that I get a combined answer: Reports for the structural claim, Web sources for the fresh bit, each tagged.
 22. As a user, I do not want tabloid domains from the Yellow-press denylist in citations, so that kp.ru / dailymail.co.uk and the rest of the list never appear as Web sources.
 23. As a user, I accept that unlisted tabloids can leak, so that I understand the denylist is not an allowlist.
-24. As a user, I want Retrieved chunks always k=5 on in-Competence turns, so that Reports are always consulted first.
+24. As a user, I want Retrieved chunks always k=10 on in-Competence turns, so that Reports are always consulted first.
 25. As a user, I want Dropped chunks never cited, so that a MOMR footnote cannot masquerade as an answer.
 26. As a user, I want Chunk metadata (title, date, page range, heading) preserved, so that citations are precise.
 27. As a reviewer, I want Sample Reports present without ingest, so that Docker on a dark network still has RAG.
@@ -69,7 +69,7 @@ The user talks to the Analyst in Chainlit. LangGraph runs the turn: Competence c
 
 - One user-facing surface: Chainlit. LangGraph is the Analyst runtime behind it. No Streamlit, Gradio, or parallel HTTP UI.
 - Chat LLM: `deepseek-v4-flash` at DeepSeek’s OpenAI-compatible API. Thinking disabled on every call. No fallback vendor. No `deepseek-v4-pro`.
-- Turn order: Competence classify (`in`/`out`, structured) → if `out`, refuse and stop → Route lists (Forecast verbs, Time-sensitive markers) → retrieve k=5 Chunks → model may Drop Chunks → Forecast tool only on Forecast request → web only if (Time-sensitive and in Competence) or (all Chunks Dropped and in Competence) → compose tagged answer.
+- Turn order: Competence classify (`in`/`out`, structured) → if `out`, refuse and stop → Route lists (Forecast verbs, Time-sensitive markers) → retrieve k=10 Chunks → model may Drop Chunks → Forecast tool only on Forecast request → web only if (Time-sensitive and in Competence) or (all Chunks Dropped and in Competence) → compose tagged answer.
 - Route lists stay closed EN+RU lists in config. A miss is a miss. Classify must not override them.
 - Report store: multilingual-e5-base + Chroma in-process, persisted on a volume. Ingest: heading regexes per agency, then 512-token cap with 50-token overlap on the e5 tokenizer. Metadata: title, date, page range, heading.
 - Sample Reports: OPEC MOMR March 2026 World Oil Demand excerpt; EIA STEO August 2026 Global Oil Markets excerpt. Full Reports: ingest fetches EIA STEO latest PDF and the configured OPEC MOMR URL. IEA out of v1.

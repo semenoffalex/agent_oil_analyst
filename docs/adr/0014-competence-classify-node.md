@@ -15,7 +15,7 @@ Accepted
 Before any tool, `deepseek-v4-flash` (non-thinking) classifies the question `in` or `out` of Competence. Structured output, two values, nothing else.
 
 - `out` → refuse immediately. No Report retrieval, no web, no Forecast.
-- `in` → continue the waterfall (Route lists, retrieve k=5, Drop, web rules as in 0013).
+- `in` → continue the waterfall (Route lists, retrieve k=10, Drop, web rules as in 0013).
 
 Forecast verbs and Time-sensitive markers stay closed lists. The classify node must not decide those.
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -14,6 +15,8 @@ from oil_gas_analyst.types import Chunk
 _PASSAGE = "passage: "
 _QUERY = "query: "
 _EMBED_BATCH = 32
+_INDEX_SCHEMA = "drop-redundant-excerpts-v1"
+_FINGERPRINT_NAME = "corpus_fingerprint.txt"
 
 
 def _prefer_ipv4(url: str) -> str:
@@ -230,7 +233,7 @@ def _heading_rank(question: str, heading: str) -> int:
     return 0
 
 
-def select_report_chunks(question: str, chunks: list[Chunk], k: int = 5) -> list[Chunk]:
+def select_report_chunks(question: str, chunks: list[Chunk], k: int = 10) -> list[Chunk]:
     """Prefer outlook sections and newer Report dates, then cut to k."""
     if not chunks:
         return []
@@ -285,6 +288,7 @@ class ChromaRetriever:
 
         self._k = k
         self._embedding = embedding
+        self._persist_path = persist_path
         self._client = chromadb.PersistentClient(path=persist_path)
         self._col = self._client.get_or_create_collection(
             name="reports",
@@ -300,6 +304,17 @@ class ChromaRetriever:
             name="reports",
             metadata={"hnsw:space": "cosine"},
         )
+
+    def stored_fingerprint(self) -> str | None:
+        path = Path(self._persist_path) / _FINGERPRINT_NAME
+        if not path.is_file():
+            return None
+        return path.read_text(encoding="utf-8").strip() or None
+
+    def write_fingerprint(self, fp: str) -> None:
+        path = Path(self._persist_path)
+        path.mkdir(parents=True, exist_ok=True)
+        (path / _FINGERPRINT_NAME).write_text(fp + "\n", encoding="utf-8")
 
     def index_chunks(self, chunks: list[Chunk], id_prefix: str) -> None:
         if not chunks:
@@ -387,6 +402,109 @@ def _url_for_agency(agency: str, cfg: dict, explicit: str | None = None) -> str 
     return None
 
 
+def _resolve_sample_path(sample: dict, samples_dir: Path) -> Path:
+    path = Path(sample["path"])
+    if path.exists():
+        return path
+    return samples_dir / path.name
+
+
+def iter_ingest_jobs(samples_dir: Path, reports_dir: Path, cfg: dict | None = None) -> list[dict]:
+    cfg = cfg or load_ingest_config()
+    jobs: list[dict] = []
+    seen: set[Path] = set()
+    listed = list(cfg.get("samples") or [])
+    samples = drop_redundant_excerpts(listed)
+    for sample in listed:
+        path = _resolve_sample_path(sample, samples_dir)
+        if path.exists():
+            seen.add(path.resolve())
+    for i, sample in enumerate(samples):
+        path = _resolve_sample_path(sample, samples_dir)
+        if not path.exists():
+            raise FileNotFoundError(f"Sample Report missing: {sample['path']}")
+        seen.add(path.resolve())
+        agency = sample.get("agency") or _agency_from_name(path.name)
+        jobs.append(
+            {
+                "path": path,
+                "excerpt": bool(sample.get("excerpt", True)),
+                "agency": agency,
+                "date": sample.get("date") or _date_from_name(path.name),
+                "title": sample.get("title", path.stem),
+                "url": sample.get("url"),
+                "id_prefix": f"sample-{i}",
+            }
+        )
+    extra = 0
+    if samples_dir.exists():
+        for pdf in sorted(samples_dir.glob("*.pdf")):
+            if pdf.resolve() in seen:
+                continue
+            agency = _agency_from_name(pdf.name)
+            jobs.append(
+                {
+                    "path": pdf,
+                    "excerpt": False,
+                    "agency": agency,
+                    "date": _date_from_name(pdf.name),
+                    "title": pdf.stem,
+                    "url": None,
+                    "id_prefix": f"sample-extra-{extra}",
+                }
+            )
+            extra += 1
+    if reports_dir.exists():
+        for j, pdf in enumerate(sorted(reports_dir.glob("*.pdf"))):
+            agency = _agency_from_name(pdf.name)
+            jobs.append(
+                {
+                    "path": pdf,
+                    "excerpt": False,
+                    "agency": agency,
+                    "date": _date_from_name(pdf.name),
+                    "title": pdf.stem,
+                    "url": None,
+                    "id_prefix": f"full-{j}",
+                }
+            )
+    return jobs
+
+
+def corpus_fingerprint(samples_dir: Path, reports_dir: Path) -> str:
+    digest = hashlib.sha256()
+    digest.update(f"{_INDEX_SCHEMA}\n".encode("utf-8"))
+    for job in iter_ingest_jobs(samples_dir, reports_dir):
+        path: Path = job["path"]
+        digest.update(
+            f"{path.name}\t{path.stat().st_size}\t{int(job['excerpt'])}\n".encode("utf-8")
+        )
+    return digest.hexdigest()
+
+
+def ensure_index(
+    retriever,
+    *,
+    samples_dir: Path,
+    reports_dir: Path,
+    force: bool = False,
+) -> int:
+    fp = corpus_fingerprint(samples_dir, reports_dir)
+    stored = retriever.stored_fingerprint() if hasattr(retriever, "stored_fingerprint") else None
+    empty = retriever.is_empty()
+    if not force and not empty and stored == fp:
+        return 0
+    if not empty:
+        reset = getattr(retriever, "reset", None)
+        if callable(reset):
+            reset()
+    total = ingest_samples_and_reports(retriever, samples_dir=samples_dir, reports_dir=reports_dir)
+    write = getattr(retriever, "write_fingerprint", None)
+    if callable(write):
+        write(fp)
+    return total
+
+
 def ingest_samples_and_reports(
     retriever: ChromaRetriever,
     *,
@@ -395,71 +513,19 @@ def ingest_samples_and_reports(
 ) -> int:
     cfg = load_ingest_config()
     total = 0
-    seen: set[Path] = set()
-    listed = list(cfg.get("samples") or [])
-    samples = drop_redundant_excerpts(listed)
-    for sample in listed:
-        path = Path(sample["path"])
-        if not path.exists():
-            path = samples_dir / path.name
-        if path.exists():
-            seen.add(path.resolve())
-    for i, sample in enumerate(samples):
-        path = Path(sample["path"])
-        if not path.exists():
-            path = samples_dir / path.name
-        if not path.exists():
-            raise FileNotFoundError(f"Sample Report missing: {sample['path']}")
-        seen.add(path.resolve())
-        excerpt = bool(sample.get("excerpt", True))
-        agency = sample.get("agency") or _agency_from_name(path.name)
+    for job in iter_ingest_jobs(samples_dir, reports_dir, cfg):
+        agency = job["agency"]
         chunks = chunk_pdf(
-            path,
+            job["path"],
             agency=agency,
-            excerpt=excerpt,
-            date=sample.get("date") or _date_from_name(path.name),
-            title=sample.get("title", path.stem),
+            excerpt=job["excerpt"],
+            date=job["date"],
+            title=job["title"],
             config=cfg,
             token_count=e5_token_count,
-            url=_url_for_agency(agency, cfg, sample.get("url")),
+            url=_url_for_agency(agency, cfg, job.get("url")),
         )
-        retriever.index_chunks(chunks, id_prefix=f"sample-{i}")
+        retriever.index_chunks(chunks, id_prefix=job["id_prefix"])
         total += len(chunks)
-        print(f"indexed {path.name}: {len(chunks)} chunks")
-    extra = 0
-    if samples_dir.exists():
-        for pdf in sorted(samples_dir.glob("*.pdf")):
-            if pdf.resolve() in seen:
-                continue
-            agency = _agency_from_name(pdf.name)
-            chunks = chunk_pdf(
-                pdf,
-                agency=agency,
-                excerpt=False,
-                date=_date_from_name(pdf.name),
-                title=pdf.stem,
-                config=cfg,
-                token_count=e5_token_count,
-                url=_url_for_agency(agency, cfg),
-            )
-            retriever.index_chunks(chunks, id_prefix=f"sample-extra-{extra}")
-            total += len(chunks)
-            extra += 1
-            print(f"indexed {pdf.name}: {len(chunks)} chunks")
-    if reports_dir.exists():
-        for j, pdf in enumerate(sorted(reports_dir.glob("*.pdf"))):
-            agency = _agency_from_name(pdf.name)
-            chunks = chunk_pdf(
-                pdf,
-                agency=agency,
-                excerpt=False,
-                date=_date_from_name(pdf.name),
-                title=pdf.stem,
-                config=cfg,
-                token_count=e5_token_count,
-                url=_url_for_agency(agency, cfg),
-            )
-            retriever.index_chunks(chunks, id_prefix=f"full-{j}")
-            total += len(chunks)
-            print(f"indexed {pdf.name}: {len(chunks)} chunks")
+        print(f"indexed {job['path'].name}: {len(chunks)} chunks")
     return total

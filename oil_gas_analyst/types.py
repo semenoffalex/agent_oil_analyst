@@ -69,7 +69,7 @@ class CompetenceClassifier(Protocol):
 
 
 class Retriever(Protocol):
-    def retrieve(self, question: str, k: int = 5) -> list[Chunk]: ...
+    def retrieve(self, question: str, k: int = 10) -> list[Chunk]: ...
 
 
 class ChunkDropper(Protocol):

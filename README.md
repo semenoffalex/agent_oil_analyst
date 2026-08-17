@@ -45,7 +45,7 @@ pytest -q
 
 1. Классификатор Competence (`in`/`out`). `out` → отказ, без инструментов. «What's the weather today?» тоже отказ.
 2. Route lists: глаголы Forecast; маркеры Time-sensitive. Промах списка = промах.
-3. Всегда retrieve k=5 Chunks. Модель может Drop.
+3. Всегда retrieve k=10 Chunks. Модель может Drop.
 4. Web: Time-sensitive **или** все Chunks Dropped, и только если `in`.
 5. Forecast только при явном глаголе (forecast / спрогнозируй / оцени диапазон / …). «Brent in 3 months» без глагола — не Forecast.
 6. Цитаты: `[Отчёт …]` / `[Источник: …, web](url)` / `[Forecast …]`. Web — кликабельный URL. Sample Reports помечаются excerpt.
@@ -66,7 +66,7 @@ pytest -q
 ## Данные
 
 - Sample Reports в `data/samples/`: OPEC MOMR June 2024/2026, EIA STEO August 2026 (excerpt + full), бюллетень ЦБ «О чем говорят тренды» июль 2026. Без samples установка сломана.
-- Переиндексация: `python -m oil_gas_analyst` (сбрасывает Chroma, эмбеддит samples + `data/reports/`).
+- Переиндексация: при старте, если отпечаток корпуса не совпал (в т.ч. старый том с STEO excerpt). Принудительно: `python -m oil_gas_analyst`.
 
 ## Ограничения v1
 

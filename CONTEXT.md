@@ -41,7 +41,7 @@ The latest traded or reported oil price taken from a Web source or a market API.
 _Avoid_: price (unqualified), forecast, spot (as a synonym for any price question)
 
 **Retrieved chunks**:
-The top-5 Report hits always fetched for a question. Presence in this set does not mean the Analyst may cite them.
+The top-10 Report hits always fetched for a question. Presence in this set does not mean the Analyst may cite them.
 _Avoid_: Thin retrieval, “the context”, relevant chunks
 
 **Dropped chunk**:

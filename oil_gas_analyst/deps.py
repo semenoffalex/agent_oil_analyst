@@ -10,7 +10,7 @@ from oil_gas_analyst.denylist import load_denylist
 from oil_gas_analyst.forecast import run_forecast
 from oil_gas_analyst.ingest import load_ingest_config
 from oil_gas_analyst.llm import DeepSeekClassifier, DeepSeekComposer, DeepSeekDropper, make_chat
-from oil_gas_analyst.retrieve import ChromaRetriever, ingest_samples_and_reports, make_embedding_function
+from oil_gas_analyst.retrieve import ChromaRetriever, ensure_index, make_embedding_function
 from oil_gas_analyst.turn import AnalystDeps
 from oil_gas_analyst.web import DuckDuckGoWeb
 
@@ -47,8 +47,8 @@ def build_deps(*, ingest_if_empty: bool = True) -> AnalystDeps:
         print(f"embedding warmup failed: {exc}")
     retrieve_k = int(os.environ.get("RETRIEVE_K", "10"))
     retriever = ChromaRetriever(persist, embedding, k=retrieve_k)
-    if ingest_if_empty and retriever.is_empty():
-        ingest_samples_and_reports(retriever, samples_dir=samples, reports_dir=reports)
+    if ingest_if_empty:
+        ensure_index(retriever, samples_dir=samples, reports_dir=reports)
     return AnalystDeps(
         classifier=DeepSeekClassifier(llm),
         retriever=retriever,

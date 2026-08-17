@@ -1,4 +1,4 @@
-# 0012. Always retrieve k=5; DeepSeek drops irrelevant chunks
+# 0012. Always retrieve k=10; DeepSeek drops irrelevant chunks
 
 ## Status
 
@@ -14,7 +14,7 @@ That is not a search policy for the web. It is a citation policy for Reports. Us
 
 ## Decision
 
-Every question retrieves `k=5` Report chunks. DeepSeek may Drop chunks and must not cite them. There is no count or cosine bar that opens the web.
+Every question retrieves `k=10` Report chunks. DeepSeek may Drop chunks and must not cite them. There is no count or cosine bar that opens the web.
 
 The Time-sensitive Route list still opens the web ([0003](0003-thin-or-fresh-web.md)). Whether the Analyst may call web after Dropping every chunk is still open.
 
