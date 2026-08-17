@@ -20,3 +20,4 @@ data/chroma/
 data/forecast_cache/
 *.pyc
 .DS_Store
+task.md
