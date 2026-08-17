@@ -1,81 +1,104 @@
 # Нефтегазовый аналитик
 
-Старший аналитик нефтегазового рынка: ответы по **Reports** (OPEC MOMR, EIA STEO), **Web sources** (DuckDuckGo + denylist «жёлтой прессы»), **Forecast** (SARIMA + Holt–Winters по `yfinance`).
+Чат со **старшим аналитиком нефтегазового рынка**. Сначала ищет ответ в **отчётах** (OPEC MOMR, EIA STEO, бюллетень ЦБ), при необходимости — в **интернете** (DuckDuckGo, с фильтром «жёлтой прессы»), по явной просьбе строит **прогноз цены** (SARIMA и Holt–Winters на данных `yfinance`).
 
-Ouroboros в заголовке задания **не используется** (ADR 0002).
-
-## Стек и почему
-
-- **LLM:** `deepseek-v4-flash`, thinking **выключен**. OpenAI-совместимый API, tool-calling, один ключ.
-- **Оркестрация:** LangGraph; публичный шов — `run_turn` (вопрос → ответ + цитаты + флаги инструментов). Chainlit — адаптер UI.
-- **RAG:** `intfloat/multilingual-e5-base` + Chroma in-process (RU/EN, без второго API).
-- **Поиск:** DuckDuckGo, без Tavily-ключа. Фильтр — denylist доменов, не allowlist.
-- **Forecast:** `statsmodels` SARIMA и Holt–Winters, оба прогона, без среднего. Prophet/LSTM нет.
-- **UI:** Chainlit — чат из коробки, один процесс с LangGraph. Не Streamlit (rerun на каждое сообщение), не Gradio, не свой FastAPI-фронт.
+Каждый ответ с цитатами: откуда взята цифра — отчёт, веб или расчёт.
 
 ## Запуск
 
-```bash
-cp .env.example .env
-# вписать DEEPSEEK_API_KEY
+### Рекомендуется: Docker
 
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python -m oil_gas_analyst          # опционально: скачать Full Reports и проиндексировать
-chainlit run oil_gas_analyst/app.py --port 8000
-```
-
-Docker:
+Один образ, тома для индекса и отчётов, без установки моделей на хост. Для демо и проверки задания — начинайте здесь.
 
 ```bash
-cp .env.example .env   # DEEPSEEK_API_KEY
+cp .env.example .env          # указать DEEPSEEK_API_KEY
 docker compose up --build
 ```
 
-Открыть http://localhost:8000. `docker-compose.yml` ходит за e5 на `http://192.168.0.55:1234/v1` (`text-embedding-multilingual-e5-base`). Пустой `EMBEDDING_BASE_URL` — локальный SentenceTransformer из образа. Чат по-прежнему DeepSeek. Индекс Sample Reports — при первом старте, если том Chroma пуст.
+Откройте http://localhost:8000.
 
-Тесты (без сети и без LLM):
+По умолчанию эмбеддинги идут на LM Studio (`http://192.168.0.55:1234/v1`). Пустой `EMBEDDING_BASE_URL` — локальная e5 из образа. Чат всегда через DeepSeek. Индекс отчётов поднимается сам при первом старте, если Chroma пуст или устарел.
+
+### Локально (разработка)
 
 ```bash
-pytest -q
+cp .env.example .env
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+python -m oil_gas_analyst     # по желанию: скачать полные PDF и переиндексировать
+chainlit run oil_gas_analyst/app.py --port 8000
 ```
 
-## Водопад хода
+Тесты без сети и LLM: `pytest -q`
 
-1. Классификатор Competence (`in`/`out`). `out` → отказ, без инструментов. «What's the weather today?» тоже отказ.
-2. Route lists: глаголы Forecast; маркеры Time-sensitive. Промах списка = промах.
-3. Всегда retrieve k=10 Chunks. Модель может Drop.
-4. Web: Time-sensitive **или** все Chunks Dropped, и только если `in`.
-5. Forecast только при явном глаголе (forecast / спрогнозируй / оцени диапазон / …). «Brent in 3 months» без глагола — не Forecast.
-6. Цитаты: `[Отчёт …]` / `[Источник: …, web](url)` / `[Forecast …]`. Web — кликабельный URL. Sample Reports помечаются excerpt.
+## Что внутри
 
-## Демо-диалоги (минимум 5)
+| Часть | Технология | Зачем |
+|-------|------------|--------|
+| Чат | `deepseek-v4-flash`, thinking выкл. | Один API-ключ, вызов инструментов, оптимальное соотношение цена/качество |
+| Оркестрация | LangGraph → `run_turn` | де-факто стандарт для создания агентов |
+| Интерфейс | Chainlit | Чат в одном процессе с графом |
+| Отчёты | e5 + Chroma | RU/EN, без второго embedding API |
+| Интернет | DuckDuckGo + denylist | Бесплатно, не требует ключа API |
+| Прогноз | SARIMA + Holt–Winters | Два метода, без усреднения |
 
-1. **Отчёт.** `What is OPEC's 2026 world oil demand outlook?`  
-   Ожидание: цитата MOMR excerpt, без обязательного web.
-2. **Web.** `What's the latest OPEC statement on output?`  
-   Ожидание: Web sources, не kp.ru / dailymail.
-3. **Комбинированный.** `What's Brent today given OPEC demand?`  
-   Ожидание: Report + web в Sources.
-4. **Forecast.** `спрогнозируй цену Brent на 3 месяца`  
-   Ожидание: SARIMA и Holt–Winters, интервалы, не среднее. WTI — если назван. Urals — «no series».
-5. **Вне Competence.** `what's the weather today?` или `write a Python sort` или `Kazakhstan uranium outlook`  
-   Ожидание: отказ, без web и без Forecast.
+Термины и решения: [`CONTEXT.md`](CONTEXT.md), [`docs/adr/`](docs/adr/).
+
+## Как отвечает на один вопрос
+
+1. **Компетенция** — тема про нефть/газ или отказ («what's the weather today?» → отказ).
+2. **Списки маршрутов** — глагол прогноза или маркер «нужна свежесть» (закрытые EN/RU списки).
+3. **Поиск по отчётам** — top-10 фрагментов; модель отбрасывает лишнее, отброшенное не цитирует.
+4. **Веб** — если нужна свежесть или после отбрасывания ничего не осталось.
+5. **Прогноз** — только с явным глаголом (`спрогнозируй`, `forecast`, …).
+6. **Цитаты** — `[Отчёт …]`, `[Источник: …, web]`, `[Forecast …]`.
+
+Внизу ответа — что запускалось: отчёты, веб (и почему), прогноз, шаги графа.
+
+## Пять проверочных диалогов
+
+| Сценарий | Пример вопроса | Ожидание |
+|----------|----------------|----------|
+| Отчёт | `What is OPEC's 2026 world oil demand outlook?` | Цитата MOMR, веб не обязателен |
+| Веб | `What's the latest OPEC statement on output?` | Источники из сети, без kp.ru / dailymail |
+| Смешанный | `What's Brent today given OPEC demand?` | Отчёт + веб |
+| Прогноз | `спрогнозируй цену Brent на 3 месяца` | SARIMA и Holt–Winters, два интервала |
+| Вне темы | `what's the weather today?` | Отказ, без инструментов |
 
 ## Данные
 
-- Sample Reports в `data/samples/`: OPEC MOMR June 2024/2026, EIA STEO August 2026 (excerpt + full), бюллетень ЦБ «О чем говорят тренды» июль 2026. Без samples установка сломана.
-- Переиндексация: при старте, если отпечаток корпуса не совпал (в т.ч. старый том с STEO excerpt). Принудительно: `python -m oil_gas_analyst`.
+Образцы в `data/samples/` (OPEC, EIA, ЦБ) — без них установка сломана. Полные PDF — в `data/reports/` после `python -m oil_gas_analyst`. Переиндекс Chroma — автоматически при смене корпуса.
 
-## Ограничения v1
+## Ограничения
 
-- Denylist отстаёт: незакрытый таблоид может просочиться.
-- DuckDuckGo и Yahoo (`yfinance`) в Docker иногда падают → неопределённость, не выдуманные цифры.
-- Классификатор Competence может дрожать; демо вне темы — только очевидные кейсы.
-- Heading-regex не покрывает все врезки STEO; хвосты идут как `(untitled)`.
-- Нет ряда Urals. IEA в корпус не входит.
+Denylist неполный; DuckDuckGo и Yahoo в Docker иногда падают; классификатор темы может ошибаться; нет ряда Urals; IEA не в корпусе.
 
-## Архитектура
+---
 
-См. `CONTEXT.md` (глоссарий) и `docs/adr/`. Спека: `.scratch/oil-gas-analyst/spec.md`.
+## Планы развития
+
+Сначала качество и проверяемость, потом публичное демо, потом смена архитектуры (нужен новый ADR).
+
+### P0 — до выкладки наружу
+
+- [ ] **Evals** — зафиксировать пять демо-диалогов и регрессии на `run_turn` / `invoke_analyst`.
+- [ ] **Свежесть веб-источников** — если поиск вернул старую статью, поднимать в ранге недавние новости (recency boost; идея от Булата).
+- [ ] **Red-team** — прогон jailbreak и обход denylist через другую LLM (Gemini).
+
+### P1 — заметнее в чате
+
+- [ ] **Графики прогноза** — SARIMA и Holt–Winters рядом с цифрами.
+- [ ] **Поиск в интернете по явной просьбе** — закрытый список маркеров («поищи в интернете»), не planner.
+- [ ] **Скилл ingest** — повторяемое скачивание отчётов (ЦБ, EIA, OPEC).
+
+### P2 — хостинг и инфраструктура
+
+- [ ] **Демо на VPS** — [рецепт RUVDS на Хабре](https://habr.com/ru/companies/ruvds/articles/1053382/) после Evals и red-team.
+- [ ] **Внешние эмбеддинги по API** — довести `EMBEDDING_BASE_URL` (LM Studio / OpenAI-compatible) с fallback.
+
+### P3 — только с новым ADR
+
+- [ ] **Память для списков** — обновление глаголов прогноза и denylist из чата (LangChain → своя lib; сейчас списки в config).
+- [ ] **Postgres + pgvector** (или аналог) вместо Chroma in-process.
+- [ ] **Дашборд Streamlit** рядом с Chainlit — в т.ч. продумать дизайн.
+
