@@ -234,7 +234,20 @@ def _heading_rank(question: str, heading: str) -> int:
 
 
 def select_report_chunks(question: str, chunks: list[Chunk], k: int = 10) -> list[Chunk]:
-    """Prefer outlook sections and newer Report dates, then cut to k."""
+    """Prefer outlook sections and newer Report dates, then cut to k.
+
+    Args:
+        question: User question; used to rank headings (demand vs tanker, etc.).
+        chunks: Candidate chunks from vector search (often ``3 * k`` wide).
+        k: Maximum chunks to return after re-ranking.
+
+    Returns:
+        Up to ``k`` chunks, full Reports ranked above excerpts of the same date.
+
+    Example:
+        >>> select_report_chunks("oil demand 2026", [tanker_chunk, demand_chunk], k=1)
+        [demand_chunk]
+    """
     if not chunks:
         return []
     ranked = sorted(
@@ -250,7 +263,18 @@ def select_report_chunks(question: str, chunks: list[Chunk], k: int = 10) -> lis
 
 
 def drop_redundant_excerpts(samples: list[dict]) -> list[dict]:
-    """Skip a Sample excerpt when a full Report of the same agency and date is listed."""
+    """Skip a Sample excerpt when a full Report of the same agency and date is listed.
+
+    Args:
+        samples: Ingest config entries with ``agency``, ``date``, and ``excerpt``.
+
+    Returns:
+        Filtered list; e.g. STEO excerpt drops when August 2026 full STEO is present.
+
+    Example:
+        >>> drop_redundant_excerpts([excerpt_steo, full_steo])
+        [full_steo]
+    """
     full_keys = {
         (str(sample.get("agency") or ""), str(sample.get("date") or ""))
         for sample in samples
@@ -283,7 +307,21 @@ def _chunk_from_meta(text: str, meta: dict) -> Chunk:
 
 
 class ChromaRetriever:
+    """E5 + Chroma retrieval over persisted Report chunks."""
+
     def __init__(self, persist_path: str, embedding: E5EmbeddingFunction, k: int = 10):
+        """Open or create the ``reports`` collection on disk.
+
+        Args:
+            persist_path: Chroma persistence directory (``CHROMA_PATH``).
+            embedding: Callable with ``embed_query`` and batch ``__call__``.
+            k: Default ``retrieve`` pool size when ``k`` is not passed.
+
+        Example:
+            >>> retriever = ChromaRetriever("data/chroma", embedding, k=10)
+            >>> retriever.is_empty()
+            True
+        """
         import chromadb
 
         self._k = k
@@ -296,9 +334,11 @@ class ChromaRetriever:
         )
 
     def is_empty(self) -> bool:
+        """Return True when the collection has no indexed chunks."""
         return self._col.count() == 0
 
     def reset(self) -> None:
+        """Delete and recreate the ``reports`` collection (full re-index)."""
         self._client.delete_collection("reports")
         self._col = self._client.get_or_create_collection(
             name="reports",
@@ -306,17 +346,28 @@ class ChromaRetriever:
         )
 
     def stored_fingerprint(self) -> str | None:
+        """Read the last ``corpus_fingerprint`` written after ingest, if any."""
         path = Path(self._persist_path) / _FINGERPRINT_NAME
         if not path.is_file():
             return None
         return path.read_text(encoding="utf-8").strip() or None
 
     def write_fingerprint(self, fp: str) -> None:
+        """Persist ``fp`` beside the Chroma files for ``ensure_index`` checks."""
         path = Path(self._persist_path)
         path.mkdir(parents=True, exist_ok=True)
         (path / _FINGERPRINT_NAME).write_text(fp + "\n", encoding="utf-8")
 
     def index_chunks(self, chunks: list[Chunk], id_prefix: str) -> None:
+        """Embed and upsert chunks with Report metadata.
+
+        Args:
+            chunks: Heading-bounded pieces from ``chunk_pdf``.
+            id_prefix: Stable id stem, e.g. ``sample-0`` or ``full-1``.
+
+        Example:
+            >>> retriever.index_chunks(chunks, id_prefix="sample-0")
+        """
         if not chunks:
             return
         ids = [f"{id_prefix}-{i}" for i in range(len(chunks))]
@@ -338,6 +389,20 @@ class ChromaRetriever:
         self._col.upsert(ids=ids, documents=docs, embeddings=embeddings, metadatas=metas)
 
     def retrieve(self, question: str, k: int = 10) -> list[Chunk]:
+        """Vector-search Reports, re-rank, and return up to ``k`` chunks.
+
+        Args:
+            question: User question (E5 query prefix applied internally).
+            k: Number of chunks to return; defaults to constructor ``k``.
+
+        Returns:
+            Ranked chunks with title, date, page, heading, and excerpt metadata.
+
+        Example:
+            >>> chunks = retriever.retrieve("OPEC 2026 oil demand", k=10)
+            >>> len(chunks) <= 10
+            True
+        """
         k = k or self._k
         total = self._col.count()
         if total == 0:
@@ -410,6 +475,24 @@ def _resolve_sample_path(sample: dict, samples_dir: Path) -> Path:
 
 
 def iter_ingest_jobs(samples_dir: Path, reports_dir: Path, cfg: dict | None = None) -> list[dict]:
+    """List PDF ingest jobs from config, extra samples, and full reports.
+
+    Args:
+        samples_dir: Directory with committed Sample Reports.
+        reports_dir: Directory with downloaded Full Reports.
+        cfg: Ingest config; defaults to ``config/ingest.yaml``.
+
+    Returns:
+        Job dicts with ``path``, ``excerpt``, ``agency``, ``date``, ``title``,
+        ``url``, and ``id_prefix`` for Chroma upsert keys.
+
+    Example:
+        >>> jobs = iter_ingest_jobs(Path("data/samples"), Path("data/reports"))
+        >>> any(j["path"].name == "steo_full.pdf" for j in jobs)
+        True
+        >>> any(j["path"].name == "eia-steo-excerpt.pdf" for j in jobs)
+        False
+    """
     cfg = cfg or load_ingest_config()
     jobs: list[dict] = []
     seen: set[Path] = set()
@@ -472,6 +555,20 @@ def iter_ingest_jobs(samples_dir: Path, reports_dir: Path, cfg: dict | None = No
 
 
 def corpus_fingerprint(samples_dir: Path, reports_dir: Path) -> str:
+    """Hash the planned ingest corpus so stale Chroma volumes can be detected.
+
+    Args:
+        samples_dir: Sample Reports directory.
+        reports_dir: Full Reports directory.
+
+    Returns:
+        SHA-256 hex digest over schema version, file names, sizes, and excerpt flags.
+
+    Example:
+        >>> fp = corpus_fingerprint(Path("data/samples"), Path("data/reports"))
+        >>> len(fp)
+        64
+    """
     digest = hashlib.sha256()
     digest.update(f"{_INDEX_SCHEMA}\n".encode("utf-8"))
     for job in iter_ingest_jobs(samples_dir, reports_dir):
@@ -489,6 +586,23 @@ def ensure_index(
     reports_dir: Path,
     force: bool = False,
 ) -> int:
+    """Rebuild Chroma when empty, fingerprint-mismatched, or ``force`` is set.
+
+    Args:
+        retriever: Object with ``is_empty``, ``reset``, fingerprint I/O, and indexing.
+        samples_dir: Sample Reports directory.
+        reports_dir: Full Reports directory.
+        force: When True, reset and re-ingest even if the fingerprint matches.
+
+    Returns:
+        Number of chunks indexed; ``0`` when the stored fingerprint is current.
+
+    Example:
+        >>> ensure_index(retriever, samples_dir=samples, reports_dir=reports)
+        0  # index already matches corpus
+        >>> ensure_index(retriever, samples_dir=samples, reports_dir=reports, force=True)
+        142
+    """
     fp = corpus_fingerprint(samples_dir, reports_dir)
     stored = retriever.stored_fingerprint() if hasattr(retriever, "stored_fingerprint") else None
     empty = retriever.is_empty()
@@ -511,6 +625,21 @@ def ingest_samples_and_reports(
     samples_dir: Path,
     reports_dir: Path,
 ) -> int:
+    """Chunk every ingest job PDF and upsert embeddings into Chroma.
+
+    Args:
+        retriever: ``ChromaRetriever`` (or compatible) to receive chunks.
+        samples_dir: Sample Reports directory.
+        reports_dir: Full Reports directory.
+
+    Returns:
+        Total number of chunks indexed.
+
+    Example:
+        >>> n = ingest_samples_and_reports(retriever, samples_dir=samples, reports_dir=reports)
+        >>> n > 0
+        True
+    """
     cfg = load_ingest_config()
     total = 0
     for job in iter_ingest_jobs(samples_dir, reports_dir, cfg):

@@ -27,6 +27,20 @@ class TurnState(TypedDict, total=False):
 
 
 def build_graph(deps: AnalystDeps):
+    """Compile the LangGraph runtime: classify → retrieve → drop → tools? → compose.
+
+    Args:
+        deps: Shared dependencies wired into each node closure.
+
+    Returns:
+        Compiled LangGraph callable for ``invoke({"question": ...})``.
+
+    Example:
+        >>> graph = build_graph(deps)
+        >>> out = graph.invoke({"question": "what's the weather today?"})
+        >>> out["reply"].refused
+        True
+    """
     def classify_node(state: TurnState) -> dict[str, Any]:
         ctx = new_turn(state["question"], deps)
         step_classify(ctx)
@@ -77,6 +91,20 @@ def build_graph(deps: AnalystDeps):
 
 
 def invoke_analyst(question: str, deps: AnalystDeps) -> Reply:
+    """Run the Analyst through LangGraph, caching the compiled graph on ``deps``.
+
+    Args:
+        question: User question.
+        deps: Production or test dependencies; first call stores ``_compiled_graph``.
+
+    Returns:
+        Same ``Reply`` as ``run_turn``, with ``steps`` filled by graph nodes.
+
+    Example:
+        >>> reply = invoke_analyst("спрогнозируй Brent на 3 месяца", deps)
+        >>> reply.forecast_ran and "tools" in reply.steps
+        True
+    """
     graph = getattr(deps, "_compiled_graph", None)
     if graph is None:
         graph = build_graph(deps)

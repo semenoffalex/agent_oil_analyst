@@ -68,6 +68,18 @@ def _is_report_relevant(chunk: Chunk) -> bool:
 
 
 def drop_listing(chunks: list[Chunk]) -> str:
+    """Format chunks for the Dropper prompt (index, heading, full text).
+
+    Args:
+        chunks: Retrieved Report chunks to list for relevance scoring.
+
+    Returns:
+        Numbered lines ``[i] heading: text``, one chunk per line.
+
+    Example:
+        >>> drop_listing([Chunk("1.4 mb/d growth.", "MOMR", "2026-03", 42, 46, "World Oil Demand")])
+        '[0] World Oil Demand: 1.4 mb/d growth.'
+    """
     return "\n".join(f"[{i}] {c.heading}: {c.text}" for i, c in enumerate(chunks))
 
 
@@ -117,6 +129,22 @@ class TurnCtx:
 
 
 def new_turn(question: str, deps: AnalystDeps) -> TurnCtx:
+    """Create a fresh turn context for one Analyst question.
+
+    Args:
+        question: User question in any language.
+        deps: Wired classifier, retriever, dropper, web, forecast, and composer.
+
+    Returns:
+        Empty ``TurnCtx`` with Route lists loaded from ``deps`` or config.
+
+    Example:
+        >>> ctx = new_turn("What's Brent today?", deps)
+        >>> ctx.question
+        "What's Brent today?"
+        >>> ctx.steps
+        []
+    """
     return TurnCtx(
         question=question,
         deps=deps,
@@ -131,6 +159,20 @@ def _mark_web(ctx: TurnCtx, reason: str) -> None:
 
 
 def step_classify(ctx: TurnCtx) -> None:
+    """Run Competence classify and Route-list checks; may set ``ctx.refused``.
+
+    Args:
+        ctx: Turn state; appends ``"classify"`` to ``ctx.steps``. On ``out``,
+            sets ``ctx.refused`` unless a Forecast verb overrides a demo topic.
+            Time-sensitive markers set ``ctx.want_web`` and ``ctx.web_reason``.
+
+    Example:
+        >>> step_classify(ctx)  # weather question, classifier returns "out"
+        >>> ctx.refused
+        True
+        >>> ctx.steps
+        ['classify']
+    """
     ctx.steps.append("classify")
     ctx.want_forecast = is_forecast_request(ctx.question, ctx.lists)
     try:
@@ -148,6 +190,19 @@ def step_classify(ctx: TurnCtx) -> None:
 
 
 def step_retrieve(ctx: TurnCtx) -> None:
+    """Retrieve ``retrieve_k`` Report chunks from Chroma.
+
+    Args:
+        ctx: Turn state; appends ``"retrieve"``. On retriever failure, clears
+            chunks and marks web with reason ``retrieve-error``.
+
+    Example:
+        >>> step_retrieve(ctx)
+        >>> ctx.steps[-1]
+        'retrieve'
+        >>> len(ctx.chunks) <= ctx.deps.retrieve_k
+        True
+    """
     ctx.steps.append("retrieve")
     try:
         ctx.chunks = ctx.deps.retriever.retrieve(ctx.question, k=ctx.deps.retrieve_k)
@@ -157,6 +212,17 @@ def step_retrieve(ctx: TurnCtx) -> None:
 
 
 def step_drop(ctx: TurnCtx) -> None:
+    """Drop irrelevant chunks; restore on-topic Reports if the model over-drops.
+
+    Args:
+        ctx: Turn state; appends ``"drop"``. Sets ``ctx.kept``. If nothing is
+            kept, marks web with reason ``no-kept-reports``.
+
+    Example:
+        >>> step_drop(ctx)
+        >>> ctx.steps[-1]
+        'drop'
+    """
     ctx.steps.append("drop")
     ctx.kept = _keep_or_restore(ctx.chunks, ctx.deps.dropper.keep(ctx.question, ctx.chunks))
     if not ctx.kept:
@@ -164,6 +230,19 @@ def step_drop(ctx: TurnCtx) -> None:
 
 
 def step_tools(ctx: TurnCtx) -> None:
+    """Run Forecast and/or Web search when Route lists or drop rules require them.
+
+    Args:
+        ctx: Turn state; appends ``"tools"``. Runs forecast when
+            ``ctx.want_forecast``; runs web when ``ctx.want_web``. Denylist
+            filters web hits; forecast errors set ``ctx.forecast_failed``.
+
+    Example:
+        >>> ctx.want_forecast = True
+        >>> step_tools(ctx)
+        >>> ctx.forecast_ran
+        True
+    """
     ctx.steps.append("tools")
     if ctx.want_forecast:
         ctx.forecast_ran = True
@@ -181,10 +260,37 @@ def step_tools(ctx: TurnCtx) -> None:
 
 
 def needs_tools(ctx: TurnCtx) -> bool:
+    """Return whether the LangGraph should visit the tools node.
+
+    Args:
+        ctx: Turn state after classify/retrieve/drop.
+
+    Returns:
+        True if Forecast or Web should run this turn.
+
+    Example:
+        >>> needs_tools(ctx)  # time-sensitive Brent question
+        True
+        >>> needs_tools(ctx)  # report-only outlook, no verbs
+        False
+    """
     return ctx.want_web or ctx.want_forecast
 
 
 def step_compose(ctx: TurnCtx) -> None:
+    """Build citations and call the composer for the final answer text.
+
+    Args:
+        ctx: Turn state; appends ``"compose"``. Fills ``ctx.citations`` and
+            ``ctx.text``. Appends forecast-unavailable and empty-web notices.
+
+    Example:
+        >>> step_compose(ctx)
+        >>> ctx.steps[-1]
+        'compose'
+        >>> isinstance(ctx.text, str)
+        True
+    """
     ctx.steps.append("compose")
     ctx.citations = [_report_citation(c) for c in ctx.kept]
     ctx.citations.extend(_web_citation(h) for h in ctx.web_hits)
@@ -207,10 +313,38 @@ def step_compose(ctx: TurnCtx) -> None:
 
 
 def finish_refuse(ctx: TurnCtx) -> Reply:
+    """Package an out-of-competence refusal reply.
+
+    Args:
+        ctx: Turn state after ``step_classify`` set ``ctx.refused``.
+
+    Returns:
+        ``Reply`` with ``refused=True``, standard refusal text, and steps taken.
+
+    Example:
+        >>> reply = finish_refuse(ctx)
+        >>> reply.refused and reply.steps == ['classify']
+        True
+    """
     return Reply(text=REFUSAL_TEXT, refused=True, steps=list(ctx.steps), web_reason=ctx.web_reason)
 
 
 def finish_compose(ctx: TurnCtx) -> Reply:
+    """Package a completed in-competence reply with tool flags and citations.
+
+    Args:
+        ctx: Turn state after ``step_compose``.
+
+    Returns:
+        ``Reply`` with answer text, citations, and ``web_ran`` / ``forecast_ran``.
+
+    Example:
+        >>> reply = finish_compose(ctx)
+        >>> reply.refused
+        False
+        >>> reply.steps[-1]
+        'compose'
+    """
     return Reply(
         text=ctx.text,
         citations=ctx.citations,
@@ -225,6 +359,18 @@ def finish_compose(ctx: TurnCtx) -> Reply:
 
 
 def footer_flags(reply: Reply) -> list[str]:
+    """Build Chainlit footer tokens from a ``Reply``.
+
+    Args:
+        reply: Analyst turn result.
+
+    Returns:
+        Human-readable flags, e.g. ``"web (time-sensitive)"`` and the step path.
+
+    Example:
+        >>> footer_flags(reply)
+        ['Reports retrieved', 'web (time-sensitive)', 'classify → retrieve → drop → tools → compose']
+    """
     flags: list[str] = []
     if reply.refused:
         flags.append("refused")
@@ -316,6 +462,25 @@ def _forecast_citations(result: ForecastResult) -> list[Citation]:
 
 
 def run_turn(question: str, deps: AnalystDeps) -> Reply:
+    """Run one Analyst turn: classify → retrieve → drop → tools? → compose.
+
+    Public seam for tests and direct calls; Chainlit uses ``invoke_analyst``.
+
+    Args:
+        question: User question.
+        deps: Mocked or production ``AnalystDeps``.
+
+    Returns:
+        Tagged answer with citations and which tools ran.
+
+    Example:
+        >>> reply = run_turn("what's the weather today?", deps)
+        >>> reply.refused
+        True
+        >>> reply = run_turn("What is OPEC's 2026 demand outlook?", deps)
+        >>> any(c.kind == "report" for c in reply.citations)
+        True
+    """
     ctx = new_turn(question, deps)
     step_classify(ctx)
     if ctx.refused:
@@ -329,6 +494,19 @@ def run_turn(question: str, deps: AnalystDeps) -> Reply:
 
 
 def markdown_cite(citation: Citation) -> str:
+    """Turn a citation label into a Markdown link when a URL is present.
+
+    Args:
+        citation: Report, web, or forecast citation.
+
+    Returns:
+        ``label`` unchanged if no URL; otherwise ``[label](url)`` with bracket
+        labels kept inside the link text.
+
+    Example:
+        >>> markdown_cite(Citation("web", "[Источник: reuters.com, web]", "https://reuters.com/x"))
+        '[Источник: reuters.com, web](https://reuters.com/x)'
+    """
     if not citation.url:
         return citation.label
     if citation.label.startswith("[") and citation.label.endswith("]"):
@@ -350,6 +528,20 @@ def _ensure_report_tags(text: str, kept: list[Chunk], citations: list[Citation])
 
 
 def apply_citation_links(text: str, citations: list[Citation]) -> str:
+    """Replace citation labels in prose with clickable Markdown links.
+
+    Args:
+        text: Composer output containing literal ``[Отчёт …]`` / web labels.
+        citations: Citations whose ``url`` fields should become links.
+
+    Returns:
+        Text with longest labels replaced first to avoid partial matches.
+
+    Example:
+        >>> cite = Citation("web", "[Источник: reuters.com, web]", "https://reuters.com/x")
+        >>> apply_citation_links(f"Price rose {cite.label}.", [cite])
+        'Price rose [Источник: reuters.com, web](https://reuters.com/x).'
+    """
     out = text
     for citation in sorted(citations, key=lambda c: len(c.label), reverse=True):
         if citation.url:

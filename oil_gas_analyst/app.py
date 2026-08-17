@@ -46,6 +46,19 @@ def _wait_deps():
 
 
 def format_reply(reply: Reply) -> str:
+    """Render Chainlit message: linked body, Sources list, and footer flags.
+
+    Args:
+        reply: Analyst turn result from ``invoke_analyst``.
+
+    Returns:
+        Markdown string with clickable citations and step/web reason footer.
+
+    Example:
+        >>> text = format_reply(reply)
+        >>> "Sources" in text or reply.refused
+        True
+    """
     parts = [apply_citation_links(reply.text.strip(), reply.citations)]
     if reply.citations:
         parts.append("\n**Sources**")

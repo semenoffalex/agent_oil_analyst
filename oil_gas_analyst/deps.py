@@ -32,6 +32,19 @@ def _require_key() -> str:
 
 
 def build_deps(*, ingest_if_empty: bool = True) -> AnalystDeps:
+    """Wire production classifier, retriever, web, forecast, and composer.
+
+    Args:
+        ingest_if_empty: When True, call ``ensure_index`` if Chroma is stale or empty.
+
+    Returns:
+        ``AnalystDeps`` ready for ``run_turn`` or ``invoke_analyst``.
+
+    Example:
+        >>> deps = build_deps()
+        >>> deps.retrieve_k
+        10
+    """
     llm = make_chat(
         api_key=_require_key(),
         base_url=os.environ.get("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
@@ -62,6 +75,16 @@ def build_deps(*, ingest_if_empty: bool = True) -> AnalystDeps:
 
 
 def download_full_reports() -> list[Path]:
+    """Fetch configured Full Report PDFs into ``REPORTS_PATH``.
+
+    Returns:
+        Paths successfully saved; failures are logged and skipped.
+
+    Example:
+        >>> paths = download_full_reports()
+        >>> all(p.suffix == ".pdf" for p in paths)
+        True
+    """
     cfg = load_ingest_config()
     dest = Path(os.environ.get("REPORTS_PATH", str(ROOT / "data" / "reports")))
     dest.mkdir(parents=True, exist_ok=True)
