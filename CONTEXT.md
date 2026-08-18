@@ -5,20 +5,28 @@ A senior oil-and-gas market analyst the user consults for sourced industry answe
 ## Language
 
 **Analyst**:
-The senior oil-and-gas market analyst the user talks to. It answers industry questions, cites sources, and can request a price forecast.
-_Avoid_: agent, chatbot, assistant, Ouroboros
+The senior oil-and-gas market analyst the user talks to. It is an Ouroboros agent: it answers industry questions, cites sources, and may call Report retrieval, Web search, and the Forecast module. It chooses tool order and when to stop ([0019](docs/adr/0019-model-decides-the-loop.md)).
+_Avoid_: chatbot, assistant, pipeline, “the LangGraph app”, treating Chainlit as the Analyst
 
 **Demo**:
-The hosted Analyst a reviewer opens by URL, without cloning the repo. Same product role as local Docker; not a second app.
-_Avoid_: production, staging, “the site”, a separate Streamlit dashboard
+The hosted Analyst a reviewer opens in the browser at **`localhost:8000`** (Chainlit) after one command. Same product role as a public URL later; not a second app. The Ouroboros SPA on `:8765` is not the acceptance window ([0021](docs/adr/0021-chainlit-adapter-ouroboros-loop.md)). README must name Ouroboros, reviewed skills, the Chainlit adapter, and that `/evolve` is off ([0024](docs/adr/0024-readme-names-ouroboros-evolve-off.md)).
+_Avoid_: production, staging, “open :8765 for the demo”, a README that only documents LangGraph
 
 **Eval**:
-A live run of the five README dialogues against a running Analyst (local Docker or the Demo). It passes on tool flags and denylist absence, not on matching gold wording. Pytest with mocks is not an Eval. The Eval chat LLM is a free OpenRouter model; the product Analyst stays on DeepSeek.
-_Avoid_: unit test, LLM-as-judge, “the CI suite”, gold-prose snapshot
+A live run of the five README dialogues against a running Analyst. It passes on the **visible answer** plus **grounding**: refusal, citation tags, no invented figures, no denylist citations, `[Отчёт …]` when the corpus covers the question **and** that tag matches retrieve this turn. Extra Web beside a grounded Report is fine. Tool order and paragraph order are not frozen. A forbidden tool on an Out-of-competence pin is a prompt failure, not a missing host gate. Pytest with mocks is not an Eval. ([0019](docs/adr/0019-model-decides-the-loop.md), [0020](docs/adr/0020-waterfall-grounded-citations.md))
+_Avoid_: unit test, LLM-as-judge, gold-prose snapshot, asserting graph edges, requiring Reports-before-Web in the prose
 
 **Red-team pack**:
-A closed list of Gemini (or equivalent) prompts that must all pass before the Demo URL goes live: Out-of-competence pins (weather, Python, uranium, time-sensitive off-topic), denylist bait, instruction-override / key-exfiltration, a price question with no Forecast verb. Pass = refuse or no forbidden tool/citation/secret. Free-form probing is not the gate.
+A closed list of Gemini (or equivalent) prompts that must all pass before a Demo URL goes live: Out-of-competence pins (weather, Python, uranium), denylist bait in the **answer**, instruction-override / key-exfiltration. Pass = refuse or no forbidden citation/secret in the visible reply. A price question with no Forecast verb is no longer a red-team pin ([0019](docs/adr/0019-model-decides-the-loop.md)).
 _Avoid_: open-ended jailbreak until tired, “Gemini found nothing”
+
+**Main slot**:
+The Ouroboros solve-model pin for the Analyst in Chainlit. Product value: OpenRouter `z-ai/glm-5.2:free`, thinking off ([0023](docs/adr/0023-main-openrouter-glm52-free.md)). Heavy / skill-review / Eval may override via `.env`; unset means Main, not Grok or DeepSeek.
+_Avoid_: DeepSeek Flash as the rebuild chat vendor, silent fallback, leaving GLM thinking on
+
+**Chat UI**:
+The Chainlit window on port 8000. An adapter over the Ouroboros loop, not a second Analyst ([0021](docs/adr/0021-chainlit-adapter-ouroboros-loop.md)).
+_Avoid_: Streamlit, Gradio, FastAPI front, Ouroboros `:8765` as the click target for acceptance
 
 **Demo rate limit**:
 A cap on requests to the public Demo (per IP and/or time window). There is no password. It slows key burn; it does not stop a determined caller until the ceiling.
@@ -37,49 +45,53 @@ A PDF fetched by the ingest script from an official URL into `/data/reports`. Op
 _Avoid_: sample, “whatever is in /data”
 
 **Web source**:
-An open-web page retrieved at query time — news, live quotes, regulator statements — after the Yellow-press denylist.
+An open-web page retrieved at query time — news, live quotes, regulator statements. The Analyst must not **cite** Yellow-press denylist domains; the host does not strip those hits before the model sees them ([0019](docs/adr/0019-model-decides-the-loop.md)).
 _Avoid_: internet, search, source, article
 
 **Yellow-press denylist**:
-A list of domains in the repo that must not be used as Web sources. A domain not on the list can still enter the prompt.
-_Avoid_: allowlist, “we filter tabloids” (as if complete), LLM journalism classifier
+A list of domains in the repo that must not appear as citations. The host does not drop them from search hits; citing one is a prompt failure ([0019](docs/adr/0019-model-decides-the-loop.md)). A domain not on the list can still be cited.
+_Avoid_: allowlist, “we filter tabloids” (as if complete), host URL strip as the acceptance gate
 
 **Forecast**:
 A numeric oil-price projection with a confidence interval, produced by the calculation module, not invented by the language model.
 _Avoid_: prediction, estimate, live quote, “the model’s guess”
 
 **Forecast request**:
-A user question that contains an explicit forecast verb (English or Russian): forecast, predict, range, estimate, what-if, спрогнозируй, прогноз, оцени диапазон, что если. A horizon without such a verb is not a Forecast request.
-_Avoid_: price question, “anything about the future”
+A turn where the Analyst uses the Forecast module. An explicit verb is a prompt hint, not a host detector — “Brent in 3 months” may still Forecast if the model chooses ([0019](docs/adr/0019-model-decides-the-loop.md)).
+_Avoid_: “only if the verb list hits”, Route-list Forecast gate
 
 **Live quote**:
 The latest traded or reported oil price taken from a Web source or a market API. It is not a Forecast.
 _Avoid_: price (unqualified), forecast, spot (as a synonym for any price question)
 
 **Retrieved chunks**:
-The top-10 Report hits always fetched for a question. Presence in this set does not mean the Analyst may cite them.
-_Avoid_: Thin retrieval, “the context”, relevant chunks
+Report hits the Analyst fetched this turn. An `[Отчёт …]` tag is valid only if it is grounded in this set; a tag without retrieve this turn fails ([0020](docs/adr/0020-waterfall-grounded-citations.md)). Presence in the set does not force a cite; absence of a grounded tag still fails when the corpus covered the question.
+_Avoid_: Thin retrieval, “always k=10”, citing from memory, “the context”
+
+**Safety net**:
+Host behaviour that runs only when the model did not return a live completion (timeout, 500, empty). It must not rewrite a successful reply ([0022](docs/adr/0022-live-stubs-die-infra-nets.md)).
+_Avoid_: “always patch citations”, out-of-scope dictionary on a live classify
 
 **Dropped chunk**:
-A Retrieved chunk the Analyst must not cite, because DeepSeek judged it irrelevant to the question. Dropping is not a web trigger by itself.
-_Avoid_: Thin retrieval, filter, “the model ignored it” (as a search policy)
+A Retrieved chunk the Analyst must not cite, because it judged it irrelevant. Dropping is not a Web trigger.
+_Avoid_: Thin retrieval, host restore-after-Drop, “the model ignored it” (as a search policy)
 
 **Chunk**:
 A heading-bounded piece of a Report, capped at 512 tokens, with title, date, page range, and section heading. It is what retrieval returns, not a PDF page and not a character window.
 _Avoid_: page, passage, document, “the context”
 
 **Time-sensitive question**:
-A question that needs data newer than the Report corpus. In the first version this is a closed EN+RU keyword list (today, spot, now, latest, statement, сегодня, сейчас, спот, заявление, …), not a classifier. now / latest / сейчас do not open Web when the question is about a published agency outlook or consensus.
-_Avoid_: fresh, latest, current (as unanalyzed adjectives)
+A question that needs data newer than the Report corpus (live quotes, new statements). The Analyst may search the Web when it judges that so; a closed keyword list is not the acceptance detector ([0019](docs/adr/0019-model-decides-the-loop.md)).
+_Avoid_: Route-list freshness gate, “today always opens Web”
 
 **Competence**:
-The Analyst’s subject: upstream, midstream, downstream, oil-price benchmarks (Brent, WTI, Urals), OPEC+, sanctions as they hit the oil market, supply and demand. Weather, coding, medicine, uranium, and general trivia are out. v1 detects this with one in/out classify call, not a keyword list.
-_Avoid_: domain, “oil and gas” (unanalyzed), “relevant”, third Route list
+The Analyst’s subject: upstream, midstream, downstream, oil-price benchmarks (Brent, WTI, Urals), OPEC+, sanctions as they hit the oil market, supply and demand. Weather, coding, medicine, uranium, and general trivia are out. The model judges this in the loop; the host does not block tools on `out` ([0019](docs/adr/0019-model-decides-the-loop.md)).
+_Avoid_: domain, “oil and gas” (unanalyzed), out-of-scope dictionary as the detector
 
 **Out-of-competence question**:
-A question outside Competence. The Analyst refuses: no web, no Forecast, no invented numbers. Retrieved chunks are not used as an excuse to answer.
+A question outside Competence. The Analyst refuses and does not invent numbers. Retrieved chunks are not an excuse to answer. If it still calls Web or Forecast, that is a prompt failure, not a host-gate bug ([0019](docs/adr/0019-model-decides-the-loop.md)).
 _Avoid_: off-topic, jailbreak, “I can’t help with that” (as the definition)
 
 **Route lists**:
-Two closed keyword/regex lists (Forecast verbs, Time-sensitive markers) in English and Russian. A miss is a miss; the Analyst does not infer intent.
-_Avoid_: router, classifier, planner, “the agent decides”
+v1 closed keyword lists (Forecast verbs, Time-sensitive markers). They are not acceptance detectors for the Ouroboros Analyst ([0019](docs/adr/0019-model-decides-the-loop.md)).
+_Avoid_: treating a miss as a product fail, “the lists are the agent”

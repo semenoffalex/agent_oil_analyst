@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Partially superseded: Chainlit remains the reviewer chat ([0021](0021-chainlit-adapter-ouroboros-loop.md)). LangGraph behind it does not.
 
 ## Context
 

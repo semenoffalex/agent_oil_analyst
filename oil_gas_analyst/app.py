@@ -12,13 +12,12 @@ except Exception:
 
 import chainlit as cl
 
-from oil_gas_analyst.deps import build_deps
-from oil_gas_analyst.graph import invoke_analyst
+from oil_gas_analyst.deps import build_loop
 from oil_gas_analyst.rate_limit import RateLimiter, client_key, load_rate_limit_config
-from oil_gas_analyst.turn import apply_citation_links, footer_flags, markdown_cite
+from oil_gas_analyst.turn import apply_citation_links, footer_flags, markdown_cite, run_turn
 from oil_gas_analyst.types import Reply
 
-_DEPS = None
+_LOOP = None
 _ERR: BaseException | None = None
 _READY = threading.Event()
 _RATE_LIMITER = RateLimiter()
@@ -29,41 +28,36 @@ _RATE_LIMIT_MSG = (
 
 
 def _warm() -> None:
-    global _DEPS, _ERR
+    global _LOOP, _ERR
     try:
-        _DEPS = build_deps()
+        _LOOP = build_loop()
     except BaseException as exc:
         _ERR = exc
     finally:
         _READY.set()
 
 
-threading.Thread(target=_warm, daemon=True, name="warm-deps").start()
+threading.Thread(target=_warm, daemon=True, name="warm-ouroboros").start()
 
 
-def _wait_deps():
-    if not _READY.wait(timeout=600):
-        raise TimeoutError("Timed out loading embeddings / Report index")
+def _wait_loop():
+    if not _READY.wait(timeout=60):
+        raise TimeoutError("Timed out connecting to the Ouroboros gateway")
     if _ERR is not None:
         raise _ERR
-    if _DEPS is None:
-        raise RuntimeError("Analyst deps failed to load")
-    return _DEPS
+    if _LOOP is None:
+        raise RuntimeError("Analyst loop failed to load")
+    return _LOOP
 
 
 def format_reply(reply: Reply) -> str:
     """Render Chainlit message: linked body, Sources list, and footer flags.
 
     Args:
-        reply: Analyst turn result from ``invoke_analyst``.
+        reply: Analyst turn result from ``run_turn``.
 
     Returns:
-        Markdown string with clickable citations and step/web reason footer.
-
-    Example:
-        >>> text = format_reply(reply)
-        >>> "Sources" in text or reply.refused
-        True
+        Markdown string with clickable citations and tool flags.
     """
     parts = [apply_citation_links(reply.text.strip(), reply.citations)]
     if reply.citations:
@@ -77,14 +71,13 @@ def format_reply(reply: Reply) -> str:
 
 @cl.on_chat_start
 async def start():
-    msg = cl.Message(content="Loading embedding model and Report index…")
+    msg = cl.Message(content="Connecting to the Ouroboros Analyst…")
     await msg.send()
     try:
-        await asyncio.to_thread(_wait_deps)
+        await asyncio.to_thread(_wait_loop)
         msg.content = (
-            "Senior oil-and-gas market Analyst. Ask about OPEC/EIA Reports, "
-            "live market news, or a Forecast (use an explicit verb: "
-            "forecast / спрогнозируй)."
+            "Senior oil-and-gas market Analyst. This window is Chainlit; "
+            "the turn runs in Ouroboros. Ask about the oil and gas market."
         )
         await msg.update()
     except Exception as exc:
@@ -103,8 +96,8 @@ async def on_message(message: cl.Message):
             await cl.Message(content=_RATE_LIMIT_MSG.format(retry_after=retry_after)).send()
             return
     try:
-        deps = await asyncio.to_thread(_wait_deps)
-        reply = await asyncio.to_thread(invoke_analyst, message.content, deps)
+        loop = await asyncio.to_thread(_wait_loop)
+        reply = await asyncio.to_thread(run_turn, message.content, loop)
         await cl.Message(content=format_reply(reply)).send()
     except Exception as exc:
         await cl.Message(

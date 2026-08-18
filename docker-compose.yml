@@ -1,4 +1,42 @@
 services:
+  ouroboros:
+    build:
+      context: .
+      dockerfile: docker/ouroboros.Dockerfile
+    env_file:
+      - .env
+    environment:
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      OUROBOROS_MODEL: ${OUROBOROS_MODEL:-z-ai/glm-5.2:free}
+      OUROBOROS_MODEL_HEAVY: ${OUROBOROS_MODEL_HEAVY:-}
+      OUROBOROS_MODEL_LIGHT: ${OUROBOROS_MODEL_LIGHT:-}
+      OUROBOROS_MODEL_FALLBACKS: ${OUROBOROS_MODEL_FALLBACKS:-}
+      OUROBOROS_REVIEW_MODELS: ${OUROBOROS_REVIEW_MODELS:-}
+      OUROBOROS_RUNTIME_MODE: light
+      OUROBOROS_TASK_REVIEW_MODE: off
+      OUROBOROS_POST_TASK_EVOLUTION: "false"
+      OUROBOROS_EFFORT_TASK: none
+      OUROBOROS_RETURN_REASONING: "false"
+      OUROBOROS_TRUST_NONLOCAL_BIND_WITHOUT_PASSWORD: "1"
+      OUROBOROS_DATA_DIR: /data
+    volumes:
+      - ouroboros_data:/data
+    expose:
+      - "8765"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8765/api/health', timeout=5)",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 36
+      start_period: 40s
+    restart: unless-stopped
+
   analyst:
     build: .
     ports:
@@ -6,7 +44,8 @@ services:
     env_file:
       - .env
     environment:
-      DEEPSEEK_THINKING: "0"
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      OUROBOROS_URL: http://ouroboros:8765
       CHROMA_PATH: /app/data/chroma
       SAMPLES_PATH: /app/data/samples
       REPORTS_PATH: /app/data/reports
@@ -15,19 +54,19 @@ services:
       HF_HUB_CACHE: /opt/hf-cache/hub
       HF_HUB_OFFLINE: "1"
       TRANSFORMERS_OFFLINE: "1"
-      EMBEDDING_BASE_URL: http://host.docker.internal:1234/v1
-      EMBEDDING_MODEL: text-embedding-multilingual-e5-base
-      EMBEDDING_API_KEY: lm-studio
-      EMBEDDING_LOCAL_MODEL: /opt/models/multilingual-e5-base
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
       - chroma_data:/app/data/chroma
       - reports_data:/app/data/reports
       - forecast_cache:/app/data/forecast_cache
+    depends_on:
+      ouroboros:
+        condition: service_healthy
     restart: unless-stopped
 
 volumes:
+  ouroboros_data:
   chroma_data:
   reports_data:
   forecast_cache:

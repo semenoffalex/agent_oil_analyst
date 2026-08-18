@@ -1,498 +1,93 @@
-from oil_gas_analyst.turn import AnalystDeps, run_turn
-from oil_gas_analyst.types import Chunk, ForecastResult, MethodForecast, WebHit
+"""Analyst turn seam: question → reply through a frozen Ouroboros loop."""
+
+from oil_gas_analyst.turn import (
+    apply_citation_links,
+    drop_listing,
+    footer_flags,
+    markdown_cite,
+    run_turn,
+)
+from oil_gas_analyst.types import Chunk, Citation, LoopResult, Reply
 
 
-class _FixedClassifier:
-    def __init__(self, label: str):
-        self.label = label
-
-    def classify(self, question: str) -> str:
-        return self.label
-
-
-class _Retr:
-    def __init__(self, chunks: list[Chunk] | None = None):
-        self.chunks = chunks or []
-
-    def retrieve(self, question: str, k: int = 5) -> list[Chunk]:
-        return list(self.chunks[:k])
-
-
-class _Drop:
-    def __init__(self, keep_all: bool = True):
-        self.keep_all = keep_all
-
-    def keep(self, question: str, chunks: list[Chunk]) -> list[Chunk]:
-        return list(chunks) if self.keep_all else []
-
-
-class _Web:
-    def __init__(self, hits: list[WebHit] | None = None, error: Exception | None = None):
-        self.hits = hits or []
-        self.error = error
-
-    def search(self, question: str) -> list[WebHit]:
-        if self.error:
-            raise self.error
-        return list(self.hits)
-
-
-class _Forecast:
-    def __init__(self, result: ForecastResult | None = None, error: Exception | None = None):
+class _FrozenLoop:
+    def __init__(self, result: LoopResult):
         self.result = result
-        self.error = error
+        self.questions: list[str] = []
 
-    def forecast(self, question: str) -> ForecastResult:
-        if self.error:
-            raise self.error
-        if self.result is None:
-            raise AssertionError("forecast should not run")
+    def complete(self, question: str) -> LoopResult:
+        self.questions.append(question)
         return self.result
 
 
-class _Composer:
-    def compose(self, question: str, **kwargs) -> str:
-        if kwargs.get("refused"):
-            return "This is outside my Competence as an oil and gas Analyst."
-        return "Analyst reply."
-
-
-def _deps(**kwargs) -> AnalystDeps:
-    return AnalystDeps(
-        classifier=kwargs.get("classifier", _FixedClassifier("in")),
-        retriever=kwargs.get("retriever", _Retr()),
-        dropper=kwargs.get("dropper", _Drop()),
-        web=kwargs.get("web", _Web()),
-        forecast=kwargs.get("forecast", _Forecast()),
-        composer=kwargs.get("composer", _Composer()),
-        denied_domains=kwargs.get("denied_domains", ["kp.ru", "dailymail.co.uk"]),
-    )
-
-
-def test_out_of_competence_refuses_without_tools():
-    reply = run_turn(
-        "what's the weather today?",
-        _deps(classifier=_FixedClassifier("out")),
-    )
-    assert reply.refused is True
-    assert reply.retrieved is False
-    assert reply.web_ran is False
-    assert reply.forecast_ran is False
+def test_live_reply_passes_through_without_host_report_patch():
+    loop = _FrozenLoop(LoopResult(text="Demand grew."))
+    reply = run_turn("What is OPEC's 2026 world oil demand outlook?", loop)
+    assert reply.text == "Demand grew."
+    assert "[Отчёт" not in reply.text
     assert reply.citations == []
-    assert "outside" in reply.text.lower()
-    assert reply.steps == ["classify"]
+    assert loop.questions == ["What is OPEC's 2026 world oil demand outlook?"]
 
 
-def test_out_of_competence_python_refuses():
-    reply = run_turn("write a Python sort", _deps(classifier=_FixedClassifier("out")))
-    assert reply.refused is True
+def test_host_does_not_refuse_out_of_competence_question():
+    loop = _FrozenLoop(LoopResult(text="I will not invent a weather forecast."))
+    reply = run_turn("what's the weather today?", loop)
+    assert reply.refused is False
     assert reply.web_ran is False
     assert reply.forecast_ran is False
+    assert reply.text == "I will not invent a weather forecast."
 
 
-class _BoomClassifier:
-    def classify(self, question: str) -> str:
-        raise TimeoutError("deepseek down")
-
-
-def test_classify_infra_error_still_answers_oil_question():
-    reply = run_turn(
-        "What is OPEC's 2026 world oil demand outlook?",
-        _deps(classifier=_BoomClassifier(), retriever=_Retr([MOMR])),
+def test_reply_records_which_tools_the_loop_ran():
+    loop = _FrozenLoop(
+        LoopResult(text="Brent path.", retrieved=True, web_ran=True, forecast_ran=True)
     )
-    assert reply.refused is False
-    assert any(c.kind == "report" for c in reply.citations)
-
-
-def test_classify_infra_error_still_refuses_weather():
-    reply = run_turn(
-        "what's the weather today?",
-        _deps(classifier=_BoomClassifier()),
-    )
-    assert reply.refused is True
-    assert reply.web_ran is False
-    assert reply.retrieved is False
-
-
-MOMR = Chunk(
-    text="The global oil demand growth forecast for 2026 remains at 1.4 mb/d.",
-    title="OPEC Monthly Oil Market Report — March 2026 (excerpt, World Oil Demand)",
-    date="2026-03",
-    page_start=42,
-    page_end=46,
-    heading="World Oil Demand",
-    excerpt=True,
-    url="https://www.opec.org/assets/assetdb/momr-march-2026.pdf",
-)
-
-TANKER = Chunk(
-    text="VLCC freight rates on the Middle East-to-Asia route rose.",
-    title="OPEC Monthly Oil Market Report — March 2026 (Tanker Market)",
-    date="2026-03",
-    page_start=80,
-    page_end=82,
-    heading="Tanker Market",
-    excerpt=True,
-)
-
-REUTERS = WebHit(
-    title="Brent rises on OPEC statement",
-    url="https://www.reuters.com/markets/brent",
-    snippet="Brent crude rose.",
-)
-
-TABLOID = WebHit(title="Shock oil", url="https://www.kp.ru/oil", snippet="...")
-
-TWO_METHODS = ForecastResult(
-    symbol="BZ=F",
-    methods=[
-        MethodForecast(name="sarima", point=80.0, low=70.0, high=90.0, interpretation="SARIMA path"),
-        MethodForecast(
-            name="holt_winters", point=81.0, low=72.0, high=91.0, interpretation="Holt-Winters path"
-        ),
-    ],
-    horizon_days=90,
-)
-
-
-def test_report_covered_question_cites_excerpt_and_skips_web():
-    reply = run_turn(
-        "What is OPEC's 2026 world oil demand outlook?",
-        _deps(retriever=_Retr([MOMR])),
-    )
-    assert reply.refused is False
+    reply = run_turn("What's Brent today given OPEC demand?", loop)
     assert reply.retrieved is True
-    assert reply.web_ran is False
-    assert reply.forecast_ran is False
-    assert any(c.kind == "report" and "excerpt" in c.label.lower() and "OPEC" in c.label for c in reply.citations)
-
-
-def test_outlook_in_published_forecasts_stays_on_reports():
-    reply = run_turn(
-        "Какой тренд в прогнозах цен на нефть на ближайший месяц?",
-        _deps(retriever=_Retr([MOMR])),
-    )
-    assert reply.forecast_ran is False
-    assert reply.web_ran is False
-    assert any(c.kind == "report" for c in reply.citations)
-
-
-def test_now_consensus_stays_on_reports():
-    reply = run_turn(
-        "Каков сейчас консенсус по ценам на нефть?",
-        _deps(retriever=_Retr([MOMR]), web=_Web([REUTERS])),
-    )
-    assert reply.web_ran is False
-    assert any(c.kind == "report" for c in reply.citations)
-    assert not any(c.kind == "web" for c in reply.citations)
-
-
-def test_compose_without_report_tag_appends_report_block():
-    reply = run_turn(
-        "What is OPEC's 2026 world oil demand outlook?",
-        _deps(retriever=_Retr([MOMR])),
-    )
-    assert "[Отчёт" in reply.text
-    assert "1.4 mb/d" in reply.text
-
-
-class _TaggedComposer:
-    def compose(self, question: str, **kwargs) -> str:
-        cites = kwargs.get("citations") or []
-        report = next(c.label for c in cites if c.kind == "report")
-        return f"Demand stays at 1.4 mb/d {report}."
-
-
-def test_compose_that_already_tags_report_is_not_duplicated():
-    reply = run_turn(
-        "What is OPEC's 2026 world oil demand outlook?",
-        _deps(retriever=_Retr([MOMR]), composer=_TaggedComposer()),
-    )
-    assert reply.text.count("[Отчёт") == 1
-    assert "1.4 mb/d" in reply.text
-
-
-def test_dropped_off_topic_chunks_open_web():
-    reply = run_turn(
-        "What is happening on European gas pipelines?",
-        _deps(retriever=_Retr([TANKER]), dropper=_Drop(keep_all=False), web=_Web([REUTERS])),
-    )
-    assert not any(c.kind == "report" for c in reply.citations)
     assert reply.web_ran is True
-    assert reply.web_reason == "no-kept-reports"
-    assert any(c.kind == "web" for c in reply.citations)
-
-
-def test_overdrop_of_on_topic_chunks_stays_on_reports():
-    reply = run_turn(
-        "What is OPEC's 2026 world oil demand outlook?",
-        _deps(retriever=_Retr([MOMR]), dropper=_Drop(keep_all=False), web=_Web([REUTERS])),
-    )
-    assert reply.web_ran is False
-    assert any(c.kind == "report" and "OPEC" in c.label for c in reply.citations)
-    assert not any(c.kind == "web" for c in reply.citations)
-
-
-def test_overdrop_restores_demand_not_tanker():
-    reply = run_turn(
-        "What is OPEC's 2026 world oil demand outlook?",
-        _deps(
-            retriever=_Retr([TANKER, MOMR]),
-            dropper=_Drop(keep_all=False),
-            web=_Web([REUTERS]),
-        ),
-    )
-    assert reply.web_ran is False
-    labels = " ".join(c.label for c in reply.citations if c.kind == "report")
-    assert "World Oil Demand" in labels
-    assert "Tanker Market" not in labels
-    assert not any(c.kind == "web" for c in reply.citations)
-
-
-def test_time_sensitive_runs_web_and_keeps_report_tags():
-    reply = run_turn(
-        "What's Brent today given OPEC demand?",
-        _deps(retriever=_Retr([MOMR]), web=_Web([REUTERS])),
-    )
-    assert reply.web_ran is True
-    assert reply.web_reason == "time-sensitive"
-    from oil_gas_analyst.turn import footer_flags
-
-    flags = footer_flags(reply)
-    assert "web (time-sensitive)" in flags
-    assert "classify → retrieve → drop → tools → compose" in flags
-    kinds = {c.kind for c in reply.citations}
-    assert "report" in kinds
-    assert "web" in kinds
-    assert any("web" in c.label.lower() for c in reply.citations if c.kind == "web")
-    web = next(c for c in reply.citations if c.kind == "web")
-    assert web.url == REUTERS.url
-    from oil_gas_analyst.turn import markdown_cite
-
-    linked = markdown_cite(web)
-    assert REUTERS.url in linked
-    assert linked.startswith("[Источник:")
-
-
-def test_denylist_domain_never_cited():
-    reply = run_turn(
-        "What's Brent today?",
-            _deps(retriever=_Retr([MOMR]), dropper=_Drop(keep_all=False), web=_Web([TABLOID, REUTERS])),
-    )
-    labels = " ".join(c.label.lower() for c in reply.citations)
-    assert "kp.ru" not in labels
-    assert any(c.kind == "web" for c in reply.citations)
-
-
-def test_forecast_verb_runs_both_methods_not_average():
-    reply = run_turn(
-        "спрогнозируй цену Brent на 3 месяца",
-        _deps(retriever=_Retr([MOMR]), forecast=_Forecast(TWO_METHODS)),
-    )
     assert reply.forecast_ran is True
-    names = [c.label.lower() for c in reply.citations if c.kind == "forecast"]
-    blob = " ".join(names)
-    assert "sarima" in blob
-    assert "holt" in blob
-    assert "average" not in blob
-    assert "90d" in blob
-
-
-def test_forecast_citation_shows_month_horizon():
-    month = ForecastResult(
-        symbol="BZ=F",
-        methods=[
-            MethodForecast(name="sarima", point=78.0, low=70.0, high=86.0, interpretation="month"),
-            MethodForecast(name="holt_winters", point=79.0, low=71.0, high=87.0, interpretation="month"),
-        ],
-        horizon_days=21,
-    )
-    reply = run_turn(
-        "спрогнозируй Brent на ближайший месяц",
-        _deps(retriever=_Retr([MOMR]), forecast=_Forecast(month)),
-    )
-    blob = " ".join(c.label for c in reply.citations if c.kind == "forecast")
-    assert "21d" in blob
-    assert "90d" not in blob
-
-
-def test_bare_forecast_request_runs_even_if_classifier_says_out():
-    reply = run_turn(
-        "Построй свой прогноз.",
-        _deps(
-            classifier=_FixedClassifier("out"),
-            retriever=_Retr([MOMR]),
-            forecast=_Forecast(TWO_METHODS),
-        ),
-    )
-    assert reply.refused is False
-    assert reply.forecast_ran is True
-    assert any(c.kind == "forecast" for c in reply.citations)
-    assert any("90d" in c.label for c in reply.citations if c.kind == "forecast")
-
-
-def test_forecast_verb_on_weather_still_refuses():
-    reply = run_turn(
-        "спрогнозируй погоду на неделю",
-        _deps(classifier=_FixedClassifier("out"), forecast=_Forecast(TWO_METHODS)),
-    )
-    assert reply.refused is True
-    assert reply.forecast_ran is False
-
-
-def test_no_forecast_without_verb():
-    reply = run_turn("What's Brent?", _deps(retriever=_Retr([MOMR]), web=_Web([REUTERS])))
-    assert reply.forecast_ran is False
-
-
-def test_horizon_without_verb_does_not_forecast():
-    reply = run_turn("Brent in 3 months", _deps(retriever=_Retr([MOMR])))
-    assert reply.forecast_ran is False
-
-
-def test_urals_forecast_does_not_invent_series():
-    urals = ForecastResult(symbol="Urals", methods=[], unavailable_reason="no Yahoo series in v1")
-    reply = run_turn(
-        "спрогнозируй Urals на 3 месяца",
-        _deps(forecast=_Forecast(urals)),
-    )
-    assert reply.forecast_ran is True
-    assert any(c.kind == "forecast" and "no" in c.label.lower() for c in reply.citations)
-    assert not any(c.kind == "forecast" and "80" in c.label for c in reply.citations)
-
-
-def test_forecast_failure_is_uncertainty_not_invented_price():
-    reply = run_turn(
-        "predict Brent",
-        _deps(forecast=_Forecast(error=RuntimeError("yahoo down"))),
-    )
-    assert reply.forecast_ran is True
-    assert reply.forecast_failed is True
-    assert "uncertain" in reply.text.lower() or "unavailable" in reply.text.lower()
-    assert "80.0" not in reply.text
+    assert "Reports retrieved" in footer_flags(reply)
+    assert "web" in footer_flags(reply)
+    assert "Forecast" in footer_flags(reply)
+    assert not any("classify" in flag for flag in footer_flags(reply))
 
 
 def test_web_citation_markdown_includes_full_url():
-    from oil_gas_analyst.turn import apply_citation_links, markdown_cite
-
-    reply = run_turn(
-        "What's Brent today?",
-        _deps(retriever=_Retr([MOMR]), dropper=_Drop(keep_all=False), web=_Web([REUTERS])),
+    web = Citation(
+        kind="web",
+        label="[Источник: reuters.com, web]",
+        url="https://www.reuters.com/markets/brent",
     )
-    web = next(c for c in reply.citations if c.kind == "web")
-    assert web.url == "https://www.reuters.com/markets/brent"
-    linked = markdown_cite(web)
-    assert linked == "[Источник: reuters.com, web](https://www.reuters.com/markets/brent)"
+    assert markdown_cite(web) == (
+        "[Источник: reuters.com, web](https://www.reuters.com/markets/brent)"
+    )
     body = apply_citation_links(f"Price rose {web.label}.", [web])
     assert "https://www.reuters.com/markets/brent" in body
     assert "](https://" in body
 
 
 def test_report_citation_markdown_includes_pdf_page_url():
-    from oil_gas_analyst.turn import apply_citation_links, markdown_cite
+    from oil_gas_analyst.turn import report_citation
 
-    reply = run_turn(
-        "What is OPEC's 2026 world oil demand outlook?",
-        _deps(retriever=_Retr([MOMR])),
+    momr = Chunk(
+        text="The global oil demand growth forecast for 2026 remains at 1.4 mb/d.",
+        title="OPEC Monthly Oil Market Report — March 2026 (excerpt, World Oil Demand)",
+        date="2026-03",
+        page_start=42,
+        page_end=46,
+        heading="World Oil Demand",
+        excerpt=True,
+        url="https://www.opec.org/assets/assetdb/momr-march-2026.pdf",
     )
-    report = next(c for c in reply.citations if c.kind == "report")
+    report = report_citation(momr)
     assert report.url == "https://www.opec.org/assets/assetdb/momr-march-2026.pdf#page=42"
     linked = markdown_cite(report)
     assert linked.startswith("[Отчёт ")
     assert linked.endswith("](https://www.opec.org/assets/assetdb/momr-march-2026.pdf#page=42)")
-    body = apply_citation_links(f"Demand grew {report.label}.", [report])
-    assert "#page=42" in body
-
-
-def test_html_report_url_has_no_page_fragment():
-    html_report = Chunk(
-        text="The global oil demand growth forecast for 2026 remains at 1.4 mb/d.",
-        title="OPEC Monthly Oil Market Report — June 2026",
-        date="2026-06",
-        page_start=9,
-        page_end=11,
-        heading="Crude Oil Price Movements",
-        url="https://www.opec.org/monthly-oil-market-report.html",
-    )
-    reply = run_turn(
-        "What is OPEC's oil price outlook?",
-        _deps(retriever=_Retr([html_report])),
-    )
-    report = next(c for c in reply.citations if c.kind == "report")
-    assert report.url == "https://www.opec.org/monthly-oil-market-report.html"
-
-
-def test_report_without_stored_url_links_agency_page():
-    from oil_gas_analyst.turn import markdown_cite
-
-    bare = Chunk(
-        text="The global oil demand growth forecast for 2026 remains at 1.4 mb/d.",
-        title="OPEC Monthly Oil Market Report — June 2026",
-        date="2026-06",
-        page_start=9,
-        page_end=11,
-        heading="Crude Oil Price Movements",
-    )
-    reply = run_turn(
-        "What is OPEC's oil price outlook?",
-        _deps(retriever=_Retr([bare])),
-    )
-    report = next(c for c in reply.citations if c.kind == "report")
-    assert report.url == "https://www.opec.org/monthly-oil-market-report.html"
-    assert "opec.org" in markdown_cite(report)
-
-
-class _BoomRetr:
-    def retrieve(self, question: str, k: int = 5):
-        raise OSError(111, "Connection refused")
-
-
-def test_retrieve_connection_refused_still_answers_via_web():
-    reply = run_turn(
-        "What's Brent today?",
-        _deps(retriever=_BoomRetr(), web=_Web([REUTERS])),
-    )
-    assert reply.refused is False
-    assert reply.web_ran is True
-    assert reply.web_reason == "time-sensitive"
-    assert any(c.kind == "web" for c in reply.citations)
-    assert "80.0" not in reply.text
-
-
-def test_retrieve_error_without_freshness_marker_sets_reason():
-    reply = run_turn(
-        "What is OPEC's 2026 world oil demand outlook?",
-        _deps(retriever=_BoomRetr(), web=_Web([REUTERS])),
-    )
-    assert reply.web_ran is True
-    assert reply.web_reason == "retrieve-error"
-
-
-def test_remote_embedding_falls_back_to_local_on_connection_refused():
-    from oil_gas_analyst.retrieve import FallbackEmbeddingFunction
-
-    class Boom:
-        def __call__(self, input):
-            raise OSError(111, "Connection refused")
-
-        def embed_query(self, text: str):
-            raise OSError(111, "Connection refused")
-
-    class Local:
-        def __call__(self, input):
-            return [[0.1, 0.2] for _ in input]
-
-        def embed_query(self, text: str):
-            return [0.3, 0.4]
-
-    emb = FallbackEmbeddingFunction(Boom(), lambda: Local())
-    assert emb.embed_query("oil prices") == [0.3, 0.4]
-    assert emb(["passage"]) == [[0.1, 0.2]]
+    assert "excerpt" in report.label.lower()
 
 
 def test_dropper_sees_figure_past_800_chars():
-    from oil_gas_analyst.turn import drop_listing
-
     marker = "DEMAND_GROWTH_REMAINS_1.4_MBD"
     chunk = Chunk(
         text=("Lead-in. " * 120) + marker,
@@ -507,3 +102,10 @@ def test_dropper_sees_figure_past_800_chars():
     assert marker in listed
     assert "World Oil Demand" in listed
 
+
+def test_format_reply_does_not_require_langgraph_steps():
+    from oil_gas_analyst.app import format_reply
+
+    text = format_reply(Reply(text="Senior Analyst reply."))
+    assert "Senior Analyst reply." in text
+    assert "classify" not in text

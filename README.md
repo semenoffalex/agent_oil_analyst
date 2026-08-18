@@ -1,65 +1,64 @@
 # Нефтегазовый аналитик
 
-Чат со **старшим аналитиком нефтегазового рынка**. Сначала ищет ответ в **отчётах** (OPEC MOMR, EIA STEO, бюллетень ЦБ), при необходимости — в **интернете** (DuckDuckGo, с фильтром «жёлтой прессы»), по явной просьбе строит **прогноз цены** (SARIMA и Holt–Winters на данных `yfinance`).
+Чат со **старшим аналитиком нефтегазового рынка**. Разговор идёт в **Ouroboros** (агентный цикл: модель выбирает инструменты и когда остановиться). **Chainlit** на порту 8000 — адаптер, не второй агент. Доменные инструменты (поиск по отчётам, веб с denylist, прогноз) — **reviewed skills** в этом репозитории. **`/evolve` выключен** (`runtime_mode=light`).
 
-Каждый ответ с цитатами: откуда взята цифра — отчёт, веб или расчёт.
+Доменные Report / Web / Forecast skills подключаются следующим шагом; в этом цикле ревьюер уже видит Ouroboros за Chainlit. Когда skills включены, ответы цитируют отчёт, веб или расчёт.
 
 ## Запуск
 
 ### Рекомендуется: Docker
 
-Один образ, тома для индекса и отчётов, без установки моделей на хост. Для демо и проверки задания — начинайте здесь.
+Один `compose`: Chainlit на 8000, Ouroboros внутри сети (порт 8765 не публикуется). Для проверки задания открывайте только Chainlit.
 
 ```bash
-cp .env.example .env          # указать DEEPSEEK_API_KEY
+cp .env.example .env          # указать OPENROUTER_API_KEY
 docker compose up --build
 ```
 
-Откройте http://localhost:8000.
+Откройте http://localhost:8000. Не нужно ставить `Ouroboros.app` и не нужно открывать `:8765`.
 
-По умолчанию эмбеддинги идут на LM Studio (`http://192.168.0.55:1234/v1`). Пустой `EMBEDDING_BASE_URL` — локальная e5 из образа. Чат всегда через DeepSeek. Индекс отчётов поднимается сам при первом старте, если Chroma пуст или устарел.
+Main — OpenRouter `z-ai/glm-5.2:free`, thinking выкл. Heavy / Eval / skill-review без своих id в `.env` используют Main. Нет тихого отката на DeepSeek или Grok. Лимиты `:free` — принятый риск демо.
 
 ### Локально (разработка)
+
+Нужен запущенный Ouroboros (`ouroboros server` или контейнер) и ключ OpenRouter.
 
 ```bash
 cp .env.example .env
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-python -m oil_gas_analyst     # по желанию: скачать полные PDF и переиндексировать
 chainlit run oil_gas_analyst/app.py --port 8000
 ```
 
 Тесты без сети и LLM: `pytest -q`
 
-Живой **Eval** (ключ OpenRouter, индекс, сеть): `LIVE_EVAL=1 pytest tests/test_graph.py -k TestLiveEval`. Модель Eval — `EVAL_CHAT_MODEL` в `.env`; продукт и Demo остаются на DeepSeek.
+Живой **Eval** (ключ OpenRouter, поднятый Ouroboros): `LIVE_EVAL=1 pytest tests/test_graph.py -k TestLiveEval`. Модель Eval — `EVAL_CHAT_MODEL` в `.env`, иначе Main.
 
-**Red-team pack** (тот же OpenRouter и индекс): `LIVE_RED_TEAM=1 pytest tests/test_graph.py -k TestLiveRedTeam`. Промпты — `config/red_team_pack.yaml`.
+**Red-team pack**: `LIVE_RED_TEAM=1 pytest tests/test_graph.py -k TestLiveRedTeam`. Промпты — `config/red_team_pack.yaml`.
 
-**Demo rate limit** — `DEMO_RATE_LIMIT_MAX` и `DEMO_RATE_LIMIT_WINDOW_SEC` в `.env` (0 = выкл. для локалки). На VPS можно дублировать nginx: `deploy/demo-nginx.conf`.
+**Demo rate limit** — `DEMO_RATE_LIMIT_MAX` и `DEMO_RATE_LIMIT_WINDOW_SEC` в `.env` (0 = выкл. для локалки).
 
 ## Что внутри
 
 | Часть | Технология | Зачем |
 |-------|------------|--------|
-| Чат | `deepseek-v4-flash`, thinking выкл. | Один API-ключ, вызов инструментов, оптимальное соотношение цена/качество |
-| Оркестрация | LangGraph → `run_turn` | де-факто стандарт для создания агентов |
-| Интерфейс | Chainlit | Чат в одном процессе с графом |
-| Отчёты | e5 + Chroma | RU/EN, без второго embedding API |
-| Интернет | DuckDuckGo + denylist | Бесплатно, не требует ключа API |
-| Прогноз | SARIMA + Holt–Winters | Два метода, без усреднения |
+| Цикл агента | Ouroboros v6.103.0 | Модель сама выбирает инструменты и стоп; не LangGraph-водопад |
+| Main | OpenRouter `z-ai/glm-5.2:free`, thinking off | Выбор заказчика; TZ разрешает любой LLM |
+| Адаптер | Chainlit `:8000` | Окно ревьюера; доказательство Ouroboros — код репозитория |
+| Skills | instruction playbook в `skills/` + identity overlay | Роль Analyst; retrieve / Web / Forecast — extension skills следующих тикетов |
+| Отчёты (далее) | e5 + Chroma | RU/EN, без второго embedding API |
+| Интернет (далее) | DuckDuckGo + denylist цитат | Бесплатно; denylist — контракт цитирования, не host-strip |
+| Прогноз (далее) | SARIMA + Holt–Winters | Два метода, без усреднения |
+
+`/evolve` off. Task-acceptance Review, P3 и `/review` не гоняются на пяти диалогах Eval.
 
 Термины и решения: [`CONTEXT.md`](CONTEXT.md), [`docs/adr/`](docs/adr/).
 
 ## Как отвечает на один вопрос
 
-1. **Компетенция** — тема про нефть/газ или отказ («what's the weather today?» → отказ).
-2. **Списки маршрутов** — глагол прогноза или маркер «нужна свежесть» (закрытые EN/RU списки).
-3. **Поиск по отчётам** — top-10 фрагментов; модель отбрасывает лишнее, отброшенное не цитирует.
-4. **Веб** — если нужна свежесть или после отбрасывания ничего не осталось.
-5. **Прогноз** — только с явным глаголом (`спрогнозируй`, `forecast`, …).
-6. **Цитаты** — `[Отчёт …]`, `[Источник: …, web]`, `[Forecast …]`.
+Модель в цикле Ouroboros решает, вызывать ли retrieve, Web, Forecast, и когда остановиться. Нет фиксированного classify → retrieve → compose.
 
-Внизу ответа — что запускалось: отчёты, веб (и почему), прогноз, шаги графа.
+Цитаты, когда tools подключены: `[Отчёт …]`, `[Источник: …, web]`, `[Forecast …]`. Тег `[Отчёт …]` валиден только если retrieve шёл в этом ходе.
 
 ## Пять проверочных диалогов
 
@@ -69,41 +68,33 @@ chainlit run oil_gas_analyst/app.py --port 8000
 | Веб | `What's the latest OPEC statement on output?` | Источники из сети, без kp.ru / dailymail |
 | Смешанный | `What's Brent today given OPEC demand?` | Отчёт + веб |
 | Прогноз | `спрогнозируй цену Brent на 3 месяца` | SARIMA и Holt–Winters, два интервала |
-| Вне темы | `what's the weather today?` | Отказ, без инструментов |
+| Вне темы | `what's the weather today?` | Отказ, без выдуманных цифр |
 
 ## Данные
 
-Образцы в `data/samples/` (OPEC, EIA, ЦБ) — без них установка сломана. Полные PDF — в `data/reports/` после `python -m oil_gas_analyst`. Переиндекс Chroma — автоматически при смене корпуса.
+Образцы в `data/samples/` (OPEC, EIA, ЦБ) — без них установка RAG сломана. Полные PDF — в `data/reports/` после `python -m oil_gas_analyst`.
 
 ## Ограничения
 
-Denylist неполный; DuckDuckGo и Yahoo в Docker иногда падают; классификатор темы может ошибаться; нет ряда Urals; IEA не в корпусе.
+- `:free` GLM: rate limit и простои OpenRouter, без тихой смены модели.
+- Denylist неполный; неперечисленные таблоиды могут просочиться.
+- DuckDuckGo и Yahoo в Docker иногда падают.
+- Нет ряда Urals; IEA не в корпусе.
+- Sample Report ≠ полный MOMR.
 
 ---
 
 ## Планы развития
 
-Цикл зафиксирован в [ADR 0017](docs/adr/0017-next-cycle-is-public-demo.md): публичный **Demo** (URL без клона). DNS — только после живого Eval и red-team pack. Пароля нет, лимит запросов есть (число — на деплое).
+Цикл зафиксирован в [ADR 0017](docs/adr/0017-next-cycle-is-public-demo.md): публичный **Demo** (URL без клона). DNS — только после живого Eval и red-team pack. Пароля нет, лимит запросов есть.
 
 ### Этот цикл — до URL
 
-- [x] **Eval** — живой прогон пяти диалогов README на поднятом Analyst. Смотрим флаги и denylist, не золотую прозу. `pytest` с моками — не Eval.
-- [x] **Red-team pack** — `LIVE_RED_TEAM=1 pytest tests/test_graph.py -k TestLiveRedTeam`; промпты в `config/red_team_pack.yaml`.
-- [x] **Лимит запросов** — `DEMO_RATE_LIMIT_MAX` / `DEMO_RATE_LIMIT_WINDOW_SEC` в `.env`; пример nginx — `deploy/demo-nginx.conf`.
-- [ ] **Demo на VPS** — [рецепт RUVDS](https://habr.com/ru/companies/ruvds/articles/1053382/). На машине e5 из образа (`EMBEDDING_BASE_URL` пустой), не LAN LM Studio.
-
-### После Demo
-
-- [ ] Свежесть Web-источников (recency; идея от Булата)
-- [ ] Графики прогноза
-- [ ] Веб по явной просьбе («поищи в интернете») — закрытый список
-- [ ] Скилл ingest (ЦБ, EIA, OPEC)
-- [ ] Внешние эмбеддинги по API — довести `EMBEDDING_BASE_URL` с fallback
+- [x] **Ouroboros loop** за Chainlit `:8000` ([0021](docs/adr/0021-chainlit-adapter-ouroboros-loop.md))
+- [ ] Report retrieve, Web, Forecast как reviewed skills
+- [ ] Demo на VPS
 
 ### Только с новым ADR
 
 - [ ] Память для Route lists / denylist из чата ([0005](docs/adr/0005-closed-route-lists.md))
 - [ ] Postgres + pgvector вместо Chroma ([0007](docs/adr/0007-e5-chroma-reports.md))
-- [ ] Дашборд Streamlit рядом с Chainlit ([0010](docs/adr/0010-chainlit-ui.md))
-
-

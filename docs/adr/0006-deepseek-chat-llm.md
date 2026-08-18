@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Superseded for the Ouroboros rebuild by [0023](0023-main-openrouter-glm52-free.md) (`z-ai/glm-5.2:free`, thinking off).
 
 ## Context
 

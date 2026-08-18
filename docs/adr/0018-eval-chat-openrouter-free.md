@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Partially superseded: Eval is still an OpenRouter id from `.env` ([0023](0023-main-openrouter-glm52-free.md)). Product chat is no longer DeepSeek; default Eval is Main (`z-ai/glm-5.2:free`) unless `EVAL_CHAT_MODEL` is set.
 
 ## Context
 

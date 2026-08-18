@@ -52,6 +52,23 @@ class Citation:
 
 
 @dataclass(frozen=True)
+class LoopResult:
+    """What the Ouroboros loop returned for one question (the Analyst-turn seam)."""
+
+    text: str
+    citations: list[Citation] = field(default_factory=list)
+    retrieved: bool = False
+    web_ran: bool = False
+    forecast_ran: bool = False
+    forecast_failed: bool = False
+    web_reason: str | None = None
+
+
+class AnalystLoop(Protocol):
+    def complete(self, question: str) -> LoopResult: ...
+
+
+@dataclass(frozen=True)
 class Reply:
     text: str
     citations: list[Citation] = field(default_factory=list)
