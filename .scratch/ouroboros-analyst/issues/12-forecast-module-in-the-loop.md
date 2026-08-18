@@ -4,10 +4,14 @@
 
 **Blocked by:** 09 — Chainlit talks to Ouroboros
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] Forecast is a reviewed extension tool wrapping the calculation module (two methods, no average).
-- [ ] Unspecified crude → Brent; named WTI → WTI; Urals → no series, no Brent proxy.
-- [ ] Yahoo / history failure → uncertainty in the answer, not invented prices.
-- [ ] Host does not refuse Forecast because the question lacked a verb; if the module ran, the answer tags it.
-- [ ] No oil-price strip in prose unless it came from Reports, Web sources, or this module.
+- [x] Forecast is a reviewed extension tool wrapping the calculation module (two methods, no average).
+- [x] Unspecified crude → Brent; named WTI → WTI; Urals → no series, no Brent proxy.
+- [x] Yahoo / history failure → uncertainty in the answer, not invented prices.
+- [x] Host does not refuse Forecast because the question lacked a verb; if the module ran, the answer tags it.
+- [x] No oil-price strip in prose unless it came from Reports, Web sources, or this module.
+
+## Answer
+
+`run_forecast` is an Ouroboros extension over the existing SARIMA + Holt–Winters module. Two tagged paths, never an average. Default Brent, WTI if named, Urals has no series. History failure returns uncertainty in the tool payload; the host does not invent a CSV or patch a live reply that forgot `[Forecast …]`. A verb is a playbook hint, not a host detector.

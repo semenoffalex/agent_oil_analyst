@@ -115,3 +115,53 @@ def test_no_live_history_or_cache_raises(tmp_path):
         assert False, "expected ForecastError"
     except ForecastError:
         pass
+
+
+def test_forecast_for_tool_shows_two_methods_and_no_average():
+    from oil_gas_analyst.forecast import forecast_for_tool
+
+    payload = forecast_for_tool(
+        "спрогнозируй цену Brent на 3 месяца",
+        load_history=lambda symbol: _series(),
+    )
+    names = {m["name"] for m in payload["methods"]}
+    assert names == {"sarima", "holt_winters"}
+    assert "average" not in payload
+    assert payload.get("unavailable_reason") in (None, "")
+    assert len(payload["citations"]) == 2
+    assert all(c.startswith("[Forecast ") for c in payload["citations"])
+    blob = " ".join(payload["citations"]).lower()
+    assert "sarima" in blob and "holt" in blob
+
+
+def test_forecast_for_tool_defaults_to_brent_and_honors_wti():
+    from oil_gas_analyst.forecast import forecast_for_tool
+
+    bare = forecast_for_tool("What is the oil price path?", load_history=lambda symbol: _series())
+    assert bare["symbol"] in {"BZ=F", "Brent"}
+    wti = forecast_for_tool("forecast WTI", load_history=lambda symbol: _series())
+    assert wti["symbol"] == "CL=F"
+
+
+def test_forecast_for_tool_urals_has_no_series_and_no_brent_proxy():
+    from oil_gas_analyst.forecast import forecast_for_tool
+
+    payload = forecast_for_tool("forecast Urals", load_history=lambda symbol: _series())
+    assert payload["methods"] == []
+    assert payload["unavailable_reason"]
+    assert "brent" not in (payload["unavailable_reason"] or "").casefold()
+    assert payload["symbol"].lower() == "urals"
+    assert any("Forecast" in c for c in payload["citations"])
+
+
+def test_forecast_for_tool_history_failure_is_uncertainty():
+    from oil_gas_analyst.forecast import forecast_for_tool
+
+    def boom(symbol):
+        raise RuntimeError("yahoo blocked")
+
+    payload = forecast_for_tool("predict Brent", load_history=boom)
+    assert payload["methods"] == []
+    note = (payload.get("note") or payload.get("unavailable_reason") or "").lower()
+    assert "uncertain" in note or "unavail" in note or "invent" in note
+    assert "78.40" not in str(payload)

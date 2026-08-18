@@ -9,7 +9,7 @@ import urllib.parse
 import urllib.request
 from typing import Any
 
-from oil_gas_analyst.types import LoopResult
+from oil_gas_analyst.types import LoopError, LoopResult
 
 urlopen = urllib.request.urlopen
 
@@ -18,7 +18,7 @@ _TERMINAL = frozenset(
 )
 
 
-class OuroborosError(RuntimeError):
+class OuroborosError(LoopError):
     """Gateway transport or empty-completion failure."""
 
 
@@ -59,8 +59,14 @@ class OuroborosLoop:
             if _is_terminal(result):
                 text = _answer_text(result)
                 if not str(text).strip():
-                    raise OuroborosError("Ouroboros returned an empty completion.")
-                return LoopResult(text=str(text).strip())
+                    raise LoopError("Ouroboros returned an empty completion.")
+                return LoopResult(
+                    text=str(text).strip(),
+                    retrieved=_tool_ran(result, "retrieve_reports"),
+                    web_ran=_tool_ran(result, "web_search") or _tool_ran(result, "search_web"),
+                    forecast_ran=_tool_ran(result, "forecast"),
+                    citations=_citations_from_text(str(text)),
+                )
             if time.time() >= deadline:
                 raise TimeoutError(
                     f"Ouroboros task {task_id} did not finish within {self.timeout_sec:g}s"
@@ -88,6 +94,8 @@ class OuroborosLoop:
             raise OuroborosError(f"HTTP {exc.code}: {raw or exc}") from exc
         except urllib.error.URLError as exc:
             raise OuroborosError(f"cannot reach Ouroboros at {self.base_url}: {exc}") from exc
+        except TimeoutError as exc:
+            raise LoopError(f"Ouroboros request timed out at {self.base_url}") from exc
         if not raw.strip():
             return {}
         try:
@@ -120,3 +128,23 @@ def _answer_text(result: dict[str, Any]) -> str:
         if isinstance(inner, str) and inner.strip():
             return inner
     return ""
+
+
+def _tool_ran(payload: dict[str, Any], name: str) -> bool:
+    blob = json.dumps(payload).lower()
+    return name.lower() in blob
+
+
+def _citations_from_text(text: str) -> list:
+    import re
+
+    from oil_gas_analyst.types import Citation
+
+    found: list[Citation] = []
+    for match in re.finditer(r"\[Отчёт [^\]]+\]", text):
+        found.append(Citation(kind="report", label=match.group(0)))
+    for match in re.finditer(r"\[Источник: [^\]]+\]", text):
+        found.append(Citation(kind="web", label=match.group(0)))
+    for match in re.finditer(r"\[Forecast [^\]]+\]", text):
+        found.append(Citation(kind="forecast", label=match.group(0)))
+    return found

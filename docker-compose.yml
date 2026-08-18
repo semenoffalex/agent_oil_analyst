@@ -19,8 +19,19 @@ services:
       OUROBOROS_RETURN_REASONING: "false"
       OUROBOROS_TRUST_NONLOCAL_BIND_WITHOUT_PASSWORD: "1"
       OUROBOROS_DATA_DIR: /data
+      PYTHONPATH: /opt/analyst
+      CHROMA_PATH: /data/chroma
+      SAMPLES_PATH: /opt/analyst/data/samples
+      REPORTS_PATH: /data/reports
+      FORECAST_CACHE_PATH: /data/forecast_cache
+      EMBEDDING_MODEL: /opt/models/multilingual-e5-base
+      HF_HUB_OFFLINE: "1"
+      TRANSFORMERS_OFFLINE: "1"
     volumes:
       - ouroboros_data:/data
+      - chroma_data:/data/chroma
+      - reports_data:/data/reports
+      - forecast_cache:/data/forecast_cache
     expose:
       - "8765"
     healthcheck:

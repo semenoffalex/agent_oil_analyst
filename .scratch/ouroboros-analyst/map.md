@@ -17,6 +17,10 @@ A spec the implementer can execute: the reviewer talks to an Analyst that **is**
 
 ## Decisions so far
 
+- [Forecast module in the loop](issues/12-forecast-module-in-the-loop.md) — `run_forecast` wraps SARIMA + Holt–Winters; no average; Urals has no series; verb is a hint.
+- [Web sources without denylist citations](issues/11-web-sources-without-denylist-citations.md) — `search_web` in the Ouroboros loop; denylist is a citation contract, not a host drop of hits.
+- [Grounded Report retrieve](issues/10-grounded-report-retrieve.md) — `retrieve_reports` is an Ouroboros extension; `[Отчёт …]` counts only with retrieve this turn; live prose is not host-patched.
+- [Competence playbook and Safety nets](issues/13-competence-playbook-and-safety-nets.md) — identity + instruction skill; host does not lock tools; dictionary/heading-rank only as infra Safety nets; extra Out-of-competence Web is a prompt failure.
 - [Chainlit talks to Ouroboros](issues/09-chainlit-talks-to-ouroboros.md) — compose publishes Chainlit `:8000`; the turn is `POST /api/tasks` on current-generation Ouroboros (Main GLM 5.2 free, thinking off, `light` / evolve off). LangGraph is not the conversation path.
 - [Which trust surfaces the grader sees](issues/07-which-trust-surfaces-the-grader-sees.md) — README must name Ouroboros, reviewed skills, Chainlit adapter, `/evolve` off; other Review surfaces stay off Eval. ADR [0024](../../docs/adr/0024-readme-names-ouroboros-evolve-off.md).
 - [Which model fills the Main slot](issues/08-which-model-fills-the-main-slot.md) — Main is OpenRouter `z-ai/glm-5.2:free`, thinking off; Heavy/Eval/review may differ via `.env`, else Main; no silent Grok/DeepSeek fallback. ADR [0023](../../docs/adr/0023-main-openrouter-glm52-free.md).

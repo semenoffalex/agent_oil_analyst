@@ -4,10 +4,14 @@
 
 **Blocked by:** 09 — Chainlit talks to Ouroboros
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] Report retrieve is a reviewed extension tool in the Ouroboros loop (e5 + Chroma, heading-then-512 Chunks, metadata preserved).
-- [ ] Corpus-covered demand outlook: `[Отчёт …]` present and backed by retrieve this turn; tag without retrieve fails the seam test.
-- [ ] Live successful compose is not appended a Report block because the prose lacked «Отчёт».
-- [ ] Sample citations say excerpt; Full Report ingest remains optional, loud, non-fatal; IEA stays out; OPEC, EIA, CBR remain.
-- [ ] Russian demand questions can still retrieve English Chunks; the Analyst may answer in the user’s language without inventing figures.
+- [x] Report retrieve is a reviewed extension tool in the Ouroboros loop (e5 + Chroma, heading-then-512 Chunks, metadata preserved).
+- [x] Corpus-covered demand outlook: `[Отчёт …]` present and backed by retrieve this turn; tag without retrieve fails the seam test.
+- [x] Live successful compose is not appended a Report block because the prose lacked «Отчёт».
+- [x] Sample citations say excerpt; Full Report ingest remains optional, loud, non-fatal; IEA stays out; OPEC, EIA, CBR remain.
+- [x] Russian demand questions can still retrieve English Chunks; the Analyst may answer in the user’s language without inventing figures.
+
+## Answer
+
+Retrieve is the `oil_gas_retrieve` extension (`retrieve_reports`) inside the Ouroboros tool loop, not a Chainlit waterfall. Grounding is `[Отчёт` **and** `retrieved` this turn; a live reply without the tag is left as-is. Sample labels still say excerpt; missing samples still break ingest. English chunks may answer a Russian question.

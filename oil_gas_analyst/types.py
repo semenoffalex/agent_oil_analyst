@@ -64,6 +64,10 @@ class LoopResult:
     web_reason: str | None = None
 
 
+class LoopError(RuntimeError):
+    """Timeout, HTTP 500, or empty completion — not a live model reply."""
+
+
 class AnalystLoop(Protocol):
     def complete(self, question: str) -> LoopResult: ...
 

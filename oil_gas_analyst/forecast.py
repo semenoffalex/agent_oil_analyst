@@ -329,3 +329,48 @@ def run_forecast(question: str, load_history: HistoryLoader | None = None) -> Fo
     horizon = detect_horizon(question, cfg)
     methods = [_fit_sarima(history, horizon), _fit_holt(history, horizon)]
     return ForecastResult(symbol=symbol, methods=methods, horizon_days=horizon)
+
+
+def forecast_for_tool(question: str, load_history: HistoryLoader | None = None) -> dict:
+    """Forecast calculation for the Ouroboros extension: two methods, no average, no fake CSV."""
+
+    from oil_gas_analyst.turn import forecast_citations
+
+    try:
+        result = run_forecast(question, load_history=load_history)
+    except ForecastError as exc:
+        result = ForecastResult(
+            symbol=detect_symbol(question),
+            methods=[],
+            unavailable_reason=str(exc),
+        )
+    citations = [cite.label for cite in forecast_citations(result)]
+    methods = [
+        {
+            "name": method.name,
+            "point": method.point,
+            "low": method.low,
+            "high": method.high,
+            "interpretation": method.interpretation,
+        }
+        for method in result.methods
+    ]
+    if result.unavailable_reason:
+        note = (
+            "Forecast history is unavailable. Do not invent prices or a CSV. "
+            "Say you are uncertain. Do not proxy Urals with Brent."
+        )
+    else:
+        note = (
+            "Show both SARIMA and Holt–Winters with intervals. Do not average them. "
+            "Copy citation labels verbatim. Oil-price figures in prose must come from "
+            "these methods, Reports, or Web — not invented."
+        )
+    return {
+        "symbol": result.symbol,
+        "horizon_days": result.horizon_days,
+        "methods": methods,
+        "unavailable_reason": result.unavailable_reason,
+        "citations": citations,
+        "note": note,
+    }

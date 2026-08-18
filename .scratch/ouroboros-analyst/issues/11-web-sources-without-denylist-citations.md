@@ -4,9 +4,13 @@
 
 **Blocked by:** 09 — Chainlit talks to Ouroboros
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] Web search is a tool in the Ouroboros loop (DuckDuckGo or equivalent); the model chooses when to call it (no Route-list host gate).
-- [ ] Visible citations never include denylist domains; there is no required host drop of those hits before the model sees them.
-- [ ] Empty Web results surface as uncertainty, not invented news.
-- [ ] A latest-statement or Brent-today question can carry Web tags; combined Report + Web is allowed when retrieve also ran.
+- [x] Web search is a tool in the Ouroboros loop (DuckDuckGo or equivalent); the model chooses when to call it (no Route-list host gate).
+- [x] Visible citations never include denylist domains; there is no required host drop of those hits before the model sees them.
+- [x] Empty Web results surface as uncertainty, not invented news.
+- [x] A latest-statement or Brent-today question can carry Web tags; combined Report + Web is allowed when retrieve also ran.
+
+## Answer
+
+`search_web` is an Ouroboros extension (`oil_gas_web`) over DuckDuckGo. Hits keep Yellow-press URLs; citing them is a prompt failure, not a host strip. Empty results tell the model not to invent news. Combined `[Отчёт …]` + `[Источник: …, web]` is allowed when retrieve also ran this turn.

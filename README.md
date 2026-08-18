@@ -2,7 +2,7 @@
 
 Чат со **старшим аналитиком нефтегазового рынка**. Разговор идёт в **Ouroboros** (агентный цикл: модель выбирает инструменты и когда остановиться). **Chainlit** на порту 8000 — адаптер, не второй агент. Доменные инструменты (поиск по отчётам, веб с denylist, прогноз) — **reviewed skills** в этом репозитории. **`/evolve` выключен** (`runtime_mode=light`).
 
-Доменные Report / Web / Forecast skills подключаются следующим шагом; в этом цикле ревьюер уже видит Ouroboros за Chainlit. Когда skills включены, ответы цитируют отчёт, веб или расчёт.
+Доменные Report, Web и Forecast skills уже в цикле Ouroboros. Когда skills включены, ответы цитируют отчёт, веб или расчёт.
 
 ## Запуск
 
@@ -45,7 +45,7 @@ chainlit run oil_gas_analyst/app.py --port 8000
 | Цикл агента | Ouroboros v6.103.0 | Модель сама выбирает инструменты и стоп; не LangGraph-водопад |
 | Main | OpenRouter `z-ai/glm-5.2:free`, thinking off | Выбор заказчика; TZ разрешает любой LLM |
 | Адаптер | Chainlit `:8000` | Окно ревьюера; доказательство Ouroboros — код репозитория |
-| Skills | instruction playbook в `skills/` + identity overlay | Роль Analyst; retrieve / Web / Forecast — extension skills следующих тикетов |
+| Skills | playbook + retrieve + search_web + run_forecast | Все доменные tools в цикле Ouroboros |
 | Отчёты (далее) | e5 + Chroma | RU/EN, без второго embedding API |
 | Интернет (далее) | DuckDuckGo + denylist цитат | Бесплатно; denylist — контракт цитирования, не host-strip |
 | Прогноз (далее) | SARIMA + Holt–Winters | Два метода, без усреднения |

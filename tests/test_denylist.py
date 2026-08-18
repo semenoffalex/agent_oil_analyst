@@ -33,8 +33,8 @@ def test_page_body_puts_article_figure_in_snippet():
     assert len(filled[0].snippet) <= 2000
 
 
-def test_denied_domain_is_not_fetched():
-    from oil_gas_analyst.web import fill_page_bodies
+def test_denied_domain_stays_in_hits_for_the_model():
+    from oil_gas_analyst.web import fill_page_bodies, search_for_tool
 
     fetched: list[str] = []
 
@@ -47,9 +47,17 @@ def test_denied_domain_is_not_fetched():
         WebHit(title="Reuters", url="https://www.reuters.com/markets/brent", snippet="short"),
     ]
     out = fill_page_bodies(hits, fetch_page=fake, denied_domains=["kp.ru"])
-    assert fetched == ["https://www.reuters.com/markets/brent"]
-    assert [hit.url for hit in out] == ["https://www.reuters.com/markets/brent"]
-    assert "$78.40" in out[0].snippet
+    assert "https://www.kp.ru/oil" in [hit.url for hit in out]
+    assert "https://www.reuters.com/markets/brent" in [hit.url for hit in out]
+
+    class _Search:
+        def search(self, question: str):
+            return hits
+
+    payload = search_for_tool("latest OPEC statement", searcher=_Search())
+    urls = [row["url"] for row in payload["hits"]]
+    assert "https://www.kp.ru/oil" in urls
+    assert any(row.get("denied") for row in payload["hits"])
 
 
 def test_page_fetch_keeps_ddg_snippet_on_failure():
@@ -83,7 +91,21 @@ def test_page_fetch_stops_after_three_allowed_hits():
     ]
     out = fill_page_bodies(hits, fetch_page=fake, denied_domains=[])
     assert fetched == [f"https://www.reuters.com/{i}" for i in range(3)]
-    assert len(out) == 3
+    assert len(out) == 5
+
+
+def test_empty_web_search_asks_not_to_invent_news():
+    from oil_gas_analyst.web import search_for_tool
+
+    class _Empty:
+        def search(self, question: str):
+            return []
+
+    payload = search_for_tool("latest OPEC statement", searcher=_Empty())
+    assert payload["count"] == 0
+    assert payload["hits"] == []
+    note = (payload.get("note") or "").lower()
+    assert "invent" in note or "uncertain" in note
 
 
 def test_kp_and_subdomain_denied():

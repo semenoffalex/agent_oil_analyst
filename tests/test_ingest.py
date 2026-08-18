@@ -89,109 +89,6 @@ def test_cbr_heading_split_assigns_oil_section():
     assert oil.page_start == 2
 
 
-def test_june_2026_momr_outranks_older_price_chunk():
-    from pathlib import Path
-
-    from oil_gas_analyst.ingest import chunk_pdf
-    from oil_gas_analyst.retrieve import select_report_chunks
-    from oil_gas_analyst.types import Chunk
-
-    pdf = Path("data/samples/momr-june-2026.pdf")
-    june_2026 = chunk_pdf(
-        pdf, agency="OPEC", excerpt=False, date="2026-06", title="OPEC MOMR June 2026"
-    )
-    older_price = Chunk(
-        text="Brent averaged $83/b in May 2024.",
-        title="OPEC Monthly Oil Market Report — June 2024",
-        date="2024-06",
-        page_start=10,
-        page_end=12,
-        heading="Crude Oil Price Movements",
-        agency="OPEC",
-    )
-    picked = select_report_chunks(
-        "Какой тренд в прогнозах цен на нефть на ближайший месяц?",
-        [older_price, *june_2026],
-        k=5,
-    )
-    assert picked
-    assert picked[0].date == "2026-06"
-    assert picked[0].agency == "OPEC"
-    assert "Tanker" not in picked[0].heading
-
-
-def test_outlook_prefers_newer_price_section_over_tanker():
-    from oil_gas_analyst.retrieve import select_report_chunks
-    from oil_gas_analyst.types import Chunk
-
-    older_price = Chunk(
-        text="Brent averaged $83/b in May 2024.",
-        title="OPEC Monthly Oil Market Report — June 2024",
-        date="2024-06",
-        page_start=10,
-        page_end=12,
-        heading="Crude Oil Price Movements",
-        agency="OPEC",
-    )
-    newer_tanker = Chunk(
-        text="VLCC freight rates rose.",
-        title="OPEC Monthly Oil Market Report — June 2026",
-        date="2026-06",
-        page_start=80,
-        page_end=82,
-        heading="Tanker Market",
-        agency="OPEC",
-    )
-    newer_price = Chunk(
-        text="Brent averaged $78/b in May 2026.",
-        title="OPEC Monthly Oil Market Report — June 2026",
-        date="2026-06",
-        page_start=9,
-        page_end=11,
-        heading="Crude Oil Price Movements",
-        agency="OPEC",
-    )
-    picked = select_report_chunks(
-        "Какой тренд в прогнозах цен на нефть на ближайший месяц?",
-        [older_price, newer_tanker, newer_price],
-        k=2,
-    )
-    assert [c.date for c in picked] == ["2026-06", "2024-06"]
-    assert picked[0].heading == "Crude Oil Price Movements"
-    assert picked[0].text == "Brent averaged $78/b in May 2026."
-    assert all("Tanker" not in c.heading for c in picked)
-
-
-def test_full_report_outranks_same_date_excerpt():
-    from oil_gas_analyst.retrieve import select_report_chunks
-    from oil_gas_analyst.types import Chunk
-
-    excerpt = Chunk(
-        text="Brent averaged $78/b in the excerpt.",
-        title="EIA STEO August 2026 (excerpt, Global Oil Markets)",
-        date="2026-08",
-        page_start=1,
-        page_end=2,
-        heading="Global oil prices",
-        excerpt=True,
-        agency="EIA",
-    )
-    full = Chunk(
-        text="Brent averaged $78/b in the full STEO.",
-        title="EIA Short-Term Energy Outlook — August 2026",
-        date="2026-08",
-        page_start=8,
-        page_end=12,
-        heading="Global oil prices",
-        excerpt=False,
-        agency="EIA",
-    )
-    picked = select_report_chunks("What is the EIA oil price outlook?", [excerpt, full], k=1)
-    assert len(picked) == 1
-    assert picked[0].excerpt is False
-    assert "full STEO" in picked[0].text
-
-
 def test_drop_redundant_excerpts_skips_steo_excerpt_when_full_listed():
     from oil_gas_analyst.retrieve import drop_redundant_excerpts
 
@@ -367,3 +264,26 @@ def test_e5_tokenizer_name_prefers_local_model_over_lm_studio_id(monkeypatch):
     from oil_gas_analyst.ingest import e5_tokenizer_name
 
     assert e5_tokenizer_name() == "/opt/models/multilingual-e5-base"
+
+
+def test_missing_sample_report_breaks_ingest(tmp_path):
+    from oil_gas_analyst.retrieve import iter_ingest_jobs
+
+    cfg = {
+        "samples": [
+            {
+                "path": str(tmp_path / "missing-momr.pdf"),
+                "agency": "OPEC",
+                "date": "2026-03",
+                "excerpt": True,
+                "title": "missing",
+            }
+        ]
+    }
+    try:
+        iter_ingest_jobs(tmp_path, tmp_path, cfg)
+        raised = False
+    except FileNotFoundError as exc:
+        raised = True
+        assert "Sample Report missing" in str(exc)
+    assert raised is True

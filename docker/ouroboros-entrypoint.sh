@@ -8,13 +8,12 @@ if [ -z "${OPENROUTER_API_KEY}" ]; then
 fi
 
 DATA="${OUROBOROS_DATA_DIR:-/data}"
-mkdir -p "${DATA}/memory" "${DATA}/skills/external"
-if [ ! -f "${DATA}/memory/identity.md" ]; then
-  cp /seed/identity.md "${DATA}/memory/identity.md"
-fi
-if [ ! -d "${DATA}/skills/external/oil_gas_analyst" ]; then
-  cp -a /seed/skills/oil_gas_analyst "${DATA}/skills/external/oil_gas_analyst"
-fi
+mkdir -p "${DATA}/memory" "${DATA}/skills/external" "${DATA}/chroma" "${DATA}/reports" "${DATA}/forecast_cache"
+cp /seed/identity.md "${DATA}/memory/identity.md"
+cp -a /seed/skills/oil_gas_analyst "${DATA}/skills/external/oil_gas_analyst"
+cp -a /seed/skills/oil_gas_retrieve "${DATA}/skills/external/oil_gas_retrieve"
+cp -a /seed/skills/oil_gas_web "${DATA}/skills/external/oil_gas_web"
+cp -a /seed/skills/oil_gas_forecast "${DATA}/skills/external/oil_gas_forecast"
 
 export OUROBOROS_SERVER_HOST="${OUROBOROS_SERVER_HOST:-0.0.0.0}"
 export OUROBOROS_MODEL="${OUROBOROS_MODEL:-z-ai/glm-5.2:free}"

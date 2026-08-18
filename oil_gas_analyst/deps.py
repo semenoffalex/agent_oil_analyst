@@ -22,7 +22,40 @@ def build_loop() -> OuroborosLoop:
     require_openrouter_key()
     url = os.environ.get("OUROBOROS_URL", "http://127.0.0.1:8765").strip()
     timeout = float(os.environ.get("OUROBOROS_TURN_TIMEOUT_SEC", "180"))
+    enable_domain_skills(url)
     return OuroborosLoop(url, timeout_sec=timeout)
+
+
+def enable_domain_skills(base_url: str) -> None:
+    """Owner-attest and enable the Analyst playbook and Report retrieve skills.
+
+    Failures are logged; a missing enable is a broken Demo, not a silent LangGraph fallback.
+    """
+
+    import json
+    import urllib.error
+    import urllib.request
+
+    root = base_url.rstrip("/")
+    for name in ("oil_gas_analyst", "oil_gas_retrieve", "oil_gas_web", "oil_gas_forecast"):
+        for path, body in (
+            (f"/api/owner/skills/{name}/attest-review", {}),
+            (f"/api/skills/{name}/toggle", {"enabled": True}),
+        ):
+            payload = json.dumps(body).encode("utf-8")
+            req = urllib.request.Request(
+                root + path,
+                data=payload,
+                headers={"Accept": "application/json", "Content-Type": "application/json"},
+                method="POST",
+            )
+            try:
+                with urllib.request.urlopen(req, timeout=30) as resp:
+                    resp.read()
+            except urllib.error.HTTPError as exc:
+                print(f"skill enable {name} {path}: HTTP {exc.code}")
+            except urllib.error.URLError as exc:
+                print(f"skill enable {name} {path}: {exc}")
 
 
 def build_deps(*, ingest_if_empty: bool = True):

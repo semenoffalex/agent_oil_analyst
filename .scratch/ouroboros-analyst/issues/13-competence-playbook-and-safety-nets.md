@@ -4,10 +4,14 @@
 
 **Blocked by:** 09 — Chainlit talks to Ouroboros
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] Analyst job overlay is identity + instruction skill; BIBLE/SYSTEM are not rewritten as an oil constitution.
-- [ ] Weather/Python/uranium: refusal, no invented figures; tests do not require the host to forbid Web/Forecast.
-- [ ] Route lists do not turn tools on in the host; they may appear as skill hints.
-- [ ] Live reply is not rewritten by out-of-scope dictionary, Drop-restore, or heading-rank; those may run only as Safety nets on non-live completions.
-- [ ] Extra Web on an Out-of-competence pin is documented as a prompt failure, not a missing runtime lock.
+- [x] Analyst job overlay is identity + instruction skill; BIBLE/SYSTEM are not rewritten as an oil constitution.
+- [x] Weather/Python/uranium: refusal, no invented figures; tests do not require the host to forbid Web/Forecast.
+- [x] Route lists do not turn tools on in the host; they may appear as skill hints.
+- [x] Live reply is not rewritten by out-of-scope dictionary, Drop-restore, or heading-rank; those may run only as Safety nets on non-live completions.
+- [x] Extra Web on an Out-of-competence pin is documented as a prompt failure, not a missing runtime lock.
+
+## Answer
+
+Role is `identity.md` plus `skills/oil_gas_analyst` playbook. The host does not refuse Web/Forecast. Competence dictionary and heading-rank are gone from the live path; timeout/500/empty may still refuse weather-like questions or admit uncertainty. Extra Web on Out-of-competence is documented as a prompt failure.

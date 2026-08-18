@@ -193,75 +193,6 @@ def _meta_bool(value: str | bool) -> bool:
     return str(value).lower() in {"1", "true", "yes"}
 
 
-_OUTLOOK_HEADINGS = (
-    "crude oil price",
-    "world oil demand",
-    "world oil supply",
-    "balance of supply and demand",
-    "global oil price",
-    "global oil market",
-    "global liquid fuel",
-    "нефть",
-)
-_OFFTOPIC_HEADINGS = (
-    "tanker",
-    "electricity",
-    "coal",
-    "appendix",
-    "product markets",
-    "refined products trade",
-)
-
-
-def _date_key(date: str | None) -> str:
-    return (date or "").strip() or "0000"
-
-
-def _heading_rank(question: str, heading: str) -> int:
-    h = (heading or "").casefold()
-    q = question.casefold()
-    if any(word in q for word in ("tanker", "танкер", "фрахт", "vlcc")):
-        return 2 if "tanker" in h else 0
-    if any(word in q for word in ("electric", "электрич")):
-        return 2 if "electric" in h else 0
-    if "coal" in q or "угол" in q:
-        return 2 if "coal" in h else 0
-    if any(marker in h for marker in _OUTLOOK_HEADINGS):
-        return 2
-    if any(marker in h for marker in _OFFTOPIC_HEADINGS):
-        return -1
-    return 0
-
-
-def select_report_chunks(question: str, chunks: list[Chunk], k: int = 10) -> list[Chunk]:
-    """Prefer outlook sections and newer Report dates, then cut to k.
-
-    Args:
-        question: User question; used to rank headings (demand vs tanker, etc.).
-        chunks: Candidate chunks from vector search (often ``3 * k`` wide).
-        k: Maximum chunks to return after re-ranking.
-
-    Returns:
-        Up to ``k`` chunks, full Reports ranked above excerpts of the same date.
-
-    Example:
-        >>> select_report_chunks("oil demand 2026", [tanker_chunk, demand_chunk], k=1)
-        [demand_chunk]
-    """
-    if not chunks:
-        return []
-    ranked = sorted(
-        chunks,
-        key=lambda chunk: (
-            _heading_rank(question, chunk.heading),
-            _date_key(chunk.date),
-            0 if chunk.excerpt else 1,
-        ),
-        reverse=True,
-    )
-    return ranked[: max(k, 0)]
-
-
 def drop_redundant_excerpts(samples: list[dict]) -> list[dict]:
     """Skip a Sample excerpt when a full Report of the same agency and date is listed.
 
@@ -389,7 +320,7 @@ class ChromaRetriever:
         self._col.upsert(ids=ids, documents=docs, embeddings=embeddings, metadatas=metas)
 
     def retrieve(self, question: str, k: int = 10) -> list[Chunk]:
-        """Vector-search Reports, re-rank, and return up to ``k`` chunks.
+        """Vector-search Reports and return up to ``k`` chunks in e5 order (no heading-rank).
 
         Args:
             question: User question (E5 query prefix applied internally).
@@ -407,7 +338,7 @@ class ChromaRetriever:
         total = self._col.count()
         if total == 0:
             return []
-        pool = min(max(k * 3, 10), total)
+        pool = min(max(k, 1), total)
         q = self._embedding.embed_query(question)
         got = self._col.query(query_embeddings=[q], n_results=pool)
         docs = (got.get("documents") or [[]])[0]
@@ -415,7 +346,7 @@ class ChromaRetriever:
         out: list[Chunk] = []
         for text, meta in zip(docs, metas):
             out.append(_chunk_from_meta(text, meta or {}))
-        return select_report_chunks(question, out, k=k)
+        return out
 
 
 def _date_from_name(name: str) -> str | None:
@@ -658,3 +589,44 @@ def ingest_samples_and_reports(
         total += len(chunks)
         print(f"indexed {job['path'].name}: {len(chunks)} chunks")
     return total
+
+
+_RETRIEVER = None
+
+
+def _default_retriever():
+    global _RETRIEVER
+    if _RETRIEVER is not None:
+        return _RETRIEVER
+    root = Path(__file__).resolve().parent.parent
+    persist = os.environ.get("CHROMA_PATH", str(root / "data" / "chroma"))
+    samples = Path(os.environ.get("SAMPLES_PATH", str(root / "data" / "samples")))
+    reports = Path(os.environ.get("REPORTS_PATH", str(root / "data" / "reports")))
+    embedding = make_embedding_function()
+    retriever = ChromaRetriever(persist, embedding, k=int(os.environ.get("RETRIEVE_K", "10")))
+    ensure_index(retriever, samples_dir=samples, reports_dir=reports)
+    _RETRIEVER = retriever
+    return retriever
+
+
+def retrieve_for_tool(query: str, retriever=None, k: int = 10) -> dict:
+    """Report retrieve for the Ouroboros extension tool (e5 order, no heading-rank)."""
+
+    from oil_gas_analyst.turn import report_citation
+
+    hits = (retriever or _default_retriever()).retrieve(query, k=k)
+    chunks = []
+    for chunk in hits:
+        cite = report_citation(chunk)
+        chunks.append(
+            {
+                "citation": cite.label,
+                "text": chunk.text,
+                "title": chunk.title,
+                "heading": chunk.heading,
+                "date": chunk.date,
+                "excerpt": chunk.excerpt,
+                "url": cite.url,
+            }
+        )
+    return {"chunks": chunks, "count": len(chunks)}

@@ -7,7 +7,6 @@ import urllib.request
 from collections.abc import Callable, Sequence
 from urllib.parse import urlparse
 
-from oil_gas_analyst.denylist import is_denied, load_denylist
 from oil_gas_analyst.types import WebHit
 
 _SCRIPT = re.compile(r"(?is)<(script|style|noscript|svg|iframe)\b[^>]*>.*?</\1>")
@@ -58,20 +57,21 @@ def fill_page_bodies(
     max_chars: int = _PAGE_CHARS,
     denied_domains: Sequence[str] | None = None,
 ) -> list[WebHit]:
+    """Keep every hit the searcher returned (denylist is a citation contract, not a drop)."""
+
     fetch = fetch_page or fetch_page_text
-    denied = tuple(denied_domains) if denied_domains is not None else load_denylist()
-    allowed = [hit for hit in hits if not is_denied(hit.url, denied)]
     out: list[WebHit] = []
-    for hit in allowed[:limit]:
+    for i, hit in enumerate(hits):
         snippet = hit.snippet
-        try:
-            raw = fetch(hit.url) or ""
-            text = extract_html_text(raw) if "<" in raw else raw
-            text = _WS.sub(" ", text).strip()
-            if text:
-                snippet = text[:max_chars]
-        except Exception:
-            snippet = hit.snippet
+        if i < limit:
+            try:
+                raw = fetch(hit.url) or ""
+                text = extract_html_text(raw) if "<" in raw else raw
+                text = _WS.sub(" ", text).strip()
+                if text:
+                    snippet = text[:max_chars]
+            except Exception:
+                snippet = hit.snippet
         out.append(WebHit(title=hit.title, url=hit.url, snippet=snippet))
     return out
 
@@ -101,3 +101,34 @@ class DuckDuckGoWeb:
                 )
             )
         return fill_page_bodies(hits, fetch_page=self._fetch_page)
+
+
+def search_for_tool(query: str, searcher=None, k: int = 8) -> dict:
+    """DuckDuckGo (or injected searcher) for the Ouroboros Web skill. Does not drop denylist URLs."""
+
+    from oil_gas_analyst.denylist import is_denied, load_denylist
+    from oil_gas_analyst.turn import web_citation
+
+    hits = (searcher or DuckDuckGoWeb()).search(query)
+    if k is not None:
+        hits = hits[:k]
+    domains = load_denylist()
+    rows = []
+    for hit in hits:
+        cite = web_citation(hit)
+        rows.append(
+            {
+                "citation": cite.label,
+                "url": hit.url,
+                "title": hit.title,
+                "snippet": hit.snippet,
+                "denied": is_denied(hit.url, domains),
+            }
+        )
+    note = (
+        "Do not cite hits with denied=true (Yellow-press). Citing them is a prompt failure, "
+        "not something the host will strip."
+    )
+    if not rows:
+        note = "No Web sources. Do not invent news, oil prices, or volumes."
+    return {"hits": rows, "count": len(rows), "note": note}

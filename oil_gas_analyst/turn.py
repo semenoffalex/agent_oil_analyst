@@ -5,13 +5,25 @@ from __future__ import annotations
 from urllib.parse import urlparse
 
 from oil_gas_analyst.ingest import load_ingest_config
+from oil_gas_analyst.routes import is_out_of_scope_topic
 from oil_gas_analyst.types import (
     AnalystLoop,
     Chunk,
     Citation,
     ForecastResult,
+    LoopError,
     Reply,
     WebHit,
+)
+
+REFUSAL_TEXT = (
+    "This question is outside my Competence as a senior oil-and-gas market Analyst. "
+    "I will not retrieve Reports, search the web, or run a Forecast."
+)
+
+INFRA_TEXT = (
+    "I hit an infrastructure error and will not invent figures. "
+    "Any oil-price or volume claims would be uncertain."
 )
 
 
@@ -120,13 +132,29 @@ def forecast_citations(result: ForecastResult) -> list[Citation]:
     return out
 
 
+def has_grounded_report(reply: Reply) -> bool:
+    """True when the visible answer has ``[Отчёт …]`` and retrieve ran this turn."""
+
+    return "[Отчёт" in (reply.text or "") and reply.retrieved is True
+
+
+def _safety_net(question: str) -> Reply:
+    if is_out_of_scope_topic(question):
+        return Reply(text=REFUSAL_TEXT, refused=True)
+    return Reply(text=INFRA_TEXT, refused=False)
+
+
 def run_turn(question: str, loop: AnalystLoop) -> Reply:
     """Run one Analyst turn through the Ouroboros loop.
 
     Public seam: ``question → reply`` (text, citation tags, which tools ran).
-    The host does not refuse tools or patch a live completion.
+    A live completion is not refused or citation-patched by the host.
+    Timeout / 500 / empty completions use Safety nets only.
     """
-    result = loop.complete(question)
+    try:
+        result = loop.complete(question)
+    except (TimeoutError, LoopError):
+        return _safety_net(question)
     return Reply(
         text=result.text,
         citations=list(result.citations),
