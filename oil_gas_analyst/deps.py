@@ -21,7 +21,7 @@ def build_loop() -> OuroborosLoop:
 
     require_openrouter_key()
     url = os.environ.get("OUROBOROS_URL", "http://127.0.0.1:8765").strip()
-    timeout = float(os.environ.get("OUROBOROS_TURN_TIMEOUT_SEC", "180"))
+    timeout = float(os.environ.get("OUROBOROS_TURN_TIMEOUT_SEC", "900"))
     enable_domain_skills(url)
     return OuroborosLoop(url, timeout_sec=timeout)
 
@@ -53,7 +53,12 @@ def enable_domain_skills(base_url: str) -> None:
                 with urllib.request.urlopen(req, timeout=30) as resp:
                     resp.read()
             except urllib.error.HTTPError as exc:
-                print(f"skill enable {name} {path}: HTTP {exc.code}")
+                # 409: already attested / duplicate review. 200-class success is enough.
+                if exc.code == 409:
+                    print(f"skill enable {name} {path}: already attested (HTTP 409)")
+                else:
+                    body = exc.read().decode("utf-8", errors="replace")[:300]
+                    print(f"skill enable {name} {path}: HTTP {exc.code} {body}")
             except urllib.error.URLError as exc:
                 print(f"skill enable {name} {path}: {exc}")
 

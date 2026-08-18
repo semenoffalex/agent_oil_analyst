@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 import re
 from pathlib import Path
 from typing import Callable, Iterable
@@ -23,42 +22,10 @@ def _word_tokens(text: str) -> int:
     return len(text.split())
 
 
-_E5_TOK = None
-
-
-def e5_tokenizer_name() -> str:
-    override = os.environ.get("EMBEDDING_LOCAL_MODEL", "").strip()
-    if override:
-        return override
-    baked = Path("/opt/models/multilingual-e5-base")
-    if baked.is_dir():
-        return str(baked)
-    return "intfloat/multilingual-e5-base"
-
-
 def e5_token_count(text: str) -> int:
-    global _E5_TOK
-    try:
-        if _E5_TOK is None:
-            from transformers import AutoTokenizer
+    """Chunk cap without a local tokenizer (ADR 0025: no Torch/transformers)."""
 
-            model = e5_tokenizer_name()
-            kwargs: dict = {}
-            offline = os.environ.get("HF_HUB_OFFLINE", "").strip().lower() in {
-                "1",
-                "true",
-                "yes",
-            } or os.environ.get("TRANSFORMERS_OFFLINE", "").strip().lower() in {
-                "1",
-                "true",
-                "yes",
-            } or Path(model).is_dir()
-            if offline:
-                kwargs["local_files_only"] = True
-            _E5_TOK = AutoTokenizer.from_pretrained(model, **kwargs)
-        return len(_E5_TOK.encode(text, add_special_tokens=False))
-    except Exception:
-        return _word_tokens(text)
+    return _word_tokens(text)
 
 
 def _compile_headings(agency: str, config: dict) -> list[re.Pattern[str]]:

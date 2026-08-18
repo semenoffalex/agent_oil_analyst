@@ -10,6 +10,7 @@ data/forecast_cache/
 *.pyc
 .DS_Store
 .pytest_cache/
+docker/cache/
 
 .venv/
 __pycache__/

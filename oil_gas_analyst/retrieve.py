@@ -6,17 +6,21 @@ import os
 import re
 import socket
 from pathlib import Path
+import urllib.error
 from urllib.parse import urlparse, urlunparse
 from urllib.request import Request, urlopen
 
-from oil_gas_analyst.ingest import chunk_pdf, e5_token_count, e5_tokenizer_name, load_ingest_config
+from oil_gas_analyst.ingest import chunk_pdf, e5_token_count, load_ingest_config
 from oil_gas_analyst.types import Chunk
 
 _PASSAGE = "passage: "
 _QUERY = "query: "
 _EMBED_BATCH = 32
-_INDEX_SCHEMA = "drop-redundant-excerpts-v1"
+_INDEX_SCHEMA = "lan-e5-embeddings-v1"
 _FINGERPRINT_NAME = "corpus_fingerprint.txt"
+DEFAULT_EMBEDDING_BASE = "http://192.168.0.55:1234/v1"
+DEFAULT_EMBEDDING_MODEL = "text-embedding-multilingual-e5-base"
+DEFAULT_EMBEDDING_API_KEY = "lm-studio"
 
 
 def _prefer_ipv4(url: str) -> str:
@@ -41,65 +45,32 @@ def _prefer_ipv4(url: str) -> str:
     return urlunparse(parsed._replace(netloc=f"{auth}{ipv4}{port}"))
 
 
-class E5EmbeddingFunction:
-    def __init__(self, model_name: str | None = None):
-        import os
-
-        from sentence_transformers import SentenceTransformer
-
-        model_name = model_name or os.environ.get(
-            "EMBEDDING_MODEL", "intfloat/multilingual-e5-base"
-        )
-        from pathlib import Path
-
-        local = Path(model_name)
-        offline = os.environ.get("HF_HUB_OFFLINE", "").strip().lower() in {
-            "1",
-            "true",
-            "yes",
-        } or os.environ.get("TRANSFORMERS_OFFLINE", "").strip().lower() in {
-            "1",
-            "true",
-            "yes",
-        } or local.is_dir()
-        try:
-            self._model = SentenceTransformer(
-                str(local) if local.is_dir() else model_name,
-                local_files_only=offline,
-            )
-        except TypeError:
-            self._model = SentenceTransformer(
-                str(local) if local.is_dir() else model_name
-            )
-        self._prefix = _PASSAGE
-
-    def __call__(self, input):
-        texts = [self._prefix + t for t in input]
-        vecs = self._model.encode(texts, normalize_embeddings=True)
-        return [v.tolist() for v in vecs]
-
-    def embed_query(self, text: str) -> list[float]:
-        vec = self._model.encode([_QUERY + text], normalize_embeddings=True)[0]
-        return vec.tolist()
-
-
 class OpenAICompatibleEmbeddingFunction:
-    """OpenAI-compatible /v1/embeddings (LM Studio). Same e5 query/passage prefixes."""
+    """OpenAI-compatible /v1/embeddings (LAN LM Studio by default). No local Torch."""
 
     def __init__(
         self,
         base_url: str,
         model_name: str,
-        api_key: str = "lm-studio",
-        timeout: float = 15,
+        api_key: str,
+        timeout: float = 60,
+        *,
+        e5_prefixes: bool = False,
     ):
         base = base_url.rstrip("/")
         if not base.endswith("/v1"):
             base = f"{base}/v1"
         self._url = _prefer_ipv4(f"{base}/embeddings")
         self._model = model_name
-        self._api_key = api_key or "lm-studio"
+        self._api_key = api_key
         self._timeout = timeout
+        self._e5_prefixes = e5_prefixes
+
+    def _prefixed(self, texts: list[str], kind: str) -> list[str]:
+        if not self._e5_prefixes:
+            return texts
+        prefix = _QUERY if kind == "query" else _PASSAGE
+        return [prefix + t for t in texts]
 
     def _embed(self, texts: list[str]) -> list[list[float]]:
         out: list[list[float]] = []
@@ -118,8 +89,14 @@ class OpenAICompatibleEmbeddingFunction:
             },
             method="POST",
         )
-        with urlopen(req, timeout=self._timeout) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
+        try:
+            with urlopen(req, timeout=self._timeout) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            body = exc.read().decode("utf-8", errors="replace")
+            raise RuntimeError(f"Embedding HTTP {exc.code}: {body or exc}") from exc
+        except urllib.error.URLError as exc:
+            raise RuntimeError(f"cannot reach embedding API at {self._url}: {exc}") from exc
         rows = sorted(data.get("data") or [], key=lambda row: int(row.get("index", 0)))
         vecs = [row["embedding"] for row in rows]
         if len(vecs) != len(texts):
@@ -129,62 +106,33 @@ class OpenAICompatibleEmbeddingFunction:
         return vecs
 
     def __call__(self, input):
-        return self._embed([_PASSAGE + t for t in input])
+        return self._embed(self._prefixed(list(input), "passage"))
 
     def embed_query(self, text: str) -> list[float]:
-        return self._embed([_QUERY + text])[0]
+        return self._embed(self._prefixed([text], "query"))[0]
 
 
-class FallbackEmbeddingFunction:
-    """Try remote OpenAI-compatible embeddings; on connection errors use local e5."""
-
-    def __init__(self, primary, fallback_factory):
-        self._primary = primary
-        self._fallback_factory = fallback_factory
-        self._fallback = None
-        self._active = primary
-
-    def _switch(self, exc: BaseException) -> None:
-        if self._fallback is None:
-            print(f"remote embeddings failed ({exc}); falling back to local e5")
-            self._fallback = self._fallback_factory()
-        self._active = self._fallback
-
-    def __call__(self, input):
-        try:
-            return self._active(input)
-        except Exception as exc:
-            if self._active is not self._primary:
-                raise
-            self._switch(exc)
-            return self._active(input)
-
-    def embed_query(self, text: str) -> list[float]:
-        try:
-            return self._active.embed_query(text)
-        except Exception as exc:
-            if self._active is not self._primary:
-                raise
-            self._switch(exc)
-            return self._active.embed_query(text)
-
-
-def local_embedding_model_name() -> str:
-    return e5_tokenizer_name()
+def embedding_model_name() -> str:
+    return os.environ.get("EMBEDDING_MODEL", "").strip() or DEFAULT_EMBEDDING_MODEL
 
 
 def make_embedding_function():
-    base = os.environ.get("EMBEDDING_BASE_URL", "").strip()
-    model = os.environ.get("EMBEDDING_MODEL", "intfloat/multilingual-e5-base")
-    if base:
-        remote = OpenAICompatibleEmbeddingFunction(
-            base,
-            model,
-            api_key=os.environ.get("EMBEDDING_API_KEY", "lm-studio"),
-        )
-        return FallbackEmbeddingFunction(remote, lambda: E5EmbeddingFunction(local_embedding_model_name()))
-    local = Path(model)
-    return E5EmbeddingFunction(str(local) if local.is_dir() else model)
+    """Remote embeddings only (ADR 0025). Dead HTTP fails loudly; no local Torch."""
+
+    key = os.environ.get("EMBEDDING_API_KEY", "").strip() or DEFAULT_EMBEDDING_API_KEY
+    base = os.environ.get("EMBEDDING_BASE_URL", "").strip() or DEFAULT_EMBEDDING_BASE
+    model = embedding_model_name()
+    e5_prefixes = os.environ.get("EMBEDDING_USE_E5_PREFIXES", "").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+    } or "e5" in model.lower()
+    return OpenAICompatibleEmbeddingFunction(
+        base,
+        model,
+        api_key=key,
+        e5_prefixes=e5_prefixes,
+    )
 
 
 def _meta_bool(value: str | bool) -> bool:
@@ -240,7 +188,7 @@ def _chunk_from_meta(text: str, meta: dict) -> Chunk:
 class ChromaRetriever:
     """E5 + Chroma retrieval over persisted Report chunks."""
 
-    def __init__(self, persist_path: str, embedding: E5EmbeddingFunction, k: int = 10):
+    def __init__(self, persist_path: str, embedding, k: int = 10):
         """Open or create the ``reports`` collection on disk.
 
         Args:
@@ -320,10 +268,10 @@ class ChromaRetriever:
         self._col.upsert(ids=ids, documents=docs, embeddings=embeddings, metadatas=metas)
 
     def retrieve(self, question: str, k: int = 10) -> list[Chunk]:
-        """Vector-search Reports and return up to ``k`` chunks in e5 order (no heading-rank).
+        """Vector-search Reports and return up to ``k`` chunks (no heading-rank).
 
         Args:
-            question: User question (E5 query prefix applied internally).
+            question: User question.
             k: Number of chunks to return; defaults to constructor ``k``.
 
         Returns:
@@ -501,7 +449,7 @@ def corpus_fingerprint(samples_dir: Path, reports_dir: Path) -> str:
         64
     """
     digest = hashlib.sha256()
-    digest.update(f"{_INDEX_SCHEMA}\n".encode("utf-8"))
+    digest.update(f"{_INDEX_SCHEMA}\n{embedding_model_name()}\n".encode("utf-8"))
     for job in iter_ingest_jobs(samples_dir, reports_dir):
         path: Path = job["path"]
         digest.update(
@@ -610,7 +558,7 @@ def _default_retriever():
 
 
 def retrieve_for_tool(query: str, retriever=None, k: int = 10) -> dict:
-    """Report retrieve for the Ouroboros extension tool (e5 order, no heading-rank)."""
+    """Report retrieve for the Ouroboros extension tool (no heading-rank)."""
 
     from oil_gas_analyst.turn import report_citation
 

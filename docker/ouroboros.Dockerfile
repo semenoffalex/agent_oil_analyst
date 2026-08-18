@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1
 # Current-generation Ouroboros (v6.103.0). Chainlit talks to this process; port 8765 stays internal.
+# Chat: OpenRouter. Embeddings: LAN OpenAI-compatible API. Do not install Torch.
 
 FROM ghcr.io/astral-sh/uv:0.12.1 AS uv
 FROM python:3.10-slim
@@ -19,30 +20,15 @@ ENV UV_LINK_MODE=copy \
     UV_COMPILE_BYTECODE=1 \
     PATH="/app/.venv/bin:$PATH"
 
-RUN git clone --depth 1 --branch "${OUROBOROS_REF}" https://github.com/razzant/ouroboros.git . \
+# Ouroboros sources: host-fetched tarball (git clone / ADD from GitHub hang on this network).
+COPY docker/cache/ouroboros-v6.103.0.tar.gz /tmp/ouroboros.tar.gz
+RUN tar -xzf /tmp/ouroboros.tar.gz --strip-components=1 \
+    && rm /tmp/ouroboros.tar.gz \
     && uv sync --locked --no-dev --no-install-project \
-    && uv sync --locked --no-dev --no-editable \
-    && pip install --no-cache-dir chromadb sentence-transformers pypdf pyyaml python-dotenv ddgs \
+    && uv sync --locked --no-dev --no-editable
+
+RUN pip install --no-cache-dir chromadb pypdf pyyaml python-dotenv ddgs \
         statsmodels pandas numpy yfinance
-
-ENV HF_HOME=/opt/hf-cache \
-    HF_HUB_CACHE=/opt/hf-cache/hub \
-    TRANSFORMERS_CACHE=/opt/hf-cache \
-    HF_HUB_DISABLE_TELEMETRY=1 \
-    EMBEDDING_MODEL=intfloat/multilingual-e5-base
-
-RUN --mount=type=cache,id=sber-hf,target=/root/.cache/huggingface \
-    HF_HOME=/root/.cache/huggingface \
-    python -c "\
-from sentence_transformers import SentenceTransformer;\
-import os, shutil;\
-m=os.environ['EMBEDDING_MODEL'];\
-model=SentenceTransformer(m);\
-shutil.rmtree('/opt/models/multilingual-e5-base', ignore_errors=True);\
-model.save('/opt/models/multilingual-e5-base');\
-" \
-    && mkdir -p /opt/hf-cache \
-    && cp -a /root/.cache/huggingface/. /opt/hf-cache/
 
 COPY docker/ouroboros-entrypoint.sh /entrypoint.sh
 COPY data/ouroboros/identity.md /seed/identity.md
@@ -65,18 +51,18 @@ ENV OUROBOROS_SERVER_HOST=0.0.0.0 \
     OUROBOROS_POST_TASK_EVOLUTION=false \
     OUROBOROS_EFFORT_TASK=none \
     OUROBOROS_RETURN_REASONING=false \
+    OUROBOROS_MAX_WORKERS=2 \
     OUROBOROS_MODEL_FALLBACKS= \
     OUROBOROS_MODEL_LIGHT= \
     OUROBOROS_TRUST_NONLOCAL_BIND_WITHOUT_PASSWORD=1 \
-    OUROBOROS_SKILLS_REPO_PATH=/seed/skills \
     PYTHONPATH=/opt/analyst \
     CHROMA_PATH=/data/chroma \
     SAMPLES_PATH=/opt/analyst/data/samples \
     REPORTS_PATH=/data/reports \
     FORECAST_CACHE_PATH=/data/forecast_cache \
-    HF_HUB_OFFLINE=1 \
-    TRANSFORMERS_OFFLINE=1 \
-    EMBEDDING_MODEL=/opt/models/multilingual-e5-base
+    EMBEDDING_BASE_URL=http://192.168.0.55:1234/v1 \
+    EMBEDDING_MODEL=text-embedding-multilingual-e5-base \
+    EMBEDDING_API_KEY=lm-studio
 
 EXPOSE 8765
 

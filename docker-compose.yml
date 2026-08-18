@@ -17,16 +17,24 @@ services:
       OUROBOROS_POST_TASK_EVOLUTION: "false"
       OUROBOROS_EFFORT_TASK: none
       OUROBOROS_RETURN_REASONING: "false"
+      OUROBOROS_MAX_WORKERS: "1"
+      OUROBOROS_WORKER_START_METHOD: spawn
       OUROBOROS_TRUST_NONLOCAL_BIND_WITHOUT_PASSWORD: "1"
       OUROBOROS_DATA_DIR: /data
+      OUROBOROS_SKILLS_REPO_PATH: ""
       PYTHONPATH: /opt/analyst
       CHROMA_PATH: /data/chroma
       SAMPLES_PATH: /opt/analyst/data/samples
       REPORTS_PATH: /data/reports
       FORECAST_CACHE_PATH: /data/forecast_cache
-      EMBEDDING_MODEL: /opt/models/multilingual-e5-base
-      HF_HUB_OFFLINE: "1"
-      TRANSFORMERS_OFFLINE: "1"
+      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-http://192.168.0.55:1234/v1}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-text-embedding-multilingual-e5-base}
+      EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-lm-studio}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # tini as PID 1 so workers' ppid is the Python server, not 1.
+    # Without this, process_custody treats Docker PID 1 as an orphan and suicides.
+    init: true
     volumes:
       - ouroboros_data:/data
       - chroma_data:/data/chroma
@@ -57,14 +65,14 @@ services:
     environment:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
       OUROBOROS_URL: http://ouroboros:8765
+      OUROBOROS_TURN_TIMEOUT_SEC: ${OUROBOROS_TURN_TIMEOUT_SEC:-900}
       CHROMA_PATH: /app/data/chroma
       SAMPLES_PATH: /app/data/samples
       REPORTS_PATH: /app/data/reports
       FORECAST_CACHE_PATH: /app/data/forecast_cache
-      HF_HOME: /opt/hf-cache
-      HF_HUB_CACHE: /opt/hf-cache/hub
-      HF_HUB_OFFLINE: "1"
-      TRANSFORMERS_OFFLINE: "1"
+      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-http://192.168.0.55:1234/v1}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-text-embedding-multilingual-e5-base}
+      EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-lm-studio}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:

@@ -167,3 +167,25 @@ def test_gateway_marks_forecast_when_tool_is_in_the_task_record(monkeypatch):
     reply = run_turn("What's Brent in three months?", loop)
     assert reply.forecast_ran is True
     assert "[Forecast " in reply.text
+
+
+def test_gateway_retries_while_supervisor_is_starting(monkeypatch):
+    http = _Http(
+        [
+            (503, {"error": "supervisor is still starting"}),
+            (200, {"task_id": "t-6", "status": "queued"}),
+            (
+                200,
+                {
+                    "task_id": "t-6",
+                    "status": "completed",
+                    "result": "Refused.",
+                },
+            ),
+        ]
+    )
+    monkeypatch.setattr("oil_gas_analyst.ouroboros.urlopen", http)
+    loop = OuroborosLoop(base_url="http://ouroboros:8765", poll_interval=0)
+    reply = run_turn("what's the weather today?", loop)
+    assert reply.text == "Refused."
+    assert http.calls[0][0] == "POST"

@@ -96,4 +96,7 @@ def test_compose_publishes_chainlit_only_and_pins_light_mode():
     assert "OUROBOROS_EFFORT_TASK: none" in text
     assert "z-ai/glm-5.2:free" in text
     assert "OUROBOROS_REVIEW_MODELS: ${OUROBOROS_REVIEW_MODELS:-}" in text
+    assert "text-embedding-multilingual-e5-base" in text
+    assert "192.168.0.55:1234" in text
+    assert "/opt/models/multilingual-e5-base" not in text
 

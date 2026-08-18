@@ -46,7 +46,7 @@ chainlit run oil_gas_analyst/app.py --port 8000
 | Main | OpenRouter `z-ai/glm-5.2:free`, thinking off | Выбор заказчика; TZ разрешает любой LLM |
 | Адаптер | Chainlit `:8000` | Окно ревьюера; доказательство Ouroboros — код репозитория |
 | Skills | playbook + retrieve + search_web + run_forecast | Все доменные tools в цикле Ouroboros |
-| Отчёты (далее) | e5 + Chroma | RU/EN, без второго embedding API |
+| Отчёты (далее) | Chroma + LAN e5 embeddings API | RU/EN, без локального Torch |
 | Интернет (далее) | DuckDuckGo + denylist цитат | Бесплатно; denylist — контракт цитирования, не host-strip |
 | Прогноз (далее) | SARIMA + Holt–Winters | Два метода, без усреднения |
 
@@ -76,7 +76,8 @@ chainlit run oil_gas_analyst/app.py --port 8000
 
 ## Ограничения
 
-- `:free` GLM: rate limit и простои OpenRouter, без тихой смены модели.
+- `:free` GLM: rate limit и простои OpenRouter, без тихой смены модели. Веб-ход может идти несколько минут; таймаут Chainlit по умолчанию 900 с.
+- Эмбеддинги отчётов — OpenAI-compatible API (`192.168.0.55:1234`); локальный Torch не ставится.
 - Denylist неполный; неперечисленные таблоиды могут просочиться.
 - DuckDuckGo и Yahoo в Docker иногда падают.
 - Нет ряда Urals; IEA не в корпусе.

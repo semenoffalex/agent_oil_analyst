@@ -13,7 +13,7 @@ def register(api):
         "retrieve_reports",
         handler=retrieve_reports,
         description=(
-            "Retrieve Report chunks from the OPEC/EIA/CBR corpus (e5 + Chroma). "
+            "Retrieve Report chunks from the OPEC/EIA/CBR corpus (Chroma + remote e5 embeddings). "
             "Call for in-Competence oil/gas questions. Returns citation labels to copy verbatim."
         ),
         schema={

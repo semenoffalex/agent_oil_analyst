@@ -241,29 +241,38 @@ def test_ensure_index_force_rebuilds_matching_fingerprint(monkeypatch):
     assert ingest_calls == [1]
 
 
-def test_e5_token_count_uses_tokenizer_when_embedding_url_set(monkeypatch):
-    import oil_gas_analyst.ingest as ingest
+def test_e5_token_count_is_whitespace_without_transformers():
+    from oil_gas_analyst.ingest import e5_token_count
 
-    class Tok:
-        def encode(self, text, add_special_tokens=False):
-            return [1, 2, 3, 4, 5, 6, 7]
-
-    monkeypatch.setenv("EMBEDDING_BASE_URL", "http://host.docker.internal:1234/v1")
-    previous = ingest._E5_TOK
-    ingest._E5_TOK = Tok()
-    try:
-        assert ingest.e5_token_count("one two three") == 7
-    finally:
-        ingest._E5_TOK = previous
+    assert e5_token_count("one two three") == 3
 
 
-def test_e5_tokenizer_name_prefers_local_model_over_lm_studio_id(monkeypatch):
-    monkeypatch.setenv("EMBEDDING_BASE_URL", "http://host.docker.internal:1234/v1")
-    monkeypatch.setenv("EMBEDDING_MODEL", "text-embedding-multilingual-e5-base")
-    monkeypatch.setenv("EMBEDDING_LOCAL_MODEL", "/opt/models/multilingual-e5-base")
-    from oil_gas_analyst.ingest import e5_tokenizer_name
+def test_make_embedding_function_uses_lan_e5_and_not_local_torch(monkeypatch):
+    from oil_gas_analyst.retrieve import (
+        OpenAICompatibleEmbeddingFunction,
+        make_embedding_function,
+    )
 
-    assert e5_tokenizer_name() == "/opt/models/multilingual-e5-base"
+    monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
+    monkeypatch.delenv("EMBEDDING_API_KEY", raising=False)
+    monkeypatch.delenv("EMBEDDING_BASE_URL", raising=False)
+    monkeypatch.delenv("EMBEDDING_MODEL", raising=False)
+    monkeypatch.delenv("OPENROUTER_BASE_URL", raising=False)
+    fn = make_embedding_function()
+    assert isinstance(fn, OpenAICompatibleEmbeddingFunction)
+    assert fn._url.startswith("http://192.168.0.55:1234/v1/embeddings")
+    assert fn._model == "text-embedding-multilingual-e5-base"
+    assert fn._api_key == "lm-studio"
+    assert fn._e5_prefixes is True
+
+
+def test_make_embedding_function_does_not_require_openrouter_key(monkeypatch):
+    from oil_gas_analyst.retrieve import make_embedding_function
+
+    monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
+    monkeypatch.delenv("EMBEDDING_API_KEY", raising=False)
+    fn = make_embedding_function()
+    assert fn._api_key == "lm-studio"
 
 
 def test_missing_sample_report_breaks_ingest(tmp_path):

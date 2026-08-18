@@ -86,16 +86,25 @@ class OuroborosLoop:
             headers=headers,
             method=method.upper(),
         )
-        try:
-            with urlopen(req, timeout=max(30.0, self.timeout_sec)) as resp:
-                raw = resp.read().decode("utf-8", errors="replace")
-        except urllib.error.HTTPError as exc:
-            raw = exc.read().decode("utf-8", errors="replace")
-            raise OuroborosError(f"HTTP {exc.code}: {raw or exc}") from exc
-        except urllib.error.URLError as exc:
-            raise OuroborosError(f"cannot reach Ouroboros at {self.base_url}: {exc}") from exc
-        except TimeoutError as exc:
-            raise LoopError(f"Ouroboros request timed out at {self.base_url}") from exc
+        deadline = time.time() + self.timeout_sec
+        last_exc: BaseException | None = None
+        while True:
+            try:
+                with urlopen(req, timeout=max(30.0, self.timeout_sec)) as resp:
+                    raw = resp.read().decode("utf-8", errors="replace")
+                break
+            except urllib.error.HTTPError as exc:
+                raw = exc.read().decode("utf-8", errors="replace")
+                if exc.code == 503 and "supervisor is still starting" in raw and time.time() < deadline:
+                    last_exc = exc
+                    if self.poll_interval > 0:
+                        time.sleep(self.poll_interval)
+                    continue
+                raise OuroborosError(f"HTTP {exc.code}: {raw or exc}") from exc
+            except urllib.error.URLError as exc:
+                raise OuroborosError(f"cannot reach Ouroboros at {self.base_url}: {exc}") from exc
+            except TimeoutError as exc:
+                raise LoopError(f"Ouroboros request timed out at {self.base_url}") from exc
         if not raw.strip():
             return {}
         try:
