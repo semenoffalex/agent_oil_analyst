@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Accepted. Streamlit-as-UI and Forecast-charts-out clauses are superseded by [0026](0026-streamlit-dashboard-is-the-demo.md). Public Demo after Eval + red-team, no password, rate limit, Postgres/Route-list memory still out.
 
 ## Context
 

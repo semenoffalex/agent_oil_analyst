@@ -2,7 +2,7 @@
 
 ## Status
 
-Partially superseded: Chainlit remains the reviewer chat ([0021](0021-chainlit-adapter-ouroboros-loop.md)). LangGraph behind it does not.
+Superseded for the **window** by [0026](0026-streamlit-dashboard-is-the-demo.md) (Streamlit Chat UI). The “not a second Analyst / not FastAPI product” rule remains.
 
 ## Context
 

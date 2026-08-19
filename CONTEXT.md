@@ -9,8 +9,8 @@ The senior oil-and-gas market analyst the user talks to. It is an Ouroboros agen
 _Avoid_: chatbot, assistant, pipeline, “the LangGraph app”, treating Chainlit as the Analyst
 
 **Demo**:
-The hosted Analyst a reviewer opens in the browser at **`localhost:8000`** (Chainlit) after one command. Same product role as a public URL later; not a second app. The Ouroboros SPA on `:8765` is not the acceptance window ([0021](docs/adr/0021-chainlit-adapter-ouroboros-loop.md)). README must name Ouroboros, reviewed skills, the Chainlit adapter, and that `/evolve` is off ([0024](docs/adr/0024-readme-names-ouroboros-evolve-off.md)).
-_Avoid_: production, staging, “open :8765 for the demo”, a README that only documents LangGraph
+The hosted Analyst a reviewer or bank executive opens in the browser at **`localhost:8000`** (Streamlit **Dashboard**) after one command. Same product as a public URL later; not a second app. The Ouroboros SPA on `:8765` is not the acceptance window ([0026](docs/adr/0026-streamlit-dashboard-is-the-demo.md)). README must name Ouroboros, reviewed skills, Streamlit as Chat UI, and that `/evolve` is off.
+_Avoid_: production, staging, “open :8765 for the demo”, a README that only documents LangGraph or Chainlit as the live window
 
 **Eval**:
 A live run of the five README dialogues against a running Analyst. It passes on the **visible answer** plus **grounding**: refusal, citation tags, no invented figures, no denylist citations, `[Отчёт …]` when the corpus covers the question **and** that tag matches retrieve this turn. Extra Web beside a grounded Report is fine. Tool order and paragraph order are not frozen. A forbidden tool on an Out-of-competence pin is a prompt failure, not a missing host gate. Pytest with mocks is not an Eval. ([0019](docs/adr/0019-model-decides-the-loop.md), [0020](docs/adr/0020-waterfall-grounded-citations.md))
@@ -21,12 +21,20 @@ A closed list of Gemini (or equivalent) prompts that must all pass before a Demo
 _Avoid_: open-ended jailbreak until tired, “Gemini found nothing”
 
 **Main slot**:
-The Ouroboros solve-model pin for the Analyst in Chainlit. Product value: OpenRouter `z-ai/glm-5.2:free`, thinking off ([0023](docs/adr/0023-main-openrouter-glm52-free.md)). Heavy / skill-review / Eval may override via `.env`; unset means Main, not Grok or DeepSeek.
+The Ouroboros solve-model pin for the Analyst in the Chat UI. Product value: OpenRouter `z-ai/glm-5.2:free`, thinking off ([0023](docs/adr/0023-main-openrouter-glm52-free.md)). Heavy / skill-review / Eval may override via `.env`; unset means Main, not Grok or DeepSeek.
 _Avoid_: DeepSeek Flash as the rebuild chat vendor, silent fallback, leaving GLM thinking on
 
 **Chat UI**:
-The Chainlit window on port 8000. An adapter over the Ouroboros loop, not a second Analyst ([0021](docs/adr/0021-chainlit-adapter-ouroboros-loop.md)).
-_Avoid_: Streamlit, Gradio, FastAPI front, Ouroboros `:8765` as the click target for acceptance
+The Streamlit **Dashboard** window on port 8000. An adapter over the Ouroboros loop, not a second Analyst ([0026](docs/adr/0026-streamlit-dashboard-is-the-demo.md)).
+_Avoid_: Chainlit as the live window, Gradio, FastAPI front, Ouroboros `:8765` as the click target for acceptance
+
+**Dashboard**:
+The Demo page: chat in the centre, framed by Session-start Web, a Brent chart of **actuals + 21-day Forecast**, and Report corpus dates. For a senior bank executive; it is the expanded Demo, not a second product ([0026](docs/adr/0026-streamlit-dashboard-is-the-demo.md)).
+_Avoid_: terminal, Bloomberg clone, second Analyst, P&L, averaging the two Forecast methods, Urals on the chart without a series
+
+**Session-start Web**:
+One host Web fetch when the Streamlit session opens (not a poll, not a silent Ouroboros turn). Query is the canned Russian string `нефть Brent OPEC+ цена добыча`. Shown as title, outlet, snippet; denylist domains omitted from the rail. Those hits are injected into later turns so the Analyst may answer follow-ups about them ([0026](docs/adr/0026-streamlit-dashboard-is-the-demo.md)).
+_Avoid_: news ticker, RSS product, “the model searched at start”, a query the executive types, English-only search for this rail
 
 **Demo rate limit**:
 A cap on requests to the public Demo (per IP and/or time window). There is no password. It slows key burn; it does not stop a determined caller until the ceiling.
@@ -57,8 +65,8 @@ A numeric oil-price projection with a confidence interval, produced by the calcu
 _Avoid_: prediction, estimate, live quote, “the model’s guess”
 
 **Forecast request**:
-A turn where the Analyst uses the Forecast module. An explicit verb is a prompt hint, not a host detector — “Brent in 3 months” may still Forecast if the model chooses ([0019](docs/adr/0019-model-decides-the-loop.md)).
-_Avoid_: “only if the verb list hits”, Route-list Forecast gate
+A turn where the Analyst uses the Forecast module. An explicit verb is a prompt hint, not a host detector — “Brent in 3 months” may still Forecast if the model chooses ([0019](docs/adr/0019-model-decides-the-loop.md)). On the Dashboard, a Forecast request **replaces** the pinned 21-day Brent chart ([0026](docs/adr/0026-streamlit-dashboard-is-the-demo.md)).
+_Avoid_: “only if the verb list hits”, Route-list Forecast gate, silent chart polling
 
 **Live quote**:
 The latest traded or reported oil price taken from a Web source or a market API. It is not a Forecast.

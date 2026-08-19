@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!--
+PROTOTYPE — throwaway. Not the Demo.
+Question: three layouts for the Analyst Dashboard (chat centre, Brent actuals+21d Forecast, Session-start Web, Report corpus). No Urals.
+Switch: ?variant=A|B|C  or the bar / arrow keys (not while typing in chat).
+Open this file in a browser. Fake data only.
+-->
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PROTOTYPE Dashboard — Brent</title>
+  <style>
+    :root {
+      --bg: #0e1419;
+      --panel: #172028;
+      --line: #2a3a46;
+      --text: #e8eef2;
+      --muted: #8fa3b0;
+      --accent: #c9a227;
+      --sarima: #5b9fd4;
+      --holt: #d4894a;
+      --actual: #d8dde2;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+      font: 14px/1.45 "Segoe UI", system-ui, sans-serif; }
+    .proto-note { background: #5c1a1a; color: #ffd0d0; text-align: center; padding: 6px 12px; font-size: 12px; }
+    h1, h2 { font-weight: 600; margin: 0 0 8px; }
+    h1 { font-size: 16px; }
+    h2 { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .muted { color: var(--muted); }
+    .spot { font-variant-numeric: tabular-nums; font-size: 22px; }
+    .spot small { font-size: 12px; color: var(--muted); margin-left: 8px; }
+    .chip { display: inline-block; border: 1px solid var(--line); border-radius: 4px; padding: 2px 8px; font-size: 11px; color: var(--muted); }
+    .news { border-bottom: 1px solid var(--line); padding: 10px 0; }
+    .news:last-child { border: 0; }
+    .news .src { font-size: 11px; color: var(--accent); }
+    .corpus span { display: block; padding: 4px 0; border-bottom: 1px dashed var(--line); }
+    .chat-log { flex: 1; overflow: auto; background: #10181e; border: 1px solid var(--line); border-radius: 6px; padding: 12px; }
+    .msg { margin: 0 0 10px; }
+    .msg.user { color: #c5d4dc; }
+    .msg.analyst { color: var(--text); }
+    .composer { display: flex; gap: 8px; margin-top: 8px; }
+    .composer textarea { flex: 1; min-height: 52px; resize: vertical; background: #10181e; color: var(--text);
+      border: 1px solid var(--line); border-radius: 6px; padding: 8px; font: inherit; }
+    .composer button { background: var(--accent); color: #1a1408; border: 0; border-radius: 6px; padding: 0 16px; font-weight: 600; cursor: default; }
+    svg.chart { width: 100%; height: 180px; display: block; background: #10181e; border: 1px solid var(--line); border-radius: 6px; }
+    .legend { font-size: 11px; color: var(--muted); margin-top: 6px; }
+    .legend i { display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin: 0 6px 0 12px; }
+    .legend i:first-child { margin-left: 0; }
+    .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+    #view { height: calc(100% - 88px); }
+
+    /* A — briefing: chart ribbon, chat theatre, rails */
+    .a-grid { display: grid; height: 100%; gap: 10px; padding: 10px;
+      grid-template-columns: 1fr 1.4fr 280px; grid-template-rows: 240px 1fr;
+      grid-template-areas: "chart chart news" "corpus chat news"; }
+    .a-grid .chart-box { grid-area: chart; }
+    .a-grid .chat-box { grid-area: chat; display: flex; flex-direction: column; }
+    .a-grid .news-box { grid-area: news; overflow: auto; }
+    .a-grid .corpus-box { grid-area: corpus; overflow: auto; }
+
+    /* B — chat-first column */
+    .b-grid { display: grid; height: 100%; gap: 10px; padding: 10px;
+      grid-template-columns: 280px minmax(0, 1.6fr) 300px; }
+    .b-grid .mid { display: flex; flex-direction: column; min-width: 0; }
+    .b-side { display: flex; flex-direction: column; gap: 10px; overflow: auto; }
+
+    /* C — stacked exec: KPIs row, then two columns news | chat+chart */
+    .c-wrap { display: flex; flex-direction: column; height: 100%; gap: 10px; padding: 10px; }
+    .c-kpis { display: flex; gap: 10px; }
+    .c-kpis .panel { flex: 1; }
+    .c-main { display: grid; grid-template-columns: 320px 1fr; gap: 10px; flex: 1; min-height: 0; }
+    .c-right { display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+    .c-right .chat-box { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+    #switcher {
+      position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 12px;
+      background: #f4f0e6; color: #1a1a1a; border-radius: 999px; padding: 8px 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.45); z-index: 20; font-size: 13px; font-weight: 600;
+    }
+    #switcher button { background: #1a1a1a; color: #f4f0e6; border: 0; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="proto-note">PROTOTYPE — не Demo. Данные вымышлены. Urals нет. Стрелки внизу: варианты A / B / C.</div>
+  <div id="view"></div>
+  <div id="switcher">
+    <button type="button" id="prev" aria-label="Предыдущий">←</button>
+    <span id="label"></span>
+    <button type="button" id="next" aria-label="Следующий">→</button>
+  </div>
+
+  <script>
+    const VARIANTS = [
+      { key: "A", name: "Лента сверху" },
+      { key: "B", name: "Чат-театр" },
+      { key: "C", name: "Брифинг KPI" },
+    ];
+
+    const NEWS = [
+      { src: "reuters.com", title: "OPEC+ сохраняет политику добычи", snip: "Альянс подтвердил действующие квоты. Детали соглашения — в заявлении секретариата." },
+      { src: "iea.org", title: "Спрос на нефть в 2026: осторожный рост", snip: "Оценка спроса пересмотрена. Это веб-источник, не Sample Report." },
+      { src: "cbr.ru", title: "ЦБ: внешние условия и нефтяные доходы", snip: "Бюллетень трендов: влияние цен на экспорт. Не прогноз модуля." },
+    ];
+    const CORPUS = [
+      "OPEC MOMR, 2026-03 (excerpt)",
+      "EIA STEO, 2026-08 (excerpt)",
+      "ЦБ «О чём говорят тренды», 2026-04 (excerpt)",
+    ];
+
+    function fakeSeries() {
+      const actual = [];
+      let p = 74.2;
+      for (let i = 0; i < 60; i++) {
+        p += (Math.sin(i / 7) * 0.35) + ((i % 5) - 2) * 0.08;
+        actual.push(p);
+      }
+      const last = actual[actual.length - 1];
+      const sarima = [], holt = [];
+      for (let i = 1; i <= 21; i++) {
+        sarima.push(last + i * 0.04 + Math.sin(i / 4) * 0.15);
+        holt.push(last - i * 0.02 + Math.cos(i / 5) * 0.12);
+      }
+      return { actual, sarima, holt, last };
+    }
+
+    function chartSvg(s) {
+      const w = 800, h = 180, pad = 16;
+      const all = s.actual.concat(s.sarima, s.holt);
+      const min = Math.min(...all) - 0.5, max = Math.max(...all) + 0.5;
+      const nAct = s.actual.length, nFc = 21;
+      const total = nAct + nFc - 1;
+      const x = (i) => pad + (i / total) * (w - pad * 2);
+      const y = (v) => pad + (1 - (v - min) / (max - min)) * (h - pad * 2);
+      const line = (arr, start) => arr.map((v, i) => `${i ? "L" : "M"}${x(start + i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+      const splitX = x(nAct - 1);
+      return `<svg class="chart" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+        <line x1="${splitX}" y1="${pad}" x2="${splitX}" y2="${h - pad}" stroke="#3a4a55" stroke-dasharray="4 4"/>
+        <path d="${line(s.actual, 0)}" fill="none" stroke="#d8dde2" stroke-width="1.6"/>
+        <path d="${line([s.actual[nAct - 1], ...s.sarima], nAct - 1)}" fill="none" stroke="#5b9fd4" stroke-width="1.8"/>
+        <path d="${line([s.actual[nAct - 1], ...s.holt], nAct - 1)}" fill="none" stroke="#d4894a" stroke-width="1.8"/>
+      </svg>`;
+    }
+
+    function newsHtml() {
+      return NEWS.map((n) => `<div class="news"><div class="src">[Источник: ${n.src}, web]</div>
+        <strong>${n.title}</strong><div class="muted">${n.snip}</div></div>`).join("");
+    }
+    function corpusHtml() {
+      return `<div class="corpus">${CORPUS.map((c) => `<span>${c}</span>`).join("")}</div>`;
+    }
+    function chatHtml() {
+      return `<div class="chat-log">
+        <p class="msg analyst"><strong>Analyst.</strong> Окно Streamlit; ход в Ouroboros. Спросите про нефтяной рынок.</p>
+        <p class="msg user"><strong>Вы.</strong> Что с Brent на ближайший месяц?</p>
+        <p class="msg analyst"><strong>Analyst.</strong> На графике история и два пути на 21 торговый день, без среднего.
+          [Forecast sarima BZ=F 21d …] [Forecast holt_winters BZ=F 21d …]</p>
+      </div>
+      <div class="composer"><textarea placeholder="Вопрос руководителю рынка…"></textarea><button type="button">Отправить</button></div>`;
+    }
+    function chartBlock(s) {
+      return `<div class="panel chart-box">
+        <h2>Brent · факт + Forecast 21д</h2>
+        <div class="spot">${s.last.toFixed(2)} <small>USD/bbl · последний close, не средний Forecast</small></div>
+        ${chartSvg(s)}
+        <div class="legend"><i style="background:#d8dde2"></i>факт
+          <i style="background:#5b9fd4"></i>SARIMA <i style="background:#d4894a"></i>Holt–Winters
+          <span class="chip">обновить по просьбе в чате</span> <span class="chip">Urals нет</span></div>
+      </div>`;
+    }
+
+    function renderA(s) {
+      return `<div class="a-grid">
+        ${chartBlock(s)}
+        <div class="panel chat-box"><h1>Чат · Analyst</h1>${chatHtml()}</div>
+        <div class="panel news-box"><h2>Контекст сессии (один запрос Web)</h2>${newsHtml()}</div>
+        <div class="panel corpus-box"><h2>Корпус отчётов</h2>${corpusHtml()}</div>
+      </div>`;
+    }
+    function renderB(s) {
+      return `<div class="b-grid">
+        <div class="b-side">
+          ${chartBlock(s)}
+          <div class="panel"><h2>Корпус отчётов</h2>${corpusHtml()}</div>
+        </div>
+        <div class="panel mid"><h1>Чат · центр экрана</h1>${chatHtml()}</div>
+        <div class="panel b-side"><h2>Контекст сессии</h2>${newsHtml()}</div>
+      </div>`;
+    }
+    function renderC(s) {
+      return `<div class="c-wrap">
+        <div class="c-kpis">
+          <div class="panel"><h2>Brent close</h2><div class="spot">${s.last.toFixed(2)}</div><div class="muted">факт на графике</div></div>
+          <div class="panel"><h2>SARIMA 21д</h2><div class="spot">${s.sarima[20].toFixed(2)}</div><div class="muted">не усреднять с HW</div></div>
+          <div class="panel"><h2>Holt–Winters 21д</h2><div class="spot">${s.holt[20].toFixed(2)}</div></div>
+          <div class="panel"><h2>Корпус</h2>${corpusHtml()}</div>
+        </div>
+        <div class="c-main">
+          <div class="panel" style="overflow:auto"><h2>Контекст сессии</h2>${newsHtml()}</div>
+          <div class="c-right">
+            ${chartBlock(s)}
+            <div class="panel chat-box"><h1>Чат</h1>${chatHtml()}</div>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    const S = fakeSeries();
+    const renders = { A: renderA, B: renderB, C: renderC };
+
+    function currentKey() {
+      const q = new URLSearchParams(location.search).get("variant") || "A";
+      return VARIANTS.some((v) => v.key === q) ? q : "A";
+    }
+    function go(key) {
+      const u = new URL(location.href);
+      u.searchParams.set("variant", key);
+      history.replaceState(null, "", u);
+      paint();
+    }
+    function cycle(dir) {
+      const i = VARIANTS.findIndex((v) => v.key === currentKey());
+      go(VARIANTS[(i + dir + VARIANTS.length) % VARIANTS.length].key);
+    }
+    function paint() {
+      const key = currentKey();
+      const meta = VARIANTS.find((v) => v.key === key);
+      document.getElementById("view").innerHTML = renders[key](S);
+      document.getElementById("label").textContent = `${key} — ${meta.name}`;
+    }
+
+    document.getElementById("prev").onclick = () => cycle(-1);
+    document.getElementById("next").onclick = () => cycle(1);
+    document.addEventListener("keydown", (e) => {
+      const t = e.target;
+      if (t && (t.tagName === "TEXTAREA" || t.tagName === "INPUT" || t.isContentEditable)) return;
+      if (e.key === "ArrowLeft") cycle(-1);
+      if (e.key === "ArrowRight") cycle(1);
+    });
+    paint();
+  </script>
+</body>
+</html>

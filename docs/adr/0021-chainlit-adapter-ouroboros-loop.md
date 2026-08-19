@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Superseded for the **click target** by [0026](0026-streamlit-dashboard-is-the-demo.md) (Streamlit on `:8000`). The turn still runs in Ouroboros; LangGraph is still not the conversation path.
 
 ## Context
 
