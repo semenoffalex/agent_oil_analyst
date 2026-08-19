@@ -4,7 +4,7 @@
 
 **Blocked by:** 02 — Streamlit is the Chat UI; 03 — Session-start Web on the rail; 04 — Layout C around chat
 
-**Status:** ready-for-agent
+**Status:** done
 
 - [ ] README tells the reviewer to open Streamlit `:8000` after one compose command; Chainlit is not the live window.
 - [ ] README still names Ouroboros, reviewed skills, and `/evolve` off.

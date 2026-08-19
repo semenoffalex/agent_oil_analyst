@@ -4,7 +4,7 @@
 
 Под капотом разговор ведёт **Ouroboros** (вместо LangGraph): модель сама решает, что вызвать и когда остановиться. 
 
-**Streamlit Dashboard** на порту **8000** — Chat UI и адаптер, не второй агент; Ouroboros на `:8765` открывать не нужно. 
+**Streamlit Dashboard** на порту **8000** — Chat UI и адаптер, не второй агент. После `docker compose up` откройте [http://localhost:8000](http://localhost:8000): Session-start Web, график Brent и чат на одной странице. Ouroboros SPA на `:8765` для приёмки не нужен — цикл доказывается в этом репозитории (adapter, skills, compose). 
 
 Поиск по отчётам, веб (с denylist) и прогноз — **reviewed skills** в этом репозитории. Команда `/evolve` **выключена** (`runtime_mode=light`), чтобы агент не переписывал сам себя посреди демо.
 
@@ -12,14 +12,14 @@
 
 ## Как запустить
 
-Самый простой путь — Docker. Один `compose` поднимает чат на 8000, Ouroboros остаётся внутри сети.
+Самый простой путь — Docker. Один `compose` поднимает **Streamlit Dashboard** на 8000; Ouroboros остаётся внутри сети.
 
 ```bash
 cp .env.example .env          # OPENROUTER_API_KEY или любой другой OPEN-AI-совместимый
 docker compose up --build
 ```
 
-Чат находится по адресу [http://localhost:8000](http://localhost:8000). 
+Чат находится по адресу [http://localhost:8000](http://localhost:8000) (Streamlit Dashboard, не Chainlit). 
 
 Чат идёт через OpenRouter, модель `nvidia/nemotron-3.5-lightning:free` (т.к. в теории должна иметь самый быстрый TtFT из бесплатных), thinking выкл. 
 
@@ -38,7 +38,13 @@ streamlit run oil_gas_analyst/dashboard.py --server.port 8000
 
 Быстрые тесты без сети: `pytest -q`.
 
-Живой **Eval** пяти диалогов ниже: `LIVE_EVAL=1 pytest tests/test_graph.py -k TestLiveEval` (ключ и поднятый Ouroboros). Модель — `EVAL_CHAT_MODEL` или Main.
+**Eval** — те же пять диалогов, что в таблице ниже, через шов Dashboard (`run_turn` + Session-start Web), не через Chainlit и не через `:8765`:
+
+```bash
+LIVE_EVAL=1 pytest tests/test_graph.py -k TestLiveEval
+```
+
+Нужны `OPENROUTER_API_KEY` и поднятый Ouroboros (`docker compose up`). Модель — `EVAL_CHAT_MODEL` или Main. Ручная проверка — в браузере на `:8000`; пароля нет.
 
 **Red-team pack** перед публичным URL: `LIVE_RED_TEAM=1 pytest tests/test_graph.py -k TestLiveRedTeam`. Промпты лежат в `config/red_team_pack.yaml`.
 

@@ -91,10 +91,24 @@ def test_readme_names_ouroboros_adapter_evolve_off_and_port_8000():
     text = Path("README.md").read_text(encoding="utf-8")
     lower = text.lower()
     assert "ouroboros" in lower
-    assert "streamlit" in lower or "dashboard" in lower
+    assert "streamlit" in lower
+    assert "dashboard" in lower
+    assert "reviewed skills" in lower or "reviewed skill" in lower
     assert "/evolve" in lower
     assert "8000" in text
+    assert "chainlit" not in lower or "не chainlit" in lower
     assert "langgraph" in lower  # named as what we are not
+
+
+def test_readme_eval_targets_streamlit_dashboard():
+    from pathlib import Path
+
+    text = Path("README.md").read_text(encoding="utf-8")
+    lower = text.lower()
+    assert "live_eval" in lower
+    assert "testliveeval" in lower.replace("_", "")
+    assert "streamlit" in lower
+    assert "8765" not in text or "не нужен" in lower or ":8765" in lower
 
 
 def test_compose_publishes_streamlit_only_and_pins_light_mode():

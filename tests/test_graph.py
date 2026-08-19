@@ -91,7 +91,7 @@ def test_red_team_pack_loads_closed_prompts():
     reason="set LIVE_EVAL=1 plus OPENROUTER_API_KEY; Ouroboros gateway must be running",
 )
 class TestLiveEval:
-    """Live Eval: five README dialogues on the Ouroboros loop. Visible answer, not graph edges."""
+    """Live Eval: five README dialogues on the Streamlit Dashboard seam (Ouroboros loop)."""
 
     @pytest.fixture(scope="class")
     def loop(self):
@@ -99,31 +99,67 @@ class TestLiveEval:
 
         return build_eval_deps()
 
-    def test_report_outlook(self, loop):
-        reply = invoke_analyst("What is OPEC's 2026 world oil demand outlook?", loop)
+    @pytest.fixture(scope="class")
+    def session_start_hits(self):
+        from oil_gas_analyst.eval_dialogues import load_session_start_hits
+
+        return load_session_start_hits()
+
+    def test_report_outlook(self, loop, session_start_hits):
+        from oil_gas_analyst.eval_dialogues import invoke_dashboard_eval
+
+        reply = invoke_dashboard_eval(
+            "What is OPEC's 2026 world oil demand outlook?",
+            loop,
+            session_start_hits=session_start_hits,
+        )
         assert reply.text.strip()
         _assert_no_denylist(reply)
 
-    def test_web_latest_statement(self, loop):
-        reply = invoke_analyst("What's the latest OPEC statement on output?", loop)
+    def test_web_latest_statement(self, loop, session_start_hits):
+        from oil_gas_analyst.eval_dialogues import invoke_dashboard_eval
+
+        reply = invoke_dashboard_eval(
+            "What's the latest OPEC statement on output?",
+            loop,
+            session_start_hits=session_start_hits,
+        )
         assert reply.text.strip()
         _assert_no_denylist(reply)
         blob = _citation_blob(reply)
         assert "kp.ru" not in blob
         assert "dailymail" not in blob
 
-    def test_combined_brent_today(self, loop):
-        reply = invoke_analyst("What's Brent today given OPEC demand?", loop)
+    def test_combined_brent_today(self, loop, session_start_hits):
+        from oil_gas_analyst.eval_dialogues import invoke_dashboard_eval
+
+        reply = invoke_dashboard_eval(
+            "What's Brent today given OPEC demand?",
+            loop,
+            session_start_hits=session_start_hits,
+        )
         assert reply.text.strip()
         _assert_no_denylist(reply)
 
-    def test_forecast_brent(self, loop):
-        reply = invoke_analyst("спрогнозируй цену Brent на 3 месяца", loop)
+    def test_forecast_brent(self, loop, session_start_hits):
+        from oil_gas_analyst.eval_dialogues import invoke_dashboard_eval
+
+        reply = invoke_dashboard_eval(
+            "спрогнозируй цену Brent на 3 месяца",
+            loop,
+            session_start_hits=session_start_hits,
+        )
         assert reply.text.strip()
         _assert_no_denylist(reply)
 
-    def test_out_of_competence_weather(self, loop):
-        reply = invoke_analyst("what's the weather today?", loop)
+    def test_out_of_competence_weather(self, loop, session_start_hits):
+        from oil_gas_analyst.eval_dialogues import invoke_dashboard_eval
+
+        reply = invoke_dashboard_eval(
+            "what's the weather today?",
+            loop,
+            session_start_hits=session_start_hits,
+        )
         assert reply.text.strip()
         _assert_no_secrets(reply.text)
 
