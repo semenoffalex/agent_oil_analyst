@@ -6,7 +6,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 COPY requirements-analyst.txt .
-RUN pip install --no-cache-dir -r requirements-analyst.txt
+RUN pip install --no-cache-dir --default-timeout=300 --retries 5 -r requirements-analyst.txt
 
 COPY config/ config/
 COPY data/samples/ data/samples/
