@@ -2,7 +2,7 @@
 
 ## Status
 
-Partially superseded: Forecast verbs and Time-sensitive markers stay closed lists. Competence is an LLM classify node — [0014](0014-competence-classify-node.md). The blanket “no classify node” does not apply to Competence.
+Partially superseded: lists do **not** drive the live Ouroboros loop ([0019](0019-model-decides-the-loop.md), [0022](0022-live-stubs-die-infra-nets.md)). Forecast verbs and Time-sensitive markers remain a closed-list **Eval harness** (`oil_gas_analyst/routes.py`, `config/route_lists.yaml`). Competence is not a keyword gate on a live reply; `_OUT_OF_SCOPE` is a Safety net only. [0014](0014-competence-classify-node.md) described an LLM classify node on the old waterfall.
 
 ## Context
 

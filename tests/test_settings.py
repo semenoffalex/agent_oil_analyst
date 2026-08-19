@@ -72,6 +72,19 @@ def test_ouroboros_process_env_pins_light_mode_and_thinking_off(monkeypatch):
     assert env["OPENROUTER_API_KEY"] == "sk-or-v1-test"
 
 
+def test_local_requirements_do_not_pull_legacy_langgraph_stack():
+    from pathlib import Path
+
+    pins = [
+        line.split(">=", 1)[0].strip().lower()
+        for line in Path("requirements.txt").read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    assert "langchain" not in pins
+    assert "langgraph" not in pins
+    assert "langchain-openai" not in pins
+
+
 def test_readme_names_ouroboros_adapter_evolve_off_and_port_8000():
     from pathlib import Path
 

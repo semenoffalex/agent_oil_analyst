@@ -1,3 +1,12 @@
+"""Eval / unit harness for closed Route lists. Not a live tool gate.
+
+``is_forecast_request`` and ``is_time_sensitive`` score README dialogues and
+list-contract tests. The Ouroboros loop does not call them ([0019], [0022]).
+
+``is_out_of_scope_topic`` is a Safety net only: timeout / 500 / empty
+completion. A live reply is never classified by this dictionary.
+"""
+
 from __future__ import annotations
 
 import re
@@ -18,6 +27,7 @@ class RouteLists:
 
 
 def load_route_lists(path: Path | None = None) -> RouteLists:
+    """Load Forecast-verb and Time-sensitive lists for the Eval harness."""
     data = yaml.safe_load((path or _CONFIG).read_text(encoding="utf-8"))
     return RouteLists(
         forecast_verbs=tuple(data["forecast_verbs"]),
@@ -50,10 +60,12 @@ def _contains(phrase: str, question: str) -> bool:
 
 
 def is_forecast_request(question: str, lists: RouteLists) -> bool:
+    """Eval matcher: explicit Forecast-verb list hit. Not a host Forecast gate."""
     return any(_contains(p, question) for p in lists.forecast_verbs)
 
 
 def is_time_sensitive(question: str, lists: RouteLists) -> bool:
+    """Eval matcher: Time-sensitive list hit. Not a host Web gate."""
     hits = [p for p in lists.time_sensitive if _contains(p, question)]
     if not hits:
         return False
@@ -63,7 +75,7 @@ def is_time_sensitive(question: str, lists: RouteLists) -> bool:
     return any(p.casefold() not in weak for p in hits)
 
 
-# Spec out-of-competence demos. A Forecast verb does not override these.
+# Safety-net fallback only (infra miss). Not a Competence gate on a live reply.
 _OUT_OF_SCOPE = (
     "weather",
     "погод",
@@ -78,6 +90,7 @@ _OUT_OF_SCOPE = (
 
 
 def is_out_of_scope_topic(question: str) -> bool:
+    """Phrase dictionary for the Safety net. Must not refuse a live completion."""
     q = question.casefold()
     for phrase in _OUT_OF_SCOPE:
         p = phrase.casefold().strip()

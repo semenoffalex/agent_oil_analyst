@@ -26,7 +26,7 @@ def build_loop() -> OuroborosLoop:
 
 
 def enable_domain_skills(base_url: str) -> None:
-    """Owner-attest and enable the Analyst playbook and Report retrieve skills.
+    """Owner-attest and enable playbook, retrieve, Web, and Forecast skills.
 
     Failures are logged; a missing enable is a broken Demo, not a silent LangGraph fallback.
     """

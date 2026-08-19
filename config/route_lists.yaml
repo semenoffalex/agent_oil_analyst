@@ -1,3 +1,5 @@
+# Eval harness for Forecast-verb / Time-sensitive contract tests.
+# Not a live tool gate: the model decides Forecast and Web ([0019], [0022]).
 forecast_verbs:
   - forecast
   - predict

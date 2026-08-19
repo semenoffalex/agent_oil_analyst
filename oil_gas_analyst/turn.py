@@ -140,6 +140,11 @@ def has_grounded_report(reply: Reply) -> bool:
 
 
 def _safety_net(question: str) -> Reply:
+    """Fallback when the loop did not return a live completion.
+
+    ``is_out_of_scope_topic`` is only this fallback, not a Competence gate.
+    """
+
     if is_out_of_scope_topic(question):
         return Reply(text=REFUSAL_TEXT, refused=True)
     return Reply(text=INFRA_TEXT, refused=False)

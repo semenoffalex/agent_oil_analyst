@@ -1,3 +1,5 @@
+"""Closed Route lists as an Eval harness, not a live Forecast/Web gate."""
+
 from oil_gas_analyst.routes import (
     is_forecast_request,
     is_out_of_scope_topic,
