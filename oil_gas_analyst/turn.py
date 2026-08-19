@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from urllib.parse import urlparse
 
 from oil_gas_analyst.ingest import load_ingest_config
 from oil_gas_analyst.routes import is_out_of_scope_topic
+from oil_gas_analyst.session_start_web import SessionStartRailHit, inject_session_start_web
 from oil_gas_analyst.settings import maybe_traceable
 from oil_gas_analyst.types import (
     AnalystLoop,
@@ -151,15 +153,21 @@ def _safety_net(question: str) -> Reply:
 
 
 @maybe_traceable("analyst.run_turn")
-def run_turn(question: str, loop: AnalystLoop) -> Reply:
+def run_turn(
+    question: str,
+    loop: AnalystLoop,
+    *,
+    session_start_hits: Sequence[SessionStartRailHit] | None = None,
+) -> Reply:
     """Run one Analyst turn through the Ouroboros loop.
 
     Public seam: ``question → reply`` (text, citation tags, which tools ran).
     A live completion is not refused or citation-patched by the host.
     Timeout / 500 / empty completions use Safety nets only.
     """
+    prompt = inject_session_start_web(question, session_start_hits or ())
     try:
-        result = loop.complete(question)
+        result = loop.complete(prompt)
     except (TimeoutError, LoopError):
         return _safety_net(question)
     return Reply(

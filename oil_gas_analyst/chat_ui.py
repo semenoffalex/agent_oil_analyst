@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import threading
 import uuid
+from collections.abc import Sequence
 from typing import Callable
 
 from oil_gas_analyst.deps import build_loop
 from oil_gas_analyst.rate_limit import RateLimiter, client_key, load_rate_limit_config
 from oil_gas_analyst.render import format_reply
+from oil_gas_analyst.session_start_web import SessionStartRailHit
 from oil_gas_analyst.turn import run_turn
 
 _LOOP = None
@@ -50,17 +52,20 @@ def handle_chat_message(
     content: str,
     *,
     session_id: str,
+    session_start_hits: Sequence[SessionStartRailHit] | None = None,
     rate_limiter: RateLimiter | None = None,
-    turn_runner: Callable[[str, object], object] | None = None,
+    turn_runner: Callable[..., object] | None = None,
 ) -> str:
     """Run one Analyst turn with Demo rate limit."""
     cfg = load_rate_limit_config()
     limiter = rate_limiter or _RATE_LIMITER
-    runner = turn_runner or run_turn
     if cfg.enabled:
         allowed, retry_after = limiter.check(rate_limit_key(session_id), cfg)
         if not allowed:
             return _RATE_LIMIT_MSG.format(retry_after=retry_after)
     loop = wait_loop()
-    reply = runner(content, loop)
+    if turn_runner is not None:
+        reply = turn_runner(content, loop)
+    else:
+        reply = run_turn(content, loop, session_start_hits=session_start_hits or ())
     return format_reply(reply)

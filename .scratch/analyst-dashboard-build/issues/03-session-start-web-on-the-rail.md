@@ -4,7 +4,7 @@
 
 **Blocked by:** 02 — Streamlit is the Chat UI
 
-**Status:** ready-for-agent
+**Status:** done
 
 - [ ] Session open triggers exactly one host search with the canned Russian query.
 - [ ] Shown hits have title, outlet, snippet; denylist domains are not on the rail.
