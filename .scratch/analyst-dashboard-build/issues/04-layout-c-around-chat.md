@@ -6,7 +6,7 @@ Prototype structure (throwaway HTML, variant C): KPI row; news column; chart-ove
 
 **Blocked by:** 01 — Forecast plot payload; 02 — Streamlit is the Chat UI; 03 — Session-start Web on the rail
 
-**Status:** ready-for-agent
+**Status:** done
 
 - [ ] Layout C is visible: KPIs on top, Session-start Web left, chart over chat on the right.
 - [ ] Chart shows Brent actuals and two Forecast series (no average, no Urals).
