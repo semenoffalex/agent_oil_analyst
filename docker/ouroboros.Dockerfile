@@ -9,6 +9,8 @@ COPY --from=uv /uv /uvx /bin/
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
+    curl \
+    ca-certificates \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
@@ -20,9 +22,10 @@ ENV UV_LINK_MODE=copy \
     UV_COMPILE_BYTECODE=1 \
     PATH="/app/.venv/bin:$PATH"
 
-# Ouroboros sources: host-fetched tarball (git clone / ADD from GitHub hang on this network).
-COPY docker/cache/ouroboros-v6.103.0.tar.gz /tmp/ouroboros.tar.gz
-RUN tar -xzf /tmp/ouroboros.tar.gz --strip-components=1 \
+# Tag archive from GitHub (not a host-only docker/cache tarball — that file is gitignored).
+RUN curl -fsSL "https://github.com/razzant/ouroboros/archive/refs/tags/${OUROBOROS_REF}.tar.gz" \
+    -o /tmp/ouroboros.tar.gz \
+    && tar -xzf /tmp/ouroboros.tar.gz --strip-components=1 \
     && rm /tmp/ouroboros.tar.gz \
     && uv sync --locked --no-dev --no-install-project \
     && uv sync --locked --no-dev --no-editable
