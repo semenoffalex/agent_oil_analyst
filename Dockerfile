@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-# Chainlit adapter only. No Torch, no Hugging Face weights.
+# Streamlit Dashboard adapter only. No Torch, no Hugging Face weights.
 
 FROM python:3.11-slim
 
@@ -14,8 +14,6 @@ COPY oil_gas_analyst/ oil_gas_analyst/
 COPY pyproject.toml .
 COPY .env.example .env.example
 
-ENV CHAINLIT_HOST=0.0.0.0
-ENV CHAINLIT_PORT=8000
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 ENV CHROMA_PATH=/app/data/chroma
@@ -28,4 +26,4 @@ ENV EMBEDDING_API_KEY=lm-studio
 
 EXPOSE 8000
 
-CMD ["chainlit", "run", "oil_gas_analyst/app.py", "--host", "0.0.0.0", "--port", "8000", "--headless"]
+CMD ["streamlit", "run", "oil_gas_analyst/dashboard.py", "--server.port", "8000", "--server.address", "0.0.0.0", "--browser.gatherUsageStats", "false"]

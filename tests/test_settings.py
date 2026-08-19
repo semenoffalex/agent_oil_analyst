@@ -91,19 +91,24 @@ def test_readme_names_ouroboros_adapter_evolve_off_and_port_8000():
     text = Path("README.md").read_text(encoding="utf-8")
     lower = text.lower()
     assert "ouroboros" in lower
-    assert "chainlit" in lower
-    assert "адаптер" in lower
+    assert "streamlit" in lower or "dashboard" in lower
     assert "/evolve" in lower
     assert "8000" in text
     assert "langgraph" in lower  # named as what we are not
 
 
-def test_compose_publishes_chainlit_only_and_pins_light_mode():
+def test_compose_publishes_streamlit_only_and_pins_light_mode():
     from pathlib import Path
 
     text = Path("docker-compose.yml").read_text(encoding="utf-8")
+    dockerfile = Path("Dockerfile").read_text(encoding="utf-8")
+    analyst_req = Path("requirements-analyst.txt").read_text(encoding="utf-8").lower()
     assert "8000:8000" in text
     assert "8765:8765" not in text
+    assert '"streamlit"' in dockerfile
+    assert '"run"' in dockerfile
+    assert "chainlit" not in analyst_req
+    assert "streamlit" in analyst_req
     assert "OUROBOROS_RUNTIME_MODE: light" in text
     assert "OUROBOROS_TASK_REVIEW_MODE: off" in text
     assert "OUROBOROS_EFFORT_TASK: none" in text

@@ -14,7 +14,8 @@ import chainlit as cl
 
 from oil_gas_analyst.deps import build_loop
 from oil_gas_analyst.rate_limit import RateLimiter, client_key, load_rate_limit_config
-from oil_gas_analyst.turn import apply_citation_links, footer_flags, markdown_cite, run_turn
+from oil_gas_analyst.render import format_reply
+from oil_gas_analyst.turn import run_turn
 from oil_gas_analyst.types import Reply
 
 _LOOP = None
@@ -48,25 +49,6 @@ def _wait_loop():
     if _LOOP is None:
         raise RuntimeError("Analyst loop failed to load")
     return _LOOP
-
-
-def format_reply(reply: Reply) -> str:
-    """Render Chainlit message: linked body, Sources list, and footer flags.
-
-    Args:
-        reply: Analyst turn result from ``run_turn``.
-
-    Returns:
-        Markdown string with clickable citations and tool flags.
-    """
-    parts = [apply_citation_links(reply.text.strip(), reply.citations)]
-    if reply.citations:
-        parts.append("\n**Sources**")
-        parts.extend(f"- {markdown_cite(c)}" for c in reply.citations)
-    flags = footer_flags(reply)
-    if flags:
-        parts.append("\n_" + " · ".join(flags) + "_")
-    return "\n".join(parts)
 
 
 @cl.on_chat_start

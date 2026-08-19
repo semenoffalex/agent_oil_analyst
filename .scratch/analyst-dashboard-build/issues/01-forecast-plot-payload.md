@@ -4,7 +4,7 @@
 
 **Blocked by:** None — can start immediately.
 
-**Status:** ready-for-agent
+**Status:** done
 
 - [ ] Payload includes Brent history dates/closes plus per-step SARIMA and Holt–Winters paths for a 21 trading-day horizon (two series, no average).
 - [ ] Chat-facing `[Forecast …]` labels remain last-horizon point + interval per method.

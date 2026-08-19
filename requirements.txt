@@ -1,5 +1,6 @@
 # Local pytest, ingest CLI, and Ouroboros skill process.
 # Conversation path is Ouroboros (legacy TZ-1 graph stack is gone). Chat image: requirements-analyst.txt.
+streamlit>=1.40.0
 chainlit>=2.0.0
 chromadb>=0.5.0
 pypdf>=5.0.0

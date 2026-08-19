@@ -1,6 +1,6 @@
-# Chainlit adapter only. RAG / Forecast / LangGraph stay on the Ouroboros image
+# Streamlit Dashboard adapter. RAG / Forecast / LangGraph stay on the Ouroboros image
 # or in requirements.txt for local pytest.
-chainlit>=2.0.0
+streamlit>=1.40.0
 python-dotenv>=1.0.0
 pydantic>=2.0.0
 pydantic-settings>=2.0.0

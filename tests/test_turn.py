@@ -105,7 +105,7 @@ def test_dropper_sees_figure_past_800_chars():
 
 
 def test_format_reply_does_not_require_langgraph_steps():
-    from oil_gas_analyst.app import format_reply
+    from oil_gas_analyst.render import format_reply
 
     text = format_reply(Reply(text="Senior Analyst reply."))
     assert "Senior Analyst reply." in text

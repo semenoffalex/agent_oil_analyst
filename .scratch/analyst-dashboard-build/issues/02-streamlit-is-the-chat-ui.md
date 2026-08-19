@@ -4,7 +4,7 @@
 
 **Blocked by:** None — can start immediately.
 
-**Status:** ready-for-agent
+**Status:** done
 
 - [ ] One compose command serves Streamlit on port 8000; Chainlit is not the Demo process.
 - [ ] A user message still completes via the Ouroboros loop; this is not a second Analyst.

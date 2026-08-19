@@ -14,7 +14,7 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 
 from oil_gas_analyst.settings import maybe_traceable
-from oil_gas_analyst.types import ForecastResult, MethodForecast
+from oil_gas_analyst.types import ForecastPlotPayload, ForecastResult, MethodForecast, MethodPathForecast
 
 _CONFIG = Path(__file__).resolve().parent.parent / "config" / "forecast.yaml"
 
@@ -62,7 +62,16 @@ def _interval(pred: np.ndarray, resid_std: float) -> tuple[float, float, float]:
     return point, point - band, point + band
 
 
+def _path_from_pred(pred: np.ndarray) -> tuple[float, ...]:
+    return tuple(float(x) for x in np.asarray(pred, dtype=float).ravel())
+
+
 def _fit_sarima(y: pd.Series, horizon: int) -> MethodForecast:
+    forecast, _ = _fit_sarima_with_path(y, horizon)
+    return forecast
+
+
+def _fit_sarima_with_path(y: pd.Series, horizon: int) -> tuple[MethodForecast, tuple[float, ...]]:
     endog = y.astype(float)
     try:
         fitted = SARIMAX(
@@ -80,28 +89,39 @@ def _fit_sarima(y: pd.Series, horizon: int) -> MethodForecast:
         point = float(mean[-1])
         if low > high:
             low, high = high, low
-        return MethodForecast(
-            name="sarima",
-            point=point,
-            low=low,
-            high=high,
-            interpretation=f"SARIMA on daily closes; last point is day {horizon}.",
+        return (
+            MethodForecast(
+                name="sarima",
+                point=point,
+                low=low,
+                high=high,
+                interpretation=f"SARIMA on daily closes; last point is day {horizon}.",
+            ),
+            _path_from_pred(mean),
         )
     except Exception:
         resid_std = float(endog.diff().std() or 1.0)
         drift = float(endog.diff().mean() or 0.0)
         pred = endog.iloc[-1] + drift * np.arange(1, horizon + 1)
         point, low, high = _interval(pred, resid_std * np.sqrt(horizon))
-        return MethodForecast(
-            name="sarima",
-            point=point,
-            low=low,
-            high=high,
-            interpretation=f"SARIMA fallback (random-walk with drift) after fit failure; day {horizon}.",
+        return (
+            MethodForecast(
+                name="sarima",
+                point=point,
+                low=low,
+                high=high,
+                interpretation=f"SARIMA fallback (random-walk with drift) after fit failure; day {horizon}.",
+            ),
+            _path_from_pred(pred),
         )
 
 
 def _fit_holt(y: pd.Series, horizon: int) -> MethodForecast:
+    forecast, _ = _fit_holt_with_path(y, horizon)
+    return forecast
+
+
+def _fit_holt_with_path(y: pd.Series, horizon: int) -> tuple[MethodForecast, tuple[float, ...]]:
     endog = y.astype(float)
     periods = 5 if len(endog) >= 20 else None
     try:
@@ -115,23 +135,29 @@ def _fit_holt(y: pd.Series, horizon: int) -> MethodForecast:
         fc = np.asarray(fitted.forecast(horizon))
         resid_std = float(np.std(fitted.resid)) if getattr(fitted, "resid", None) is not None else float(endog.diff().std() or 1)
         point, low, high = _interval(fc, resid_std * np.sqrt(horizon))
-        return MethodForecast(
-            name="holt_winters",
-            point=point,
-            low=low,
-            high=high,
-            interpretation=f"Holt–Winters additive; last point is day {horizon}.",
+        return (
+            MethodForecast(
+                name="holt_winters",
+                point=point,
+                low=low,
+                high=high,
+                interpretation=f"Holt–Winters additive; last point is day {horizon}.",
+            ),
+            _path_from_pred(fc),
         )
     except Exception:
         resid_std = float(endog.diff().std() or 1.0)
         pred = np.full(horizon, float(endog.iloc[-1]))
         point, low, high = _interval(pred, resid_std * np.sqrt(horizon))
-        return MethodForecast(
-            name="holt_winters",
-            point=point,
-            low=low,
-            high=high,
-            interpretation=f"Holt–Winters fallback to last close after fit failure; day {horizon}.",
+        return (
+            MethodForecast(
+                name="holt_winters",
+                point=point,
+                low=low,
+                high=high,
+                interpretation=f"Holt–Winters fallback to last close after fit failure; day {horizon}.",
+            ),
+            _path_from_pred(pred),
         )
 
 
@@ -376,3 +402,135 @@ def forecast_for_tool(question: str, load_history: HistoryLoader | None = None) 
         "citations": citations,
         "note": note,
     }
+
+
+def _history_series_to_rows(history: pd.Series) -> tuple[tuple[str, ...], tuple[float, ...]]:
+    dates: list[str] = []
+    closes: list[float] = []
+    for idx, value in history.items():
+        dates.append(pd.Timestamp(idx).date().isoformat())
+        closes.append(float(value))
+    return tuple(dates), tuple(closes)
+
+
+def _plot_payload_from_history(
+    symbol: str,
+    history: pd.Series,
+    *,
+    horizon_days: int,
+) -> ForecastPlotPayload:
+    sarima, sarima_path = _fit_sarima_with_path(history, horizon_days)
+    holt, holt_path = _fit_holt_with_path(history, horizon_days)
+    dates, closes = _history_series_to_rows(history)
+    methods = (
+        MethodPathForecast(
+            name=sarima.name,
+            point=float(sarima.point),
+            low=float(sarima.low),
+            high=float(sarima.high),
+            path=sarima_path,
+            interpretation=sarima.interpretation,
+        ),
+        MethodPathForecast(
+            name=holt.name,
+            point=float(holt.point),
+            low=float(holt.low),
+            high=float(holt.high),
+            path=holt_path,
+            interpretation=holt.interpretation,
+        ),
+    )
+    return ForecastPlotPayload(
+        symbol=symbol,
+        horizon_days=horizon_days,
+        history_dates=dates,
+        history_closes=closes,
+        live_quote=float(history.iloc[-1]),
+        methods=methods,
+    )
+
+
+def forecast_plot_payload_to_dict(payload: ForecastPlotPayload) -> dict:
+    return {
+        "symbol": payload.symbol,
+        "horizon_days": payload.horizon_days,
+        "history_dates": list(payload.history_dates),
+        "history_closes": list(payload.history_closes),
+        "live_quote": payload.live_quote,
+        "methods": [
+            {
+                "name": method.name,
+                "point": method.point,
+                "low": method.low,
+                "high": method.high,
+                "path": list(method.path),
+                "interpretation": method.interpretation,
+            }
+            for method in payload.methods
+        ],
+        "unavailable_reason": payload.unavailable_reason,
+    }
+
+
+@maybe_traceable("analyst.forecast_plot_payload", run_type="tool")
+def forecast_plot_payload(
+    *,
+    symbol: str = "BZ=F",
+    horizon_days: int = 21,
+    load_history: HistoryLoader | None = None,
+) -> dict:
+    """Brent history plus per-step SARIMA and Holt–Winters paths for the Dashboard chart."""
+
+    if symbol.casefold() == "urals":
+        payload = ForecastPlotPayload(
+            symbol="Urals",
+            horizon_days=horizon_days,
+            history_dates=(),
+            history_closes=(),
+            live_quote=None,
+            methods=(),
+            unavailable_reason="no Yahoo series in v1",
+        )
+        return forecast_plot_payload_to_dict(payload)
+
+    loader = load_history or default_load_history
+    try:
+        history = loader(symbol)
+    except ForecastError as exc:
+        payload = ForecastPlotPayload(
+            symbol=symbol,
+            horizon_days=horizon_days,
+            history_dates=(),
+            history_closes=(),
+            live_quote=None,
+            methods=(),
+            unavailable_reason=str(exc),
+        )
+        return forecast_plot_payload_to_dict(payload)
+    except Exception as exc:
+        payload = ForecastPlotPayload(
+            symbol=symbol,
+            horizon_days=horizon_days,
+            history_dates=(),
+            history_closes=(),
+            live_quote=None,
+            methods=(),
+            unavailable_reason=str(exc),
+        )
+        return forecast_plot_payload_to_dict(payload)
+
+    if history is None or len(history) < 30:
+        payload = ForecastPlotPayload(
+            symbol=symbol,
+            horizon_days=horizon_days,
+            history_dates=(),
+            history_closes=(),
+            live_quote=None,
+            methods=(),
+            unavailable_reason="not enough price history",
+        )
+        return forecast_plot_payload_to_dict(payload)
+
+    return forecast_plot_payload_to_dict(
+        _plot_payload_from_history(symbol, history, horizon_days=horizon_days)
+    )

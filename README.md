@@ -4,7 +4,7 @@
 
 Под капотом разговор ведёт **Ouroboros** (вместо LangGraph): модель сама решает, что вызвать и когда остановиться. 
 
-**Chainlit** на порту **8000** — только окно, адаптер, не второй агент, т.е. окно устанавливать Ouroboros или обращаться к нему напрямую на `:8765` не нужно. 
+**Streamlit Dashboard** на порту **8000** — Chat UI и адаптер, не второй агент; Ouroboros на `:8765` открывать не нужно. 
 
 Поиск по отчётам, веб (с denylist) и прогноз — **reviewed skills** в этом репозитории. Команда `/evolve` **выключена** (`runtime_mode=light`), чтобы агент не переписывал сам себя посреди демо.
 
@@ -33,7 +33,7 @@ docker compose up --build
 cp .env.example .env
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt   # тесты, ingest и skills
-chainlit run oil_gas_analyst/app.py --port 8000
+streamlit run oil_gas_analyst/dashboard.py --server.port 8000
 ```
 
 Быстрые тесты без сети: `pytest -q`.
@@ -80,7 +80,7 @@ Ouroboros **v6.103.0**.
 
 # Ограничения
 
-Бесплатные модели на OpenRouter иногда ждёт очередь. Веб-ход может занять несколько минут (таймаут Chainlit по умолчанию 900 с). DuckDuckGo и Yahoo в Docker периодически молчат.
+Бесплатные модели на OpenRouter иногда ждёт очередь. Веб-ход может занять несколько минут (таймаут Ouroboros по умолчанию 900 с). DuckDuckGo и Yahoo в Docker периодически молчат.
 
 Denylist неполный: таблоид не из списка может проскочить в цитату. Ряда Urals нет, IEA в корпусе нет. Образец MOMR — не полный отчёт.
 
@@ -88,7 +88,7 @@ Denylist неполный: таблоид не из списка может пр
 
 Цель цикла — публичный **Demo** по URL, без клонирования репозитория ([ADR 0017](docs/adr/0017-next-cycle-is-public-demo.md)). 
 
-- [x] Цикл Ouroboros за Chainlit `:8000` ([0021](docs/adr/0021-chainlit-adapter-ouroboros-loop.md))
+- [x] Цикл Ouroboros за Streamlit Dashboard `:8000` ([0026](docs/adr/0026-streamlit-dashboard-is-the-demo.md))
 - [x] Report, Web и Forecast как reviewed skills
 - [ ] Скиллы на скачивание свежих отчётов
 - [ ] Память 

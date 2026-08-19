@@ -37,6 +37,27 @@ class MethodForecast:
 
 
 @dataclass(frozen=True)
+class MethodPathForecast:
+    name: str
+    point: float
+    low: float
+    high: float
+    path: tuple[float, ...]
+    interpretation: str
+
+
+@dataclass(frozen=True)
+class ForecastPlotPayload:
+    symbol: str
+    horizon_days: int
+    history_dates: tuple[str, ...]
+    history_closes: tuple[float, ...]
+    live_quote: float | None
+    methods: tuple[MethodPathForecast, ...]
+    unavailable_reason: str | None = None
+
+
+@dataclass(frozen=True)
 class ForecastResult:
     symbol: str
     methods: list[MethodForecast]

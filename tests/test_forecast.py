@@ -165,3 +165,58 @@ def test_forecast_for_tool_history_failure_is_uncertainty():
     note = (payload.get("note") or payload.get("unavailable_reason") or "").lower()
     assert "uncertain" in note or "unavail" in note or "invent" in note
     assert "78.40" not in str(payload)
+
+
+def test_forecast_plot_payload_includes_history_and_two_paths():
+    from oil_gas_analyst.forecast import forecast_plot_payload
+
+    payload = forecast_plot_payload(load_history=lambda symbol: _series())
+    assert payload["symbol"] == "BZ=F"
+    assert payload["horizon_days"] == 21
+    assert payload.get("unavailable_reason") in (None, "")
+    assert len(payload["history_dates"]) == len(payload["history_closes"]) >= 30
+    assert payload["live_quote"] == payload["history_closes"][-1]
+    names = {m["name"] for m in payload["methods"]}
+    assert names == {"sarima", "holt_winters"}
+    for method in payload["methods"]:
+        assert len(method["path"]) == 21
+        assert method["point"] == method["path"][-1]
+        assert method["low"] <= method["point"] <= method["high"]
+    assert "average" not in payload
+
+
+def test_forecast_plot_payload_urals_has_no_series():
+    from oil_gas_analyst.forecast import forecast_plot_payload
+
+    payload = forecast_plot_payload(symbol="urals", load_history=lambda symbol: _series())
+    assert payload["methods"] == []
+    assert payload["history_closes"] == []
+    assert payload["live_quote"] is None
+    assert payload["unavailable_reason"]
+    assert "brent" not in (payload["unavailable_reason"] or "").casefold()
+
+
+def test_forecast_plot_payload_history_failure_is_uncertainty():
+    from oil_gas_analyst.forecast import forecast_plot_payload
+
+    def boom(symbol):
+        raise RuntimeError("yahoo blocked")
+
+    payload = forecast_plot_payload(load_history=boom)
+    assert payload["methods"] == []
+    assert payload["history_closes"] == []
+    assert payload["unavailable_reason"]
+    assert "78.40" not in str(payload)
+
+
+def test_forecast_for_tool_citations_still_last_horizon_scalars():
+    from oil_gas_analyst.forecast import forecast_for_tool, forecast_plot_payload
+
+    plot = forecast_plot_payload(load_history=lambda symbol: _series())
+    tool = forecast_for_tool(
+        "спрогнозируй Brent на ближайший месяц",
+        load_history=lambda symbol: _series(),
+    )
+    assert len(tool["citations"]) == 2
+    assert all("[Forecast " in c for c in tool["citations"])
+    assert len(plot["methods"][0]["path"]) == 21
