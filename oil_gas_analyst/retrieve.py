@@ -11,6 +11,7 @@ from urllib.parse import urlparse, urlunparse
 from urllib.request import Request, urlopen
 
 from oil_gas_analyst.ingest import chunk_pdf, e5_token_count, load_ingest_config
+from oil_gas_analyst.settings import maybe_traceable
 from oil_gas_analyst.types import Chunk
 
 _PASSAGE = "passage: "
@@ -557,6 +558,7 @@ def _default_retriever():
     return retriever
 
 
+@maybe_traceable("analyst.retrieve_reports", run_type="retriever")
 def retrieve_for_tool(query: str, retriever=None, k: int = 10) -> dict:
     """Report retrieve for the Ouroboros extension tool (no heading-rank)."""
 

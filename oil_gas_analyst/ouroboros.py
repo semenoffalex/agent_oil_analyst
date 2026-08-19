@@ -9,6 +9,7 @@ import urllib.parse
 import urllib.request
 from typing import Any
 
+from oil_gas_analyst.settings import maybe_traceable
 from oil_gas_analyst.types import LoopError, LoopResult
 
 urlopen = urllib.request.urlopen
@@ -40,6 +41,7 @@ class OuroborosLoop:
         self.poll_interval = poll_interval
         self.timeout_sec = timeout_sec
 
+    @maybe_traceable("analyst.ouroboros_complete")
     def complete(self, question: str) -> LoopResult:
         created = self._request(
             "POST",

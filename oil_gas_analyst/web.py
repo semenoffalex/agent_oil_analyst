@@ -8,6 +8,7 @@ from collections.abc import Callable, Sequence
 from urllib.parse import urlparse
 
 from oil_gas_analyst.types import WebHit
+from oil_gas_analyst.settings import maybe_traceable
 
 _SCRIPT = re.compile(r"(?is)<(script|style|noscript|svg|iframe)\b[^>]*>.*?</\1>")
 _TAG = re.compile(r"(?is)<[^>]+>")
@@ -103,6 +104,7 @@ class DuckDuckGoWeb:
         return fill_page_bodies(hits, fetch_page=self._fetch_page)
 
 
+@maybe_traceable("analyst.search_web", run_type="retriever")
 def search_for_tool(query: str, searcher=None, k: int = 8) -> dict:
     """DuckDuckGo (or injected searcher) for the Ouroboros Web skill. Does not drop denylist URLs."""
 

@@ -30,6 +30,12 @@ services:
       EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-http://192.168.0.55:1234/v1}
       EMBEDDING_MODEL: ${EMBEDDING_MODEL:-text-embedding-multilingual-e5-base}
       EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-lm-studio}
+      LANGSMITH_TRACING: ${LANGSMITH_TRACING:-true}
+      LANGSMITH_API_KEY: ${LANGSMITH_API_KEY:-}
+      LANGSMITH_PROJECT: ${LANGSMITH_PROJECT:-pr-drab-realization-91}
+      LANGCHAIN_TRACING_V2: ${LANGSMITH_TRACING:-true}
+      LANGCHAIN_API_KEY: ${LANGSMITH_API_KEY:-}
+      LANGCHAIN_PROJECT: ${LANGSMITH_PROJECT:-pr-drab-realization-91}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     # tini as PID 1 so workers' ppid is the Python server, not 1.
@@ -73,6 +79,12 @@ services:
       EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-http://192.168.0.55:1234/v1}
       EMBEDDING_MODEL: ${EMBEDDING_MODEL:-text-embedding-multilingual-e5-base}
       EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-lm-studio}
+      LANGSMITH_TRACING: ${LANGSMITH_TRACING:-true}
+      LANGSMITH_API_KEY: ${LANGSMITH_API_KEY:-}
+      LANGSMITH_PROJECT: ${LANGSMITH_PROJECT:-pr-drab-realization-91}
+      LANGCHAIN_TRACING_V2: ${LANGSMITH_TRACING:-true}
+      LANGCHAIN_API_KEY: ${LANGSMITH_API_KEY:-}
+      LANGCHAIN_PROJECT: ${LANGSMITH_PROJECT:-pr-drab-realization-91}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:

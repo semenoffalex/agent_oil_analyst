@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 
 from oil_gas_analyst.ingest import load_ingest_config
 from oil_gas_analyst.routes import is_out_of_scope_topic
+from oil_gas_analyst.settings import maybe_traceable
 from oil_gas_analyst.types import (
     AnalystLoop,
     Chunk,
@@ -144,6 +145,7 @@ def _safety_net(question: str) -> Reply:
     return Reply(text=INFRA_TEXT, refused=False)
 
 
+@maybe_traceable("analyst.run_turn")
 def run_turn(question: str, loop: AnalystLoop) -> Reply:
     """Run one Analyst turn through the Ouroboros loop.
 

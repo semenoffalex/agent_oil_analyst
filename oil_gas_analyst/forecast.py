@@ -13,6 +13,7 @@ import yaml
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 
+from oil_gas_analyst.settings import maybe_traceable
 from oil_gas_analyst.types import ForecastResult, MethodForecast
 
 _CONFIG = Path(__file__).resolve().parent.parent / "config" / "forecast.yaml"
@@ -331,6 +332,7 @@ def run_forecast(question: str, load_history: HistoryLoader | None = None) -> Fo
     return ForecastResult(symbol=symbol, methods=methods, horizon_days=horizon)
 
 
+@maybe_traceable("analyst.run_forecast", run_type="tool")
 def forecast_for_tool(question: str, load_history: HistoryLoader | None = None) -> dict:
     """Forecast calculation for the Ouroboros extension: two methods, no average, no fake CSV."""
 

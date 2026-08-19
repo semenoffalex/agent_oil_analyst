@@ -31,7 +31,7 @@ RUN curl -fsSL "https://github.com/razzant/ouroboros/archive/refs/tags/${OUROBOR
     && uv sync --locked --no-dev --no-editable
 
 RUN pip install --no-cache-dir chromadb pypdf pyyaml python-dotenv ddgs \
-        statsmodels pandas numpy yfinance
+        statsmodels pandas numpy yfinance langsmith
 
 COPY docker/ouroboros-entrypoint.sh /entrypoint.sh
 COPY data/ouroboros/identity.md /seed/identity.md

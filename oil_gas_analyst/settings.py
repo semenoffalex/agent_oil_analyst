@@ -34,6 +34,23 @@ def _env(name: str) -> str:
     return os.environ.get(name, "").strip()
 
 
+def maybe_traceable(name: str, run_type: str = "chain"):
+    """LangSmith ``traceable`` when the package is installed; otherwise a no-op.
+
+    Tracing is a no-op unless ``LANGSMITH_TRACING`` / ``LANGCHAIN_TRACING_V2`` is on
+    and an API key is present. Does not wrap a live reply.
+    """
+
+    try:
+        from langsmith import traceable
+    except ImportError:
+        def _passthrough(fn):
+            return fn
+
+        return _passthrough
+    return traceable(name=name, run_type=run_type)
+
+
 def resolve_model_slots() -> ModelSlots:
     """Main is GLM 5.2 free. Unset Heavy / Light / Eval / skill-review use Main.
 

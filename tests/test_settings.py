@@ -99,4 +99,15 @@ def test_compose_publishes_chainlit_only_and_pins_light_mode():
     assert "text-embedding-multilingual-e5-base" in text
     assert "192.168.0.55:1234" in text
     assert "/opt/models/multilingual-e5-base" not in text
+    assert "LANGSMITH_PROJECT: ${LANGSMITH_PROJECT:-pr-drab-realization-91}" in text
+
+
+def test_maybe_traceable_keeps_run_turn_callable():
+    from oil_gas_analyst.settings import maybe_traceable
+
+    @maybe_traceable("test.noop")
+    def ping(x: int) -> int:
+        return x + 1
+
+    assert ping(1) == 2
 
