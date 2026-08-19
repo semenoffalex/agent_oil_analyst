@@ -1,0 +1,9 @@
+# Chainlit adapter only. RAG / Forecast / LangGraph stay on the Ouroboros image
+# or in requirements.txt for local pytest.
+chainlit>=2.0.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+pyyaml>=6.0.0
+pypdf>=5.0.0
+langsmith>=0.3.0

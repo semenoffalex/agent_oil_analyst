@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 
 from oil_gas_analyst.ingest import load_ingest_config
 from oil_gas_analyst.ouroboros import OuroborosLoop
-from oil_gas_analyst.retrieve import ChromaRetriever, ensure_index, make_embedding_function
 from oil_gas_analyst.settings import require_openrouter_key
 
 load_dotenv()
@@ -65,6 +64,8 @@ def enable_domain_skills(base_url: str) -> None:
 
 def build_deps(*, ingest_if_empty: bool = True):
     """Wire Report index deps for ingest CLI. Chat does not use this path."""
+
+    from oil_gas_analyst.retrieve import ChromaRetriever, ensure_index, make_embedding_function
 
     persist = os.environ.get("CHROMA_PATH", str(ROOT / "data" / "chroma"))
     samples = Path(os.environ.get("SAMPLES_PATH", str(ROOT / "data" / "samples")))
