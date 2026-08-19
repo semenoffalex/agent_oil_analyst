@@ -123,6 +123,9 @@ def test_compose_publishes_streamlit_only_and_pins_light_mode():
     assert '"run"' in dockerfile
     assert "chainlit" not in analyst_req
     assert "streamlit" in analyst_req
+    assert "statsmodels" in analyst_req
+    assert "yfinance" in analyst_req
+    assert "ddgs" in analyst_req
     assert "OUROBOROS_RUNTIME_MODE: light" in text
     assert "OUROBOROS_TASK_REVIEW_MODE: off" in text
     assert "OUROBOROS_EFFORT_TASK: none" in text

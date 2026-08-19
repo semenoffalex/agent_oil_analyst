@@ -1,5 +1,4 @@
-# Streamlit Dashboard adapter. RAG / Forecast / LangGraph stay on the Ouroboros image
-# or in requirements.txt for local pytest.
+# Streamlit Dashboard adapter. Host-side chart + Session-start Web (not Ouroboros skills image).
 streamlit>=1.40.0
 python-dotenv>=1.0.0
 pydantic>=2.0.0
@@ -7,3 +6,8 @@ pydantic-settings>=2.0.0
 pyyaml>=6.0.0
 pypdf>=5.0.0
 langsmith>=0.3.0
+pandas>=2.0.0
+numpy>=1.26.0
+statsmodels>=0.14.0
+yfinance>=0.2.40
+ddgs>=9.0.0
