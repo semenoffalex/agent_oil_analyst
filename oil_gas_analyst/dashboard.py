@@ -107,12 +107,6 @@ def _logout_demo_session() -> None:
         "chat_future",
         "chat_future_prompt",
         "messages",
-        "session_start_web_hits",
-        "brent_chart_payload",
-        "brent_chart_horizon",
-        "_chart_frame",
-        "_chart_frame_payload_id",
-        "_chart_refresh_future",
         "_news_refresh_future",
         "_ouroboros_future",
         "_ouroboros_ready",
@@ -122,16 +116,25 @@ def _logout_demo_session() -> None:
         st.session_state.pop(key, None)
 
 
+def _hydrate_news_from_disk() -> list[SessionStartRailHit]:
+    """Sync read of the on-disk news rail; safe to call every authenticated run."""
+    if st.session_state.get("_session_start_web_hydrated"):
+        return st.session_state.get("session_start_web_hits") or []
+
+    hits = cached_top_news_hits()
+    st.session_state.session_start_web_hits = hits
+    st.session_state._session_start_web_hydrated = True
+    st.session_state._session_start_web_from_cache = bool(hits)
+    return hits
+
+
 def _hydrate_from_disk_caches() -> None:
+    _hydrate_news_from_disk()
     if "brent_chart_payload" not in st.session_state:
         cached = load_cached_brent_chart_payload(horizon_days=_DEFAULT_HORIZON)
         if cached is not None:
             st.session_state.brent_chart_payload = cached
             st.session_state.brent_chart_horizon = int(cached.get("horizon_days") or _DEFAULT_HORIZON)
-    if "session_start_web_hits" not in st.session_state:
-        cached_hits = cached_top_news_hits()
-        if cached_hits:
-            st.session_state.session_start_web_hits = cached_hits
 
 
 def _chart_refresh_in_progress() -> bool:
@@ -180,6 +183,7 @@ def _collect_background_refreshes() -> bool:
             hits = news_future.result()
             if hits:
                 st.session_state.session_start_web_hits = hits
+                st.session_state._session_start_web_from_cache = False
         except Exception:
             pass
         st.session_state.pop("_news_refresh_future", None)
@@ -206,8 +210,8 @@ def _poll_dashboard_refresh() -> None:
 
 
 def _ensure_session_start_web() -> list[SessionStartRailHit]:
-    if "session_start_web_hits" not in st.session_state:
-        _hydrate_from_disk_caches()
+    if not st.session_state.get("_session_start_web_hydrated"):
+        _hydrate_news_from_disk()
     return st.session_state.get("session_start_web_hits") or []
 
 
@@ -339,6 +343,9 @@ def _render_session_start_rail(
         if refreshing or _news_refresh_in_progress():
             with st.spinner(NEWS_REFRESH_COPY):
                 st.caption("Ищем свежие заголовки…")
+            return
+        if st.session_state.get("_session_start_web_from_cache"):
+            st.caption(NEWS_REFRESH_COPY)
             return
         st.caption(RAIL_EMPTY_COPY)
         return
@@ -480,6 +487,8 @@ def main() -> None:
     if not _render_login_gate():
         return
 
+    _hydrate_from_disk_caches()
+
     if _render_header(show_logout=cfg.enabled):
         _logout_demo_session()
         st.rerun()
@@ -493,7 +502,6 @@ def main() -> None:
     if _finish_chat_turn_if_ready():
         st.rerun()
 
-    _hydrate_from_disk_caches()
     _start_background_refreshes()
     _collect_background_refreshes()
 

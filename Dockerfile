@@ -20,6 +20,7 @@ ENV PYTHONPATH=/app
 ENV CHROMA_PATH=/app/data/chroma
 ENV SAMPLES_PATH=/app/data/samples
 ENV REPORTS_PATH=/app/data/reports
+ENV TOP_NEWS_CACHE_PATH=/app/data/top_news_cache
 ENV OUROBOROS_URL=http://ouroboros:8765
 ENV EMBEDDING_BASE_URL=https://openrouter.ai/api/v1
 ENV EMBEDDING_MODEL=nvidia/nemotron-3-embed-1b:free

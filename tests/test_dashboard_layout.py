@@ -38,6 +38,7 @@ def test_dashboard_puts_chat_before_chart_and_news_rail_at_top():
     assert "_CHAT_HINT" in text
     assert "_CHAT_INPUT_PLACEHOLDER" in text
     assert "_hydrate_from_disk_caches" in text
+    assert "_hydrate_news_from_disk" in text
     assert "_start_background_refreshes" in text
 
 

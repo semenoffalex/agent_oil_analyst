@@ -79,6 +79,7 @@ services:
       SAMPLES_PATH: /app/data/samples
       REPORTS_PATH: /app/data/reports
       FORECAST_CACHE_PATH: /app/data/forecast_cache
+      TOP_NEWS_CACHE_PATH: /app/data/top_news_cache
       EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-https://openrouter.ai/api/v1}
       EMBEDDING_MODEL: ${EMBEDDING_MODEL:-nvidia/nemotron-3-embed-1b:free}
       EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-${OPENROUTER_API_KEY}}
@@ -98,6 +99,7 @@ services:
       - chroma_data:/app/data/chroma
       - reports_data:/app/data/reports
       - forecast_cache:/app/data/forecast_cache
+      - top_news_cache:/app/data/top_news_cache
     depends_on:
       ouroboros:
         condition: service_healthy
@@ -108,3 +110,4 @@ volumes:
   chroma_data:
   reports_data:
   forecast_cache:
+  top_news_cache:
