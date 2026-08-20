@@ -1,0 +1,152 @@
+#cloud-config
+# Analyst Dashboard — one-shot bootstrap for Timeweb Cloud.
+#
+# Target VPS (Timeweb MSK 80 or equivalent):
+#   Ubuntu 22.04 LTS
+#   CPU: 4 × 3.3 GHz
+#   RAM: 8 GB
+#   Disk: 80 GB NVMe
+#
+# Usage: create VPS → Cloud-init / user-data → paste this entire file.
+# Before paste: replace the three REPLACE_* placeholders in write_files.
+#
+# After boot (~15–25 min first build on 4 vCPU): http://<server-ip>:8000
+# Logs: /var/log/analyst-bootstrap.log
+
+timezone: Europe/Moscow
+
+package_update: true
+package_upgrade: true
+
+packages:
+  - git
+  - curl
+  - ca-certificates
+  - ufw
+
+write_files:
+  - path: /root/analyst-demo.secrets.env
+    permissions: "0600"
+    owner: root:root
+    content: |
+      OPENROUTER_API_KEY=REPLACE_OPENROUTER_API_KEY
+      EMBEDDING_BASE_URL=REPLACE_EMBEDDING_BASE_URL
+      EMBEDDING_API_KEY=REPLACE_EMBEDDING_API_KEY
+      EMBEDDING_MODEL=text-embedding-multilingual-e5-base
+      OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
+      MAIN_CHAT_MODEL=z-ai/glm-5.2:free
+      OUROBOROS_MODEL=z-ai/glm-5.2:free
+      DEMO_RATE_LIMIT_MAX=15
+      DEMO_RATE_LIMIT_WINDOW_SEC=3600
+      LANGSMITH_TRACING=false
+      LANGCHAIN_TRACING_V2=false
+
+  - path: /usr/local/bin/analyst-demo-bootstrap.sh
+    permissions: "0755"
+    owner: root:root
+    content: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      LOG=/var/log/analyst-bootstrap.log
+      REPO_URL="${ANALYST_REPO_URL:-https://github.com/semenoffalex/agent_oil_analyst.git}"
+      REPO_BRANCH="${ANALYST_REPO_BRANCH:-exp}"
+      APP_DIR=/opt/agent_oil_analyst
+      MIN_FREE_GB=25
+
+      exec > >(tee -a "$LOG") 2>&1
+      echo "=== analyst-demo bootstrap $(date -Is) ==="
+
+      CPU_COUNT="$(nproc)"
+      MEM_GB="$(awk '/MemTotal/ {printf "%.0f", $2/1024/1024}' /proc/meminfo)"
+      DISK_GB="$(df -BG / | awk 'NR==2 {gsub(/G/,"",$4); print $4}')"
+      echo "Host: ${CPU_COUNT} vCPU, ${MEM_GB} GB RAM, ${DISK_GB} GB free on /"
+
+      if [[ "$MEM_GB" -lt 6 ]]; then
+        echo "WARNING: less than 6 GB RAM — demo stack expects 8 GB (Timeweb MSK 80)."
+      fi
+
+      if [[ "$DISK_GB" -lt "$MIN_FREE_GB" ]]; then
+        echo "ERROR: need at least ${MIN_FREE_GB} GB free on / for Docker images (have ${DISK_GB} GB)."
+        exit 1
+      fi
+
+      if ! command -v docker >/dev/null 2>&1; then
+        echo "Installing Docker..."
+        curl -fsSL https://get.docker.com | sh
+        systemctl enable --now docker
+      fi
+
+      if ! docker compose version >/dev/null 2>&1; then
+        echo "Installing docker-compose-plugin..."
+        apt-get update -qq
+        DEBIAN_FRONTEND=noninteractive apt-get install -y -qq docker-compose-plugin
+      fi
+
+      if [[ ! -d "$APP_DIR/.git" ]]; then
+        echo "Cloning $REPO_URL ($REPO_BRANCH)..."
+        rm -rf "$APP_DIR"
+        git clone --depth 1 --branch "$REPO_BRANCH" "$REPO_URL" "$APP_DIR"
+      else
+        echo "Repo exists, pulling..."
+        git -C "$APP_DIR" fetch --depth 1 origin "$REPO_BRANCH"
+        git -C "$APP_DIR" checkout "$REPO_BRANCH"
+        git -C "$APP_DIR" pull --ff-only origin "$REPO_BRANCH" || true
+      fi
+
+      install -m 0600 /root/analyst-demo.secrets.env "$APP_DIR/.env"
+
+      echo "Building and starting stack (expect ~15–25 min on 4 vCPU / 8 GB RAM)..."
+      cd "$APP_DIR"
+      DOCKER_BUILDKIT=1 docker compose build --parallel
+      docker compose up -d
+
+      echo "Waiting for analyst health..."
+      for _ in $(seq 1 90); do
+        if curl -fsS -o /dev/null http://127.0.0.1:8000/; then
+          echo "Dashboard is up on :8000"
+          break
+        fi
+        sleep 10
+      done
+
+      ufw --force reset
+      ufw default deny incoming
+      ufw default allow outgoing
+      ufw allow OpenSSH
+      ufw allow 8000/tcp comment 'Analyst Dashboard'
+      ufw --force enable
+
+      docker system df >> "$LOG" 2>&1 || true
+      PUBLIC_IP="$(curl -fsS -4 --max-time 5 ifconfig.me 2>/dev/null || hostname -I | awk '{print $1}')"
+      echo "READY: http://${PUBLIC_IP}:8000"
+      date -Is > /root/analyst-demo.ready
+
+  - path: /etc/systemd/system/analyst-demo.service
+    permissions: "0644"
+    owner: root:root
+    content: |
+      [Unit]
+      Description=Analyst Dashboard (docker compose)
+      After=docker.service network-online.target
+      Wants=network-online.target
+      Requires=docker.service
+
+      [Service]
+      Type=oneshot
+      RemainAfterExit=yes
+      WorkingDirectory=/opt/agent_oil_analyst
+      ExecStart=/usr/bin/docker compose up -d
+      ExecStop=/usr/bin/docker compose down
+      TimeoutStartSec=0
+
+      [Install]
+      WantedBy=multi-user.target
+
+runcmd:
+  - [bash, -lc, "/usr/local/bin/analyst-demo-bootstrap.sh"]
+  - [bash, -lc, "systemctl daemon-reload && systemctl enable analyst-demo.service"]
+
+final_message: |
+  Analyst Dashboard cloud-init finished (spec: 4 vCPU, 8 GB RAM, 80 GB NVMe).
+  Check: tail -f /var/log/analyst-bootstrap.log
+  When /root/analyst-demo.ready exists: open http://<your-ip>:8000
