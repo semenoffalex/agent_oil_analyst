@@ -21,8 +21,8 @@ A closed list of Gemini (or equivalent) prompts that must all pass before a Demo
 _Avoid_: open-ended jailbreak until tired, “Gemini found nothing”
 
 **Main slot**:
-The Ouroboros solve-model pin for the Analyst in the Chat UI. Product value: OpenRouter `z-ai/glm-5.2:free`, thinking off ([0023](docs/adr/0023-main-openrouter-glm52-free.md)). Heavy / skill-review / Eval may override via `.env`; unset means Main, not Grok or DeepSeek.
-_Avoid_: DeepSeek Flash as the rebuild chat vendor, silent fallback, leaving GLM thinking on
+The Ouroboros solve-model pin for the Analyst in the Chat UI. Product value: DeepSeek `deepseek-v4-flash` via DeepSeek API (`openai-compatible::` lane), thinking off ([0027](docs/adr/0027-deepseek-direct-api-main.md)). Heavy / skill-review / Eval may override via `.env`; unset means Main, not Grok or OpenRouter.
+_Avoid_: OpenRouter GLM as the rebuild chat vendor, silent fallback, leaving DeepSeek thinking on
 
 **Chat UI**:
 The Streamlit **Dashboard** window on port 8000. An adapter over the Ouroboros loop, not a second Analyst ([0026](docs/adr/0026-streamlit-dashboard-is-the-demo.md)).

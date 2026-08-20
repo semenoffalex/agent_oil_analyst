@@ -275,7 +275,7 @@ def test_make_embedding_function_raises_without_key(monkeypatch):
     try:
         make_embedding_function()
     except RuntimeError as exc:
-        assert "OPENROUTER_API_KEY" in str(exc)
+        assert "EMBEDDING_API_KEY" in str(exc) or "OPENROUTER_API_KEY" in str(exc)
     else:
         raise AssertionError("expected RuntimeError")
 

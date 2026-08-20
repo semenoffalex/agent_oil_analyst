@@ -2,7 +2,7 @@
 
 ## Status
 
-Superseded for the Ouroboros rebuild by [0023](0023-main-openrouter-glm52-free.md) (`z-ai/glm-5.2:free`, thinking off).
+Accepted (reinstated for Ouroboros rebuild via `openai-compatible::` lane; supersedes [0023](0023-main-openrouter-glm52-free.md)).
 
 ## Context
 

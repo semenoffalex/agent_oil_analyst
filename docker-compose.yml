@@ -6,8 +6,10 @@ services:
     env_file:
       - .env
     environment:
-      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
-      OUROBOROS_MODEL: ${OUROBOROS_MODEL:-z-ai/glm-5.2:free}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY}
+      OPENAI_COMPATIBLE_API_KEY: ${DEEPSEEK_API_KEY}
+      OPENAI_COMPATIBLE_BASE_URL: ${DEEPSEEK_BASE_URL:-https://api.deepseek.com}
+      OUROBOROS_MODEL: ${OUROBOROS_MODEL:-openai-compatible::deepseek-v4-flash}
       OUROBOROS_MODEL_HEAVY: ${OUROBOROS_MODEL_HEAVY:-}
       OUROBOROS_MODEL_LIGHT: ${OUROBOROS_MODEL_LIGHT:-}
       OUROBOROS_MODEL_FALLBACKS: ${OUROBOROS_MODEL_FALLBACKS:-}
@@ -69,6 +71,7 @@ services:
     env_file:
       - .env
     environment:
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY}
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
       OUROBOROS_URL: http://ouroboros:8765
       OUROBOROS_TURN_TIMEOUT_SEC: ${OUROBOROS_TURN_TIMEOUT_SEC:-900}

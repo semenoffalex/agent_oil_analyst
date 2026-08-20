@@ -15,15 +15,15 @@
 Самый простой путь — Docker. Один `compose` поднимает **Streamlit Dashboard** на 8000; Ouroboros остаётся внутри сети.
 
 ```bash
-cp .env.example .env          # OPENROUTER_API_KEY или любой другой OPEN-AI-совместимый
+cp .env.example .env          # DEEPSEEK_API_KEY (чат) и OPENROUTER_API_KEY (эмбеддинги)
 docker compose up --build
 ```
 
 Чат находится по адресу [http://localhost:8000](http://localhost:8000) (Streamlit Dashboard, не Chainlit). 
 
-Чат идёт через OpenRouter, модель `nvidia/nemotron-3.5-lightning:free` (т.к. в теории должна иметь самый быстрый TtFT из бесплатных), thinking выкл. 
+Чат идёт через **DeepSeek API** (`deepseek-v4-flash` на `api.deepseek.com`), thinking выкл. Эмбеддинги отчётов — OpenRouter Nemotron (тот же или отдельный `OPENROUTER_API_KEY`).
 
-Если в `.env` не заданы отдельные Heavy / Eval / skill-review — все используют ту же модель. Тихого отката на DeepSeek или Grok нет. Бесплатный слот иногда тормозит или упирается в лимит — для демо это осознанный риск.
+Если в `.env` не заданы отдельные Heavy / Eval / skill-review — все используют ту же модель. Тихого отката на OpenRouter GLM или Grok нет.
 
 ### Без Docker
 
@@ -44,7 +44,7 @@ streamlit run oil_gas_analyst/dashboard.py --server.port 8000
 LIVE_EVAL=1 pytest tests/test_graph.py -k TestLiveEval
 ```
 
-Нужны `OPENROUTER_API_KEY` и поднятый Ouroboros (`docker compose up`). Модель — `EVAL_CHAT_MODEL` или Main. Ручная проверка — в браузере на `:8000`; пароля нет.
+Нужны `DEEPSEEK_API_KEY`, `OPENROUTER_API_KEY` (эмбеддинги) и поднятый Ouroboros (`docker compose up`). Модель — `EVAL_CHAT_MODEL` или Main. Ручная проверка — в браузере на `:8000`; пароля нет.
 
 **Red-team pack** перед публичным URL: `LIVE_RED_TEAM=1 pytest tests/test_graph.py -k TestLiveRedTeam`. Промпты лежат в `config/red_team_pack.yaml`.
 
@@ -86,7 +86,7 @@ Ouroboros **v6.103.0**.
 
 # Ограничения
 
-Бесплатные модели на OpenRouter иногда ждёт очередь. Веб-ход может занять несколько минут (таймаут Ouroboros по умолчанию 900 с). DuckDuckGo и Yahoo в Docker периодически молчат.
+Бесплатные модели на OpenRouter иногда ждёт очередь (эмбеддинги). Чат — лимиты DeepSeek API. Веб-ход может занять несколько минут (таймаут Ouroboros по умолчанию 900 с). DuckDuckGo и Yahoo в Docker периодически молчат.
 
 Denylist неполный: таблоид не из списка может проскочить в цитату. Ряда Urals нет, IEA в корпусе нет. Образец MOMR — не полный отчёт.
 

@@ -8,7 +8,8 @@
 #   Disk: 80 GB NVMe
 #
 # Usage: create VPS → Cloud-init / user-data → paste this entire file.
-# Before paste: replace REPLACE_OPENROUTER_API_KEY, REPLACE_DEMO_LOGIN_USER, REPLACE_DEMO_LOGIN_PASSWORD.
+# Before paste: replace REPLACE_DEEPSEEK_API_KEY, REPLACE_OPENROUTER_API_KEY,
+# REPLACE_DEMO_LOGIN_USER, REPLACE_DEMO_LOGIN_PASSWORD.
 #
 # After boot (~15–25 min first build on 4 vCPU): http://<server-ip>:8000
 # Logs: /var/log/analyst-bootstrap.log
@@ -29,10 +30,12 @@ write_files:
     permissions: "0600"
     owner: root:root
     content: |
+      DEEPSEEK_API_KEY=REPLACE_DEEPSEEK_API_KEY
+      DEEPSEEK_BASE_URL=https://api.deepseek.com
+      MAIN_CHAT_MODEL=openai-compatible::deepseek-v4-flash
+      OUROBOROS_MODEL=openai-compatible::deepseek-v4-flash
       OPENROUTER_API_KEY=REPLACE_OPENROUTER_API_KEY
       OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
-      MAIN_CHAT_MODEL=z-ai/glm-5.2:free
-      OUROBOROS_MODEL=z-ai/glm-5.2:free
       EMBEDDING_BASE_URL=https://openrouter.ai/api/v1
       EMBEDDING_MODEL=nvidia/nemotron-3-embed-1b:free
       DEMO_LOGIN_USER=REPLACE_DEMO_LOGIN_USER

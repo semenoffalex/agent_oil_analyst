@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Superseded by [0027](0027-deepseek-direct-api-main.md) (DeepSeek V4 Flash via DeepSeek API).
 
 ## Context
 

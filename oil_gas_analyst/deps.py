@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 from oil_gas_analyst.ingest import load_ingest_config
 from oil_gas_analyst.ouroboros import OuroborosLoop
-from oil_gas_analyst.settings import require_openrouter_key
+from oil_gas_analyst.settings import require_deepseek_key, require_embedding_api_key
 
 load_dotenv()
 
@@ -16,9 +16,10 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def build_loop() -> OuroborosLoop:
-    """Wire Chainlit to the Ouroboros gateway. Missing OpenRouter key fails loudly."""
+    """Wire Streamlit to the Ouroboros gateway. Missing DeepSeek or embedding key fails loudly."""
 
-    require_openrouter_key()
+    require_deepseek_key()
+    require_embedding_api_key()
     url = os.environ.get("OUROBOROS_URL", "http://127.0.0.1:8765").strip()
     timeout = float(os.environ.get("OUROBOROS_TURN_TIMEOUT_SEC", "900"))
     enable_domain_skills(url)
