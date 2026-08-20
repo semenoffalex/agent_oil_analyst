@@ -247,32 +247,37 @@ def test_e5_token_count_is_whitespace_without_transformers():
     assert e5_token_count("one two three") == 3
 
 
-def test_make_embedding_function_uses_lan_e5_and_not_local_torch(monkeypatch):
+def test_make_embedding_function_uses_openrouter_nemotron(monkeypatch):
     from oil_gas_analyst.retrieve import (
         OpenAICompatibleEmbeddingFunction,
         make_embedding_function,
     )
 
-    monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "sk-or-test")
     monkeypatch.delenv("EMBEDDING_API_KEY", raising=False)
     monkeypatch.delenv("EMBEDDING_BASE_URL", raising=False)
     monkeypatch.delenv("EMBEDDING_MODEL", raising=False)
     monkeypatch.delenv("OPENROUTER_BASE_URL", raising=False)
     fn = make_embedding_function()
     assert isinstance(fn, OpenAICompatibleEmbeddingFunction)
-    assert fn._url.startswith("http://192.168.0.55:1234/v1/embeddings")
-    assert fn._model == "text-embedding-multilingual-e5-base"
-    assert fn._api_key == "lm-studio"
-    assert fn._e5_prefixes is True
+    assert "/api/v1/embeddings" in fn._url
+    assert fn._model == "nvidia/nemotron-3-embed-1b:free"
+    assert fn._api_key == "sk-or-test"
+    assert fn._e5_prefixes is False
+    assert fn._nemotron_input_type is True
 
 
-def test_make_embedding_function_does_not_require_openrouter_key(monkeypatch):
+def test_make_embedding_function_raises_without_key(monkeypatch):
     from oil_gas_analyst.retrieve import make_embedding_function
 
     monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
     monkeypatch.delenv("EMBEDDING_API_KEY", raising=False)
-    fn = make_embedding_function()
-    assert fn._api_key == "lm-studio"
+    try:
+        make_embedding_function()
+    except RuntimeError as exc:
+        assert "OPENROUTER_API_KEY" in str(exc)
+    else:
+        raise AssertionError("expected RuntimeError")
 
 
 def test_missing_sample_report_breaks_ingest(tmp_path):

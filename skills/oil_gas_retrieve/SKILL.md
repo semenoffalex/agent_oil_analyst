@@ -1,6 +1,6 @@
 ---
 name: oil_gas_retrieve
-description: Retrieve OPEC/EIA/CBR Report chunks (Chroma + remote e5 embeddings) for oil-and-gas answers.
+description: Retrieve OPEC/EIA/CBR Report chunks (Chroma + OpenRouter Nemotron embeddings) for oil-and-gas answers.
 version: 0.1.0
 type: extension
 runtime: python3

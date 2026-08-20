@@ -131,8 +131,8 @@ def test_compose_publishes_streamlit_only_and_pins_light_mode():
     assert "OUROBOROS_EFFORT_TASK: none" in text
     assert "z-ai/glm-5.2:free" in text
     assert "OUROBOROS_REVIEW_MODELS: ${OUROBOROS_REVIEW_MODELS:-}" in text
-    assert "text-embedding-multilingual-e5-base" in text
-    assert "192.168.0.55:1234" in text
+    assert "nvidia/nemotron-3-embed-1b:free" in text
+    assert "openrouter.ai/api/v1" in text
     assert "/opt/models/multilingual-e5-base" not in text
     assert "LANGSMITH_PROJECT: ${LANGSMITH_PROJECT:-pr-drab-realization-91}" in text
 

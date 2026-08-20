@@ -27,9 +27,9 @@ services:
       SAMPLES_PATH: /opt/analyst/data/samples
       REPORTS_PATH: /data/reports
       FORECAST_CACHE_PATH: /data/forecast_cache
-      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-http://192.168.0.55:1234/v1}
-      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-text-embedding-multilingual-e5-base}
-      EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-lm-studio}
+      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-https://openrouter.ai/api/v1}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-nvidia/nemotron-3-embed-1b:free}
+      EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-${OPENROUTER_API_KEY}}
       LANGSMITH_TRACING: ${LANGSMITH_TRACING:-true}
       LANGSMITH_API_KEY: ${LANGSMITH_API_KEY:-}
       LANGSMITH_PROJECT: ${LANGSMITH_PROJECT:-pr-drab-realization-91}
@@ -76,9 +76,9 @@ services:
       SAMPLES_PATH: /app/data/samples
       REPORTS_PATH: /app/data/reports
       FORECAST_CACHE_PATH: /app/data/forecast_cache
-      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-http://192.168.0.55:1234/v1}
-      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-text-embedding-multilingual-e5-base}
-      EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-lm-studio}
+      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-https://openrouter.ai/api/v1}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-nvidia/nemotron-3-embed-1b:free}
+      EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-${OPENROUTER_API_KEY}}
       LANGSMITH_TRACING: ${LANGSMITH_TRACING:-true}
       LANGSMITH_API_KEY: ${LANGSMITH_API_KEY:-}
       LANGSMITH_PROJECT: ${LANGSMITH_PROJECT:-pr-drab-realization-91}

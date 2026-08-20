@@ -78,7 +78,7 @@ LIVE_EVAL=1 pytest tests/test_graph.py -k TestLiveEval
 
 Ouroboros **v6.103.0**. 
 
-Эмбеддинги отчётов — e5 по LAN (`временно`), без локального Torch. 
+Эмбеддинги отчётов — **OpenRouter** `nvidia/nemotron-3-embed-1b:free` (тот же `OPENROUTER_API_KEY`), без локального Torch. 
 
 Веб — DuckDuckGo; denylist запрещает **цитировать** жёлтую прессу, но не вырезает её из выдачи. 
 

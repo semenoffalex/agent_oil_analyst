@@ -63,9 +63,8 @@ ENV OUROBOROS_SERVER_HOST=0.0.0.0 \
     SAMPLES_PATH=/opt/analyst/data/samples \
     REPORTS_PATH=/data/reports \
     FORECAST_CACHE_PATH=/data/forecast_cache \
-    EMBEDDING_BASE_URL=http://192.168.0.55:1234/v1 \
-    EMBEDDING_MODEL=text-embedding-multilingual-e5-base \
-    EMBEDDING_API_KEY=lm-studio
+    EMBEDDING_BASE_URL=https://openrouter.ai/api/v1 \
+    EMBEDDING_MODEL=nvidia/nemotron-3-embed-1b:free
 
 EXPOSE 8765
 

@@ -17,11 +17,10 @@ from oil_gas_analyst.types import Chunk
 _PASSAGE = "passage: "
 _QUERY = "query: "
 _EMBED_BATCH = 32
-_INDEX_SCHEMA = "lan-e5-embeddings-v1"
+_INDEX_SCHEMA = "openrouter-nemotron-embed-v1"
 _FINGERPRINT_NAME = "corpus_fingerprint.txt"
-DEFAULT_EMBEDDING_BASE = "http://192.168.0.55:1234/v1"
-DEFAULT_EMBEDDING_MODEL = "text-embedding-multilingual-e5-base"
-DEFAULT_EMBEDDING_API_KEY = "lm-studio"
+DEFAULT_EMBEDDING_BASE = "https://openrouter.ai/api/v1"
+DEFAULT_EMBEDDING_MODEL = "nvidia/nemotron-3-embed-1b:free"
 
 
 def _prefer_ipv4(url: str) -> str:
@@ -47,7 +46,7 @@ def _prefer_ipv4(url: str) -> str:
 
 
 class OpenAICompatibleEmbeddingFunction:
-    """OpenAI-compatible /v1/embeddings (LAN LM Studio by default). No local Torch."""
+    """OpenAI-compatible /v1/embeddings (OpenRouter Nemotron by default). No local Torch."""
 
     def __init__(
         self,
@@ -57,6 +56,7 @@ class OpenAICompatibleEmbeddingFunction:
         timeout: float = 60,
         *,
         e5_prefixes: bool = False,
+        nemotron_input_type: bool = False,
     ):
         base = base_url.rstrip("/")
         if not base.endswith("/v1"):
@@ -66,6 +66,20 @@ class OpenAICompatibleEmbeddingFunction:
         self._api_key = api_key
         self._timeout = timeout
         self._e5_prefixes = e5_prefixes
+        self._nemotron_input_type = nemotron_input_type
+
+    def _request_headers(self) -> dict[str, str]:
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self._api_key}",
+        }
+        if "openrouter.ai" in self._url:
+            headers["HTTP-Referer"] = os.environ.get(
+                "OPENROUTER_HTTP_REFERER",
+                "https://github.com/semenoffalex/agent_oil_analyst",
+            )
+            headers["X-Title"] = os.environ.get("OPENROUTER_APP_TITLE", "Oil Gas Analyst")
+        return headers
 
     def _prefixed(self, texts: list[str], kind: str) -> list[str]:
         if not self._e5_prefixes:
@@ -73,21 +87,22 @@ class OpenAICompatibleEmbeddingFunction:
         prefix = _QUERY if kind == "query" else _PASSAGE
         return [prefix + t for t in texts]
 
-    def _embed(self, texts: list[str]) -> list[list[float]]:
+    def _embed(self, texts: list[str], *, kind: str) -> list[list[float]]:
+        prepared = self._prefixed(texts, kind)
         out: list[list[float]] = []
-        for i in range(0, len(texts), _EMBED_BATCH):
-            out.extend(self._embed_batch(texts[i : i + _EMBED_BATCH]))
+        for i in range(0, len(prepared), _EMBED_BATCH):
+            out.extend(self._embed_batch(prepared[i : i + _EMBED_BATCH], kind=kind))
         return out
 
-    def _embed_batch(self, texts: list[str]) -> list[list[float]]:
-        payload = json.dumps({"model": self._model, "input": texts}).encode("utf-8")
+    def _embed_batch(self, texts: list[str], *, kind: str) -> list[list[float]]:
+        body: dict[str, object] = {"model": self._model, "input": texts}
+        if self._nemotron_input_type:
+            body["input_type"] = "query" if kind == "query" else "passage"
+        payload = json.dumps(body).encode("utf-8")
         req = Request(
             self._url,
             data=payload,
-            headers={
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {self._api_key}",
-            },
+            headers=self._request_headers(),
             method="POST",
         )
         try:
@@ -107,32 +122,53 @@ class OpenAICompatibleEmbeddingFunction:
         return vecs
 
     def __call__(self, input):
-        return self._embed(self._prefixed(list(input), "passage"))
+        return self._embed(list(input), kind="passage")
 
     def embed_query(self, text: str) -> list[float]:
-        return self._embed(self._prefixed([text], "query"))[0]
+        return self._embed([text], kind="query")[0]
 
 
 def embedding_model_name() -> str:
     return os.environ.get("EMBEDDING_MODEL", "").strip() or DEFAULT_EMBEDDING_MODEL
 
 
+def embedding_base_url() -> str:
+    return (
+        os.environ.get("EMBEDDING_BASE_URL", "").strip()
+        or os.environ.get("OPENROUTER_BASE_URL", "").strip()
+        or DEFAULT_EMBEDDING_BASE
+    )
+
+
+def embedding_api_key() -> str:
+    return (
+        os.environ.get("EMBEDDING_API_KEY", "").strip()
+        or os.environ.get("OPENROUTER_API_KEY", "").strip()
+    )
+
+
 def make_embedding_function():
     """Remote embeddings only (ADR 0025). Dead HTTP fails loudly; no local Torch."""
 
-    key = os.environ.get("EMBEDDING_API_KEY", "").strip() or DEFAULT_EMBEDDING_API_KEY
-    base = os.environ.get("EMBEDDING_BASE_URL", "").strip() or DEFAULT_EMBEDDING_BASE
+    key = embedding_api_key()
+    if not key:
+        raise RuntimeError(
+            "EMBEDDING_API_KEY or OPENROUTER_API_KEY is required for remote embeddings."
+        )
+    base = embedding_base_url()
     model = embedding_model_name()
     e5_prefixes = os.environ.get("EMBEDDING_USE_E5_PREFIXES", "").strip().lower() in {
         "1",
         "true",
         "yes",
     } or "e5" in model.lower()
+    nemotron_input_type = "nemotron" in model.lower() and "embed" in model.lower()
     return OpenAICompatibleEmbeddingFunction(
         base,
         model,
         api_key=key,
         e5_prefixes=e5_prefixes,
+        nemotron_input_type=nemotron_input_type,
     )
 
 

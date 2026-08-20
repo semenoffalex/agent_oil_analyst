@@ -20,9 +20,8 @@ ENV CHROMA_PATH=/app/data/chroma
 ENV SAMPLES_PATH=/app/data/samples
 ENV REPORTS_PATH=/app/data/reports
 ENV OUROBOROS_URL=http://ouroboros:8765
-ENV EMBEDDING_BASE_URL=http://192.168.0.55:1234/v1
-ENV EMBEDDING_MODEL=text-embedding-multilingual-e5-base
-ENV EMBEDDING_API_KEY=lm-studio
+ENV EMBEDDING_BASE_URL=https://openrouter.ai/api/v1
+ENV EMBEDDING_MODEL=nvidia/nemotron-3-embed-1b:free
 
 EXPOSE 8000
 
