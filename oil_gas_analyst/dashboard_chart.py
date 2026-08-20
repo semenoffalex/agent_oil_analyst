@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import json
 import math
+import os
+from pathlib import Path
 
 import pandas as pd
 
@@ -14,6 +17,34 @@ CHART_UNCERTAINTY_COPY = (
 )
 
 _DEFAULT_HORIZON = 21
+
+
+def _chart_payload_cache_path() -> Path:
+    root = Path(os.environ.get("FORECAST_CACHE_PATH") or "data/forecast_cache")
+    return root / "brent_chart_payload.json"
+
+
+def load_cached_brent_chart_payload(*, horizon_days: int = _DEFAULT_HORIZON) -> dict | None:
+    path = _chart_payload_cache_path()
+    if not path.is_file():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    if int(payload.get("horizon_days") or 0) != horizon_days:
+        return None
+    if payload.get("unavailable_reason"):
+        return None
+    return payload
+
+
+def save_brent_chart_payload_cache(payload: dict) -> None:
+    if payload.get("unavailable_reason"):
+        return
+    path = _chart_payload_cache_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def chart_refresh_horizon(user_prompt: str) -> int | None:
@@ -32,12 +63,15 @@ def load_brent_chart_payload(
     load_history=None,
     history_start: str = CHART_HISTORY_START,
 ) -> dict:
-    return forecast_plot_payload(
+    payload = forecast_plot_payload(
         symbol="BZ=F",
         horizon_days=horizon_days,
         load_history=load_history,
         history_start=history_start,
     )
+    if load_history is None:
+        save_brent_chart_payload_cache(payload)
+    return payload
 
 
 def kpi_from_chart_payload(payload: dict) -> dict[str, float | None]:

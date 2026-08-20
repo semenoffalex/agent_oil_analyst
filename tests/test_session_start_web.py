@@ -2,9 +2,11 @@ from oil_gas_analyst.session_start_web import (
     SESSION_START_INJECT_HEADER,
     SESSION_START_WEB_QUERY,
     SessionStartRailHit,
+    cached_top_news_hits,
     fetch_session_start_web,
     has_grounded_session_start_web,
     inject_session_start_web,
+    refresh_top_news_hits,
     visible_rail_hits,
 )
 from oil_gas_analyst.turn import run_turn
@@ -34,6 +36,68 @@ def _payload(kp_denied: bool = True, reuters: bool = True) -> dict:
             }
         )
     return {"hits": hits, "count": len(hits), "note": "ok"}
+
+
+def test_cached_top_news_hits_reads_disk_without_network(tmp_path):
+    cache_body = {
+        "query": SESSION_START_WEB_QUERY,
+        "fetched_at": "2026-08-20T10:00:00+03:00",
+        "hits": [
+            {
+                "title": "Cached Brent headline",
+                "url": "https://www.reuters.com/cached",
+                "snippet": "from disk",
+                "citation": "[Источник: reuters.com, web]",
+                "denied": False,
+                "published": "2026-08-19T12:00:00+00:00",
+            }
+        ],
+        "count": 1,
+        "note": "ok",
+    }
+    (tmp_path / "top_news_rail.json").write_text(
+        __import__("json").dumps(cache_body),
+        encoding="utf-8",
+    )
+    hits = cached_top_news_hits(cache_dir=tmp_path)
+    assert len(hits) == 1
+    assert hits[0].title == "Cached Brent headline"
+
+
+def test_refresh_top_news_hits_falls_back_to_cache_when_live_empty(tmp_path, monkeypatch):
+    from datetime import date
+
+    monkeypatch.setattr(
+        "oil_gas_analyst.session_start_web._today_moscow",
+        lambda: date(2026, 8, 20),
+    )
+    cache_body = {
+        "query": SESSION_START_WEB_QUERY,
+        "fetched_at": "2026-08-20T10:00:00+03:00",
+        "hits": [
+            {
+                "title": "Cached only",
+                "url": "https://www.reuters.com/cached-only",
+                "snippet": "from disk",
+                "citation": "[Источник: reuters.com, web]",
+                "denied": False,
+                "published": "2026-08-19T12:00:00+00:00",
+            }
+        ],
+        "count": 1,
+        "note": "ok",
+    }
+    (tmp_path / "top_news_rail.json").write_text(
+        __import__("json").dumps(cache_body),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(
+        "oil_gas_analyst.session_start_web._collect_yandex_top_news",
+        lambda query: [],
+    )
+    hits = refresh_top_news_hits(cache_dir=tmp_path)
+    assert len(hits) == 1
+    assert hits[0].title == "Cached only"
 
 
 def test_fetch_session_start_web_uses_canned_query():

@@ -14,12 +14,15 @@ from oil_gas_analyst.dashboard_chart import (
     chart_refresh_horizon,
     kpi_from_chart_payload,
     load_brent_chart_payload,
+    load_cached_brent_chart_payload,
 )
 from oil_gas_analyst.session_start_web import (
+    NEWS_REFRESH_COPY,
     RAIL_EMPTY_COPY,
     TOP_NEWS_RAIL_TITLE,
     SessionStartRailHit,
-    fetch_session_start_web,
+    cached_top_news_hits,
+    refresh_top_news_hits,
     visible_rail_hits,
 )
 
@@ -27,7 +30,9 @@ _INFRA_MSG = "I hit an infrastructure error and will not invent figures. ({exc})
 _DEFAULT_HORIZON = 21
 _CHAT_HINT = "Спросите о цене Brent, решениях ОПЕК+, прогнозе или заголовках из ленты выше."
 _CHAT_INPUT_PLACEHOLDER = "Например: как изменилась цена Brent за последнюю неделю?"
-_CHAT_EXECUTOR = concurrent.futures.ThreadPoolExecutor(max_workers=2, thread_name_prefix="analyst-chat")
+_CHAT_EXECUTOR = concurrent.futures.ThreadPoolExecutor(max_workers=3, thread_name_prefix="analyst-chat")
+_CHART_LOADING_COPY = "Загрузка графика Brent…"
+_CHAT_LOADING_COPY = "Подключение чата…"
 
 _DASHBOARD_CSS = """
 <style>
@@ -105,71 +110,133 @@ def _logout_demo_session() -> None:
         "session_start_web_hits",
         "brent_chart_payload",
         "brent_chart_horizon",
-        "_dashboard_loaded",
+        "_chart_frame",
+        "_chart_frame_payload_id",
+        "_chart_refresh_future",
+        "_news_refresh_future",
+        "_ouroboros_future",
+        "_ouroboros_ready",
+        "_ouroboros_error",
+        "_dashboard_refresh_started",
     ):
         st.session_state.pop(key, None)
-    st.rerun()
 
 
-def _bootstrap_dashboard_data() -> None:
-    """Load chart and top news in parallel."""
-    needs_chart = "brent_chart_payload" not in st.session_state
-    needs_news = "session_start_web_hits" not in st.session_state
-    if not needs_chart and not needs_news:
+def _hydrate_from_disk_caches() -> None:
+    if "brent_chart_payload" not in st.session_state:
+        cached = load_cached_brent_chart_payload(horizon_days=_DEFAULT_HORIZON)
+        if cached is not None:
+            st.session_state.brent_chart_payload = cached
+            st.session_state.brent_chart_horizon = int(cached.get("horizon_days") or _DEFAULT_HORIZON)
+    if "session_start_web_hits" not in st.session_state:
+        cached_hits = cached_top_news_hits()
+        if cached_hits:
+            st.session_state.session_start_web_hits = cached_hits
+
+
+def _chart_refresh_in_progress() -> bool:
+    future = st.session_state.get("_chart_refresh_future")
+    return isinstance(future, concurrent.futures.Future) and not future.done()
+
+
+def _news_refresh_in_progress() -> bool:
+    future = st.session_state.get("_news_refresh_future")
+    return isinstance(future, concurrent.futures.Future) and not future.done()
+
+
+def _start_background_refreshes() -> None:
+    if st.session_state.get("_dashboard_refresh_started"):
         return
+    st.session_state._dashboard_refresh_started = True
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
-        chart_future = (
-            pool.submit(load_brent_chart_payload, horizon_days=_DEFAULT_HORIZON)
-            if needs_chart
-            else None
+    if not _chart_refresh_in_progress():
+        st.session_state._chart_refresh_future = _CHAT_EXECUTOR.submit(
+            load_brent_chart_payload,
+            horizon_days=_DEFAULT_HORIZON,
         )
-        news_future = (
-            pool.submit(lambda: visible_rail_hits(fetch_session_start_web()))
-            if needs_news
-            else None
-        )
-        if chart_future is not None:
+    if not _news_refresh_in_progress():
+        st.session_state._news_refresh_future = _CHAT_EXECUTOR.submit(refresh_top_news_hits)
+    if not st.session_state.get("_ouroboros_ready") and "_ouroboros_future" not in st.session_state:
+        st.session_state._ouroboros_future = _CHAT_EXECUTOR.submit(wait_loop)
+
+
+def _collect_background_refreshes() -> bool:
+    updated = False
+
+    chart_future = st.session_state.get("_chart_refresh_future")
+    if isinstance(chart_future, concurrent.futures.Future) and chart_future.done():
+        try:
             st.session_state.brent_chart_payload = chart_future.result()
             st.session_state.brent_chart_horizon = _DEFAULT_HORIZON
-        if news_future is not None:
-            st.session_state.session_start_web_hits = news_future.result()
+            st.session_state.pop("_chart_frame", None)
+        except Exception:
+            pass
+        st.session_state.pop("_chart_refresh_future", None)
+        updated = True
+
+    news_future = st.session_state.get("_news_refresh_future")
+    if isinstance(news_future, concurrent.futures.Future) and news_future.done():
+        try:
+            hits = news_future.result()
+            if hits:
+                st.session_state.session_start_web_hits = hits
+        except Exception:
+            pass
+        st.session_state.pop("_news_refresh_future", None)
+        updated = True
+
+    ouroboros_future = st.session_state.get("_ouroboros_future")
+    if isinstance(ouroboros_future, concurrent.futures.Future) and ouroboros_future.done():
+        try:
+            ouroboros_future.result()
+            st.session_state._ouroboros_ready = True
+            st.session_state.pop("_ouroboros_error", None)
+        except Exception as exc:
+            st.session_state._ouroboros_error = str(exc)
+        st.session_state.pop("_ouroboros_future", None)
+        updated = True
+
+    return updated
+
+
+@st.fragment(run_every=1)
+def _poll_dashboard_refresh() -> None:
+    if _collect_background_refreshes():
+        st.rerun()
 
 
 def _ensure_session_start_web() -> list[SessionStartRailHit]:
     if "session_start_web_hits" not in st.session_state:
-        payload = fetch_session_start_web()
-        st.session_state.session_start_web_hits = visible_rail_hits(payload)
-    return st.session_state.session_start_web_hits
+        _hydrate_from_disk_caches()
+    return st.session_state.get("session_start_web_hits") or []
 
 
 def _reload_chart(*, horizon_days: int = _DEFAULT_HORIZON) -> dict:
     payload = load_brent_chart_payload(horizon_days=horizon_days)
     st.session_state.brent_chart_payload = payload
     st.session_state.brent_chart_horizon = horizon_days
+    st.session_state.pop("_chart_frame", None)
     return payload
 
 
-def _ensure_chart_payload() -> dict:
+def _ensure_chart_payload() -> dict | None:
     if "brent_chart_payload" not in st.session_state:
-        return _reload_chart()
-    return st.session_state.brent_chart_payload
+        _hydrate_from_disk_caches()
+    return st.session_state.get("brent_chart_payload")
 
 
-def _load_dashboard_data() -> tuple[dict, list[SessionStartRailHit]]:
-    if st.session_state.get("_dashboard_loaded"):
-        return _ensure_chart_payload(), _ensure_session_start_web()
+def _chart_frame(payload: dict):
+    cached = st.session_state.get("_chart_frame")
+    if cached is not None and st.session_state.get("_chart_frame_payload_id") == id(payload):
+        return cached
+    frame = chart_dataframe_from_payload(payload)
+    st.session_state._chart_frame = frame
+    st.session_state._chart_frame_payload_id = id(payload)
+    return frame
 
-    with st.status("Загрузка панели", expanded=True) as status:
-        st.write("График Brent и котировки…")
-        st.write("Топ новостей…")
-        _bootstrap_dashboard_data()
-        st.write("Чат с аналитиком…")
-        wait_loop()
-        status.update(label="Панель загружена", state="complete", expanded=False)
 
-    st.session_state._dashboard_loaded = True
-    return st.session_state.brent_chart_payload, st.session_state.session_start_web_hits
+def _ouroboros_ready() -> bool:
+    return bool(st.session_state.get("_ouroboros_ready"))
 
 
 def _start_chat_turn(prompt: str) -> None:
@@ -231,7 +298,20 @@ def _render_corpus_strip() -> None:
         st.write("—")
 
 
-def _render_kpi_row(payload: dict) -> None:
+def _render_kpi_row(payload: dict | None) -> None:
+    if payload is None:
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            st.caption("Brent, закрытие")
+            st.metric("долл./барр.", "—")
+        with c2:
+            st.caption("SARIMA, 21 дн.")
+            st.metric("прогноз", "—")
+        with c3:
+            st.caption("Хольт–Винтерс, 21 дн.")
+            st.metric("прогноз", "—")
+        return
+
     kpis = kpi_from_chart_payload(payload)
     c1, c2, c3 = st.columns(3)
     with c1:
@@ -248,11 +328,23 @@ def _render_kpi_row(payload: dict) -> None:
         st.metric("прогноз", f"{holt:.2f}" if holt is not None else "—")
 
 
-def _render_session_start_rail(hits: list[SessionStartRailHit], *, max_cards: int = 3) -> None:
+def _render_session_start_rail(
+    hits: list[SessionStartRailHit],
+    *,
+    max_cards: int = 3,
+    refreshing: bool = False,
+) -> None:
     """Top-N narrow cards in a horizontal strip."""
     if not hits:
+        if refreshing or _news_refresh_in_progress():
+            with st.spinner(NEWS_REFRESH_COPY):
+                st.caption("Ищем свежие заголовки…")
+            return
         st.caption(RAIL_EMPTY_COPY)
         return
+
+    if refreshing or _news_refresh_in_progress():
+        st.caption(NEWS_REFRESH_COPY)
 
     visible = hits[:max_cards]
     cols = st.columns(len(visible), gap="small")
@@ -269,19 +361,33 @@ def _render_session_start_rail(hits: list[SessionStartRailHit], *, max_cards: in
                     st.caption(snippet[:96] + ("…" if len(snippet) > 96 else ""))
 
 
-def _render_news_and_corpus_row(hits: list[SessionStartRailHit]) -> None:
+def _render_news_and_corpus_row(
+    hits: list[SessionStartRailHit],
+    *,
+    refreshing: bool = False,
+) -> None:
     news_col, corpus_col = st.columns([3, 1], gap="medium")
     with news_col:
         st.subheader(TOP_NEWS_RAIL_TITLE)
-        _render_session_start_rail(hits, max_cards=3)
+        _render_session_start_rail(hits, max_cards=3, refreshing=refreshing)
     with corpus_col:
         _render_corpus_strip()
 
 
-def _render_chart_panel(payload: dict) -> None:
+def _render_chart_panel(payload: dict | None, *, refreshing: bool = False) -> None:
+    if payload is None:
+        if refreshing or _chart_refresh_in_progress():
+            with st.spinner(_CHART_LOADING_COPY):
+                st.caption("Считаем прогноз и подтягиваем котировки…")
+            return
+        st.warning(CHART_UNCERTAINTY_COPY)
+        return
+
     horizon = payload.get("horizon_days", _DEFAULT_HORIZON)
     st.subheader(f"Brent · факт и прогноз {horizon} дн.")
-    frame = chart_dataframe_from_payload(payload)
+    if refreshing or _chart_refresh_in_progress():
+        st.caption("Обновляем график…")
+    frame = _chart_frame(payload)
     if frame is None:
         st.warning(CHART_UNCERTAINTY_COPY)
         if payload.get("unavailable_reason"):
@@ -338,9 +444,24 @@ def _render_chat_panel(*, busy: bool) -> None:
     st.subheader("Вопрос аналитику")
     st.markdown(f'<p class="chat-hint">{_CHAT_HINT}</p>', unsafe_allow_html=True)
     _render_chat_history()
+
+    chat_ready = _ouroboros_ready()
+    chat_loading = (
+        not chat_ready
+        and (
+            "_ouroboros_future" in st.session_state
+            or st.session_state.get("_ouroboros_error") is None
+        )
+    )
+    if chat_loading and not st.session_state.get("_ouroboros_error"):
+        with st.spinner(_CHAT_LOADING_COPY):
+            st.caption("Можно уже смотреть котировки и новости выше.")
+    elif st.session_state.get("_ouroboros_error"):
+        st.error(f"Чат недоступен. ({st.session_state._ouroboros_error})")
+
     if prompt := st.chat_input(
         _CHAT_INPUT_PLACEHOLDER,
-        disabled=busy,
+        disabled=busy or not chat_ready,
     ):
         st.session_state.messages.append({"role": "user", "content": prompt})
         _start_chat_turn(prompt)
@@ -361,6 +482,7 @@ def main() -> None:
 
     _render_header(show_logout=cfg.enabled)
     _poll_chat_future()
+    _poll_dashboard_refresh()
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -368,15 +490,18 @@ def main() -> None:
     if _finish_chat_turn_if_ready():
         st.rerun()
 
-    try:
-        chart_payload, news_hits = _load_dashboard_data()
-    except Exception as exc:
-        st.error(f"Не удалось загрузить панель. ({exc})")
-        return
+    _hydrate_from_disk_caches()
+    _start_background_refreshes()
+    _collect_background_refreshes()
+
+    chart_payload = _ensure_chart_payload()
+    news_hits = _ensure_session_start_web()
+    chart_refreshing = _chart_refresh_in_progress()
+    news_refreshing = _news_refresh_in_progress()
 
     _render_kpi_row(chart_payload)
-    _render_news_and_corpus_row(news_hits)
-    _render_chart_panel(chart_payload)
+    _render_news_and_corpus_row(news_hits, refreshing=news_refreshing)
+    _render_chart_panel(chart_payload, refreshing=chart_refreshing)
     _render_chat_panel(busy=chat_turn_in_progress(_chat_future()))
 
 

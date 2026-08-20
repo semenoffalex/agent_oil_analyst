@@ -30,6 +30,7 @@ RAIL_EMPTY_COPY = (
     "Нет свежих новостей за сегодня. Не выдумываем заголовки — "
     "чат может позже вызвать search_web."
 )
+NEWS_REFRESH_COPY = "Обновляем новости…"
 
 _RELATIVE_YESTERDAY = re.compile(r"(?i)\b(вчера|yesterday|1\s*day\s*ago)\b")
 _RELATIVE_TODAY = re.compile(r"(?i)\b(сегодня|today)\b")
@@ -255,6 +256,43 @@ def _build_payload_from_ranked(ranked: list[_RankedWebHit]) -> dict:
     return {"hits": rows, "count": len(rows), "note": note}
 
 
+def cached_top_news_hits(*, cache_dir: Path | str | None = None) -> list[SessionStartRailHit]:
+    """Instant rail from on-disk cache (no network)."""
+    cache = Path(cache_dir) if cache_dir is not None else None
+    payload = _load_top_news_cache(cache_dir=cache)
+    if payload is None:
+        return []
+    return visible_rail_hits(payload)
+
+
+def _fetch_live_top_news_payload(*, cache_dir: Path | None = None) -> dict:
+    ranked = _collect_yandex_top_news(SESSION_START_WEB_QUERY)
+    fresh = [
+        item
+        for item in ranked
+        if _is_fresh_for_rail(
+            item.published,
+            assume_today_if_unknown=item.assume_today_if_unknown,
+        )
+    ]
+    return _build_payload_from_ranked(fresh)
+
+
+def refresh_top_news_hits(*, cache_dir: Path | str | None = None) -> list[SessionStartRailHit]:
+    """Live fetch; keep cached hits visible when today has no fresh rows."""
+    cache = Path(cache_dir) if cache_dir is not None else None
+    fallback = cached_top_news_hits(cache_dir=cache)
+    try:
+        payload = _fetch_live_top_news_payload(cache_dir=cache)
+        fresh = visible_rail_hits(payload)
+        if fresh:
+            _save_top_news_cache(payload, cache_dir=cache)
+            return fresh
+    except Exception:
+        pass
+    return fallback
+
+
 def fetch_session_start_web(
     *,
     searcher=None,
@@ -268,16 +306,7 @@ def fetch_session_start_web(
         if searcher is not None:
             payload = search_for_tool(SESSION_START_WEB_QUERY, searcher=searcher)
         else:
-            ranked = _collect_yandex_top_news(SESSION_START_WEB_QUERY)
-            fresh = [
-                item
-                for item in ranked
-                if _is_fresh_for_rail(
-                    item.published,
-                    assume_today_if_unknown=item.assume_today_if_unknown,
-                )
-            ]
-            payload = _build_payload_from_ranked(fresh)
+            payload = _fetch_live_top_news_payload(cache_dir=cache)
     except Exception:
         pass
 

@@ -36,7 +36,8 @@ def test_dashboard_puts_chat_before_chart_and_news_rail_at_top():
     assert "with st.sidebar" not in text
     assert "_CHAT_HINT" in text
     assert "_CHAT_INPUT_PLACEHOLDER" in text
-    assert "_load_dashboard_data" in text
+    assert "_hydrate_from_disk_caches" in text
+    assert "_start_background_refreshes" in text
 
 
 def test_dashboard_page_config_collapses_sidebar():
@@ -85,6 +86,8 @@ from oil_gas_analyst.dashboard_chart import (
     chart_refresh_horizon,
     kpi_from_chart_payload,
     load_brent_chart_payload,
+    load_cached_brent_chart_payload,
+    save_brent_chart_payload_cache,
 )
 
 
@@ -97,6 +100,17 @@ def _series(n=80):
 
 def _plot_payload():
     return load_brent_chart_payload(load_history=lambda symbol: _series())
+
+
+def test_chart_payload_disk_cache_roundtrip(tmp_path, monkeypatch):
+    monkeypatch.setenv("FORECAST_CACHE_PATH", str(tmp_path))
+    payload = load_brent_chart_payload(load_history=lambda symbol: _series())
+    save_brent_chart_payload_cache(payload)
+    cached = load_cached_brent_chart_payload(horizon_days=payload["horizon_days"])
+    assert cached is not None
+    assert cached["live_quote"] == payload["live_quote"]
+    save_brent_chart_payload_cache({"unavailable_reason": "skip"})
+    assert load_cached_brent_chart_payload(horizon_days=payload["horizon_days"]) == cached
 
 
 def test_chart_dataframe_has_actual_and_two_forecast_series():
