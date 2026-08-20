@@ -31,7 +31,8 @@ def test_dashboard_puts_chat_before_chart_and_news_rail_at_top():
     assert "max_cards=3" in text
     assert "rail_col" not in main_block
     assert "_start_chat_turn" in text
-    assert "on_click=_logout_demo_session" in text
+    assert "_logout_demo_session" in text
+    assert "on_click=_logout_demo_session" not in text
     assert "stSidebar" in text
     assert "with st.sidebar" not in text
     assert "_CHAT_HINT" in text

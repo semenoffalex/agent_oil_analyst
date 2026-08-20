@@ -396,19 +396,19 @@ def _render_chart_panel(payload: dict | None, *, refreshing: bool = False) -> No
     st.line_chart(frame, height=180)
 
 
-@st.fragment
-def _render_header(*, show_logout: bool) -> None:
+def _render_header(*, show_logout: bool) -> bool:
+    """Title row. Returns True when the user clicked logout."""
     title_col, logout_col = st.columns([8, 1])
     with title_col:
         st.title("Нефтегазовый аналитик")
     with logout_col:
         if show_logout:
-            st.button(
+            return st.button(
                 "Выйти",
                 key="demo_logout",
-                on_click=_logout_demo_session,
                 use_container_width=True,
             )
+    return False
 
 
 def _render_login_gate() -> bool:
@@ -480,7 +480,10 @@ def main() -> None:
     if not _render_login_gate():
         return
 
-    _render_header(show_logout=cfg.enabled)
+    if _render_header(show_logout=cfg.enabled):
+        _logout_demo_session()
+        st.rerun()
+
     _poll_chat_future()
     _poll_dashboard_refresh()
 
