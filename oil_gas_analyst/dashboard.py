@@ -6,6 +6,7 @@ import streamlit as st
 
 from oil_gas_analyst.chat_ui import handle_chat_message, wait_loop
 from oil_gas_analyst.corpus_strip import corpus_strip_entries
+from oil_gas_analyst.demo_auth import load_demo_login_config, verify_demo_login
 from oil_gas_analyst.dashboard_chart import (
     CHART_UNCERTAINTY_COPY,
     chart_dataframe_from_payload,
@@ -100,8 +101,38 @@ def _render_chart_panel(payload: dict) -> None:
     st.caption("Две методики, без среднего. Urals на графике нет.")
 
 
+def _render_login_gate() -> bool:
+    cfg = load_demo_login_config()
+    if not cfg.enabled:
+        return True
+    if st.session_state.get("demo_authenticated"):
+        with st.sidebar:
+            if st.button("Выйти", use_container_width=True):
+                st.session_state.demo_authenticated = False
+                st.session_state.pop("messages", None)
+                st.rerun()
+        return True
+
+    st.subheader("Вход")
+    st.caption("Доступ к демо только по выданным учётным данным.")
+    with st.form("demo_login", clear_on_submit=False):
+        username = st.text_input("Логин", autocomplete="username")
+        password = st.text_input("Пароль", type="password", autocomplete="current-password")
+        submitted = st.form_submit_button("Войти", use_container_width=True)
+    if submitted:
+        if verify_demo_login(username, password, cfg):
+            st.session_state.demo_authenticated = True
+            st.rerun()
+        st.error("Неверный логин или пароль.")
+    return False
+
+
 def main() -> None:
     st.set_page_config(page_title="Oil & Gas Analyst", layout="wide")
+
+    if not _render_login_gate():
+        return
+
     st.title("Oil & Gas Analyst")
     st.caption("Streamlit Dashboard — the turn runs in Ouroboros.")
 

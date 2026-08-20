@@ -41,3 +41,25 @@ def test_handle_chat_message_rate_limit(monkeypatch):
     )
     assert "rate limit" in out.lower()
     assert "42" in out
+
+
+def test_demo_login_disabled_when_env_empty(monkeypatch):
+    from oil_gas_analyst.demo_auth import load_demo_login_config, verify_demo_login
+
+    monkeypatch.delenv("DEMO_LOGIN_USER", raising=False)
+    monkeypatch.delenv("DEMO_LOGIN_PASSWORD", raising=False)
+    cfg = load_demo_login_config()
+    assert cfg.enabled is False
+    assert verify_demo_login("any", "any", cfg) is True
+
+
+def test_demo_login_requires_matching_credentials(monkeypatch):
+    from oil_gas_analyst.demo_auth import load_demo_login_config, verify_demo_login
+
+    monkeypatch.setenv("DEMO_LOGIN_USER", "reviewer")
+    monkeypatch.setenv("DEMO_LOGIN_PASSWORD", "s3cret")
+    cfg = load_demo_login_config()
+    assert cfg.enabled is True
+    assert verify_demo_login("reviewer", "s3cret", cfg) is True
+    assert verify_demo_login("reviewer", "wrong", cfg) is False
+    assert verify_demo_login("wrong", "s3cret", cfg) is False

@@ -48,7 +48,7 @@ LIVE_EVAL=1 pytest tests/test_graph.py -k TestLiveEval
 
 **Red-team pack** перед публичным URL: `LIVE_RED_TEAM=1 pytest tests/test_graph.py -k TestLiveRedTeam`. Промпты лежат в `config/red_team_pack.yaml`.
 
-На публичном демо нет пароля, есть лимит запросов: `DEMO_RATE_LIMIT_MAX` и `DEMO_RATE_LIMIT_WINDOW_SEC` в `.env` (`0` — выкл. у себя на машине).
+На публичном демо — **логин и пароль** из `.env` (`DEMO_LOGIN_USER`, `DEMO_LOGIN_PASSWORD`; если не заданы — вход выключен, для локальной разработки). Плюс лимит запросов: `DEMO_RATE_LIMIT_MAX` и `DEMO_RATE_LIMIT_WINDOW_SEC` (`0` — выкл.).
 
 ## Как он отвечает
 
