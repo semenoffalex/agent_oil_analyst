@@ -472,12 +472,23 @@ def forecast_plot_payload_to_dict(payload: ForecastPlotPayload) -> dict:
     }
 
 
+def _history_from_start(history: pd.Series, history_start: str) -> pd.Series:
+    start = pd.Timestamp(history_start)
+    index = history.index
+    if isinstance(index, pd.DatetimeIndex) and index.tz is not None:
+        start = start.tz_localize(index.tz) if start.tzinfo is None else start.tz_convert(index.tz)
+    elif start.tzinfo is not None:
+        start = start.tz_localize(None)
+    return history[index >= start]
+
+
 @maybe_traceable("analyst.forecast_plot_payload", run_type="tool")
 def forecast_plot_payload(
     *,
     symbol: str = "BZ=F",
     horizon_days: int = 21,
     load_history: HistoryLoader | None = None,
+    history_start: str | None = None,
 ) -> dict:
     """Brent history plus per-step SARIMA and Holt–Winters paths for the Dashboard chart."""
 
@@ -518,6 +529,9 @@ def forecast_plot_payload(
             unavailable_reason=str(exc),
         )
         return forecast_plot_payload_to_dict(payload)
+
+    if history_start:
+        history = _history_from_start(history, history_start)
 
     if history is None or len(history) < 30:
         payload = ForecastPlotPayload(

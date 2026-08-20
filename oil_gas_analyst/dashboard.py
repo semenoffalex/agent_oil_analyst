@@ -17,6 +17,7 @@ from oil_gas_analyst.dashboard_chart import (
 )
 from oil_gas_analyst.session_start_web import (
     RAIL_EMPTY_COPY,
+    TOP_NEWS_RAIL_TITLE,
     SessionStartRailHit,
     fetch_session_start_web,
     visible_rail_hits,
@@ -32,8 +33,8 @@ _DASHBOARD_CSS = """
     div[data-testid="stToolbar"] {visibility: hidden; height: 0;}
     header[data-testid="stHeader"] {background: transparent;}
     .block-container {padding-top: 1.25rem; max-width: 96rem;}
-    .news-rail-card {font-size: 0.85rem; line-height: 1.35;}
-    .news-rail-card p {margin-bottom: 0.35rem;}
+    .news-rail-card {font-size: 0.82rem; line-height: 1.3;}
+    .news-rail-card p {margin-bottom: 0.25rem;}
 </style>
 """
 
@@ -136,34 +137,35 @@ def _poll_chat_future() -> None:
         st.rerun()
 
 
+def _render_corpus_strip() -> None:
+    corpus = corpus_strip_entries()
+    st.caption("Корпус отчётов")
+    if corpus:
+        for entry in corpus:
+            st.write(entry.label())
+    else:
+        st.write("—")
+
+
 def _render_kpi_row(payload: dict) -> None:
     kpis = kpi_from_chart_payload(payload)
-    corpus = corpus_strip_entries()
-    c1, c2, c3, c4 = st.columns(4)
+    c1, c2, c3 = st.columns(3)
     with c1:
-        st.caption("Brent close")
+        st.caption("Brent, закрытие")
         close = kpis.get("close")
-        st.metric("USD/bbl", f"{close:.2f}" if close is not None else "—")
+        st.metric("долл./барр.", f"{close:.2f}" if close is not None else "—")
     with c2:
-        st.caption("SARIMA 21д")
+        st.caption("SARIMA, 21 дн.")
         sarima = kpis.get("sarima")
-        st.metric("horizon", f"{sarima:.2f}" if sarima is not None else "—")
+        st.metric("прогноз", f"{sarima:.2f}" if sarima is not None else "—")
     with c3:
-        st.caption("Holt–Winters 21д")
+        st.caption("Хольт–Винтерс, 21 дн.")
         holt = kpis.get("holt_winters")
-        st.metric("horizon", f"{holt:.2f}" if holt is not None else "—")
-    with c4:
-        st.caption("Корпус отчётов")
-        if corpus:
-            for entry in corpus:
-                st.write(entry.label())
-        else:
-            st.write("—")
+        st.metric("прогноз", f"{holt:.2f}" if holt is not None else "—")
 
 
-def _render_session_start_rail(hits: list[SessionStartRailHit], *, max_cards: int = 4) -> None:
-    """Narrow vertical cards in a horizontal strip below KPIs."""
-    st.subheader("Session-start Web")
+def _render_session_start_rail(hits: list[SessionStartRailHit], *, max_cards: int = 3) -> None:
+    """Top-N narrow cards in a horizontal strip."""
     if not hits:
         st.caption(RAIL_EMPTY_COPY)
         return
@@ -172,19 +174,29 @@ def _render_session_start_rail(hits: list[SessionStartRailHit], *, max_cards: in
     cols = st.columns(len(visible), gap="small")
     for col, hit in zip(cols, visible, strict=True):
         with col:
-            with st.container(border=True, height=148):
+            with st.container(border=True, height=120):
                 st.markdown(
-                    f'<div class="news-rail-card"><strong>{hit.title[:96]}</strong></div>',
+                    f'<div class="news-rail-card"><strong>{hit.title[:72]}</strong></div>',
                     unsafe_allow_html=True,
                 )
                 st.caption(hit.outlet)
                 snippet = hit.snippet.strip().replace("\n", " ")
                 if snippet:
-                    st.caption(snippet[:140] + ("…" if len(snippet) > 140 else ""))
+                    st.caption(snippet[:96] + ("…" if len(snippet) > 96 else ""))
+
+
+def _render_news_and_corpus_row(hits: list[SessionStartRailHit]) -> None:
+    news_col, corpus_col = st.columns([3, 1], gap="medium")
+    with news_col:
+        st.subheader(TOP_NEWS_RAIL_TITLE)
+        _render_session_start_rail(hits, max_cards=3)
+    with corpus_col:
+        _render_corpus_strip()
 
 
 def _render_chart_panel(payload: dict) -> None:
-    st.subheader(f"Brent · факт + Forecast {payload.get('horizon_days', _DEFAULT_HORIZON)}д")
+    horizon = payload.get("horizon_days", _DEFAULT_HORIZON)
+    st.subheader(f"Brent · факт и прогноз {horizon} дн.")
     frame = chart_dataframe_from_payload(payload)
     if frame is None:
         st.warning(CHART_UNCERTAINTY_COPY)
@@ -192,15 +204,15 @@ def _render_chart_panel(payload: dict) -> None:
             st.caption(str(payload["unavailable_reason"]))
         return
     st.line_chart(frame, height=180)
-    st.caption("Две методики, без среднего. Urals на графике нет.")
+    st.caption("Две методики, без усреднения. Urals на графике нет.")
 
 
 @st.fragment
 def _render_header(*, show_logout: bool) -> None:
     title_col, logout_col = st.columns([8, 1])
     with title_col:
-        st.title("Oil & Gas Analyst")
-        st.caption("Streamlit Dashboard — the turn runs in Ouroboros.")
+        st.title("Нефтегазовый аналитик")
+        st.caption("Демо-панель — ответы строятся в Ouroboros.")
     with logout_col:
         if show_logout:
             st.button(
@@ -233,21 +245,14 @@ def _render_login_gate() -> bool:
 
 
 def _render_chat_history() -> None:
-    st.subheader("Чат с аналитиком")
-    st.caption("Вопрос о нефти, OPEC, Brent или прогнозе — ответ со ссылками на источники.")
-
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
-
+    """Скрыт временно: история чата не выводится на панель."""
     if chat_turn_in_progress(_chat_future()):
-        with st.chat_message("assistant"):
-            st.markdown("_Analyst is thinking… Обычно ответ приходит за 1–3 минуты._")
+        st.caption("_Аналитик готовит ответ… Обычно это занимает 1–3 минуты._")
 
 
 def main() -> None:
     st.set_page_config(
-        page_title="Oil & Gas Analyst",
+        page_title="Нефтегазовый аналитик",
         layout="wide",
         initial_sidebar_state="collapsed",
     )
@@ -274,18 +279,9 @@ def main() -> None:
 
     chart_payload = _ensure_chart_payload()
     _render_kpi_row(chart_payload)
-    _render_session_start_rail(_ensure_session_start_web())
-
-    _render_chat_history()
-
-    st.divider()
-
-    chart_btn_col, _ = st.columns([1, 5])
-    with chart_btn_col:
-        if st.button("Обновить график", use_container_width=True):
-            _reload_chart(horizon_days=st.session_state.get("brent_chart_horizon", _DEFAULT_HORIZON))
-            st.rerun()
+    _render_news_and_corpus_row(_ensure_session_start_web())
     _render_chart_panel(st.session_state.brent_chart_payload)
+    _render_chat_history()
 
     busy = chat_turn_in_progress(_chat_future())
     if prompt := st.chat_input(

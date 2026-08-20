@@ -20,13 +20,17 @@ def test_dashboard_puts_chat_before_chart_and_news_rail_at_top():
     text = Path("oil_gas_analyst/dashboard.py").read_text(encoding="utf-8")
     main_block = text.split("def main() -> None:", 1)[1]
     kpi_pos = main_block.index("_render_kpi_row(")
-    rail_pos = main_block.index("_render_session_start_rail(")
-    history_pos = main_block.index("_render_chat_history()")
+    rail_pos = main_block.index("_render_news_and_corpus_row(")
     chart_pos = main_block.index("_render_chart_panel(")
+    history_pos = main_block.index("_render_chat_history()")
     input_pos = main_block.rindex("st.chat_input(")
-    assert kpi_pos < rail_pos < history_pos < chart_pos < input_pos
+    assert kpi_pos < rail_pos < chart_pos < history_pos < input_pos
     assert main_block.count("st.chat_input(") == 1
-    assert "_render_session_start_rail" in text
+    assert "Обновить график" not in main_block
+    assert "st.divider()" not in main_block
+    assert "_render_news_and_corpus_row" in text
+    assert "TOP_NEWS_RAIL_TITLE" in text
+    assert "max_cards=3" in text
     assert "rail_col" not in main_block
     assert "_start_chat_turn" in text
     assert "on_click=_logout_demo_session" in text
@@ -76,6 +80,7 @@ import pandas as pd
 
 from oil_gas_analyst.corpus_strip import corpus_strip_entries
 from oil_gas_analyst.dashboard_chart import (
+    CHART_HISTORY_START,
     chart_dataframe_from_payload,
     chart_refresh_horizon,
     kpi_from_chart_payload,
@@ -84,7 +89,7 @@ from oil_gas_analyst.dashboard_chart import (
 
 
 def _series(n=80):
-    idx = pd.bdate_range("2024-01-01", periods=n)
+    idx = pd.bdate_range("2026-01-01", periods=n)
     rng = np.random.default_rng(0)
     values = 70 + np.cumsum(rng.normal(0, 0.5, n))
     return pd.Series(values, index=idx, name="close")
@@ -98,12 +103,12 @@ def test_chart_dataframe_has_actual_and_two_forecast_series():
     payload = _plot_payload()
     frame = chart_dataframe_from_payload(payload)
     assert frame is not None
-    assert "Brent actual" in frame.columns
+    assert "Факт" in frame.columns
     assert "SARIMA" in frame.columns
-    assert "Holt-Winters" in frame.columns
-    assert frame["Brent actual"].notna().sum() == len(payload["history_closes"])
+    assert "Хольт–Винтерс" in frame.columns
+    assert frame["Факт"].notna().sum() == len(payload["history_closes"])
     assert frame["SARIMA"].notna().sum() == payload["horizon_days"] + 1
-    assert frame["Holt-Winters"].notna().sum() == payload["horizon_days"] + 1
+    assert frame["Хольт–Винтерс"].notna().sum() == payload["horizon_days"] + 1
     assert "average" not in frame.columns
 
 
@@ -119,6 +124,12 @@ def test_kpi_from_chart_payload():
     assert kpis["sarima"] is not None
     assert kpis["holt_winters"] is not None
     assert kpis["sarima"] != kpis["holt_winters"] or math.isclose(kpis["sarima"], kpis["holt_winters"])
+
+
+def test_chart_history_starts_from_configured_date():
+    payload = load_brent_chart_payload(load_history=lambda symbol: _series())
+    assert payload["history_dates"]
+    assert payload["history_dates"][0] >= CHART_HISTORY_START
 
 
 def test_chart_refresh_horizon_detects_forecast_and_refresh():

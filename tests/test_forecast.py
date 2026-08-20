@@ -185,6 +185,25 @@ def test_forecast_plot_payload_includes_history_and_two_paths():
     assert "average" not in payload
 
 
+def test_forecast_plot_payload_history_start_handles_tz_aware_index():
+    from zoneinfo import ZoneInfo
+
+    from oil_gas_analyst.forecast import forecast_plot_payload
+
+    idx = pd.bdate_range("2025-12-01", periods=120, tz=ZoneInfo("America/New_York"))
+    rng = np.random.default_rng(1)
+    values = 70 + np.cumsum(rng.normal(0, 0.5, len(idx)))
+    series = pd.Series(values, index=idx, name="close")
+
+    payload = forecast_plot_payload(
+        load_history=lambda symbol: series,
+        history_start="2026-01-01",
+    )
+
+    assert payload.get("unavailable_reason") in (None, "")
+    assert payload["history_dates"][0] >= "2026-01-01"
+
+
 def test_forecast_plot_payload_urals_has_no_series():
     from oil_gas_analyst.forecast import forecast_plot_payload
 

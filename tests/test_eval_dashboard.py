@@ -1,5 +1,5 @@
 from oil_gas_analyst.eval_dialogues import README_EVAL_DIALOGUES, invoke_dashboard_eval
-from oil_gas_analyst.session_start_web import SessionStartRailHit
+from oil_gas_analyst.session_start_web import SESSION_START_INJECT_HEADER, SessionStartRailHit
 from oil_gas_analyst.types import LoopResult, Reply
 
 
@@ -31,7 +31,7 @@ def test_invoke_dashboard_eval_injects_session_start_hits():
     ]
     reply = invoke_dashboard_eval("Tell me about the headline.", loop, session_start_hits=hits)
     assert reply.text == "ok"
-    assert "Session-start Web" in loop.questions[0]
+    assert SESSION_START_INJECT_HEADER in loop.questions[0]
     assert "reuters.com" in loop.questions[0]
 
 

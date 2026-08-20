@@ -6,6 +6,8 @@ import pandas as pd
 
 from oil_gas_analyst.forecast import detect_horizon, forecast_plot_payload
 
+CHART_HISTORY_START = "2026-01-01"
+
 CHART_UNCERTAINTY_COPY = (
     "История Brent или Forecast недоступны. Не выдумываем цены — "
     "попробуйте обновить график позже."
@@ -24,11 +26,17 @@ def chart_refresh_horizon(user_prompt: str) -> int | None:
     return None
 
 
-def load_brent_chart_payload(*, horizon_days: int = _DEFAULT_HORIZON, load_history=None) -> dict:
+def load_brent_chart_payload(
+    *,
+    horizon_days: int = _DEFAULT_HORIZON,
+    load_history=None,
+    history_start: str = CHART_HISTORY_START,
+) -> dict:
     return forecast_plot_payload(
         symbol="BZ=F",
         horizon_days=horizon_days,
         load_history=load_history,
+        history_start=history_start,
     )
 
 
@@ -67,9 +75,9 @@ def chart_dataframe_from_payload(payload: dict) -> pd.DataFrame | None:
 
     return pd.DataFrame(
         {
-            "Brent actual": actual_col,
+            "Факт": actual_col,
             "SARIMA": sarima_col,
-            "Holt-Winters": holt_col,
+            "Хольт–Винтерс": holt_col,
         },
         index=index,
     )
