@@ -22,3 +22,4 @@ data/forecast_cache/
 *.pyc
 .DS_Store
 task.md
+.scratch/timeweb-cloud-init.rendered.yaml

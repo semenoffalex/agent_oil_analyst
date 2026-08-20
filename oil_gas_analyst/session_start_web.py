@@ -1,11 +1,26 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Sequence
 from urllib.parse import urlparse
 
+import yaml
+
+from oil_gas_analyst.denylist import is_denied
 from oil_gas_analyst.types import Reply
 from oil_gas_analyst.web import search_for_tool
+
+_CONFIG = Path(__file__).resolve().parent.parent / "config" / "session_start_rail_exclusions.yaml"
+
+
+def load_rail_exclusions(path: Path | None = None) -> tuple[str, ...]:
+    data = yaml.safe_load((path or _CONFIG).read_text(encoding="utf-8"))
+    return tuple(d.casefold().strip() for d in data.get("domains") or [])
+
+
+def _is_rail_hidden(url: str, exclusions: Sequence[str]) -> bool:
+    return is_denied(url, exclusions)
 
 SESSION_START_WEB_QUERY = "нефть Brent OPEC+ цена добыча"
 
@@ -36,14 +51,19 @@ def fetch_session_start_web(*, searcher=None) -> dict:
     return search_for_tool(SESSION_START_WEB_QUERY, searcher=searcher)
 
 
-def visible_rail_hits(payload: dict) -> list[SessionStartRailHit]:
+def visible_rail_hits(
+    payload: dict,
+    *,
+    exclusions: Sequence[str] | None = None,
+) -> list[SessionStartRailHit]:
     """Rows the executive may see and the Analyst may be injected with."""
+    hidden = tuple(exclusions) if exclusions is not None else load_rail_exclusions()
     visible: list[SessionStartRailHit] = []
     for row in payload.get("hits") or []:
         if row.get("denied"):
             continue
         url = str(row.get("url") or "")
-        if not url:
+        if not url or _is_rail_hidden(url, hidden):
             continue
         visible.append(
             SessionStartRailHit(

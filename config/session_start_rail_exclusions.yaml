@@ -1,0 +1,5 @@
+# Domains omitted from the Session-start Web rail (not shown to the executive).
+# Yellow-press denylist still governs citations; this list is display-only.
+
+domains:
+  - wikipedia.org

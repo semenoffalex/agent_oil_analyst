@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import concurrent.futures
 import uuid
 
 import streamlit as st
@@ -23,12 +24,47 @@ from oil_gas_analyst.session_start_web import (
 
 _INFRA_MSG = "I hit an infrastructure error and will not invent figures. ({exc})"
 _DEFAULT_HORIZON = 21
+_CHAT_EXECUTOR = concurrent.futures.ThreadPoolExecutor(max_workers=2, thread_name_prefix="analyst-chat")
+
+_DASHBOARD_CSS = """
+<style>
+    section[data-testid="stSidebar"] {display: none;}
+    div[data-testid="stToolbar"] {visibility: hidden; height: 0;}
+    header[data-testid="stHeader"] {background: transparent;}
+    .block-container {padding-top: 1.25rem; max-width: 96rem;}
+</style>
+"""
 
 
 def _session_id() -> str:
     if "rate_key" not in st.session_state:
         st.session_state.rate_key = str(uuid.uuid4())
     return st.session_state.rate_key
+
+
+def chat_turn_in_progress(future: concurrent.futures.Future | None) -> bool:
+    return future is not None and not future.done()
+
+
+def _chat_future() -> concurrent.futures.Future | None:
+    return st.session_state.get("chat_future")
+
+
+def _logout_demo_session() -> None:
+    future = st.session_state.get("chat_future")
+    if isinstance(future, concurrent.futures.Future):
+        future.cancel()
+    st.session_state.demo_authenticated = False
+    for key in (
+        "chat_future",
+        "chat_future_prompt",
+        "messages",
+        "session_start_web_hits",
+        "brent_chart_payload",
+        "brent_chart_horizon",
+    ):
+        st.session_state.pop(key, None)
+    st.rerun()
 
 
 def _ensure_session_start_web() -> list[SessionStartRailHit]:
@@ -49,6 +85,53 @@ def _ensure_chart_payload() -> dict:
     if "brent_chart_payload" not in st.session_state:
         return _reload_chart()
     return st.session_state.brent_chart_payload
+
+
+def _start_chat_turn(prompt: str) -> None:
+    session_id = _session_id()
+    session_hits = _ensure_session_start_web()
+
+    def _run() -> str:
+        return handle_chat_message(
+            prompt,
+            session_id=session_id,
+            session_start_hits=session_hits,
+        )
+
+    st.session_state.chat_future_prompt = prompt
+    st.session_state.chat_future = _CHAT_EXECUTOR.submit(_run)
+
+
+def _finish_chat_turn_if_ready() -> bool:
+    """Collect a completed background turn. Returns True when the page should rerun."""
+    future = _chat_future()
+    if not isinstance(future, concurrent.futures.Future) or not future.done():
+        return False
+
+    prompt = str(st.session_state.get("chat_future_prompt") or "")
+    try:
+        content = future.result()
+    except concurrent.futures.CancelledError:
+        st.session_state.pop("chat_future", None)
+        st.session_state.pop("chat_future_prompt", None)
+        return False
+    except Exception as exc:
+        content = _INFRA_MSG.format(exc=exc)
+
+    st.session_state.messages.append({"role": "assistant", "content": content})
+    st.session_state.pop("chat_future", None)
+    st.session_state.pop("chat_future_prompt", None)
+
+    refresh_horizon = chart_refresh_horizon(prompt) if prompt else None
+    if refresh_horizon is not None:
+        _reload_chart(horizon_days=refresh_horizon)
+    return True
+
+
+@st.fragment(run_every=1)
+def _poll_chat_future() -> None:
+    if _finish_chat_turn_if_ready():
+        st.rerun()
 
 
 def _render_kpi_row(payload: dict) -> None:
@@ -77,7 +160,6 @@ def _render_kpi_row(payload: dict) -> None:
 
 
 def _render_session_start_column(hits: list[SessionStartRailHit]) -> None:
-    st.subheader("Session-start Web")
     if not hits:
         st.markdown(RAIL_EMPTY_COPY)
         return
@@ -86,7 +168,7 @@ def _render_session_start_column(hits: list[SessionStartRailHit]) -> None:
         st.caption(hit.outlet)
         snippet = hit.snippet.strip().replace("\n", " ")
         if snippet:
-            st.write(snippet[:320] + ("…" if len(snippet) > 320 else ""))
+            st.write(snippet[:220] + ("…" if len(snippet) > 220 else ""))
 
 
 def _render_chart_panel(payload: dict) -> None:
@@ -97,8 +179,24 @@ def _render_chart_panel(payload: dict) -> None:
         if payload.get("unavailable_reason"):
             st.caption(str(payload["unavailable_reason"]))
         return
-    st.line_chart(frame, height=220)
+    st.line_chart(frame, height=180)
     st.caption("Две методики, без среднего. Urals на графике нет.")
+
+
+@st.fragment
+def _render_header(*, show_logout: bool) -> None:
+    title_col, logout_col = st.columns([8, 1])
+    with title_col:
+        st.title("Oil & Gas Analyst")
+        st.caption("Streamlit Dashboard — the turn runs in Ouroboros.")
+    with logout_col:
+        if show_logout:
+            st.button(
+                "Выйти",
+                key="demo_logout",
+                on_click=_logout_demo_session,
+                use_container_width=True,
+            )
 
 
 def _render_login_gate() -> bool:
@@ -106,11 +204,6 @@ def _render_login_gate() -> bool:
     if not cfg.enabled:
         return True
     if st.session_state.get("demo_authenticated"):
-        with st.sidebar:
-            if st.button("Выйти", use_container_width=True):
-                st.session_state.demo_authenticated = False
-                st.session_state.pop("messages", None)
-                st.rerun()
         return True
 
     st.subheader("Вход")
@@ -127,17 +220,39 @@ def _render_login_gate() -> bool:
     return False
 
 
-def main() -> None:
-    st.set_page_config(page_title="Oil & Gas Analyst", layout="wide")
+def _render_chat_history() -> None:
+    st.subheader("Чат с аналитиком")
+    st.caption("Вопрос о нефти, OPEC, Brent или прогнозе — ответ со ссылками на источники.")
 
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    if chat_turn_in_progress(_chat_future()):
+        with st.chat_message("assistant"):
+            st.markdown("_Analyst is thinking… Обычно ответ приходит за 1–3 минуты._")
+
+
+def main() -> None:
+    st.set_page_config(
+        page_title="Oil & Gas Analyst",
+        layout="wide",
+        initial_sidebar_state="collapsed",
+    )
+    st.markdown(_DASHBOARD_CSS, unsafe_allow_html=True)
+
+    cfg = load_demo_login_config()
     if not _render_login_gate():
         return
 
-    st.title("Oil & Gas Analyst")
-    st.caption("Streamlit Dashboard — the turn runs in Ouroboros.")
+    _render_header(show_logout=cfg.enabled)
+    _poll_chat_future()
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
+
+    if _finish_chat_turn_if_ready():
+        st.rerun()
 
     try:
         wait_loop()
@@ -148,45 +263,31 @@ def main() -> None:
     chart_payload = _ensure_chart_payload()
     _render_kpi_row(chart_payload)
 
-    left, right = st.columns([1, 2], gap="large")
-    with left:
+    _render_chat_history()
+
+    st.divider()
+
+    rail_col, chart_col = st.columns([1, 2], gap="large")
+    with rail_col:
+        st.subheader("Session-start Web")
         _render_session_start_column(_ensure_session_start_web())
 
-    with right:
+    with chart_col:
         chart_header, chart_btn = st.columns([4, 1])
-        with chart_header:
-            pass
         with chart_btn:
             if st.button("Обновить график", use_container_width=True):
                 _reload_chart(horizon_days=st.session_state.get("brent_chart_horizon", _DEFAULT_HORIZON))
                 st.rerun()
-
         _render_chart_panel(st.session_state.brent_chart_payload)
 
-        for message in st.session_state.messages:
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
-
-        if prompt := st.chat_input("Ask about the oil and gas market"):
-            refresh_horizon = chart_refresh_horizon(prompt)
-            st.session_state.messages.append({"role": "user", "content": prompt})
-            with st.chat_message("user"):
-                st.markdown(prompt)
-            with st.chat_message("assistant"):
-                with st.spinner("Analyst is thinking…"):
-                    try:
-                        content = handle_chat_message(
-                            prompt,
-                            session_id=_session_id(),
-                            session_start_hits=_ensure_session_start_web(),
-                        )
-                    except Exception as exc:
-                        content = _INFRA_MSG.format(exc=exc)
-                st.markdown(content)
-            st.session_state.messages.append({"role": "assistant", "content": content})
-            if refresh_horizon is not None:
-                _reload_chart(horizon_days=refresh_horizon)
-                st.rerun()
+    busy = chat_turn_in_progress(_chat_future())
+    if prompt := st.chat_input(
+        "Спросите о нефтегазовом рынке…",
+        disabled=busy,
+    ):
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        _start_chat_turn(prompt)
+        st.rerun()
 
 
 if __name__ == "__main__":

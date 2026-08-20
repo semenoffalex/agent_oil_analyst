@@ -1,15 +1,82 @@
+"""Dashboard layout — chat above the fold, no sidebar logout."""
+
+from oil_gas_analyst.dashboard import chat_turn_in_progress
+
+
+def test_chat_turn_in_progress():
+    import concurrent.futures
+
+    done = concurrent.futures.Future()
+    done.set_result("ok")
+    pending = concurrent.futures.Future()
+    assert chat_turn_in_progress(None) is False
+    assert chat_turn_in_progress(done) is False
+    assert chat_turn_in_progress(pending) is True
+
+
+def test_dashboard_puts_chat_before_chart_and_hides_sidebar():
+    from pathlib import Path
+
+    text = Path("oil_gas_analyst/dashboard.py").read_text(encoding="utf-8")
+    main_block = text.split("def main() -> None:", 1)[1]
+    history_pos = main_block.index("_render_chat_history()")
+    chart_pos = main_block.index("_render_chart_panel(")
+    input_pos = main_block.rindex("st.chat_input(")
+    assert history_pos < chart_pos < input_pos
+    assert main_block.count("st.chat_input(") == 1
+    assert "_start_chat_turn" in text
+    assert "on_click=_logout_demo_session" in text
+    assert "stSidebar" in text
+    assert "with st.sidebar" not in text
+    assert 'st.chat_input("Спросите о нефтегазовом рынке'
+
+
+def test_dashboard_page_config_collapses_sidebar():
+    from pathlib import Path
+
+    text = Path("oil_gas_analyst/dashboard.py").read_text(encoding="utf-8")
+    assert 'initial_sidebar_state="collapsed"' in text
+
+
+def test_rail_exclusions_hide_wikipedia():
+    from oil_gas_analyst.session_start_web import visible_rail_hits
+
+    payload = {
+        "hits": [
+            {
+                "title": "Нефть — Википедия",
+                "url": "https://ru.wikipedia.org/wiki/Нефть",
+                "snippet": "wiki",
+                "citation": "[Источник: ru.wikipedia.org, web]",
+                "denied": False,
+            },
+            {
+                "title": "Brent rises",
+                "url": "https://www.reuters.com/markets/brent",
+                "snippet": "Oil up",
+                "citation": "[Источник: reuters.com, web]",
+                "denied": False,
+            },
+        ],
+        "count": 2,
+    }
+    visible = visible_rail_hits(payload)
+    assert len(visible) == 1
+    assert visible[0].outlet == "reuters.com"
+
+
 import math
 
 import numpy as np
 import pandas as pd
 
+from oil_gas_analyst.corpus_strip import corpus_strip_entries
 from oil_gas_analyst.dashboard_chart import (
     chart_dataframe_from_payload,
     chart_refresh_horizon,
     kpi_from_chart_payload,
     load_brent_chart_payload,
 )
-from oil_gas_analyst.corpus_strip import corpus_strip_entries
 
 
 def _series(n=80):

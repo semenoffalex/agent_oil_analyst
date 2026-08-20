@@ -21,7 +21,7 @@ def build_loop() -> OuroborosLoop:
     require_deepseek_key()
     require_embedding_api_key()
     url = os.environ.get("OUROBOROS_URL", "http://127.0.0.1:8765").strip()
-    timeout = float(os.environ.get("OUROBOROS_TURN_TIMEOUT_SEC", "900"))
+    timeout = float(os.environ.get("OUROBOROS_TURN_TIMEOUT_SEC", "300"))
     enable_domain_skills(url)
     return OuroborosLoop(url, timeout_sec=timeout)
 

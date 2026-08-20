@@ -9,6 +9,7 @@ COPY requirements-analyst.txt .
 RUN pip install --no-cache-dir --default-timeout=300 --retries 5 -r requirements-analyst.txt
 
 COPY config/ config/
+COPY .streamlit/ .streamlit/
 COPY data/samples/ data/samples/
 COPY oil_gas_analyst/ oil_gas_analyst/
 COPY pyproject.toml .
