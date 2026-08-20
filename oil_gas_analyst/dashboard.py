@@ -25,6 +25,8 @@ from oil_gas_analyst.session_start_web import (
 
 _INFRA_MSG = "I hit an infrastructure error and will not invent figures. ({exc})"
 _DEFAULT_HORIZON = 21
+_CHAT_HINT = "Спросите о цене Brent, решениях ОПЕК+, прогнозе или заголовках из ленты выше."
+_CHAT_INPUT_PLACEHOLDER = "Например: как изменилась цена Brent за последнюю неделю?"
 _CHAT_EXECUTOR = concurrent.futures.ThreadPoolExecutor(max_workers=2, thread_name_prefix="analyst-chat")
 
 _DASHBOARD_CSS = """
@@ -32,9 +34,47 @@ _DASHBOARD_CSS = """
     section[data-testid="stSidebar"] {display: none;}
     div[data-testid="stToolbar"] {visibility: hidden; height: 0;}
     header[data-testid="stHeader"] {background: transparent;}
-    .block-container {padding-top: 1.25rem; max-width: 96rem;}
+    .block-container {padding-top: 1.25rem; max-width: 96rem; padding-bottom: 5.5rem;}
     .news-rail-card {font-size: 0.82rem; line-height: 1.3;}
     .news-rail-card p {margin-bottom: 0.25rem;}
+    .chat-panel {
+        margin-top: 1.25rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid rgba(148, 163, 184, 0.22);
+    }
+    .chat-hint {
+        color: rgba(148, 163, 184, 0.95);
+        font-size: 0.95rem;
+        margin: 0.25rem 0 0.9rem 0;
+        line-height: 1.5;
+        max-width: 52rem;
+    }
+    [data-testid="stChatInput"] {
+        position: sticky;
+        bottom: 0;
+        z-index: 100;
+        background: linear-gradient(transparent, var(--background-color) 28%);
+        padding: 0.5rem 0 1rem;
+        max-width: 52rem;
+    }
+    [data-testid="stChatInput"] textarea {
+        min-height: 3rem;
+        font-size: 1rem;
+        line-height: 1.45;
+        border: 1px solid rgba(148, 163, 184, 0.38);
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(15, 23, 42, 0.08);
+        padding: 0.85rem 1rem;
+    }
+    [data-testid="stChatInput"] textarea:focus {
+        border-color: rgba(96, 165, 250, 0.55);
+        box-shadow: 0 2px 14px rgba(59, 130, 246, 0.12);
+        outline: none;
+    }
+    [data-testid="stChatInput"] textarea::placeholder {
+        color: rgba(148, 163, 184, 0.75);
+        font-style: italic;
+    }
 </style>
 """
 
@@ -65,9 +105,35 @@ def _logout_demo_session() -> None:
         "session_start_web_hits",
         "brent_chart_payload",
         "brent_chart_horizon",
+        "_dashboard_loaded",
     ):
         st.session_state.pop(key, None)
     st.rerun()
+
+
+def _bootstrap_dashboard_data() -> None:
+    """Load chart and top news in parallel."""
+    needs_chart = "brent_chart_payload" not in st.session_state
+    needs_news = "session_start_web_hits" not in st.session_state
+    if not needs_chart and not needs_news:
+        return
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
+        chart_future = (
+            pool.submit(load_brent_chart_payload, horizon_days=_DEFAULT_HORIZON)
+            if needs_chart
+            else None
+        )
+        news_future = (
+            pool.submit(lambda: visible_rail_hits(fetch_session_start_web()))
+            if needs_news
+            else None
+        )
+        if chart_future is not None:
+            st.session_state.brent_chart_payload = chart_future.result()
+            st.session_state.brent_chart_horizon = _DEFAULT_HORIZON
+        if news_future is not None:
+            st.session_state.session_start_web_hits = news_future.result()
 
 
 def _ensure_session_start_web() -> list[SessionStartRailHit]:
@@ -88,6 +154,22 @@ def _ensure_chart_payload() -> dict:
     if "brent_chart_payload" not in st.session_state:
         return _reload_chart()
     return st.session_state.brent_chart_payload
+
+
+def _load_dashboard_data() -> tuple[dict, list[SessionStartRailHit]]:
+    if st.session_state.get("_dashboard_loaded"):
+        return _ensure_chart_payload(), _ensure_session_start_web()
+
+    with st.status("Загрузка панели", expanded=True) as status:
+        st.write("График Brent и котировки…")
+        st.write("Топ новостей…")
+        _bootstrap_dashboard_data()
+        st.write("Чат с аналитиком…")
+        wait_loop()
+        status.update(label="Панель загружена", state="complete", expanded=False)
+
+    st.session_state._dashboard_loaded = True
+    return st.session_state.brent_chart_payload, st.session_state.session_start_web_hits
 
 
 def _start_chat_turn(prompt: str) -> None:
@@ -133,6 +215,8 @@ def _finish_chat_turn_if_ready() -> bool:
 
 @st.fragment(run_every=1)
 def _poll_chat_future() -> None:
+    if not chat_turn_in_progress(_chat_future()):
+        return
     if _finish_chat_turn_if_ready():
         st.rerun()
 
@@ -204,7 +288,6 @@ def _render_chart_panel(payload: dict) -> None:
             st.caption(str(payload["unavailable_reason"]))
         return
     st.line_chart(frame, height=180)
-    st.caption("Две методики, без усреднения. Urals на графике нет.")
 
 
 @st.fragment
@@ -212,7 +295,6 @@ def _render_header(*, show_logout: bool) -> None:
     title_col, logout_col = st.columns([8, 1])
     with title_col:
         st.title("Нефтегазовый аналитик")
-        st.caption("Демо-панель — ответы строятся в Ouroboros.")
     with logout_col:
         if show_logout:
             st.button(
@@ -247,7 +329,22 @@ def _render_login_gate() -> bool:
 def _render_chat_history() -> None:
     """Скрыт временно: история чата не выводится на панель."""
     if chat_turn_in_progress(_chat_future()):
-        st.caption("_Аналитик готовит ответ… Обычно это занимает 1–3 минуты._")
+        with st.spinner("Аналитик готовит ответ… Обычно это занимает 1–3 минуты."):
+            st.caption("Можно дождаться ответа здесь — поле ввода снова откроется после завершения.")
+
+
+def _render_chat_panel(*, busy: bool) -> None:
+    st.markdown('<div class="chat-panel">', unsafe_allow_html=True)
+    st.subheader("Вопрос аналитику")
+    st.markdown(f'<p class="chat-hint">{_CHAT_HINT}</p>', unsafe_allow_html=True)
+    _render_chat_history()
+    if prompt := st.chat_input(
+        _CHAT_INPUT_PLACEHOLDER,
+        disabled=busy,
+    ):
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        _start_chat_turn(prompt)
+        st.rerun()
 
 
 def main() -> None:
@@ -272,25 +369,15 @@ def main() -> None:
         st.rerun()
 
     try:
-        wait_loop()
+        chart_payload, news_hits = _load_dashboard_data()
     except Exception as exc:
-        st.error(f"Startup failed. I will not invent figures. ({exc})")
+        st.error(f"Не удалось загрузить панель. ({exc})")
         return
 
-    chart_payload = _ensure_chart_payload()
     _render_kpi_row(chart_payload)
-    _render_news_and_corpus_row(_ensure_session_start_web())
-    _render_chart_panel(st.session_state.brent_chart_payload)
-    _render_chat_history()
-
-    busy = chat_turn_in_progress(_chat_future())
-    if prompt := st.chat_input(
-        "Спросите о нефтегазовом рынке…",
-        disabled=busy,
-    ):
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        _start_chat_turn(prompt)
-        st.rerun()
+    _render_news_and_corpus_row(news_hits)
+    _render_chart_panel(chart_payload)
+    _render_chat_panel(busy=chat_turn_in_progress(_chat_future()))
 
 
 if __name__ == "__main__":

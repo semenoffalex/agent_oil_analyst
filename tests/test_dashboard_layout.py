@@ -22,10 +22,8 @@ def test_dashboard_puts_chat_before_chart_and_news_rail_at_top():
     kpi_pos = main_block.index("_render_kpi_row(")
     rail_pos = main_block.index("_render_news_and_corpus_row(")
     chart_pos = main_block.index("_render_chart_panel(")
-    history_pos = main_block.index("_render_chat_history()")
-    input_pos = main_block.rindex("st.chat_input(")
-    assert kpi_pos < rail_pos < chart_pos < history_pos < input_pos
-    assert main_block.count("st.chat_input(") == 1
+    chat_pos = main_block.index("_render_chat_panel(")
+    assert kpi_pos < rail_pos < chart_pos < chat_pos
     assert "Обновить график" not in main_block
     assert "st.divider()" not in main_block
     assert "_render_news_and_corpus_row" in text
@@ -36,7 +34,9 @@ def test_dashboard_puts_chat_before_chart_and_news_rail_at_top():
     assert "on_click=_logout_demo_session" in text
     assert "stSidebar" in text
     assert "with st.sidebar" not in text
-    assert 'st.chat_input("Спросите о нефтегазовом рынке'
+    assert "_CHAT_HINT" in text
+    assert "_CHAT_INPUT_PLACEHOLDER" in text
+    assert "_load_dashboard_data" in text
 
 
 def test_dashboard_page_config_collapses_sidebar():
