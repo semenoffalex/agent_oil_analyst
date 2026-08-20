@@ -14,16 +14,20 @@ def test_chat_turn_in_progress():
     assert chat_turn_in_progress(pending) is True
 
 
-def test_dashboard_puts_chat_before_chart_and_hides_sidebar():
+def test_dashboard_puts_chat_before_chart_and_news_rail_at_top():
     from pathlib import Path
 
     text = Path("oil_gas_analyst/dashboard.py").read_text(encoding="utf-8")
     main_block = text.split("def main() -> None:", 1)[1]
+    kpi_pos = main_block.index("_render_kpi_row(")
+    rail_pos = main_block.index("_render_session_start_rail(")
     history_pos = main_block.index("_render_chat_history()")
     chart_pos = main_block.index("_render_chart_panel(")
     input_pos = main_block.rindex("st.chat_input(")
-    assert history_pos < chart_pos < input_pos
+    assert kpi_pos < rail_pos < history_pos < chart_pos < input_pos
     assert main_block.count("st.chat_input(") == 1
+    assert "_render_session_start_rail" in text
+    assert "rail_col" not in main_block
     assert "_start_chat_turn" in text
     assert "on_click=_logout_demo_session" in text
     assert "stSidebar" in text

@@ -33,6 +33,7 @@ docker compose up --build
 cp .env.example .env
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt   # тесты, ingest и skills
+pip install -e .                    # чтобы import oil_gas_analyst работал локально
 streamlit run oil_gas_analyst/dashboard.py --server.port 8000
 ```
 

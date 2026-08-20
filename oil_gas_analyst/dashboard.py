@@ -32,6 +32,8 @@ _DASHBOARD_CSS = """
     div[data-testid="stToolbar"] {visibility: hidden; height: 0;}
     header[data-testid="stHeader"] {background: transparent;}
     .block-container {padding-top: 1.25rem; max-width: 96rem;}
+    .news-rail-card {font-size: 0.85rem; line-height: 1.35;}
+    .news-rail-card p {margin-bottom: 0.35rem;}
 </style>
 """
 
@@ -159,16 +161,26 @@ def _render_kpi_row(payload: dict) -> None:
             st.write("—")
 
 
-def _render_session_start_column(hits: list[SessionStartRailHit]) -> None:
+def _render_session_start_rail(hits: list[SessionStartRailHit], *, max_cards: int = 4) -> None:
+    """Narrow vertical cards in a horizontal strip below KPIs."""
+    st.subheader("Session-start Web")
     if not hits:
-        st.markdown(RAIL_EMPTY_COPY)
+        st.caption(RAIL_EMPTY_COPY)
         return
-    for hit in hits:
-        st.markdown(f"**{hit.title}**")
-        st.caption(hit.outlet)
-        snippet = hit.snippet.strip().replace("\n", " ")
-        if snippet:
-            st.write(snippet[:220] + ("…" if len(snippet) > 220 else ""))
+
+    visible = hits[:max_cards]
+    cols = st.columns(len(visible), gap="small")
+    for col, hit in zip(cols, visible, strict=True):
+        with col:
+            with st.container(border=True, height=148):
+                st.markdown(
+                    f'<div class="news-rail-card"><strong>{hit.title[:96]}</strong></div>',
+                    unsafe_allow_html=True,
+                )
+                st.caption(hit.outlet)
+                snippet = hit.snippet.strip().replace("\n", " ")
+                if snippet:
+                    st.caption(snippet[:140] + ("…" if len(snippet) > 140 else ""))
 
 
 def _render_chart_panel(payload: dict) -> None:
@@ -262,23 +274,18 @@ def main() -> None:
 
     chart_payload = _ensure_chart_payload()
     _render_kpi_row(chart_payload)
+    _render_session_start_rail(_ensure_session_start_web())
 
     _render_chat_history()
 
     st.divider()
 
-    rail_col, chart_col = st.columns([1, 2], gap="large")
-    with rail_col:
-        st.subheader("Session-start Web")
-        _render_session_start_column(_ensure_session_start_web())
-
-    with chart_col:
-        chart_header, chart_btn = st.columns([4, 1])
-        with chart_btn:
-            if st.button("Обновить график", use_container_width=True):
-                _reload_chart(horizon_days=st.session_state.get("brent_chart_horizon", _DEFAULT_HORIZON))
-                st.rerun()
-        _render_chart_panel(st.session_state.brent_chart_payload)
+    chart_btn_col, _ = st.columns([1, 5])
+    with chart_btn_col:
+        if st.button("Обновить график", use_container_width=True):
+            _reload_chart(horizon_days=st.session_state.get("brent_chart_horizon", _DEFAULT_HORIZON))
+            st.rerun()
+    _render_chart_panel(st.session_state.brent_chart_payload)
 
     busy = chat_turn_in_progress(_chat_future())
     if prompt := st.chat_input(
