@@ -43,7 +43,8 @@ def test_dashboard_puts_chat_before_chart_and_news_rail_at_top():
     assert "_THINKING_COPY" in text
     assert "_poll_chat_future" in text
     assert "_render_thinking_indicator" in text
-    assert "_render_cached_spinner(st," in text
+    assert "assistant_box = st.chat_message(\"assistant\")" in text
+    assert "_render_cached_spinner(assistant_box," in text
     assert "stCacheSpinner" in text
     assert "_hydrate_from_disk_caches" in text
     assert "_hydrate_news_from_disk" in text
