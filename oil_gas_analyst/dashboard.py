@@ -34,7 +34,7 @@ _CHAT_INPUT_PLACEHOLDER = "Например: как изменилась цен�
 _CHAT_EXECUTOR = concurrent.futures.ThreadPoolExecutor(max_workers=3, thread_name_prefix="analyst-chat")
 _CHART_LOADING_COPY = "Загрузка графика Brent…"
 _CHAT_LOADING_COPY = "Подключение чата…"
-_THINKING_COPY = "Аналитик готовит ответ… Обычно это занимает 1–3 минуты."
+_THINKING_COPY = "Аналитик готовит ответ… Обычно это занимает 30–60 секунд."
 _THINKING_HINT = "Можно дождаться ответа здесь — поле ввода снова откроется после завершения."
 
 _DASHBOARD_CSS = """
@@ -123,6 +123,29 @@ _DASHBOARD_CSS = """
     }
     div[data-testid="stChatMessage"]:has(.stCacheSpinner) [data-testid="stChatMessageAvatarAssistant"] {
         animation: analyst-avatar-pulse 1.2s ease-in-out infinite;
+    }
+    div[data-testid="stChatMessageContent"] {
+        font-size: 0.96rem;
+        line-height: 1.55;
+        max-width: 52rem;
+    }
+    div[data-testid="stChatMessageContent"] p {
+        margin: 0 0 0.65rem 0;
+    }
+    div[data-testid="stChatMessageContent"] p:last-child {
+        margin-bottom: 0;
+    }
+    div[data-testid="stChatMessageContent"] a {
+        color: rgba(96, 165, 250, 0.95);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+    div[data-testid="stChatMessageContent"] a:hover {
+        color: rgba(147, 197, 253, 0.98);
+    }
+    div[data-testid="stChatMessageContent"] ul {
+        margin: 0.35rem 0 0.65rem 1.1rem;
+        padding: 0;
     }
 </style>
 """

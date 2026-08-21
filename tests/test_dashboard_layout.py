@@ -41,6 +41,7 @@ def test_dashboard_puts_chat_before_chart_and_news_rail_at_top():
     assert "_CHAT_INPUT_PLACEHOLDER" in text
     assert "st.chat_message" in text
     assert "_THINKING_COPY" in text
+    assert "30–60 секунд" in text
     assert "_poll_chat_future" in text
     assert "_render_thinking_indicator" in text
     assert "assistant_box = st.chat_message(\"assistant\")" in text

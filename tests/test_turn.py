@@ -112,6 +112,38 @@ def test_format_reply_does_not_require_langgraph_steps():
     assert "classify" not in text
 
 
+def test_format_reply_links_web_sources_from_session_rail():
+    from oil_gas_analyst.render import format_reply
+    from oil_gas_analyst.session_start_web import SessionStartRailHit
+
+    label = "[Источник: reuters.com, web]"
+    hit = SessionStartRailHit(
+        title="Brent rises",
+        outlet="reuters.com",
+        snippet="Oil up",
+        url="https://www.reuters.com/markets/brent",
+        citation=label,
+    )
+    text = format_reply(
+        Reply(text=f"Цена выросла {label}.", citations=[Citation(kind="web", label=label)]),
+        session_start_hits=[hit],
+    )
+    assert "[Источник: reuters.com, web](https://www.reuters.com/markets/brent)" in text
+    assert "**Источники**" in text
+    assert "**Sources**" not in text
+
+
+def test_format_reply_links_report_source_from_ingest_config():
+    from oil_gas_analyst.render import format_reply
+
+    label = "[Отчёт OPEC Monthly Oil Market Report — June 2026, 2026-06, p. 42]"
+    text = format_reply(
+        Reply(text=f"Спрос растёт {label}.", citations=[Citation(kind="report", label=label)]),
+    )
+    assert "](https://www.opec.org/monthly-oil-market-report.html)" in text
+    assert "**Источники**" in text
+
+
 MOMR = Chunk(
     text="The global oil demand growth forecast for 2026 remains at 1.4 mb/d.",
     title="OPEC Monthly Oil Market Report — March 2026 (excerpt, World Oil Demand)",

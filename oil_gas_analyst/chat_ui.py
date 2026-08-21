@@ -68,4 +68,4 @@ def handle_chat_message(
         reply = turn_runner(content, loop)
     else:
         reply = run_turn(content, loop, session_start_hits=session_start_hits or ())
-    return format_reply(reply)
+    return format_reply(reply, session_start_hits=session_start_hits or ())
