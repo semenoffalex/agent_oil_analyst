@@ -144,6 +144,55 @@ def test_format_reply_links_report_source_from_ingest_config():
     assert "**Источники**" in text
 
 
+def test_format_reply_normalizes_bare_web_citations():
+    from oil_gas_analyst.render import format_reply
+
+    raw = (
+        "Brent выше 94. Источник: oil.rftoday.ru, web(https://oil.rftoday.ru/); "
+        "Источник: vc.ru, web(https://vc.ru/t/123)."
+    )
+    text = format_reply(Reply(text=raw))
+    assert "[Источник: oil.rftoday.ru, web](https://oil.rftoday.ru/)" in text
+    assert "[Источник: vc.ru, web](https://vc.ru/t/123)" in text
+    assert "web(https://" not in text
+
+
+def test_format_reply_dedupes_double_markdown_urls():
+    from oil_gas_analyst.render import format_reply
+    from oil_gas_analyst.session_start_web import SessionStartRailHit
+
+    label = "[Источник: reuters.com, web]"
+    hit = SessionStartRailHit(
+        title="Brent rises",
+        outlet="reuters.com",
+        snippet="Oil up",
+        url="https://www.reuters.com/markets/brent",
+        citation=label,
+    )
+    raw = (
+        f"Цена выросла {label}(https://www.reuters.com/markets/brent). "
+        f"{label}(https://www.reuters.com/markets/brent)"
+    )
+    text = format_reply(
+        Reply(text=raw, citations=[Citation(kind="web", label=label)]),
+        session_start_hits=[hit],
+    )
+    assert "](https://www.reuters.com/markets/brent)(https://" not in text
+    assert text.count("[Источник: reuters.com, web](https://www.reuters.com/markets/brent)") >= 2
+
+
+def test_format_reply_fixes_spaced_markdown_urls():
+    from oil_gas_analyst.render import format_reply
+
+    raw = (
+        "Диапазон *90–100**. [Источник : ru.economies.com, web]"
+        "(https : //ru.economies.com/commodities/brent-oil-charts)."
+    )
+    text = format_reply(Reply(text=raw))
+    assert "**90–100**" in text
+    assert "[Источник : ru.economies.com, web](https://ru.economies.com/commodities/brent-oil-charts)" in text
+
+
 MOMR = Chunk(
     text="The global oil demand growth forecast for 2026 remains at 1.4 mb/d.",
     title="OPEC Monthly Oil Market Report — March 2026 (excerpt, World Oil Demand)",

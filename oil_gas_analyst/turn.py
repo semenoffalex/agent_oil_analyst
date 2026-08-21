@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from collections.abc import Sequence
 from urllib.parse import urlparse
 
@@ -201,6 +202,9 @@ def apply_citation_links(text: str, citations: list[Citation]) -> str:
 
     out = text
     for citation in sorted(citations, key=lambda c: len(c.label), reverse=True):
-        if citation.url:
-            out = out.replace(citation.label, markdown_cite(citation))
+        if not citation.url:
+            continue
+        linked = markdown_cite(citation)
+        pattern = re.escape(citation.label) + r"(?!\]\()"
+        out = re.sub(pattern, linked, out)
     return out
