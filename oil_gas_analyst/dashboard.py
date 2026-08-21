@@ -356,8 +356,8 @@ def _render_chat_messages() -> None:
 
 
 def _render_thinking_indicator() -> None:
-    with st.chat_message("assistant") as assistant:
-        _render_cached_spinner(assistant, _THINKING_COPY)
+    with st.chat_message("assistant"):
+        _render_cached_spinner(st, _THINKING_COPY)
         st.caption(_THINKING_HINT)
 
 
