@@ -9,6 +9,8 @@ fi
 
 export OPENAI_COMPATIBLE_API_KEY="${OPENAI_COMPATIBLE_API_KEY:-${DEEPSEEK_API_KEY}}"
 export OPENAI_COMPATIBLE_BASE_URL="${OPENAI_COMPATIBLE_BASE_URL:-${DEEPSEEK_BASE_URL:-https://api.deepseek.com}}"
+# ADR 0027: OpenRouter in this process makes Ouroboros prefer the wrong chat lane.
+unset OPENROUTER_API_KEY OPENROUTER_BASE_URL
 
 DATA="${OUROBOROS_DATA_DIR:-/data}"
 mkdir -p "${DATA}/memory" "${DATA}/skills/external" "${DATA}/chroma" "${DATA}/reports" "${DATA}/forecast_cache"

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import concurrent.futures
+import html
 import uuid
 
 import streamlit as st
@@ -33,6 +34,8 @@ _CHAT_INPUT_PLACEHOLDER = "Например: как изменилась цен�
 _CHAT_EXECUTOR = concurrent.futures.ThreadPoolExecutor(max_workers=3, thread_name_prefix="analyst-chat")
 _CHART_LOADING_COPY = "Загрузка графика Brent…"
 _CHAT_LOADING_COPY = "Подключение чата…"
+_THINKING_COPY = "Аналитик готовит ответ… Обычно это занимает 1–3 минуты."
+_THINKING_HINT = "Можно дождаться ответа здесь — поле ввода снова откроется после завершения."
 
 _DASHBOARD_CSS = """
 <style>
@@ -79,6 +82,47 @@ _DASHBOARD_CSS = """
     [data-testid="stChatInput"] textarea::placeholder {
         color: rgba(148, 163, 184, 0.75);
         font-style: italic;
+    }
+    .news-pill {
+        font-size: 0.78rem;
+        line-height: 1.35;
+    }
+    .news-pill-title {
+        font-size: 0.8rem;
+        font-weight: 600;
+        line-height: 1.25;
+        margin-bottom: 0.2rem;
+    }
+    .news-pill-title a {
+        color: inherit;
+        text-decoration: none;
+    }
+    .news-pill-title a:hover {
+        color: rgba(96, 165, 250, 0.95);
+        text-decoration: underline;
+    }
+    .corpus-pill {
+        display: block;
+        text-align: center;
+        font-size: 0.78rem;
+        line-height: 1.3;
+        padding: 0.4rem 0.65rem;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 9999px;
+    }
+    .corpus-pill a {
+        color: rgba(96, 165, 250, 0.95);
+        text-decoration: none;
+    }
+    .corpus-pill a:hover {
+        text-decoration: underline;
+    }
+    @keyframes analyst-avatar-pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.62; transform: scale(0.94); }
+    }
+    div[data-testid="stChatMessage"]:has(.stCacheSpinner) [data-testid="stChatMessageAvatarAssistant"] {
+        animation: analyst-avatar-pulse 1.2s ease-in-out infinite;
     }
 </style>
 """
@@ -288,50 +332,55 @@ def _chat_turn_pending() -> bool:
     return isinstance(_chat_future(), concurrent.futures.Future)
 
 
-@st.fragment(run_every=1)
-def _render_chat_status() -> None:
-    """Render chat bubbles and collect completed turns (fragment refreshes every second)."""
-    messages = st.session_state.get("messages") or []
-    for msg in messages:
+def _render_cached_spinner(container, text: str) -> None:
+    """Persistent spinner for async turns (transient ``st.spinner`` clears too soon)."""
+
+    from streamlit.elements.lib.layout_utils import create_layout_config
+    from streamlit.proto.Spinner_pb2 import Spinner as SpinnerProto
+    from streamlit.string_util import clean_text
+
+    spinner_proto = SpinnerProto()
+    spinner_proto.text = clean_text(text)
+    spinner_proto.cache = True
+    container._enqueue(
+        "spinner",
+        spinner_proto,
+        layout_config=create_layout_config(width="content", allow_content_width=True),
+    )
+
+
+def _render_chat_messages() -> None:
+    for msg in st.session_state.get("messages") or []:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
 
-    future = _chat_future()
-    if isinstance(future, concurrent.futures.Future) and not future.done():
-        with st.chat_message("assistant"):
-            with st.spinner("Аналитик готовит ответ… Обычно это занимает 1–3 минуты."):
-                st.caption("Можно дождаться ответа здесь — поле ввода снова откроется после завершения.")
 
+def _render_thinking_indicator() -> None:
+    with st.chat_message("assistant") as assistant:
+        _render_cached_spinner(assistant, _THINKING_COPY)
+        st.caption(_THINKING_HINT)
+
+
+@st.fragment(run_every=1)
+def _poll_chat_future() -> None:
+    """Poll for completed turns without re-rendering the thinking animation."""
     if _finish_chat_turn_if_ready():
         st.rerun()
 
 
-def _render_corpus_strip() -> None:
+def _render_corpus_pill() -> None:
     corpus = corpus_strip_entries()
     st.caption("Корпус отчётов")
-    if corpus:
-        for entry in corpus:
-            st.write(entry.label())
-    else:
-        st.write("—")
-
-
-def _render_kpi_row(payload: dict | None) -> None:
-    if payload is None:
-        c1, c2, c3 = st.columns(3)
-        with c1:
-            st.caption("Brent, закрытие")
-            st.metric("долл./барр.", "—")
-        with c2:
-            st.caption("SARIMA, 21 дн.")
-            st.metric("прогноз", "—")
-        with c3:
-            st.caption("Хольт–Винтерс, 21 дн.")
-            st.metric("прогноз", "—")
+    if not corpus:
+        st.metric("отчёты", "—")
         return
+    links = " · ".join(entry.link_markdown() for entry in corpus)
+    st.markdown(links)
 
-    kpis = kpi_from_chart_payload(payload)
-    c1, c2, c3 = st.columns(3)
+
+def _render_kpi_corpus_row(payload: dict | None) -> None:
+    kpis = kpi_from_chart_payload(payload) if payload is not None else {}
+    c1, c2, c3, c4 = st.columns([1, 1, 1, 1.15], gap="medium")
     with c1:
         st.caption("Brent, закрытие")
         close = kpis.get("close")
@@ -344,15 +393,21 @@ def _render_kpi_row(payload: dict | None) -> None:
         st.caption("Хольт–Винтерс, 21 дн.")
         holt = kpis.get("holt_winters")
         st.metric("прогноз", f"{holt:.2f}" if holt is not None else "—")
+    with c4:
+        with st.container(border=True):
+            _render_corpus_pill()
 
 
-def _render_session_start_rail(
+def _render_news_pills(
     hits: list[SessionStartRailHit],
     *,
-    max_cards: int = 3,
+    max_cards: int = 5,
     refreshing: bool = False,
 ) -> None:
-    """Top-N narrow cards in a horizontal strip."""
+    st.subheader(TOP_NEWS_RAIL_TITLE)
+    if refreshing or _news_refresh_in_progress():
+        st.caption(NEWS_REFRESH_COPY)
+
     if not hits:
         if refreshing or _news_refresh_in_progress():
             with st.spinner(NEWS_REFRESH_COPY):
@@ -364,35 +419,22 @@ def _render_session_start_rail(
         st.caption(RAIL_EMPTY_COPY)
         return
 
-    if refreshing or _news_refresh_in_progress():
-        st.caption(NEWS_REFRESH_COPY)
-
     visible = hits[:max_cards]
-    cols = st.columns(len(visible), gap="small")
+    cols = st.columns(max_cards, gap="small")
     for col, hit in zip(cols, visible, strict=True):
         with col:
-            with st.container(border=True, height=120):
+            with st.container(border=True, height=118):
+                title = html.escape(hit.title[:64] + ("…" if len(hit.title) > 64 else ""))
+                url = html.escape(hit.url, quote=True)
                 st.markdown(
-                    f'<div class="news-rail-card"><strong>{hit.title[:72]}</strong></div>',
+                    f'<div class="news-pill"><div class="news-pill-title">'
+                    f'<a href="{url}" target="_blank" rel="noopener">{title}</a></div></div>',
                     unsafe_allow_html=True,
                 )
-                st.caption(hit.outlet)
                 snippet = hit.snippet.strip().replace("\n", " ")
                 if snippet:
-                    st.caption(snippet[:96] + ("…" if len(snippet) > 96 else ""))
-
-
-def _render_news_and_corpus_row(
-    hits: list[SessionStartRailHit],
-    *,
-    refreshing: bool = False,
-) -> None:
-    news_col, corpus_col = st.columns([3, 1], gap="medium")
-    with news_col:
-        st.subheader(TOP_NEWS_RAIL_TITLE)
-        _render_session_start_rail(hits, max_cards=3, refreshing=refreshing)
-    with corpus_col:
-        _render_corpus_strip()
+                    st.caption(snippet[:88] + ("…" if len(snippet) > 88 else ""))
+                st.caption(hit.outlet)
 
 
 def _render_chart_panel(payload: dict | None, *, refreshing: bool = False) -> None:
@@ -457,7 +499,10 @@ def _render_chat_panel(*, busy: bool) -> None:
     st.markdown('<div class="chat-panel">', unsafe_allow_html=True)
     st.subheader("Вопрос аналитику")
     st.markdown(f'<p class="chat-hint">{_CHAT_HINT}</p>', unsafe_allow_html=True)
-    _render_chat_status()
+    _render_chat_messages()
+    if _chat_turn_pending():
+        _render_thinking_indicator()
+    _poll_chat_future()
 
     chat_ready = _ouroboros_ready()
     chat_loading = (
@@ -516,8 +561,8 @@ def main() -> None:
     chart_refreshing = _chart_refresh_in_progress()
     news_refreshing = _news_refresh_in_progress()
 
-    _render_kpi_row(chart_payload)
-    _render_news_and_corpus_row(news_hits, refreshing=news_refreshing)
+    _render_kpi_corpus_row(chart_payload)
+    _render_news_pills(news_hits, max_cards=5, refreshing=news_refreshing)
     _render_chart_panel(chart_payload, refreshing=chart_refreshing)
     _render_chat_panel(busy=_chat_turn_pending())
 

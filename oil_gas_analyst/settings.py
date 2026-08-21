@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+from pathlib import Path
+from urllib.parse import urlparse
 
 DEEPSEEK_MODEL = "deepseek-v4-flash"
 DEEPSEEK_BASE_URL_DEFAULT = "https://api.deepseek.com"
@@ -119,6 +121,31 @@ def resolve_model_slots() -> ModelSlots:
         skill_review=skill_review,
         fallbacks=fallbacks,
     )
+
+
+DOCKER_OUROBOROS_URL = "http://ouroboros:8765"
+LOCAL_OUROBOROS_URL = "http://127.0.0.1:8765"
+_LOOPBACK_HOSTS = frozenset({"localhost", "127.0.0.1", "::1"})
+
+
+def running_in_docker() -> bool:
+    return Path("/.dockerenv").exists()
+
+
+def resolve_ouroboros_url() -> str:
+    """Return the Ouroboros gateway URL for the Streamlit adapter.
+
+    Inside Docker, loopback points at this container, not the ``ouroboros`` service.
+    A developer ``.env`` with ``127.0.0.1`` must not override the compose network.
+    """
+
+    configured = os.environ.get("OUROBOROS_URL", "").strip()
+    if not configured:
+        return DOCKER_OUROBOROS_URL if running_in_docker() else LOCAL_OUROBOROS_URL
+    host = (urlparse(configured).hostname or "").lower()
+    if running_in_docker() and host in _LOOPBACK_HOSTS:
+        return DOCKER_OUROBOROS_URL
+    return configured.rstrip("/")
 
 
 def ouroboros_process_env() -> dict[str, str]:

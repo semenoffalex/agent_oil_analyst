@@ -8,7 +8,11 @@ from dotenv import load_dotenv
 
 from oil_gas_analyst.ingest import load_ingest_config
 from oil_gas_analyst.ouroboros import OuroborosLoop
-from oil_gas_analyst.settings import require_deepseek_key, require_embedding_api_key
+from oil_gas_analyst.settings import (
+    require_deepseek_key,
+    require_embedding_api_key,
+    resolve_ouroboros_url,
+)
 
 load_dotenv()
 
@@ -20,7 +24,7 @@ def build_loop() -> OuroborosLoop:
 
     require_deepseek_key()
     require_embedding_api_key()
-    url = os.environ.get("OUROBOROS_URL", "http://127.0.0.1:8765").strip()
+    url = resolve_ouroboros_url()
     timeout = float(os.environ.get("OUROBOROS_TURN_TIMEOUT_SEC", "300"))
     enable_domain_skills(url)
     return OuroborosLoop(url, timeout_sec=timeout)

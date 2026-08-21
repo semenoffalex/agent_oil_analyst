@@ -4,12 +4,15 @@ import pytest
 
 from oil_gas_analyst.settings import (
     DEEPSEEK_MODEL,
+    DOCKER_OUROBOROS_URL,
+    LOCAL_OUROBOROS_URL,
     MAIN_MODEL,
     normalize_chat_model,
     ouroboros_process_env,
     require_deepseek_key,
     require_embedding_api_key,
     resolve_model_slots,
+    resolve_ouroboros_url,
 )
 
 
@@ -152,6 +155,8 @@ def test_compose_publishes_streamlit_only_and_pins_light_mode():
     assert "openai-compatible::deepseek-v4-flash" in text
     assert "DEEPSEEK_API_KEY" in text
     assert "OPENAI_COMPATIBLE_BASE_URL" in text
+    ouroboros_block = text.split("ouroboros:", 1)[1].split("\n\n  analyst:", 1)[0]
+    assert 'OPENROUTER_API_KEY: ""' in ouroboros_block
     assert "OUROBOROS_REVIEW_MODELS: ${OUROBOROS_REVIEW_MODELS:-}" in text
     assert "nvidia/nemotron-3-embed-1b:free" in text
     assert "openrouter.ai/api/v1" in text
@@ -167,3 +172,27 @@ def test_maybe_traceable_keeps_run_turn_callable():
         return x + 1
 
     assert ping(1) == 2
+
+
+def test_resolve_ouroboros_url_defaults_to_localhost_outside_docker(monkeypatch):
+    monkeypatch.delenv("OUROBOROS_URL", raising=False)
+    monkeypatch.setattr("oil_gas_analyst.settings.running_in_docker", lambda: False)
+    assert resolve_ouroboros_url() == LOCAL_OUROBOROS_URL
+
+
+def test_resolve_ouroboros_url_defaults_to_compose_service_in_docker(monkeypatch):
+    monkeypatch.delenv("OUROBOROS_URL", raising=False)
+    monkeypatch.setattr("oil_gas_analyst.settings.running_in_docker", lambda: True)
+    assert resolve_ouroboros_url() == DOCKER_OUROBOROS_URL
+
+
+def test_resolve_ouroboros_url_rewrites_loopback_in_docker(monkeypatch):
+    monkeypatch.setenv("OUROBOROS_URL", "http://127.0.0.1:8765")
+    monkeypatch.setattr("oil_gas_analyst.settings.running_in_docker", lambda: True)
+    assert resolve_ouroboros_url() == DOCKER_OUROBOROS_URL
+
+
+def test_resolve_ouroboros_url_keeps_explicit_compose_url_in_docker(monkeypatch):
+    monkeypatch.setenv("OUROBOROS_URL", "http://ouroboros:8765")
+    monkeypatch.setattr("oil_gas_analyst.settings.running_in_docker", lambda: True)
+    assert resolve_ouroboros_url() == DOCKER_OUROBOROS_URL

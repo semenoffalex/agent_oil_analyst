@@ -19,16 +19,18 @@ def test_dashboard_puts_chat_before_chart_and_news_rail_at_top():
 
     text = Path("oil_gas_analyst/dashboard.py").read_text(encoding="utf-8")
     main_block = text.split("def main() -> None:", 1)[1]
-    kpi_pos = main_block.index("_render_kpi_row(")
-    rail_pos = main_block.index("_render_news_and_corpus_row(")
+    kpi_pos = main_block.index("_render_kpi_corpus_row(")
+    rail_pos = main_block.index("_render_news_pills(")
     chart_pos = main_block.index("_render_chart_panel(")
     chat_pos = main_block.index("_render_chat_panel(")
     assert kpi_pos < rail_pos < chart_pos < chat_pos
     assert "Обновить график" not in main_block
     assert "st.divider()" not in main_block
-    assert "_render_news_and_corpus_row" in text
+    assert "_render_news_pills" in text
+    assert "_render_kpi_corpus_row" in text
+    assert "_render_corpus_pill" in text
     assert "TOP_NEWS_RAIL_TITLE" in text
-    assert "max_cards=3" in text
+    assert "max_cards=5" in text
     assert "rail_col" not in main_block
     assert "_start_chat_turn" in text
     assert "_logout_demo_session" in text
@@ -38,7 +40,11 @@ def test_dashboard_puts_chat_before_chart_and_news_rail_at_top():
     assert "_CHAT_HINT" in text
     assert "_CHAT_INPUT_PLACEHOLDER" in text
     assert "st.chat_message" in text
-    assert "_render_chat_status" in text
+    assert "_THINKING_COPY" in text
+    assert "_poll_chat_future" in text
+    assert "_render_thinking_indicator" in text
+    assert "_render_cached_spinner" in text
+    assert "stCacheSpinner" in text
     assert "_hydrate_from_disk_caches" in text
     assert "_hydrate_news_from_disk" in text
     assert "_start_background_refreshes" in text
@@ -160,6 +166,11 @@ def test_corpus_strip_lists_agencies_when_samples_exist(tmp_path):
     for name in ("opec.pdf", "eia.pdf", "cbr.pdf"):
         (tmp_path / name).write_bytes(b"%PDF-1.4")
     cfg = {
+        "agency_urls": {
+            "OPEC": "https://www.opec.org/monthly-oil-market-report.html",
+            "EIA": "https://www.eia.gov/outlooks/steo/pdf/steo_full.pdf",
+            "CBR": "https://www.cbr.ru/analytics/dkp/ddb/",
+        },
         "samples": [
             {
                 "path": str(tmp_path / "opec.pdf"),
@@ -188,3 +199,5 @@ def test_corpus_strip_lists_agencies_when_samples_exist(tmp_path):
     agencies = {entry.agency for entry in entries}
     assert agencies == {"OPEC", "EIA", "CBR"}
     assert any("excerpt" in entry.label() for entry in entries)
+    assert all(entry.url for entry in entries)
+    assert "[OPEC · 2026-06]" in entries[0].link_markdown()
