@@ -141,7 +141,7 @@ def has_grounded_report(reply: Reply) -> bool:
     return "[Отчёт" in (reply.text or "") and reply.retrieved is True
 
 
-def _safety_net(question: str) -> Reply:
+def _safety_net(question: str, *, infra_detail: str | None = None) -> Reply:
     """Fallback when the loop did not return a live completion.
 
     ``is_out_of_scope_topic`` is only this fallback, not a Competence gate.
@@ -149,7 +149,10 @@ def _safety_net(question: str) -> Reply:
 
     if is_out_of_scope_topic(question):
         return Reply(text=REFUSAL_TEXT, refused=True)
-    return Reply(text=INFRA_TEXT, refused=False)
+    text = INFRA_TEXT
+    if infra_detail:
+        text = f"{INFRA_TEXT} ({infra_detail})"
+    return Reply(text=text, refused=False)
 
 
 @maybe_traceable("analyst.run_turn")
@@ -168,8 +171,8 @@ def run_turn(
     prompt = inject_session_start_web(question, session_start_hits or ())
     try:
         result = loop.complete(prompt)
-    except (TimeoutError, LoopError):
-        return _safety_net(question)
+    except (TimeoutError, LoopError) as exc:
+        return _safety_net(question, infra_detail=str(exc))
     return Reply(
         text=result.text,
         citations=list(result.citations),

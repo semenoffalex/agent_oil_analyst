@@ -284,10 +284,24 @@ def _finish_chat_turn_if_ready() -> bool:
     return True
 
 
+def _chat_turn_pending() -> bool:
+    return isinstance(_chat_future(), concurrent.futures.Future)
+
+
 @st.fragment(run_every=1)
-def _poll_chat_future() -> None:
-    if not chat_turn_in_progress(_chat_future()):
-        return
+def _render_chat_status() -> None:
+    """Render chat bubbles and collect completed turns (fragment refreshes every second)."""
+    messages = st.session_state.get("messages") or []
+    for msg in messages:
+        with st.chat_message(msg["role"]):
+            st.markdown(msg["content"])
+
+    future = _chat_future()
+    if isinstance(future, concurrent.futures.Future) and not future.done():
+        with st.chat_message("assistant"):
+            with st.spinner("Аналитик готовит ответ… Обычно это занимает 1–3 минуты."):
+                st.caption("Можно дождаться ответа здесь — поле ввода снова откроется после завершения.")
+
     if _finish_chat_turn_if_ready():
         st.rerun()
 
@@ -439,18 +453,11 @@ def _render_login_gate() -> bool:
     return False
 
 
-def _render_chat_history() -> None:
-    """Скрыт временно: история чата не выводится на панель."""
-    if chat_turn_in_progress(_chat_future()):
-        with st.spinner("Аналитик готовит ответ… Обычно это занимает 1–3 минуты."):
-            st.caption("Можно дождаться ответа здесь — поле ввода снова откроется после завершения.")
-
-
 def _render_chat_panel(*, busy: bool) -> None:
     st.markdown('<div class="chat-panel">', unsafe_allow_html=True)
     st.subheader("Вопрос аналитику")
     st.markdown(f'<p class="chat-hint">{_CHAT_HINT}</p>', unsafe_allow_html=True)
-    _render_chat_history()
+    _render_chat_status()
 
     chat_ready = _ouroboros_ready()
     chat_loading = (
@@ -493,7 +500,6 @@ def main() -> None:
         _logout_demo_session()
         st.rerun()
 
-    _poll_chat_future()
     _poll_dashboard_refresh()
 
     if "messages" not in st.session_state:
@@ -513,7 +519,7 @@ def main() -> None:
     _render_kpi_row(chart_payload)
     _render_news_and_corpus_row(news_hits, refreshing=news_refreshing)
     _render_chart_panel(chart_payload, refreshing=chart_refreshing)
-    _render_chat_panel(busy=chat_turn_in_progress(_chat_future()))
+    _render_chat_panel(busy=_chat_turn_pending())
 
 
 if __name__ == "__main__":

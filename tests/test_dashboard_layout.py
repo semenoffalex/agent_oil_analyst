@@ -37,6 +37,8 @@ def test_dashboard_puts_chat_before_chart_and_news_rail_at_top():
     assert "with st.sidebar" not in text
     assert "_CHAT_HINT" in text
     assert "_CHAT_INPUT_PLACEHOLDER" in text
+    assert "st.chat_message" in text
+    assert "_render_chat_status" in text
     assert "_hydrate_from_disk_caches" in text
     assert "_hydrate_news_from_disk" in text
     assert "_start_background_refreshes" in text
@@ -94,7 +96,7 @@ from oil_gas_analyst.dashboard_chart import (
 
 
 def _series(n=80):
-    idx = pd.bdate_range("2026-01-01", periods=n)
+    idx = pd.bdate_range("2026-05-01", periods=n)
     rng = np.random.default_rng(0)
     values = 70 + np.cumsum(rng.normal(0, 0.5, n))
     return pd.Series(values, index=idx, name="close")

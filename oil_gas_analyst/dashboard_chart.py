@@ -9,7 +9,7 @@ import pandas as pd
 
 from oil_gas_analyst.forecast import detect_horizon, forecast_plot_payload
 
-CHART_HISTORY_START = "2026-01-01"
+CHART_HISTORY_START = "2026-05-01"
 
 CHART_UNCERTAINTY_COPY = (
     "История Brent или Forecast недоступны. Не выдумываем цены — "
