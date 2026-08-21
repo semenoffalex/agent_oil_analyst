@@ -64,7 +64,12 @@ def enable_domain_skills(base_url: str) -> None:
 
 
 def build_deps(*, ingest_if_empty: bool = True):
-    """Wire Report index deps for ingest CLI. Chat does not use this path."""
+    """Wire Report index deps for ingest CLI.
+
+    When ``ingest_if_empty`` is True, ``ensure_index`` runs once: it skips when the
+    on-disk Chroma fingerprint matches the corpus and only re-indexes new PDFs or
+    after an embedding-model change.
+    """
 
     from oil_gas_analyst.retrieve import ChromaRetriever, ensure_index, make_embedding_function
 

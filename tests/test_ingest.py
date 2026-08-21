@@ -163,6 +163,7 @@ def test_ensure_index_rebuilds_stale_volume_then_skips(monkeypatch):
         def __init__(self):
             self._empty = False
             self.fp = None
+            self.manifest = None
             self.resets = 0
 
         def is_empty(self) -> bool:
@@ -179,20 +180,26 @@ def test_ensure_index_rebuilds_stale_volume_then_skips(monkeypatch):
             self.fp = fp
             self._empty = False
 
-    def fake_ingest(retriever, *, samples_dir, reports_dir):
+        def stored_manifest(self) -> dict | None:
+            return self.manifest
+
+        def write_manifest(self, manifest: dict) -> None:
+            self.manifest = manifest
+
+    def fake_ingest(retriever, jobs):
         ingest_calls.append("ingest")
         retriever._empty = False
         return 1
 
-    monkeypatch.setattr("oil_gas_analyst.retrieve.ingest_samples_and_reports", fake_ingest)
-    monkeypatch.setattr("oil_gas_analyst.retrieve.corpus_fingerprint", lambda *a, **k: "abc")
+    monkeypatch.setattr("oil_gas_analyst.retrieve.ingest_jobs", fake_ingest)
     fake = Fake()
     samples = Path("data/samples")
     reports = Path("data/reports")
     ensure_index(fake, samples_dir=samples, reports_dir=reports)
     assert fake.resets == 1
     assert ingest_calls == ["ingest"]
-    assert fake.fp == "abc"
+    assert fake.fp is not None
+    assert fake.manifest is not None
     ensure_index(fake, samples_dir=samples, reports_dir=reports)
     assert fake.resets == 1
     assert ingest_calls == ["ingest"]
@@ -209,6 +216,7 @@ def test_ensure_index_force_rebuilds_matching_fingerprint(monkeypatch):
         def __init__(self):
             self._empty = False
             self.fp = "abc"
+            self.manifest = {"schema": "x", "embedding_model": "m", "jobs": []}
             self.resets = 0
 
         def is_empty(self) -> bool:
@@ -225,11 +233,16 @@ def test_ensure_index_force_rebuilds_matching_fingerprint(monkeypatch):
             self.fp = fp
             self._empty = False
 
+        def stored_manifest(self) -> dict | None:
+            return self.manifest
+
+        def write_manifest(self, manifest: dict) -> None:
+            self.manifest = manifest
+
     monkeypatch.setattr(
-        "oil_gas_analyst.retrieve.ingest_samples_and_reports",
-        lambda *a, **k: ingest_calls.append(1) or 1,
+        "oil_gas_analyst.retrieve.ingest_jobs",
+        lambda retriever, jobs: ingest_calls.append(1) or 1,
     )
-    monkeypatch.setattr("oil_gas_analyst.retrieve.corpus_fingerprint", lambda *a, **k: "abc")
     fake = Fake()
     ensure_index(
         fake,
@@ -239,6 +252,72 @@ def test_ensure_index_force_rebuilds_matching_fingerprint(monkeypatch):
     )
     assert fake.resets == 1
     assert ingest_calls == [1]
+
+
+def test_plan_corpus_index_skips_when_fingerprint_matches(tmp_path):
+    from oil_gas_analyst.retrieve import (
+        build_corpus_manifest,
+        corpus_fingerprint_from_manifest,
+        plan_corpus_index,
+    )
+
+    samples = tmp_path / "samples"
+    reports = tmp_path / "reports"
+    samples.mkdir()
+    reports.mkdir()
+    pdf = samples / "demo.pdf"
+    pdf.write_bytes(b"%PDF-1.4 demo")
+
+    class Fake:
+        def is_empty(self) -> bool:
+            return False
+
+        def stored_fingerprint(self) -> str | None:
+            manifest = build_corpus_manifest(samples, reports)
+            return corpus_fingerprint_from_manifest(manifest)
+
+        def stored_manifest(self) -> dict | None:
+            return build_corpus_manifest(samples, reports)
+
+    plan = plan_corpus_index(Fake(), samples_dir=samples, reports_dir=reports)
+    assert plan.action == "skip"
+    assert plan.reason == "up_to_date"
+
+
+def test_plan_corpus_index_syncs_only_new_pdf(tmp_path, monkeypatch):
+    from oil_gas_analyst.retrieve import (
+        build_corpus_manifest,
+        corpus_fingerprint_from_manifest,
+        plan_corpus_index,
+    )
+
+    samples = tmp_path / "samples"
+    reports = tmp_path / "reports"
+    samples.mkdir()
+    reports.mkdir()
+    first = samples / "first.pdf"
+    first.write_bytes(b"%PDF-1.4 first")
+    manifest = build_corpus_manifest(samples, reports)
+
+    class Fake:
+        def is_empty(self) -> bool:
+            return False
+
+        def stored_fingerprint(self) -> str | None:
+            return corpus_fingerprint_from_manifest(manifest)
+
+        def stored_manifest(self) -> dict | None:
+            return manifest
+
+    plan = plan_corpus_index(Fake(), samples_dir=samples, reports_dir=reports)
+    assert plan.action == "skip"
+
+    second = samples / "second.pdf"
+    second.write_bytes(b"%PDF-1.4 second")
+    plan = plan_corpus_index(Fake(), samples_dir=samples, reports_dir=reports)
+    assert plan.action == "sync"
+    assert len(plan.jobs) == 1
+    assert plan.jobs[0]["path"].name == "second.pdf"
 
 
 def test_e5_token_count_is_whitespace_without_transformers():

@@ -5,10 +5,12 @@ import json
 import os
 import re
 import socket
+from dataclasses import dataclass
 from pathlib import Path
 import urllib.error
 from urllib.parse import urlparse, urlunparse
 from urllib.request import Request, urlopen
+from typing import Literal
 
 from oil_gas_analyst.ingest import chunk_pdf, e5_token_count, load_ingest_config
 from oil_gas_analyst.settings import maybe_traceable
@@ -19,8 +21,18 @@ _QUERY = "query: "
 _EMBED_BATCH = 32
 _INDEX_SCHEMA = "openrouter-nemotron-embed-v1"
 _FINGERPRINT_NAME = "corpus_fingerprint.txt"
+_MANIFEST_NAME = "corpus_manifest.json"
 DEFAULT_EMBEDDING_BASE = "https://openrouter.ai/api/v1"
 DEFAULT_EMBEDDING_MODEL = "nvidia/nemotron-3-embed-1b:free"
+
+
+@dataclass(frozen=True)
+class IndexPlan:
+    action: Literal["skip", "rebuild", "sync"]
+    reason: str
+    manifest: dict
+    jobs: tuple[dict, ...]
+    delete_prefixes: tuple[str, ...]
 
 
 def _prefer_ipv4(url: str) -> str:
@@ -274,6 +286,32 @@ class ChromaRetriever:
         path.mkdir(parents=True, exist_ok=True)
         (path / _FINGERPRINT_NAME).write_text(fp + "\n", encoding="utf-8")
 
+    def stored_manifest(self) -> dict | None:
+        path = Path(self._persist_path) / _MANIFEST_NAME
+        if not path.is_file():
+            return None
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return None
+
+    def write_manifest(self, manifest: dict) -> None:
+        path = Path(self._persist_path)
+        path.mkdir(parents=True, exist_ok=True)
+        (path / _MANIFEST_NAME).write_text(
+            json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True),
+            encoding="utf-8",
+        )
+
+    def delete_by_id_prefix(self, id_prefix: str) -> int:
+        """Remove all chunk ids that start with ``{id_prefix}-``."""
+        batch = self._col.get(include=[])
+        ids = batch.get("ids") or []
+        to_delete = [chunk_id for chunk_id in ids if chunk_id.startswith(f"{id_prefix}-")]
+        if to_delete:
+            self._col.delete(ids=to_delete)
+        return len(to_delete)
+
     def index_chunks(self, chunks: list[Chunk], id_prefix: str) -> None:
         """Embed and upsert chunks with Report metadata.
 
@@ -449,12 +487,12 @@ def iter_ingest_jobs(samples_dir: Path, reports_dir: Path, cfg: dict | None = No
                     "date": _date_from_name(pdf.name),
                     "title": pdf.stem,
                     "url": None,
-                    "id_prefix": f"sample-extra-{extra}",
+                    "id_prefix": f"sample-extra-{pdf.stem}",
                 }
             )
             extra += 1
     if reports_dir.exists():
-        for j, pdf in enumerate(sorted(reports_dir.glob("*.pdf"))):
+        for pdf in sorted(reports_dir.glob("*.pdf")):
             agency = _agency_from_name(pdf.name)
             jobs.append(
                 {
@@ -464,10 +502,35 @@ def iter_ingest_jobs(samples_dir: Path, reports_dir: Path, cfg: dict | None = No
                     "date": _date_from_name(pdf.name),
                     "title": pdf.stem,
                     "url": None,
-                    "id_prefix": f"full-{j}",
+                    "id_prefix": f"full-{pdf.stem}",
                 }
             )
     return jobs
+
+
+def _job_manifest_entry(job: dict) -> dict:
+    path: Path = job["path"]
+    return {
+        "id_prefix": job["id_prefix"],
+        "name": path.name,
+        "size": path.stat().st_size,
+        "excerpt": bool(job["excerpt"]),
+    }
+
+
+def build_corpus_manifest(samples_dir: Path, reports_dir: Path, cfg: dict | None = None) -> dict:
+    jobs = iter_ingest_jobs(samples_dir, reports_dir, cfg)
+    return {
+        "schema": _INDEX_SCHEMA,
+        "embedding_model": embedding_model_name(),
+        "jobs": [_job_manifest_entry(job) for job in jobs],
+    }
+
+
+def corpus_fingerprint_from_manifest(manifest: dict) -> str:
+    digest = hashlib.sha256()
+    digest.update(json.dumps(manifest, sort_keys=True).encode("utf-8"))
+    return digest.hexdigest()
 
 
 def corpus_fingerprint(samples_dir: Path, reports_dir: Path) -> str:
@@ -478,21 +541,95 @@ def corpus_fingerprint(samples_dir: Path, reports_dir: Path) -> str:
         reports_dir: Full Reports directory.
 
     Returns:
-        SHA-256 hex digest over schema version, file names, sizes, and excerpt flags.
+        SHA-256 hex digest over schema version, embedding model, and PDF metadata.
 
     Example:
         >>> fp = corpus_fingerprint(Path("data/samples"), Path("data/reports"))
         >>> len(fp)
         64
     """
-    digest = hashlib.sha256()
-    digest.update(f"{_INDEX_SCHEMA}\n{embedding_model_name()}\n".encode("utf-8"))
-    for job in iter_ingest_jobs(samples_dir, reports_dir):
-        path: Path = job["path"]
-        digest.update(
-            f"{path.name}\t{path.stat().st_size}\t{int(job['excerpt'])}\n".encode("utf-8")
+    return corpus_fingerprint_from_manifest(build_corpus_manifest(samples_dir, reports_dir))
+
+
+def plan_corpus_index(
+    retriever,
+    *,
+    samples_dir: Path,
+    reports_dir: Path,
+    force: bool = False,
+) -> IndexPlan:
+    """Decide whether to skip, rebuild, or incrementally sync the Chroma index."""
+    manifest = build_corpus_manifest(samples_dir, reports_dir)
+    fingerprint = corpus_fingerprint_from_manifest(manifest)
+    stored_manifest = (
+        retriever.stored_manifest() if hasattr(retriever, "stored_manifest") else None
+    )
+    stored_fp = retriever.stored_fingerprint() if hasattr(retriever, "stored_fingerprint") else None
+    empty = retriever.is_empty()
+    jobs = tuple(iter_ingest_jobs(samples_dir, reports_dir))
+
+    if force:
+        return IndexPlan("rebuild", "force", manifest, jobs, ())
+
+    if not empty and stored_fp == fingerprint:
+        return IndexPlan("skip", "up_to_date", manifest, (), ())
+
+    if empty or stored_manifest is None or stored_fp is None:
+        return IndexPlan("rebuild", "empty_or_legacy", manifest, jobs, ())
+
+    if (
+        stored_manifest.get("schema") != manifest["schema"]
+        or stored_manifest.get("embedding_model") != manifest["embedding_model"]
+    ):
+        return IndexPlan("rebuild", "schema_or_model_change", manifest, jobs, ())
+
+    stored_jobs = {row["id_prefix"]: row for row in stored_manifest.get("jobs") or []}
+    current_jobs = {row["id_prefix"]: row for row in manifest["jobs"]}
+    delete_prefixes: list[str] = [
+        prefix for prefix in stored_jobs if prefix not in current_jobs
+    ]
+    jobs_to_index: list[dict] = []
+    for job in jobs:
+        entry = _job_manifest_entry(job)
+        previous = stored_jobs.get(job["id_prefix"])
+        if previous == entry:
+            continue
+        if job["id_prefix"] not in delete_prefixes:
+            delete_prefixes.append(job["id_prefix"])
+        jobs_to_index.append(job)
+
+    if not jobs_to_index and not delete_prefixes:
+        return IndexPlan("skip", "manifest_unchanged", manifest, (), ())
+
+    return IndexPlan(
+        "sync",
+        "corpus_delta",
+        manifest,
+        tuple(jobs_to_index),
+        tuple(delete_prefixes),
+    )
+
+
+def ingest_jobs(retriever: ChromaRetriever, jobs: list[dict] | tuple[dict, ...]) -> int:
+    """Chunk and upsert a subset (or all) ingest jobs."""
+    cfg = load_ingest_config()
+    total = 0
+    for job in jobs:
+        agency = job["agency"]
+        chunks = chunk_pdf(
+            job["path"],
+            agency=agency,
+            excerpt=job["excerpt"],
+            date=job["date"],
+            title=job["title"],
+            config=cfg,
+            token_count=e5_token_count,
+            url=_url_for_agency(agency, cfg, job.get("url")),
         )
-    return digest.hexdigest()
+        retriever.index_chunks(chunks, id_prefix=job["id_prefix"])
+        total += len(chunks)
+        print(f"indexed {job['path'].name}: {len(chunks)} chunks")
+    return total
 
 
 def ensure_index(
@@ -502,7 +639,7 @@ def ensure_index(
     reports_dir: Path,
     force: bool = False,
 ) -> int:
-    """Rebuild Chroma when empty, fingerprint-mismatched, or ``force`` is set.
+    """Ensure Chroma matches the corpus; skip when the on-disk index is current.
 
     Args:
         retriever: Object with ``is_empty``, ``reset``, fingerprint I/O, and indexing.
@@ -519,19 +656,40 @@ def ensure_index(
         >>> ensure_index(retriever, samples_dir=samples, reports_dir=reports, force=True)
         142
     """
-    fp = corpus_fingerprint(samples_dir, reports_dir)
-    stored = retriever.stored_fingerprint() if hasattr(retriever, "stored_fingerprint") else None
-    empty = retriever.is_empty()
-    if not force and not empty and stored == fp:
+    plan = plan_corpus_index(
+        retriever,
+        samples_dir=samples_dir,
+        reports_dir=reports_dir,
+        force=force,
+    )
+    if plan.action == "skip":
+        print(f"Chroma index up to date ({plan.reason}); skipping re-index.")
         return 0
-    if not empty:
-        reset = getattr(retriever, "reset", None)
-        if callable(reset):
-            reset()
-    total = ingest_samples_and_reports(retriever, samples_dir=samples_dir, reports_dir=reports_dir)
-    write = getattr(retriever, "write_fingerprint", None)
-    if callable(write):
-        write(fp)
+
+    if plan.action == "rebuild":
+        if not retriever.is_empty():
+            reset = getattr(retriever, "reset", None)
+            if callable(reset):
+                reset()
+        print(f"Chroma full re-index ({plan.reason}).")
+        total = ingest_jobs(retriever, plan.jobs)
+    else:
+        print(f"Chroma incremental sync ({plan.reason}).")
+        for prefix in plan.delete_prefixes:
+            delete = getattr(retriever, "delete_by_id_prefix", None)
+            if callable(delete):
+                removed = delete(prefix)
+                if removed:
+                    print(f"removed {removed} chunks for {prefix}")
+        total = ingest_jobs(retriever, plan.jobs)
+
+    fingerprint = corpus_fingerprint_from_manifest(plan.manifest)
+    write_fp = getattr(retriever, "write_fingerprint", None)
+    write_manifest = getattr(retriever, "write_manifest", None)
+    if callable(write_fp):
+        write_fp(fingerprint)
+    if callable(write_manifest):
+        write_manifest(plan.manifest)
     return total
 
 
@@ -556,24 +714,7 @@ def ingest_samples_and_reports(
         >>> n > 0
         True
     """
-    cfg = load_ingest_config()
-    total = 0
-    for job in iter_ingest_jobs(samples_dir, reports_dir, cfg):
-        agency = job["agency"]
-        chunks = chunk_pdf(
-            job["path"],
-            agency=agency,
-            excerpt=job["excerpt"],
-            date=job["date"],
-            title=job["title"],
-            config=cfg,
-            token_count=e5_token_count,
-            url=_url_for_agency(agency, cfg, job.get("url")),
-        )
-        retriever.index_chunks(chunks, id_prefix=job["id_prefix"])
-        total += len(chunks)
-        print(f"indexed {job['path'].name}: {len(chunks)} chunks")
-    return total
+    return ingest_jobs(retriever, iter_ingest_jobs(samples_dir, reports_dir))
 
 
 _RETRIEVER = None
