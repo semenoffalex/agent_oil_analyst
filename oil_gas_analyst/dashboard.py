@@ -5,6 +5,7 @@ import html
 import uuid
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 from oil_gas_analyst.chat_ui import handle_chat_message, wait_loop
 from oil_gas_analyst.corpus_strip import corpus_strip_entries
@@ -37,33 +38,131 @@ _CHAT_LOADING_COPY = "Подключение чата…"
 _THINKING_COPY = "Аналитик готовит ответ… Обычно это занимает 30–60 секунд."
 _THINKING_HINT = "Можно дождаться ответа здесь — поле ввода снова откроется после завершения."
 
+_WORKSPACE_RESIZE_HTML = """
+<script>
+(function () {
+  const host = window.parent !== window ? window.parent : window;
+  const doc = host.document;
+  const root = doc.documentElement;
+  const chartChrome = 76;
+  const bottomGap = 8;
+
+  function workspaceRow() {
+    return doc.querySelector(
+      '[data-testid="stHorizontalBlock"]:has([data-testid="stChatInput"])'
+    );
+  }
+
+  function resizeWorkspace() {
+    const row = workspaceRow();
+    if (!row) return;
+    const top = row.getBoundingClientRect().top;
+    const height = Math.max(220, Math.floor(host.innerHeight - top - bottomGap));
+    root.style.setProperty("--workspace-height", height + "px");
+    root.style.setProperty(
+      "--chart-plot-height",
+      Math.max(140, height - chartChrome) + "px"
+    );
+  }
+
+  function schedule() {
+    host.requestAnimationFrame(resizeWorkspace);
+  }
+
+  schedule();
+  host.addEventListener("resize", schedule);
+  host.addEventListener("orientationchange", schedule);
+  new MutationObserver(schedule).observe(doc.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+  });
+})();
+</script>
+"""
+
 _DASHBOARD_CSS = """
 <style>
+    :root {
+        --workspace-height: 22rem;
+        --chart-plot-height: calc(var(--workspace-height) - 4.75rem);
+    }
+    html, body, [data-testid="stAppViewContainer"], section.main {
+        overflow-x: hidden;
+    }
+    [data-testid="stAppViewContainer"] > section.main {
+        overflow: visible;
+    }
     section[data-testid="stSidebar"] {display: none;}
     div[data-testid="stToolbar"] {visibility: hidden; height: 0;}
     header[data-testid="stHeader"] {background: transparent;}
-    .block-container {padding-top: 1.25rem; max-width: 96rem; padding-bottom: 5.5rem;}
+    .stApp {overflow-x: hidden;}
+    footer, [data-testid="stFooter"] {visibility: hidden; height: 0;}
+    [data-testid="stAppViewContainer"] {padding-bottom: 0;}
+    .block-container, [data-testid="stMainBlockContainer"] {
+        padding-top: 0.75rem;
+        max-width: 96rem;
+        padding-bottom: 0 !important;
+    }
+    section.main > div.block-container {padding-bottom: 0;}
+    h1 {margin-bottom: 0.15rem; font-size: 1.85rem;}
+    h3 {margin-top: 0.55rem; margin-bottom: 0.2rem; font-size: 1.05rem;}
+    div[data-testid="stMetric"] {margin-bottom: 0;}
+    div[data-testid="stMetricLabel"] p {font-size: 0.82rem;}
     .news-rail-card {font-size: 0.82rem; line-height: 1.3;}
     .news-rail-card p {margin-bottom: 0.25rem;}
-    .chat-panel {
-        margin-top: 1.25rem;
-        padding-top: 0.75rem;
-        border-top: 1px solid rgba(148, 163, 184, 0.22);
+    div[data-testid="stHorizontalBlock"]:has([data-testid="stChatInput"]) {
+        align-items: stretch;
+        margin-top: 0.15rem;
+        margin-bottom: 0;
+    }
+    div[data-testid="stHorizontalBlock"]:has([data-testid="stChatInput"])
+    > div[data-testid="column"] > div > div[data-testid="stVerticalBlockBorderWrapper"] {
+        height: var(--workspace-height) !important;
+        max-height: var(--workspace-height) !important;
+        min-height: var(--workspace-height) !important;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    div[data-testid="stHorizontalBlock"]:has([data-testid="stChatInput"])
+    > div[data-testid="column"]:first-child
+    [data-testid="stVerticalBlockBorderWrapper"]
+    > [data-testid="stVerticalBlockBorderWrapper"] {
+        flex: 1 1 auto;
+        min-height: 0;
+        height: auto !important;
+        max-height: none !important;
+        overflow-y: auto;
+    }
+    div[data-testid="stHorizontalBlock"]:has([data-testid="stChatInput"])
+    > div[data-testid="column"]:last-child
+    [data-testid="stArrowVegaLiteChart"] {
+        flex: 1 1 auto;
+        min-height: 0;
+        max-height: var(--chart-plot-height) !important;
+        height: var(--chart-plot-height) !important;
+    }
+    div[data-testid="stHorizontalBlock"]:has([data-testid="stChatInput"])
+    > div[data-testid="column"]:last-child
+    [data-testid="stArrowVegaLiteChart"] iframe {
+        height: var(--chart-plot-height) !important;
+        max-height: var(--chart-plot-height) !important;
     }
     .chat-hint {
         color: rgba(148, 163, 184, 0.95);
-        font-size: 0.95rem;
-        margin: 0.25rem 0 0.9rem 0;
-        line-height: 1.5;
-        max-width: 52rem;
+        font-size: 0.9rem;
+        margin: 0.1rem 0 0.45rem 0;
+        line-height: 1.4;
+        max-width: none;
     }
     [data-testid="stChatInput"] {
-        position: sticky;
-        bottom: 0;
-        z-index: 100;
-        background: linear-gradient(transparent, var(--background-color) 28%);
-        padding: 0.5rem 0 1rem;
-        max-width: 52rem;
+        position: relative;
+        bottom: auto;
+        z-index: 1;
+        background: transparent;
+        padding: 0.35rem 0 0;
+        max-width: none;
     }
     [data-testid="stChatInput"] textarea {
         min-height: 3rem;
@@ -127,7 +226,7 @@ _DASHBOARD_CSS = """
     div[data-testid="stChatMessageContent"] {
         font-size: 0.96rem;
         line-height: 1.55;
-        max-width: 52rem;
+        max-width: none;
     }
     div[data-testid="stChatMessageContent"] p {
         margin: 0 0 0.65rem 0;
@@ -146,6 +245,11 @@ _DASHBOARD_CSS = """
     div[data-testid="stChatMessageContent"] ul {
         margin: 0.35rem 0 0.65rem 1.1rem;
         padding: 0;
+    }
+    div[data-testid="stChatMessageContent"] .chat-flags {
+        color: rgba(148, 163, 184, 0.9);
+        font-size: 0.88rem;
+        margin-top: 0.75rem;
     }
 </style>
 """
@@ -373,9 +477,14 @@ def _render_cached_spinner(container, text: str) -> None:
 
 
 def _render_chat_messages() -> None:
+    from oil_gas_analyst.render import chat_html
+
     for msg in st.session_state.get("messages") or []:
         with st.chat_message(msg["role"]):
-            st.markdown(msg["content"])
+            if msg["role"] == "assistant":
+                st.markdown(chat_html(msg["content"]), unsafe_allow_html=True)
+            else:
+                st.markdown(msg["content"])
 
 
 def _render_thinking_indicator() -> None:
@@ -447,7 +556,7 @@ def _render_news_pills(
     cols = st.columns(max_cards, gap="small")
     for col, hit in zip(cols, visible, strict=True):
         with col:
-            with st.container(border=True, height=118):
+            with st.container(border=True, height=100):
                 title = html.escape(hit.title[:64] + ("…" if len(hit.title) > 64 else ""))
                 url = html.escape(hit.url, quote=True)
                 st.markdown(
@@ -462,25 +571,26 @@ def _render_news_pills(
 
 
 def _render_chart_panel(payload: dict | None, *, refreshing: bool = False) -> None:
-    if payload is None:
-        if refreshing or _chart_refresh_in_progress():
-            with st.spinner(_CHART_LOADING_COPY):
-                st.caption("Считаем прогноз и подтягиваем котировки…")
+    with st.container(border=True):
+        if payload is None:
+            if refreshing or _chart_refresh_in_progress():
+                with st.spinner(_CHART_LOADING_COPY):
+                    st.caption("Считаем прогноз и подтягиваем котировки…")
+                return
+            st.warning(CHART_UNCERTAINTY_COPY)
             return
-        st.warning(CHART_UNCERTAINTY_COPY)
-        return
 
-    horizon = payload.get("horizon_days", _DEFAULT_HORIZON)
-    st.subheader(f"Brent · факт и прогноз {horizon} дн.")
-    if refreshing or _chart_refresh_in_progress():
-        st.caption("Обновляем график…")
-    frame = _chart_frame(payload)
-    if frame is None:
-        st.warning(CHART_UNCERTAINTY_COPY)
-        if payload.get("unavailable_reason"):
-            st.caption(str(payload["unavailable_reason"]))
-        return
-    st.line_chart(frame, height=180)
+        horizon = payload.get("horizon_days", _DEFAULT_HORIZON)
+        st.subheader(f"Brent · факт и прогноз {horizon} дн.")
+        if refreshing or _chart_refresh_in_progress():
+            st.caption("Обновляем график…")
+        frame = _chart_frame(payload)
+        if frame is None:
+            st.warning(CHART_UNCERTAINTY_COPY)
+            if payload.get("unavailable_reason"):
+                st.caption(str(payload["unavailable_reason"]))
+            return
+        st.line_chart(frame, height=280)
 
 
 def _render_header(*, show_logout: bool) -> bool:
@@ -520,35 +630,44 @@ def _render_login_gate() -> bool:
 
 
 def _render_chat_panel(*, busy: bool) -> None:
-    st.markdown('<div class="chat-panel">', unsafe_allow_html=True)
-    st.subheader("Вопрос аналитику")
-    st.markdown(f'<p class="chat-hint">{_CHAT_HINT}</p>', unsafe_allow_html=True)
-    _render_chat_messages()
-    if _chat_turn_pending():
-        _render_thinking_indicator()
-    _poll_chat_future()
+    messages = st.session_state.get("messages") or []
+    pending = _chat_turn_pending()
 
-    chat_ready = _ouroboros_ready()
-    chat_loading = (
-        not chat_ready
-        and (
-            "_ouroboros_future" in st.session_state
-            or st.session_state.get("_ouroboros_error") is None
+    with st.container(border=True):
+        st.subheader("Вопрос аналитику")
+        st.markdown(f'<p class="chat-hint">{_CHAT_HINT}</p>', unsafe_allow_html=True)
+        if messages or pending:
+            with st.container():
+                _render_chat_messages()
+                if pending:
+                    _render_thinking_indicator()
+        _poll_chat_future()
+
+        chat_ready = _ouroboros_ready()
+        chat_loading = (
+            not chat_ready
+            and (
+                "_ouroboros_future" in st.session_state
+                or st.session_state.get("_ouroboros_error") is None
+            )
         )
-    )
-    if chat_loading and not st.session_state.get("_ouroboros_error"):
-        with st.spinner(_CHAT_LOADING_COPY):
-            st.caption("Можно уже смотреть котировки и новости выше.")
-    elif st.session_state.get("_ouroboros_error"):
-        st.error(f"Чат недоступен. ({st.session_state._ouroboros_error})")
+        if chat_loading and not st.session_state.get("_ouroboros_error"):
+            with st.spinner(_CHAT_LOADING_COPY):
+                st.caption("Можно уже смотреть котировки и новости выше.")
+        elif st.session_state.get("_ouroboros_error"):
+            st.error(f"Чат недоступен. ({st.session_state._ouroboros_error})")
 
-    if prompt := st.chat_input(
-        _CHAT_INPUT_PLACEHOLDER,
-        disabled=busy or not chat_ready,
-    ):
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        _start_chat_turn(prompt)
-        st.rerun()
+        if prompt := st.chat_input(
+            _CHAT_INPUT_PLACEHOLDER,
+            disabled=busy or not chat_ready,
+        ):
+            st.session_state.messages.append({"role": "user", "content": prompt})
+            _start_chat_turn(prompt)
+            st.rerun()
+
+
+def _render_workspace_resize() -> None:
+    components.html(_WORKSPACE_RESIZE_HTML, height=0, scrolling=False)
 
 
 def main() -> None:
@@ -587,8 +706,14 @@ def main() -> None:
 
     _render_kpi_corpus_row(chart_payload)
     _render_news_pills(news_hits, max_cards=5, refreshing=news_refreshing)
-    _render_chart_panel(chart_payload, refreshing=chart_refreshing)
-    _render_chat_panel(busy=_chat_turn_pending())
+
+    chat_col, chart_col = st.columns([1, 1], gap="large")
+    with chat_col:
+        _render_chat_panel(busy=_chat_turn_pending())
+    with chart_col:
+        _render_chart_panel(chart_payload, refreshing=chart_refreshing)
+
+    _render_workspace_resize()
 
 
 if __name__ == "__main__":

@@ -193,6 +193,65 @@ def test_format_reply_fixes_spaced_markdown_urls():
     assert "[Источник : ru.economies.com, web](https://ru.economies.com/commodities/brent-oil-charts)" in text
 
 
+def test_format_reply_links_inline_web_sources_from_session_rail():
+    from oil_gas_analyst.render import format_reply
+    from oil_gas_analyst.session_start_web import SessionStartRailHit
+
+    hit = SessionStartRailHit(
+        title="Brent close",
+        outlet="lenta.profinansy.ru",
+        snippet="Oil",
+        url="https://lenta.profinansy.ru/news/brent",
+        citation="[Источник: lenta.profinansy.ru, web]",
+    )
+    raw = "Brent — 93, 78/барр. Источник: lenta.profinansy.ru, web."
+    text = format_reply(Reply(text=raw), session_start_hits=[hit])
+    assert "93,78" in text
+    assert "[Источник: lenta.profinansy.ru, web](https://lenta.profinansy.ru/news/brent)" in text
+
+
+def test_format_reply_fixes_glued_cyrillic_and_broken_vc_url():
+    from oil_gas_analyst.render import format_reply
+    from oil_gas_analyst.session_start_web import SessionStartRailHit
+
+    hit = SessionStartRailHit(
+        title="Brent index",
+        outlet="vc.ru",
+        snippet="Oil",
+        url="https://vc.ru/money/3089964-neft-brent-i-indeks-mosbirzhi",
+        citation="[Источник: vc.ru, web]",
+    )
+    raw = (
+        "сегодняднёмподнималасьдо94,58 "
+        "[Источник : vc.ru, web](https : //vc.ru/money/3089964 — neft — brent — i — indeks — mosbirzhi)."
+    )
+    text = format_reply(Reply(text=raw), session_start_hits=[hit])
+    assert "сегодня днём поднималась до 94,58" in text
+    assert "3089964-neft-brent-i-indeks-mosbirzhi" in text
+    assert " — " not in text.split("](", 1)[-1]
+
+
+def test_format_reply_fixes_broken_bold_with_multiplication():
+    from oil_gas_analyst.render import format_reply
+
+    raw = "**Brent – WTI ≈ 7 * * (93,78 – $86,83)."
+    text = format_reply(Reply(text=raw))
+    assert "**Brent – WTI ≈ 7 × (" in text
+
+
+def test_chat_html_renders_links_and_bold():
+    from oil_gas_analyst.render import chat_html
+
+    html = chat_html(
+        "**Спреды**\n\n"
+        "Диапазон **90–100**. [Источник: vc.ru, web](https://vc.ru/t/1)."
+    )
+    assert '<strong>Спреды</strong>' in html
+    assert '<strong>90–100</strong>' in html
+    assert 'href="https://vc.ru/t/1"' in html
+    assert "Источник: vc.ru, web" in html
+
+
 MOMR = Chunk(
     text="The global oil demand growth forecast for 2026 remains at 1.4 mb/d.",
     title="OPEC Monthly Oil Market Report — March 2026 (excerpt, World Oil Demand)",

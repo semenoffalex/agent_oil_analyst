@@ -14,16 +14,19 @@ def test_chat_turn_in_progress():
     assert chat_turn_in_progress(pending) is True
 
 
-def test_dashboard_puts_chat_before_chart_and_news_rail_at_top():
+def test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top():
     from pathlib import Path
 
     text = Path("oil_gas_analyst/dashboard.py").read_text(encoding="utf-8")
     main_block = text.split("def main() -> None:", 1)[1]
     kpi_pos = main_block.index("_render_kpi_corpus_row(")
     rail_pos = main_block.index("_render_news_pills(")
-    chart_pos = main_block.index("_render_chart_panel(")
     chat_pos = main_block.index("_render_chat_panel(")
-    assert kpi_pos < rail_pos < chart_pos < chat_pos
+    chart_pos = main_block.index("_render_chart_panel(")
+    assert kpi_pos < rail_pos < chat_pos < chart_pos
+    assert "chat_col, chart_col = st.columns" in main_block
+    assert "--workspace-height" in text
+    assert "_WORKSPACE_RESIZE_HTML" in text
     assert "Обновить график" not in main_block
     assert "st.divider()" not in main_block
     assert "_render_news_pills" in text

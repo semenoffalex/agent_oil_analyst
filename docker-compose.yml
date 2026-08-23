@@ -97,6 +97,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
+      - ./oil_gas_analyst:/app/oil_gas_analyst
       - chroma_data:/app/data/chroma
       - reports_data:/app/data/reports
       - forecast_cache:/app/data/forecast_cache

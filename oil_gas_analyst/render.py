@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import html as html_module
 import re
 from collections.abc import Sequence
 
@@ -13,7 +14,11 @@ _WEB_BRACKET = re.compile(
     re.IGNORECASE,
 )
 _WEB_BARE = re.compile(
-    r"(?<!\[)Источник\s*:\s*([^,;]+?)\s*,\s*web\s*\(\s*(https?://[^)]+?)\s*\)",
+    r"(?<!\[)Источник\s*:\s*([^,;]+?)\s*,\s*web\s*\(\s*((?:https?)\s*:\s*//[^)]+?)\s*\)",
+    re.IGNORECASE,
+)
+_WEB_INLINE = re.compile(
+    r"(?<!\[)Источник\s*:\s*([^,;\]]+?)\s*,\s*web(?!\s*[\(\[])",
     re.IGNORECASE,
 )
 _REPORT_TAG = re.compile(r"\[Отчёт [^\]]+\](?!\()")
@@ -23,6 +28,24 @@ _MD_LINK = re.compile(
     re.IGNORECASE,
 )
 _PROTECTED = re.compile(r"\[[^\]]+\]\([^)]+\)|https?://\S+")
+_GLUE_WORDS = (
+    "сегодня",
+    "днём",
+    "поднималась",
+    "поднимался",
+    "скорректировалась",
+    "закрылась",
+    "закрылся",
+    "впервые",
+    "вчера",
+    "утром",
+    "вечером",
+    "прибавила",
+    "снизилась",
+    "выросла",
+    "упала",
+    "занеделю",
+)
 
 
 def _normalize_host(host: str) -> str:
@@ -31,7 +54,10 @@ def _normalize_host(host: str) -> str:
 
 
 def _clean_url(url: str) -> str:
-    return re.sub(r"\s+", "", url.strip())
+    cleaned = url.strip().replace("—", "-").replace("–", "-")
+    cleaned = re.sub(r"\s*-\s*", "-", cleaned)
+    cleaned = re.sub(r"\s+", "", cleaned)
+    return cleaned
 
 
 def _web_url_for_host(host: str, hits: Sequence[SessionStartRailHit]) -> str | None:
@@ -141,6 +167,17 @@ def _link_web_brackets(text: str, hits: Sequence[SessionStartRailHit]) -> str:
     return _WEB_BRACKET.sub(repl, text)
 
 
+def _link_inline_web_sources(text: str, hits: Sequence[SessionStartRailHit]) -> str:
+    def repl(match: re.Match[str]) -> str:
+        host = match.group(1).strip()
+        url = _web_url_for_host(host, hits)
+        if not url:
+            return match.group(0)
+        return f"[Источник: {host}, web]({url})"
+
+    return _WEB_INLINE.sub(repl, text)
+
+
 def _normalize_bare_web_citations(text: str) -> str:
     def repl(match: re.Match[str]) -> str:
         host = match.group(1).strip()
@@ -161,17 +198,27 @@ def _link_report_tags(text: str) -> str:
     return _REPORT_TAG.sub(repl, text)
 
 
+def _split_glued_cyrillic(chunk: str) -> str:
+    for word in sorted(_GLUE_WORDS, key=len, reverse=True):
+        chunk = re.sub(rf"(?<=[а-яё])(?={re.escape(word)})", " ", chunk, flags=re.IGNORECASE)
+    chunk = re.sub(r"(?<=[а-яё])(?=до)", " ", chunk)
+    chunk = re.sub(r"до(?=\d)", "до ", chunk)
+    return chunk
+
+
 def _fix_prose_chunk(chunk: str) -> str:
+    chunk = re.sub(r"(\d),\s+(\d)", r"\1,\2", chunk)
     chunk = re.sub(r"—(?=[а-яА-ЯёЁ0-9])", "— ", chunk)
     chunk = re.sub(r"(?<=[а-яё])(?=\d)", " ", chunk)
     chunk = re.sub(r"(?<=[а-яё])(?=[A-Z])", " ", chunk)
     chunk = re.sub(r"(?<!\*)\*([^*\n]+)\*\*(?!\*)", r"**\1**", chunk)
+    chunk = re.sub(r"(?<=\d)\s*\*\s*\*\s*\(", " × (", chunk)
+    chunk = re.sub(r"\*\s+\*", "×", chunk)
     chunk = re.sub(r"\)\s*;\s*(?=Источник\s*:)", ");\n\n", chunk, flags=re.IGNORECASE)
-    chunk = re.sub(
-        r"(?<=[.!?»\"])\s+(?=[А-ЯЁ])",
-        "\n\n",
-        chunk,
-    )
+    chunk = re.sub(r";\s*(?=Источник\s*:)", ";\n\n", chunk, flags=re.IGNORECASE)
+    chunk = re.sub(r"(?<=[.!?»\"])\s+(?=[А-ЯЁ])", "\n\n", chunk)
+    chunk = _split_glued_cyrillic(chunk)
+    chunk = re.sub(r" {2,}", " ", chunk)
     return chunk
 
 
@@ -197,6 +244,7 @@ def _prepare_body(
     body = _fix_markdown_links(body)
     body = apply_citation_links(body, citations)
     body = _link_web_brackets(body, session_hits)
+    body = _link_inline_web_sources(body, session_hits)
     body = _link_report_tags(body)
     body = _dedupe_trailing_urls(body)
     body = _fix_prose_spacing(body)
@@ -242,3 +290,62 @@ def format_reply(
         parts.append("")
         parts.append("_" + " · ".join(flags) + "_")
     return "\n".join(parts)
+
+
+def _md_inline_html(text: str) -> str:
+    parts: list[str] = []
+    cursor = 0
+    pattern = re.compile(
+        r"\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*|_([^_]+)_",
+    )
+    for match in pattern.finditer(text):
+        if match.start() > cursor:
+            parts.append(html_module.escape(text[cursor : match.start()]))
+        if match.group(1) is not None:
+            label = html_module.escape(match.group(1).strip())
+            url = html_module.escape(_clean_url(match.group(2)), quote=True)
+            parts.append(
+                f'<a href="{url}" target="_blank" rel="noopener noreferrer">{label}</a>'
+            )
+        elif match.group(3) is not None:
+            parts.append(f"<strong>{html_module.escape(match.group(3))}</strong>")
+        elif match.group(4) is not None:
+            parts.append(f"<em>{html_module.escape(match.group(4))}</em>")
+        cursor = match.end()
+    parts.append(html_module.escape(text[cursor:]))
+    return "".join(parts)
+
+
+def chat_html(markdown: str) -> str:
+    """Render normalized chat markdown as HTML for Streamlit."""
+
+    blocks: list[str] = []
+    for block in markdown.split("\n\n"):
+        block = block.strip()
+        if not block:
+            continue
+        if block.startswith("**Источники**"):
+            lines = block.split("\n")
+            title = lines[0].removeprefix("**").removesuffix("**")
+            items = "".join(
+                f"<li>{_md_inline_html(line[2:].strip())}</li>"
+                for line in lines[1:]
+                if line.startswith("- ")
+            )
+            blocks.append(f"<p><strong>{html_module.escape(title)}</strong></p><ul>{items}</ul>")
+            continue
+        if block.startswith("_") and block.endswith("_"):
+            inner = block[1:-1]
+            blocks.append(f'<p class="chat-flags">{_md_inline_html(inner)}</p>')
+            continue
+        if block.startswith("- "):
+            items = "".join(
+                f"<li>{_md_inline_html(line[2:].strip())}</li>"
+                for line in block.split("\n")
+                if line.startswith("- ")
+            )
+            blocks.append(f"<ul>{items}</ul>")
+            continue
+        inner = "<br>".join(_md_inline_html(line) for line in block.split("\n"))
+        blocks.append(f"<p>{inner}</p>")
+    return "\n".join(blocks)
