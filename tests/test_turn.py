@@ -239,6 +239,66 @@ def test_format_reply_fixes_broken_bold_with_multiplication():
     assert "**Brent – WTI ≈ 7 × (" in text
 
 
+def test_format_reply_normalizes_realistic_broken_prose():
+    from oil_gas_analyst.render import chat_html, format_reply
+    from oil_gas_analyst.session_start_web import SessionStartRailHit
+
+    hits = [
+        SessionStartRailHit(
+            title="Brent",
+            outlet="oil.rftoday.ru",
+            snippet="Oil",
+            url="https://oil.rftoday.ru/",
+            citation="",
+        ),
+        SessionStartRailHit(
+            title="Chart",
+            outlet="ru.economies.com",
+            snippet="Oil",
+            url="https://ru.economies.com/commodities/brent-oil-charts",
+            citation="",
+        ),
+        SessionStartRailHit(
+            title="Trend",
+            outlet="vc.ru",
+            snippet="Oil",
+            url="https://vc.ru/money/3089964-neft-brent-i-indeks-mosbirzhi",
+            citation="",
+        ),
+        SessionStartRailHit(
+            title="View",
+            outlet="finam.ru",
+            snippet="Oil",
+            url="https://finam.ru/news/123",
+            citation="",
+        ),
+    ]
+    raw = (
+        "пробивала 94—октябрьскийфьючерснаICEподнималсявыше94 Источник: oil.rftoday.ru, web(https://oil.rftoday.ru/); "
+        "свежий срез на 11:30 UTC — около 94**[Источник : ru.economies.com, web]"
+        "(https : //ru.economies.com/commodities/brent – oil – charts)"
+        "(https : //ru.economies.com/commodities/brent – oil – charts)."
+        "К11 : 46мскценаскорректироваласьдо 93,23 (-0,6%), "
+        "пятыйденьростаподряд[Источник : vc.ru, web]"
+        "(https : //vc.ru/money/3089964 — neft — brent);"
+        "занеделюприбавилапримерно787 до 93+)."
+        "Изболеераннегоконтекстасессии: рядэкспертовдопускаетзакреплениеBrentвдиапазоне * *90–100** "
+        "[Источник: finam.ru, web]"
+    )
+    text = format_reply(Reply(text=raw), session_start_hits=hits)
+    html = chat_html(text)
+
+    assert "октябрьский фьючерс на ICE" in text
+    assert "пятый день роста подряд" in text
+    assert "за неделю" in text
+    assert "Brent в диапазоне" in text
+    assert "**90–100**" in text
+    assert "https : //" not in text
+    assert "web(https://" not in text
+    assert "(https" not in html
+    assert "<strong>90–100</strong>" in html
+
+
 def test_chat_html_renders_links_and_bold():
     from oil_gas_analyst.render import chat_html
 

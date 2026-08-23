@@ -27,24 +27,60 @@ _MD_LINK = re.compile(
     r"\[([^\]]+)\]\(\s*((?:https?)\s*:\s*//[^)]+?)\s*\)",
     re.IGNORECASE,
 )
-_PROTECTED = re.compile(r"\[[^\]]+\]\([^)]+\)|https?://\S+")
 _GLUE_WORDS = (
     "сегодня",
     "днём",
+    "утром",
+    "вечером",
+    "вчера",
+    "впервые",
+    "около",
+    "примерно",
+    "сессии",
+    "контекста",
+    "раннего",
+    "более",
     "поднималась",
     "поднимался",
     "скорректировалась",
     "закрылась",
     "закрылся",
-    "впервые",
-    "вчера",
-    "утром",
-    "вечером",
     "прибавила",
     "снизилась",
     "выросла",
     "упала",
+    "пробивала",
+    "допускает",
+    "закрепление",
+    "октябрьский",
+    "фьючерс",
+    "цена",
+    "диапазоне",
+    "экспертов",
+    "пятый",
+    "шестой",
+    "седьмой",
+    "выше",
+    "ниже",
     "занеделю",
+)
+_GLUE_PHRASES = (
+    (r"занеделю", "за неделю"),
+    (r"пятыйденьростаподряд", "пятый день роста подряд"),
+    (r"роста под ряд", "роста подряд"),
+    (r"октябрьскийфьючерсна", "октябрьский фьючерс на"),
+    (r"Изболеераннегоконтекстасессии", "Из более раннего контекста сессии"),
+    (r"рядэкспертовдопускаетзакрепление", "ряд экспертов допускает закрепление"),
+    (r"прибавилапримерно", "прибавила примерно"),
+    (r"Brentвдиапазоне", "Brent в диапазоне"),
+    (r"(\d)мск", r"\1 мск"),
+    (r"\.К(\d)", r". К \1"),
+    (r"К(\d{1,2})\s*:\s*(\d{2})мск", r"К \1:\2 мск"),
+    (r"(?<![A-Za-z])К(\d{1,2})", r"К \1"),
+)
+_PROTECTED = re.compile(
+    r"\[[^\]]+\]\([^)]+\)|\(\s*(?:https?\s*:\s*//[^)]+)\)|https?://\S+",
+    re.IGNORECASE,
 )
 
 
@@ -145,15 +181,35 @@ def _fix_markdown_links(text: str) -> str:
 
 
 def _dedupe_trailing_urls(text: str) -> str:
+    spaced_url = r"\(\s*(?:https?\s*:\s*//[^)]+)\)"
     while True:
+        updated = re.sub(
+            rf"(\]\([^)]+\))\s*{spaced_url}",
+            r"\1",
+            text,
+            flags=re.IGNORECASE,
+        )
         updated = re.sub(
             r"(\]\(https?://[^)]+\))\s*\(https?://[^)]+\)",
             r"\1",
-            text,
+            updated,
         )
         if updated == text:
             return text
         text = updated
+
+
+def _strip_orphan_markdown(text: str) -> str:
+    text = re.sub(r"\*\*(?=\[)", "", text)
+    text = re.sub(r"(?<=\d)\*\*(?=\[)", "", text)
+    return text
+
+
+def _fix_bold_markdown(chunk: str) -> str:
+    chunk = re.sub(r"\* +\*(?=[^*\s(])", "**", chunk)
+    chunk = re.sub(r"(?<!\*)\*(?!\*)([^*\n]+)\*\*(?!\*)", r"**\1**", chunk)
+    chunk = re.sub(r"(?<=\d)\s*\*\s*\*\s*\(", " × (", chunk)
+    return chunk
 
 
 def _link_web_brackets(text: str, hits: Sequence[SessionStartRailHit]) -> str:
@@ -203,6 +259,15 @@ def _split_glued_cyrillic(chunk: str) -> str:
         chunk = re.sub(rf"(?<=[а-яё])(?={re.escape(word)})", " ", chunk, flags=re.IGNORECASE)
     chunk = re.sub(r"(?<=[а-яё])(?=до)", " ", chunk)
     chunk = re.sub(r"до(?=\d)", "до ", chunk)
+    chunk = re.sub(r"(?<=[а-яё])(?=на(?=(?:\s*(?:ICE|Brent|WTI|[A-Z]{2,}))))", " ", chunk)
+    chunk = re.sub(r"(?<=[а-яё])(?=(?:ICE|Brent|WTI)\b)", " ", chunk)
+    chunk = re.sub(r"(?<=ICE)(?=[а-яё])", " ", chunk)
+    chunk = re.sub(r"(?<=Brent)(?=[а-яё])", " ", chunk)
+    chunk = re.sub(r"(?<=WTI)(?=[а-яё])", " ", chunk)
+    chunk = re.sub(r"(?<=\d)(?=[а-яё]{3,})", " ", chunk)
+    chunk = re.sub(r"(?<=[.!?)\]])(?=[А-ЯA-Z])", " ", chunk)
+    for pattern, replacement in _GLUE_PHRASES:
+        chunk = re.sub(pattern, replacement, chunk, flags=re.IGNORECASE)
     return chunk
 
 
@@ -211,11 +276,12 @@ def _fix_prose_chunk(chunk: str) -> str:
     chunk = re.sub(r"—(?=[а-яА-ЯёЁ0-9])", "— ", chunk)
     chunk = re.sub(r"(?<=[а-яё])(?=\d)", " ", chunk)
     chunk = re.sub(r"(?<=[а-яё])(?=[A-Z])", " ", chunk)
-    chunk = re.sub(r"(?<!\*)\*([^*\n]+)\*\*(?!\*)", r"**\1**", chunk)
-    chunk = re.sub(r"(?<=\d)\s*\*\s*\*\s*\(", " × (", chunk)
-    chunk = re.sub(r"\*\s+\*", "×", chunk)
+    chunk = _fix_bold_markdown(chunk)
+    chunk = re.sub(r"(?<=[а-яё0-9%\)])(?=\[Источник)", " ", chunk, flags=re.IGNORECASE)
     chunk = re.sub(r"\)\s*;\s*(?=Источник\s*:)", ");\n\n", chunk, flags=re.IGNORECASE)
     chunk = re.sub(r";\s*(?=Источник\s*:)", ";\n\n", chunk, flags=re.IGNORECASE)
+    chunk = re.sub(r"(\d)\s+:\s+(\d)", r"\1:\2", chunk)
+    chunk = re.sub(r"(?<=[;)])\s*(?=[а-яА-Я])", "\n\n", chunk)
     chunk = re.sub(r"(?<=[.!?»\"])\s+(?=[А-ЯЁ])", "\n\n", chunk)
     chunk = _split_glued_cyrillic(chunk)
     chunk = re.sub(r" {2,}", " ", chunk)
@@ -247,6 +313,7 @@ def _prepare_body(
     body = _link_inline_web_sources(body, session_hits)
     body = _link_report_tags(body)
     body = _dedupe_trailing_urls(body)
+    body = _strip_orphan_markdown(body)
     body = _fix_prose_spacing(body)
     return body
 
@@ -296,7 +363,7 @@ def _md_inline_html(text: str) -> str:
     parts: list[str] = []
     cursor = 0
     pattern = re.compile(
-        r"\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*|_([^_]+)_",
+        r"\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*|\* *\*([^*]+)\*\*|_([^_]+)_",
     )
     for match in pattern.finditer(text):
         if match.start() > cursor:
@@ -310,7 +377,9 @@ def _md_inline_html(text: str) -> str:
         elif match.group(3) is not None:
             parts.append(f"<strong>{html_module.escape(match.group(3))}</strong>")
         elif match.group(4) is not None:
-            parts.append(f"<em>{html_module.escape(match.group(4))}</em>")
+            parts.append(f"<strong>{html_module.escape(match.group(4))}</strong>")
+        elif match.group(5) is not None:
+            parts.append(f"<em>{html_module.escape(match.group(5))}</em>")
         cursor = match.end()
     parts.append(html_module.escape(text[cursor:]))
     return "".join(parts)
