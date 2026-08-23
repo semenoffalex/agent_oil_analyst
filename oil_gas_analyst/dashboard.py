@@ -98,6 +98,18 @@ _DASHBOARD_CSS = """
     header[data-testid="stHeader"] {background: transparent;}
     .stApp {overflow-x: hidden;}
     footer, [data-testid="stFooter"] {visibility: hidden; height: 0;}
+    [data-testid="stVerticalBlock"]:has(iframe[title="streamlit_components_v1"]) {
+        height: 0 !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+    }
+    iframe[title="streamlit_components_v1"] {
+        display: block;
+        height: 0 !important;
+        border: 0;
+    }
     [data-testid="stAppViewContainer"] {padding-bottom: 0;}
     .block-container, [data-testid="stMainBlockContainer"] {
         padding-top: 0.75rem;
@@ -677,6 +689,7 @@ def main() -> None:
         initial_sidebar_state="collapsed",
     )
     st.markdown(_DASHBOARD_CSS, unsafe_allow_html=True)
+    _render_workspace_resize()
 
     cfg = load_demo_login_config()
     if not _render_login_gate():
@@ -712,8 +725,6 @@ def main() -> None:
         _render_chat_panel(busy=_chat_turn_pending())
     with chart_col:
         _render_chart_panel(chart_payload, refreshing=chart_refreshing)
-
-    _render_workspace_resize()
 
 
 if __name__ == "__main__":

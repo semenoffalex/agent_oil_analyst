@@ -27,6 +27,8 @@ def test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top():
     assert "chat_col, chart_col = st.columns" in main_block
     assert "--workspace-height" in text
     assert "_WORKSPACE_RESIZE_HTML" in text
+    assert "window.parent" in text
+    assert "_render_workspace_resize" in text
     assert "Обновить график" not in main_block
     assert "st.divider()" not in main_block
     assert "_render_news_pills" in text
