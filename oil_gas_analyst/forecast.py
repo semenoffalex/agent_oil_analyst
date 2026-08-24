@@ -10,13 +10,16 @@ from typing import Callable
 import numpy as np
 import pandas as pd
 import yaml
-from statsmodels.tsa.holtwinters import ExponentialSmoothing
-from statsmodels.tsa.statespace.sarimax import SARIMAX
+from statsmodels.tsa.ar_model import AutoReg, ar_select_order
+from statsmodels.tsa.arima.model import ARIMA
+from statsmodels.tsa.statespace.structural import UnobservedComponents
 
 from oil_gas_analyst.settings import maybe_traceable
 from oil_gas_analyst.types import ForecastPlotPayload, ForecastResult, MethodForecast, MethodPathForecast
 
 _CONFIG = Path(__file__).resolve().parent.parent / "config" / "forecast.yaml"
+
+FORECAST_METHOD_ORDER = ("auto_arima", "unobserved_components", "autoreg")
 
 HistoryLoader = Callable[[str], pd.Series]
 
@@ -66,99 +69,155 @@ def _path_from_pred(pred: np.ndarray) -> tuple[float, ...]:
     return tuple(float(x) for x in np.asarray(pred, dtype=float).ravel())
 
 
-def _fit_sarima(y: pd.Series, horizon: int) -> MethodForecast:
-    forecast, _ = _fit_sarima_with_path(y, horizon)
+def _random_walk_fallback(
+    endog: pd.Series,
+    horizon: int,
+    *,
+    name: str,
+    label: str,
+) -> tuple[MethodForecast, tuple[float, ...]]:
+    resid_std = float(endog.diff().std() or 1.0)
+    drift = float(endog.diff().mean() or 0.0)
+    pred = endog.iloc[-1] + drift * np.arange(1, horizon + 1)
+    point, low, high = _interval(pred, resid_std * np.sqrt(horizon))
+    return (
+        MethodForecast(
+            name=name,
+            point=point,
+            low=low,
+            high=high,
+            interpretation=f"{label} fallback (random-walk with drift) after fit failure; day {horizon}.",
+        ),
+        _path_from_pred(pred),
+    )
+
+
+def _method_from_forecast(
+    *,
+    name: str,
+    interpretation: str,
+    fitted,
+    horizon: int,
+) -> tuple[MethodForecast, tuple[float, ...]]:
+    fc = fitted.get_forecast(horizon)
+    mean = np.asarray(fc.predicted_mean)
+    ci = fc.conf_int()
+    low = float(np.asarray(ci.iloc[:, 0])[-1])
+    high = float(np.asarray(ci.iloc[:, 1])[-1])
+    point = float(mean[-1])
+    if low > high:
+        low, high = high, low
+    return (
+        MethodForecast(
+            name=name,
+            point=point,
+            low=low,
+            high=high,
+            interpretation=interpretation,
+        ),
+        _path_from_pred(mean),
+    )
+
+
+def _fit_auto_arima(y: pd.Series, horizon: int) -> MethodForecast:
+    forecast, _ = _fit_auto_arima_with_path(y, horizon)
     return forecast
 
 
-def _fit_sarima_with_path(y: pd.Series, horizon: int) -> tuple[MethodForecast, tuple[float, ...]]:
+def _fit_auto_arima_with_path(y: pd.Series, horizon: int) -> tuple[MethodForecast, tuple[float, ...]]:
     endog = y.astype(float)
+    cfg = load_forecast_config()
+    max_p = int(cfg.get("auto_arima_max_p", 2))
+    max_d = int(cfg.get("auto_arima_max_d", 1))
+    max_q = int(cfg.get("auto_arima_max_q", 2))
+    best_aic = float("inf")
+    best_order = (1, 1, 1)
+    for p in range(max_p + 1):
+        for d in range(max_d + 1):
+            for q in range(max_q + 1):
+                if p == d == q == 0:
+                    continue
+                try:
+                    res = ARIMA(endog, order=(p, d, q)).fit()
+                    if res.aic < best_aic:
+                        best_aic = res.aic
+                        best_order = (p, d, q)
+                except Exception:
+                    continue
     try:
-        fitted = SARIMAX(
-            endog,
-            order=(1, 1, 1),
-            seasonal_order=(1, 0, 0, 5),
-            enforce_stationarity=False,
-            enforce_invertibility=False,
-        ).fit(disp=False)
-        fc = fitted.get_forecast(horizon)
-        mean = np.asarray(fc.predicted_mean)
-        ci = fc.conf_int()
-        low = float(np.asarray(ci.iloc[:, 0])[-1])
-        high = float(np.asarray(ci.iloc[:, 1])[-1])
-        point = float(mean[-1])
-        if low > high:
-            low, high = high, low
-        return (
-            MethodForecast(
-                name="sarima",
-                point=point,
-                low=low,
-                high=high,
-                interpretation=f"SARIMA on daily closes; last point is day {horizon}.",
-            ),
-            _path_from_pred(mean),
+        fitted = ARIMA(endog, order=best_order).fit()
+        return _method_from_forecast(
+            name="auto_arima",
+            interpretation=f"AutoARIMA order={best_order}; last point is day {horizon}.",
+            fitted=fitted,
+            horizon=horizon,
         )
     except Exception:
-        resid_std = float(endog.diff().std() or 1.0)
-        drift = float(endog.diff().mean() or 0.0)
-        pred = endog.iloc[-1] + drift * np.arange(1, horizon + 1)
-        point, low, high = _interval(pred, resid_std * np.sqrt(horizon))
-        return (
-            MethodForecast(
-                name="sarima",
-                point=point,
-                low=low,
-                high=high,
-                interpretation=f"SARIMA fallback (random-walk with drift) after fit failure; day {horizon}.",
-            ),
-            _path_from_pred(pred),
-        )
+        return _random_walk_fallback(endog, horizon, name="auto_arima", label="AutoARIMA")
 
 
-def _fit_holt(y: pd.Series, horizon: int) -> MethodForecast:
-    forecast, _ = _fit_holt_with_path(y, horizon)
+def _fit_unobserved_components(y: pd.Series, horizon: int) -> MethodForecast:
+    forecast, _ = _fit_unobserved_components_with_path(y, horizon)
     return forecast
 
 
-def _fit_holt_with_path(y: pd.Series, horizon: int) -> tuple[MethodForecast, tuple[float, ...]]:
+def _fit_unobserved_components_with_path(
+    y: pd.Series, horizon: int
+) -> tuple[MethodForecast, tuple[float, ...]]:
     endog = y.astype(float)
-    periods = 5 if len(endog) >= 20 else None
     try:
-        model = ExponentialSmoothing(
-            endog,
-            trend="add",
-            seasonal="add" if periods else None,
-            seasonal_periods=periods,
-        )
-        fitted = model.fit(optimized=True)
-        fc = np.asarray(fitted.forecast(horizon))
-        resid_std = float(np.std(fitted.resid)) if getattr(fitted, "resid", None) is not None else float(endog.diff().std() or 1)
-        point, low, high = _interval(fc, resid_std * np.sqrt(horizon))
-        return (
-            MethodForecast(
-                name="holt_winters",
-                point=point,
-                low=low,
-                high=high,
-                interpretation=f"Holt–Winters additive; last point is day {horizon}.",
-            ),
-            _path_from_pred(fc),
+        fitted = UnobservedComponents(endog, level="local linear trend").fit(disp=False)
+        return _method_from_forecast(
+            name="unobserved_components",
+            interpretation=f"UnobservedComponents local linear trend; last point is day {horizon}.",
+            fitted=fitted,
+            horizon=horizon,
         )
     except Exception:
-        resid_std = float(endog.diff().std() or 1.0)
-        pred = np.full(horizon, float(endog.iloc[-1]))
-        point, low, high = _interval(pred, resid_std * np.sqrt(horizon))
-        return (
-            MethodForecast(
-                name="holt_winters",
-                point=point,
-                low=low,
-                high=high,
-                interpretation=f"Holt–Winters fallback to last close after fit failure; day {horizon}.",
-            ),
-            _path_from_pred(pred),
+        return _random_walk_fallback(
+            endog,
+            horizon,
+            name="unobserved_components",
+            label="UnobservedComponents",
         )
+
+
+def _fit_autoreg(y: pd.Series, horizon: int) -> MethodForecast:
+    forecast, _ = _fit_autoreg_with_path(y, horizon)
+    return forecast
+
+
+def _fit_autoreg_with_path(y: pd.Series, horizon: int) -> tuple[MethodForecast, tuple[float, ...]]:
+    endog = y.astype(float)
+    try:
+        maxlag = min(int(load_forecast_config().get("autoreg_max_lag", 21)), max(1, len(endog) // 3))
+        sel = ar_select_order(endog, maxlag=maxlag, ic="aic")
+        lags = sel.ar_lags
+        fitted = AutoReg(endog, lags=lags, old_names=False).fit()
+        return _method_from_forecast(
+            name="autoreg",
+            interpretation=f"AutoReg lags={list(lags)}; last point is day {horizon}.",
+            fitted=fitted,
+            horizon=horizon,
+        )
+    except Exception:
+        return _random_walk_fallback(endog, horizon, name="autoreg", label="AutoReg")
+
+
+def _fit_all_methods(history: pd.Series, horizon: int) -> list[MethodForecast]:
+    return [
+        _fit_auto_arima(history, horizon),
+        _fit_unobserved_components(history, horizon),
+        _fit_autoreg(history, horizon),
+    ]
+
+
+def _fit_all_methods_with_paths(history: pd.Series, horizon: int) -> list[tuple[MethodForecast, tuple[float, ...]]]:
+    return [
+        _fit_auto_arima_with_path(history, horizon),
+        _fit_unobserved_components_with_path(history, horizon),
+        _fit_autoreg_with_path(history, horizon),
+    ]
 
 
 _UA = (
@@ -354,13 +413,13 @@ def run_forecast(question: str, load_history: HistoryLoader | None = None) -> Fo
     if history is None or len(history) < 30:
         raise ForecastError("not enough price history")
     horizon = detect_horizon(question, cfg)
-    methods = [_fit_sarima(history, horizon), _fit_holt(history, horizon)]
+    methods = _fit_all_methods(history, horizon)
     return ForecastResult(symbol=symbol, methods=methods, horizon_days=horizon)
 
 
 @maybe_traceable("analyst.run_forecast", run_type="tool")
 def forecast_for_tool(question: str, load_history: HistoryLoader | None = None) -> dict:
-    """Forecast calculation for the Ouroboros extension: two methods, no average, no fake CSV."""
+    """Forecast calculation for the Ouroboros extension: three methods, no average, no fake CSV."""
 
     from oil_gas_analyst.turn import forecast_citations
 
@@ -390,7 +449,7 @@ def forecast_for_tool(question: str, load_history: HistoryLoader | None = None) 
         )
     else:
         note = (
-            "Show both SARIMA and Holt–Winters with intervals. Do not average them. "
+            "Show AutoARIMA, UnobservedComponents, and AutoReg with intervals. Do not average them. "
             "Copy citation labels verbatim. Oil-price figures in prose must come from "
             "these methods, Reports, or Web — not invented."
         )
@@ -419,26 +478,18 @@ def _plot_payload_from_history(
     *,
     horizon_days: int,
 ) -> ForecastPlotPayload:
-    sarima, sarima_path = _fit_sarima_with_path(history, horizon_days)
-    holt, holt_path = _fit_holt_with_path(history, horizon_days)
+    fitted = _fit_all_methods_with_paths(history, horizon_days)
     dates, closes = _history_series_to_rows(history)
-    methods = (
+    methods = tuple(
         MethodPathForecast(
-            name=sarima.name,
-            point=float(sarima.point),
-            low=float(sarima.low),
-            high=float(sarima.high),
-            path=sarima_path,
-            interpretation=sarima.interpretation,
-        ),
-        MethodPathForecast(
-            name=holt.name,
-            point=float(holt.point),
-            low=float(holt.low),
-            high=float(holt.high),
-            path=holt_path,
-            interpretation=holt.interpretation,
-        ),
+            name=method.name,
+            point=float(method.point),
+            low=float(method.low),
+            high=float(method.high),
+            path=path,
+            interpretation=method.interpretation,
+        )
+        for method, path in fitted
     )
     return ForecastPlotPayload(
         symbol=symbol,
@@ -490,7 +541,7 @@ def forecast_plot_payload(
     load_history: HistoryLoader | None = None,
     history_start: str | None = None,
 ) -> dict:
-    """Brent history plus per-step SARIMA and Holt–Winters paths for the Dashboard chart."""
+    """Brent history plus per-step AutoARIMA, UnobservedComponents, and AutoReg paths for the Dashboard chart."""
 
     if symbol.casefold() == "urals":
         payload = ForecastPlotPayload(

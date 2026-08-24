@@ -55,6 +55,12 @@ def test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top():
     assert "_hydrate_from_disk_caches" in text
     assert "_hydrate_news_from_disk" in text
     assert "_start_background_refreshes" in text
+    assert "chart_show_auto_arima" in text
+    assert "chart_show_unobserved_components" in text
+    assert "chart_show_autoreg" in text
+    assert "chart_display_dataframe" in text
+    assert "brent_chart_altair" in text
+    assert "st.altair_chart" in text
 
 
 def test_dashboard_page_config_collapses_sidebar():
@@ -98,14 +104,20 @@ import pandas as pd
 
 from oil_gas_analyst.corpus_strip import corpus_strip_entries
 from oil_gas_analyst.dashboard_chart import (
+    CHART_DISPLAY_HISTORY_BDAYS,
     CHART_HISTORY_START,
+    CHART_METHOD_LABELS,
+    CHART_Y_AXIS_MIN,
+    brent_chart_altair,
     chart_dataframe_from_payload,
+    chart_display_dataframe,
     chart_refresh_horizon,
     kpi_from_chart_payload,
     load_brent_chart_payload,
     load_cached_brent_chart_payload,
     save_brent_chart_payload_cache,
 )
+from oil_gas_analyst.forecast import FORECAST_METHOD_ORDER
 
 
 def _series(n=80):
@@ -130,17 +142,37 @@ def test_chart_payload_disk_cache_roundtrip(tmp_path, monkeypatch):
     assert load_cached_brent_chart_payload(horizon_days=payload["horizon_days"]) == cached
 
 
-def test_chart_dataframe_has_actual_and_two_forecast_series():
+def test_chart_dataframe_has_actual_and_three_forecast_series():
     payload = _plot_payload()
     frame = chart_dataframe_from_payload(payload)
     assert frame is not None
     assert "Факт" in frame.columns
-    assert "SARIMA" in frame.columns
-    assert "Хольт–Винтерс" in frame.columns
+    for name in FORECAST_METHOD_ORDER:
+        assert CHART_METHOD_LABELS[name] in frame.columns
+        assert frame[CHART_METHOD_LABELS[name]].notna().sum() == payload["horizon_days"] + 1
     assert frame["Факт"].notna().sum() == len(payload["history_closes"])
-    assert frame["SARIMA"].notna().sum() == payload["horizon_days"] + 1
-    assert frame["Хольт–Винтерс"].notna().sum() == payload["horizon_days"] + 1
     assert "average" not in frame.columns
+
+
+def test_chart_display_dataframe_shows_last_month_plus_forecast():
+    payload = _plot_payload()
+    frame = chart_dataframe_from_payload(payload)
+    assert frame is not None
+    display = chart_display_dataframe(frame)
+    actual_count = frame["Факт"].notna().sum()
+    display_actual_count = display["Факт"].notna().sum()
+    assert display_actual_count == min(actual_count, CHART_DISPLAY_HISTORY_BDAYS)
+    assert display[CHART_METHOD_LABELS["auto_arima"]].notna().sum() == payload["horizon_days"] + 1
+    assert len(display) < len(frame)
+
+
+def test_brent_chart_altair_sets_y_axis_minimum():
+    payload = _plot_payload()
+    frame = chart_dataframe_from_payload(payload)
+    assert frame is not None
+    chart = brent_chart_altair(chart_display_dataframe(frame))
+    y_encoding = chart.to_dict()["encoding"]["y"]
+    assert y_encoding["scale"]["domainMin"] == CHART_Y_AXIS_MIN
 
 
 def test_chart_dataframe_none_on_unavailable():
@@ -152,9 +184,8 @@ def test_kpi_from_chart_payload():
     payload = _plot_payload()
     kpis = kpi_from_chart_payload(payload)
     assert kpis["close"] == payload["live_quote"]
-    assert kpis["sarima"] is not None
-    assert kpis["holt_winters"] is not None
-    assert kpis["sarima"] != kpis["holt_winters"] or math.isclose(kpis["sarima"], kpis["holt_winters"])
+    for name in FORECAST_METHOD_ORDER:
+        assert kpis[name] is not None
 
 
 def test_chart_history_starts_from_configured_date():

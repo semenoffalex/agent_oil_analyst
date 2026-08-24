@@ -31,7 +31,7 @@ def test_run_forecast_returns_two_methods_with_intervals():
     assert result.unavailable_reason is None
     assert result.horizon_days == 90
     names = {m.name for m in result.methods}
-    assert names == {"sarima", "holt_winters"}
+    assert names == {"auto_arima", "unobserved_components", "autoreg"}
     for method in result.methods:
         assert method.point is not None
         assert method.low is not None
@@ -125,13 +125,13 @@ def test_forecast_for_tool_shows_two_methods_and_no_average():
         load_history=lambda symbol: _series(),
     )
     names = {m["name"] for m in payload["methods"]}
-    assert names == {"sarima", "holt_winters"}
+    assert names == {"auto_arima", "unobserved_components", "autoreg"}
     assert "average" not in payload
     assert payload.get("unavailable_reason") in (None, "")
-    assert len(payload["citations"]) == 2
+    assert len(payload["citations"]) == 3
     assert all(c.startswith("[Forecast ") for c in payload["citations"])
     blob = " ".join(payload["citations"]).lower()
-    assert "sarima" in blob and "holt" in blob
+    assert "auto_arima" in blob and "unobserved_components" in blob and "autoreg" in blob
 
 
 def test_forecast_for_tool_defaults_to_brent_and_honors_wti():
@@ -177,7 +177,7 @@ def test_forecast_plot_payload_includes_history_and_two_paths():
     assert len(payload["history_dates"]) == len(payload["history_closes"]) >= 30
     assert payload["live_quote"] == payload["history_closes"][-1]
     names = {m["name"] for m in payload["methods"]}
-    assert names == {"sarima", "holt_winters"}
+    assert names == {"auto_arima", "unobserved_components", "autoreg"}
     for method in payload["methods"]:
         assert len(method["path"]) == 21
         assert method["point"] == method["path"][-1]
@@ -236,6 +236,6 @@ def test_forecast_for_tool_citations_still_last_horizon_scalars():
         "спрогнозируй Brent на ближайший месяц",
         load_history=lambda symbol: _series(),
     )
-    assert len(tool["citations"]) == 2
+    assert len(tool["citations"]) == 3
     assert all("[Forecast " in c for c in tool["citations"])
     assert len(plot["methods"][0]["path"]) == 21

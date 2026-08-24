@@ -1,7 +1,8 @@
-# Always run both methods. Do not average them into one fake number (ADR 0009).
+# Always run all methods. Do not average them into one fake number (ADR 0009).
 methods:
-  - sarima
-  - holt_winters
+  - auto_arima
+  - unobserved_components
+  - autoreg
 
 default_symbol: BZ=F
 symbols:
@@ -48,6 +49,10 @@ horizon_phrases:
 
 history_period: 5y
 interval: 1d
+auto_arima_max_p: 2
+auto_arima_max_d: 1
+auto_arima_max_q: 2
+autoreg_max_lag: 21
 
 # Last successful live history (Yahoo or Stooq). Not a shipped CSV (ADR 0009).
 cache_dir: data/forecast_cache

@@ -11,13 +11,17 @@ from oil_gas_analyst.chat_ui import handle_chat_message, wait_loop
 from oil_gas_analyst.corpus_strip import corpus_strip_entries
 from oil_gas_analyst.demo_auth import load_demo_login_config, verify_demo_login
 from oil_gas_analyst.dashboard_chart import (
+    CHART_METHOD_LABELS,
     CHART_UNCERTAINTY_COPY,
+    brent_chart_altair,
     chart_dataframe_from_payload,
+    chart_display_dataframe,
     chart_refresh_horizon,
     kpi_from_chart_payload,
     load_brent_chart_payload,
     load_cached_brent_chart_payload,
 )
+from oil_gas_analyst.forecast import FORECAST_METHOD_ORDER
 from oil_gas_analyst.session_start_web import (
     NEWS_REFRESH_COPY,
     RAIL_EMPTY_COPY,
@@ -525,20 +529,24 @@ def _render_corpus_pill() -> None:
 
 def _render_kpi_corpus_row(payload: dict | None) -> None:
     kpis = kpi_from_chart_payload(payload) if payload is not None else {}
-    c1, c2, c3, c4 = st.columns([1, 1, 1, 1.15], gap="medium")
+    c1, c2, c3, c4, c5 = st.columns([1, 0.95, 0.95, 0.95, 1.2], gap="small")
     with c1:
         st.caption("Brent, закрытие")
         close = kpis.get("close")
         st.metric("долл./барр.", f"{close:.2f}" if close is not None else "—")
     with c2:
-        st.caption("SARIMA, 21 дн.")
-        sarima = kpis.get("sarima")
-        st.metric("прогноз", f"{sarima:.2f}" if sarima is not None else "—")
+        st.caption("AutoARIMA, 21 дн.")
+        point = kpis.get("auto_arima")
+        st.metric("прогноз", f"{point:.2f}" if point is not None else "—")
     with c3:
-        st.caption("Хольт–Винтерс, 21 дн.")
-        holt = kpis.get("holt_winters")
-        st.metric("прогноз", f"{holt:.2f}" if holt is not None else "—")
+        st.caption("UCM, 21 дн.")
+        point = kpis.get("unobserved_components")
+        st.metric("прогноз", f"{point:.2f}" if point is not None else "—")
     with c4:
+        st.caption("AutoReg, 21 дн.")
+        point = kpis.get("autoreg")
+        st.metric("прогноз", f"{point:.2f}" if point is not None else "—")
+    with c5:
         with st.container(border=True):
             _render_corpus_pill()
 
@@ -593,7 +601,7 @@ def _render_chart_panel(payload: dict | None, *, refreshing: bool = False) -> No
             return
 
         horizon = payload.get("horizon_days", _DEFAULT_HORIZON)
-        st.subheader(f"Brent · факт и прогноз {horizon} дн.")
+        st.subheader(f"Brent · месяц и прогноз {horizon} дн.")
         if refreshing or _chart_refresh_in_progress():
             st.caption("Обновляем график…")
         frame = _chart_frame(payload)
@@ -602,7 +610,38 @@ def _render_chart_panel(payload: dict | None, *, refreshing: bool = False) -> No
             if payload.get("unavailable_reason"):
                 st.caption(str(payload["unavailable_reason"]))
             return
-        st.line_chart(frame, height=280)
+        toggle_col, _ = st.columns([3, 2])
+        with toggle_col:
+            t1, t2, t3 = st.columns(3)
+            with t1:
+                show_auto_arima = st.checkbox(
+                    CHART_METHOD_LABELS["auto_arima"],
+                    value=True,
+                    key="chart_show_auto_arima",
+                )
+            with t2:
+                show_ucm = st.checkbox(
+                    CHART_METHOD_LABELS["unobserved_components"],
+                    value=True,
+                    key="chart_show_unobserved_components",
+                )
+            with t3:
+                show_autoreg = st.checkbox(
+                    CHART_METHOD_LABELS["autoreg"],
+                    value=True,
+                    key="chart_show_autoreg",
+                )
+        display_cols = ["Факт"]
+        toggles = {
+            "auto_arima": show_auto_arima,
+            "unobserved_components": show_ucm,
+            "autoreg": show_autoreg,
+        }
+        for name in FORECAST_METHOD_ORDER:
+            if toggles[name]:
+                display_cols.append(CHART_METHOD_LABELS[name])
+        display_frame = chart_display_dataframe(frame)[display_cols]
+        st.altair_chart(brent_chart_altair(display_frame, height=280), use_container_width=True)
 
 
 def _render_header(*, show_logout: bool) -> bool:

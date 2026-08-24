@@ -30,7 +30,7 @@ An explicit Forecast verb (`forecast`, `predict`, `спрогнозируй`, `�
 The host does **not** refuse `run_forecast` because the question lacked a verb.
 Words like `today`, `latest`, `сейчас`, `сегодня` are freshness hints, not a host Web switch.
 
-When you call `run_forecast`, copy both `[Forecast …]` labels. Show SARIMA and Holt–Winters with intervals.
+When you call `run_forecast`, copy all `[Forecast …]` labels. Show AutoARIMA, UnobservedComponents, and AutoReg with intervals.
 Do **not** average them. Default crude is Brent; named WTI is WTI; Urals has no series — do not proxy with Brent.
 If the tool says history is unavailable, say you are uncertain. Do not invent a price strip or a CSV.
 No oil prices or volumes in prose except from Reports, Web sources, or this module.

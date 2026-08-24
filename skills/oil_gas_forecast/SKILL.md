@@ -1,6 +1,6 @@
 ---
 name: oil_gas_forecast
-description: Oil-price Forecast calculator (SARIMA and Holt–Winters, never averaged).
+description: Oil-price Forecast calculator (AutoARIMA, UnobservedComponents, and AutoReg; never averaged).
 version: 0.1.0
 type: extension
 runtime: python3
@@ -15,7 +15,7 @@ timeout_sec: 120
 # Forecast
 
 Call this tool when a crude-price Forecast would help. Copy `[Forecast …]` labels verbatim.
-Always show **both** SARIMA and Holt–Winters with intervals and the short interpretation.
+Always show **all three** methods with intervals and the short interpretation.
 Do **not** average the two paths into one number.
 Unspecified crude is Brent. Named WTI is WTI. Urals has no series — say so, do not proxy with Brent.
 If history is unavailable, say you are uncertain. Do not invent a CSV or a price strip.

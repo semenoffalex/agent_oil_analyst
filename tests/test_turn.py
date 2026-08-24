@@ -413,7 +413,7 @@ def test_playbook_documents_prompt_failure_not_host_lock():
     assert "kp.ru" in lower
     assert "dailymail" in lower
     assert "search_web" in lower or "web search" in lower
-    assert "run_forecast" in lower or "sarima" in lower
+    assert "run_forecast" in lower or "auto_arima" in lower
     assert "average" in lower
     assert "urals" in lower
 
@@ -453,9 +453,10 @@ def test_host_does_not_refuse_forecast_without_a_verb():
     loop = _FrozenLoop(
         LoopResult(
             text=(
-                "Brent 90d SARIMA 74 (70–78) Holt–Winters 73 (69–77) "
-                "[Forecast sarima BZ=F 90d 74 (70–78)] "
-                "[Forecast holt_winters BZ=F 90d 73 (69–77)]."
+                "Brent 90d AutoARIMA 74 (70–78) UCM 73.5 (69–78) AutoReg 73 (69–77) "
+                "[Forecast auto_arima BZ=F 90d 74 (70–78)] "
+                "[Forecast unobserved_components BZ=F 90d 73.5 (69–78)] "
+                "[Forecast autoreg BZ=F 90d 73 (69–77)]."
             ),
             forecast_ran=True,
         )

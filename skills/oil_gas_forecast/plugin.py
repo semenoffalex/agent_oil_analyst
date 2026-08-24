@@ -1,4 +1,4 @@
-"""Ouroboros extension: SARIMA + Holt–Winters Forecast in the same tool loop."""
+"""Ouroboros extension: AutoARIMA, UnobservedComponents, and AutoReg Forecast in the same tool loop."""
 
 from __future__ import annotations
 
@@ -13,8 +13,8 @@ def register(api):
         "run_forecast",
         handler=run_forecast,
         description=(
-            "Oil-price Forecast: SARIMA and Holt–Winters with intervals. "
-            "Default Brent; WTI if named; Urals has no series. Never average the two methods."
+            "Oil-price Forecast: AutoARIMA, UnobservedComponents, and AutoReg with intervals. "
+            "Default Brent; WTI if named; Urals has no series. Never average the methods."
         ),
         schema={
             "type": "object",

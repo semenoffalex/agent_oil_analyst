@@ -154,8 +154,9 @@ def test_gateway_marks_forecast_when_tool_is_in_the_task_record(monkeypatch):
                     "status": "completed",
                     "result": (
                         "Two paths, not an average. "
-                        "[Forecast sarima BZ=F 90d 74.1 (70–78)] "
-                        "[Forecast holt_winters BZ=F 90d 73.2 (69–77)]."
+                        "[Forecast auto_arima BZ=F 90d 74.1 (70–78)] "
+                        "[Forecast unobserved_components BZ=F 90d 73.5 (69–78)] "
+                        "[Forecast autoreg BZ=F 90d 73.2 (69–77)]."
                     ),
                     "trace_summary": "ext_16_oil_gas_forecast_run_forecast",
                 },

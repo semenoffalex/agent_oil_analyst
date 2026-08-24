@@ -7,9 +7,17 @@ from pathlib import Path
 
 import pandas as pd
 
-from oil_gas_analyst.forecast import detect_horizon, forecast_plot_payload
+from oil_gas_analyst.forecast import FORECAST_METHOD_ORDER, detect_horizon, forecast_plot_payload
 
 CHART_HISTORY_START = "2026-05-01"
+CHART_DISPLAY_HISTORY_BDAYS = 22
+CHART_Y_AXIS_MIN = 60.0
+
+CHART_METHOD_LABELS = {
+    "auto_arima": "AutoARIMA",
+    "unobserved_components": "UnobservedComponents",
+    "autoreg": "AutoReg",
+}
 
 CHART_UNCERTAINTY_COPY = (
     "История Brent или Forecast недоступны. Не выдумываем цены — "
@@ -76,15 +84,19 @@ def load_brent_chart_payload(
 
 def kpi_from_chart_payload(payload: dict) -> dict[str, float | None]:
     methods = {m["name"]: m for m in payload.get("methods") or []}
-    return {
-        "close": payload.get("live_quote"),
-        "sarima": (methods.get("sarima") or {}).get("point"),
-        "holt_winters": (methods.get("holt_winters") or {}).get("point"),
-    }
+    kpis: dict[str, float | None] = {"close": payload.get("live_quote")}
+    for name in FORECAST_METHOD_ORDER:
+        kpis[name] = (methods.get(name) or {}).get("point")
+    return kpis
+
+
+def _forecast_path_column(closes: list[float], path: list[float]) -> list[float]:
+    last_close = float(closes[-1])
+    return [math.nan] * (len(closes) - 1) + [last_close] + [float(v) for v in path]
 
 
 def chart_dataframe_from_payload(payload: dict) -> pd.DataFrame | None:
-    """Brent actuals plus two Forecast paths; never averaged."""
+    """Brent actuals plus Forecast paths for each method; never averaged."""
     if payload.get("unavailable_reason"):
         return None
     closes = payload.get("history_closes") or []
@@ -92,26 +104,48 @@ def chart_dataframe_from_payload(payload: dict) -> pd.DataFrame | None:
     if not closes or not dates:
         return None
     methods = {m["name"]: m for m in payload.get("methods") or []}
-    sarima = methods.get("sarima")
-    holt = methods.get("holt_winters")
-    if not sarima or not holt:
+    if not all(name in methods for name in FORECAST_METHOD_ORDER):
         return None
 
     hist_idx = pd.to_datetime(dates)
     horizon = int(payload.get("horizon_days") or _DEFAULT_HORIZON)
     fc_idx = pd.bdate_range(hist_idx[-1], periods=horizon + 1)[1:]
-    last_close = float(closes[-1])
-
     actual_col = [float(v) for v in closes] + [math.nan] * len(fc_idx)
-    sarima_col = [math.nan] * (len(closes) - 1) + [last_close] + [float(v) for v in sarima["path"]]
-    holt_col = [math.nan] * (len(closes) - 1) + [last_close] + [float(v) for v in holt["path"]]
     index = pd.DatetimeIndex(list(hist_idx) + list(fc_idx))
 
-    return pd.DataFrame(
-        {
-            "Факт": actual_col,
-            "SARIMA": sarima_col,
-            "Хольт–Винтерс": holt_col,
-        },
-        index=index,
+    columns: dict[str, list[float]] = {"Факт": actual_col}
+    for name in FORECAST_METHOD_ORDER:
+        columns[CHART_METHOD_LABELS[name]] = _forecast_path_column(closes, methods[name]["path"])
+
+    return pd.DataFrame(columns, index=index)
+
+
+def chart_display_dataframe(
+    frame: pd.DataFrame,
+    *,
+    history_bdays: int = CHART_DISPLAY_HISTORY_BDAYS,
+) -> pd.DataFrame:
+    """Last month of actuals plus the forecast window (for the dashboard chart)."""
+    actual_idx = frame.index[frame["Факт"].notna()]
+    if len(actual_idx) == 0:
+        return frame
+    start = actual_idx[-history_bdays] if len(actual_idx) > history_bdays else actual_idx[0]
+    return frame.loc[frame.index >= start]
+
+
+def brent_chart_altair(frame: pd.DataFrame, *, height: int = 280, y_min: float = CHART_Y_AXIS_MIN):
+    """Multi-series Brent chart with a fixed lower Y bound."""
+    import altair as alt
+
+    plot = frame.reset_index(names="Дата")
+    melted = plot.melt(id_vars=["Дата"], var_name="Серия", value_name="Цена").dropna(subset=["Цена"])
+    return (
+        alt.Chart(melted)
+        .mark_line()
+        .encode(
+            x=alt.X("Дата:T", title=None),
+            y=alt.Y("Цена:Q", title=None, scale=alt.Scale(domainMin=y_min, nice=True)),
+            color=alt.Color("Серия:N", title=None),
+        )
+        .properties(height=height)
     )
