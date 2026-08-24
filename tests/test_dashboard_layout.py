@@ -56,12 +56,19 @@ def test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top():
     assert "_hydrate_from_disk_caches" in text
     assert "_hydrate_news_from_disk" in text
     assert "_start_background_refreshes" in text
-    assert "chart_show_auto_arima" in text
+    assert "Консенсус, отчёты" in text
+    assert "Консенсус, новости" in text
+    assert "consensus_price" in text
+    assert "_ensure_reports_consensus" in text
     assert "chart_show_unobserved_components" in text
     assert "chart_show_autoreg" in text
     assert "chart_display_dataframe" in text
     assert "brent_chart_altair" in text
     assert "st.altair_chart" in text
+    assert "_render_forecast_consensus_pill" in text
+    assert "_render_kpi_corpus_row" in text
+    assert "kpi-metric-block" in text
+    assert "kpi-corpus-list" in text
 
 
 def test_dashboard_page_config_collapses_sidebar():
@@ -113,7 +120,7 @@ from oil_gas_analyst.dashboard_chart import (
     chart_dataframe_from_payload,
     chart_display_dataframe,
     chart_refresh_horizon,
-    kpi_from_chart_payload,
+    forecast_model_consensus,
     load_brent_chart_payload,
     load_cached_brent_chart_payload,
     save_brent_chart_payload_cache,
@@ -181,12 +188,13 @@ def test_chart_dataframe_none_on_unavailable():
     assert chart_dataframe_from_payload(payload) is None
 
 
-def test_kpi_from_chart_payload():
+def test_forecast_model_consensus_averages_three_model_points():
     payload = _plot_payload()
-    kpis = kpi_from_chart_payload(payload)
-    assert kpis["close"] == payload["live_quote"]
-    for name in FORECAST_METHOD_ORDER:
-        assert kpis[name] is not None
+    consensus = forecast_model_consensus(payload)
+    models: dict[str, float] = consensus["models"]  # type: ignore[assignment]
+    assert len(models) == 3
+    expected = sum(models.values()) / len(models)
+    assert consensus["average"] == expected
 
 
 def test_chart_history_starts_from_configured_date():

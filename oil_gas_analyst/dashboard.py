@@ -10,14 +10,16 @@ import streamlit.components.v1 as components
 from oil_gas_analyst.chat_ui import handle_chat_message, wait_loop
 from oil_gas_analyst.corpus_strip import corpus_strip_entries
 from oil_gas_analyst.demo_auth import load_demo_login_config, verify_demo_login
+from oil_gas_analyst.consensus_price import dashboard_kpi_row, report_consensus_price
 from oil_gas_analyst.dashboard_chart import (
     CHART_METHOD_LABELS,
+    CHART_METHOD_SHORT_LABELS,
     CHART_UNCERTAINTY_COPY,
     brent_chart_altair,
     chart_dataframe_from_payload,
     chart_display_dataframe,
     chart_refresh_horizon,
-    kpi_from_chart_payload,
+    forecast_model_consensus,
     load_brent_chart_payload,
     load_cached_brent_chart_payload,
 )
@@ -232,6 +234,54 @@ _DASHBOARD_CSS = """
     .corpus-pill a:hover {
         text-decoration: underline;
     }
+    .kpi-metric-block {
+        display: flex;
+        align-items: flex-end;
+        gap: 0.75rem;
+        margin-top: -0.15rem;
+    }
+    .kpi-metric-main {
+        flex: 0 0 auto;
+        min-width: 0;
+    }
+    .kpi-metric-label {
+        font-size: 0.875rem;
+        line-height: 1.25;
+        color: rgba(250, 250, 250, 0.6);
+        margin-bottom: 0.1rem;
+    }
+    .kpi-metric-value {
+        font-size: 2.25rem;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+    }
+    .kpi-metric-side {
+        flex: 1 1 auto;
+        min-width: 0;
+        font-size: 0.72rem;
+        line-height: 1.45;
+        color: rgba(148, 163, 184, 0.95);
+        padding-bottom: 0.3rem;
+    }
+    .kpi-metric-side div + div {
+        margin-top: 0.08rem;
+    }
+    .kpi-corpus-list {
+        margin-top: -0.1rem;
+        font-size: 0.78rem;
+        line-height: 1.4;
+    }
+    .kpi-corpus-line + .kpi-corpus-line {
+        margin-top: 0.12rem;
+    }
+    .kpi-corpus-line a {
+        color: rgba(96, 165, 250, 0.95);
+        text-decoration: none;
+    }
+    .kpi-corpus-line a:hover {
+        text-decoration: underline;
+    }
     @keyframes analyst-avatar-pulse {
         0%, 100% { opacity: 1; transform: scale(1); }
         50% { opacity: 0.62; transform: scale(0.94); }
@@ -294,6 +344,8 @@ def _logout_demo_session() -> None:
         "chat_future",
         "chat_future_prompt",
         "messages",
+        "reports_consensus",
+        "_reports_consensus_loaded",
         "_news_refresh_future",
         "_ouroboros_future",
         "_ouroboros_ready",
@@ -530,34 +582,77 @@ def _render_corpus_pill() -> None:
     corpus = corpus_strip_entries()
     st.caption("Корпус отчётов")
     if not corpus:
-        st.metric("отчёты", "—")
+        st.caption("—")
         return
-    links = " · ".join(entry.link_markdown() for entry in corpus)
-    st.markdown(links)
+    rows = "".join(f'<div class="kpi-corpus-line">{entry.link_html()}</div>' for entry in corpus)
+    st.markdown(f'<div class="kpi-corpus-list">{rows}</div>', unsafe_allow_html=True)
 
 
-def _render_kpi_corpus_row(payload: dict | None) -> None:
-    kpis = kpi_from_chart_payload(payload) if payload is not None else {}
-    c1, c2, c3, c4, c5 = st.columns([1, 0.95, 0.95, 0.95, 1.2], gap="small")
+def _ensure_reports_consensus() -> float | None:
+    cached = st.session_state.get("reports_consensus")
+    if cached is not None or st.session_state.get("_reports_consensus_loaded"):
+        return cached
+    st.session_state.reports_consensus = report_consensus_price()
+    st.session_state._reports_consensus_loaded = True
+    return st.session_state.reports_consensus
+
+
+def _render_kpi_corpus_row(
+    chart_payload: dict | None,
+    news_hits: list[SessionStartRailHit],
+) -> None:
+    kpis = dashboard_kpi_row(
+        chart_payload,
+        news_hits,
+        report_consensus=_ensure_reports_consensus(),
+    )
+    c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1, 1.15], gap="small")
     with c1:
         st.caption("Brent, закрытие")
         close = kpis.get("close")
         st.metric("долл./барр.", f"{close:.2f}" if close is not None else "—")
     with c2:
-        st.caption("AutoARIMA, 21 дн.")
-        point = kpis.get("auto_arima")
-        st.metric("прогноз", f"{point:.2f}" if point is not None else "—")
+        st.caption("Консенсус, отчёты")
+        reports = kpis.get("reports_consensus")
+        st.metric("долл./барр.", f"{reports:.2f}" if reports is not None else "—")
     with c3:
-        st.caption("UCM, 21 дн.")
-        point = kpis.get("unobserved_components")
-        st.metric("прогноз", f"{point:.2f}" if point is not None else "—")
+        st.caption("Консенсус, новости")
+        news = kpis.get("news_consensus")
+        st.metric("долл./барр.", f"{news:.2f}" if news is not None else "—")
     with c4:
-        st.caption("AutoReg, 21 дн.")
-        point = kpis.get("autoreg")
-        st.metric("прогноз", f"{point:.2f}" if point is not None else "—")
+        _render_forecast_consensus_pill(chart_payload)
     with c5:
-        with st.container(border=True):
-            _render_corpus_pill()
+        _render_corpus_pill()
+
+
+def _render_forecast_consensus_pill(payload: dict | None) -> None:
+    consensus = forecast_model_consensus(payload)
+    average = consensus["average"]
+    models: dict[str, float] = consensus["models"]  # type: ignore[assignment]
+    st.caption("Прогноз моделей, 21 дн.")
+    if average is None:
+        st.metric("долл./барр.", "—")
+        return
+    side_lines = "".join(
+        (
+            f"<div>{html.escape(CHART_METHOD_SHORT_LABELS[name])} "
+            f"{models[name]:.2f}</div>"
+        )
+        for name in FORECAST_METHOD_ORDER
+        if name in models
+    )
+    st.markdown(
+        (
+            '<div class="kpi-metric-block">'
+            '<div class="kpi-metric-main">'
+            '<div class="kpi-metric-label">долл./барр.</div>'
+            f'<div class="kpi-metric-value">{average:.2f}</div>'
+            "</div>"
+            f'<div class="kpi-metric-side">{side_lines}</div>'
+            "</div>"
+        ),
+        unsafe_allow_html=True,
+    )
 
 
 def _render_news_pills(
@@ -765,7 +860,7 @@ def main() -> None:
     chart_refreshing = _chart_refresh_in_progress()
     news_refreshing = _news_refresh_in_progress()
 
-    _render_kpi_corpus_row(chart_payload)
+    _render_kpi_corpus_row(chart_payload, news_hits)
     _render_news_pills(news_hits, max_cards=5, refreshing=news_refreshing)
 
     chat_col, chart_col = st.columns([1, 1], gap="large")

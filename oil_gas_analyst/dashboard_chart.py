@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import math
 import os
+import statistics
 from pathlib import Path
 
 import pandas as pd
@@ -16,6 +17,12 @@ CHART_Y_AXIS_MIN = 60.0
 CHART_METHOD_LABELS = {
     "auto_arima": "AutoARIMA",
     "unobserved_components": "UnobservedComponents",
+    "autoreg": "AutoReg",
+}
+
+CHART_METHOD_SHORT_LABELS = {
+    "auto_arima": "AutoARIMA",
+    "unobserved_components": "UCM",
     "autoreg": "AutoReg",
 }
 
@@ -82,12 +89,18 @@ def load_brent_chart_payload(
     return payload
 
 
-def kpi_from_chart_payload(payload: dict) -> dict[str, float | None]:
+def forecast_model_consensus(payload: dict | None) -> dict[str, float | None | dict[str, float]]:
+    """Average horizon-end point across the three forecast models."""
+    if not payload or payload.get("unavailable_reason"):
+        return {"average": None, "models": {}}
     methods = {m["name"]: m for m in payload.get("methods") or []}
-    kpis: dict[str, float | None] = {"close": payload.get("live_quote")}
+    models: dict[str, float] = {}
     for name in FORECAST_METHOD_ORDER:
-        kpis[name] = (methods.get(name) or {}).get("point")
-    return kpis
+        point = (methods.get(name) or {}).get("point")
+        if point is not None:
+            models[name] = float(point)
+    average = statistics.fmean(models.values()) if models else None
+    return {"average": average, "models": models}
 
 
 def _forecast_path_column(closes: list[float], path: list[float]) -> list[float]:
