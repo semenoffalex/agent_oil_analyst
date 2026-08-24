@@ -38,6 +38,7 @@ def test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top():
     assert "max_cards=5" in text
     assert "rail_col" not in main_block
     assert "_start_chat_turn" in text
+    assert "_chat_history_for_turn" in text
     assert "_logout_demo_session" in text
     assert "on_click=_logout_demo_session" not in text
     assert "stSidebar" in text

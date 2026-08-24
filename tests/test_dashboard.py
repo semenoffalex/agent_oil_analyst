@@ -1,6 +1,37 @@
 from oil_gas_analyst.types import Reply
 
 
+def test_handle_chat_message_forwards_chat_history_to_run_turn(monkeypatch):
+    from oil_gas_analyst import chat_ui
+    from oil_gas_analyst.types import Reply
+
+    class _Loop:
+        pass
+
+    captured: dict[str, object] = {}
+
+    def _run_turn(question, loop, **kwargs):
+        captured["question"] = question
+        captured["history"] = list(kwargs.get("chat_history") or [])
+        return Reply(text="ok", retrieved=True)
+
+    monkeypatch.setattr(chat_ui, "wait_loop", lambda: _Loop())
+    monkeypatch.setattr(chat_ui, "run_turn", _run_turn)
+    monkeypatch.setattr(
+        chat_ui,
+        "load_rate_limit_config",
+        lambda: type("Cfg", (), {"enabled": False})(),
+    )
+
+    history = [
+        {"role": "user", "content": "What is Brent?"},
+        {"role": "assistant", "content": "Brent is higher."},
+    ]
+    chat_ui.handle_chat_message("And WTI?", session_id="test-session", chat_history=history)
+    assert captured["question"] == "And WTI?"
+    assert captured["history"] == history
+
+
 def test_handle_chat_message_uses_run_turn(monkeypatch):
     from oil_gas_analyst import chat_ui
 

@@ -53,6 +53,7 @@ def handle_chat_message(
     *,
     session_id: str,
     session_start_hits: Sequence[SessionStartRailHit] | None = None,
+    chat_history: Sequence[dict[str, str]] | None = None,
     rate_limiter: RateLimiter | None = None,
     turn_runner: Callable[..., object] | None = None,
 ) -> str:
@@ -67,5 +68,10 @@ def handle_chat_message(
     if turn_runner is not None:
         reply = turn_runner(content, loop)
     else:
-        reply = run_turn(content, loop, session_start_hits=session_start_hits or ())
+        reply = run_turn(
+            content,
+            loop,
+            session_start_hits=session_start_hits or (),
+            chat_history=chat_history or (),
+        )
     return format_reply(reply, session_start_hits=session_start_hits or ())

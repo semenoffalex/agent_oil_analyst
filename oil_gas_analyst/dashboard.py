@@ -430,15 +430,24 @@ def _ouroboros_ready() -> bool:
     return bool(st.session_state.get("_ouroboros_ready"))
 
 
+def _chat_history_for_turn() -> list[dict[str, str]]:
+    messages = list(st.session_state.get("messages") or [])
+    if messages and messages[-1].get("role") == "user":
+        return messages[:-1]
+    return messages
+
+
 def _start_chat_turn(prompt: str) -> None:
     session_id = _session_id()
     session_hits = _ensure_session_start_web()
+    history = _chat_history_for_turn()
 
     def _run() -> str:
         return handle_chat_message(
             prompt,
             session_id=session_id,
             session_start_hits=session_hits,
+            chat_history=history,
         )
 
     st.session_state.chat_future_prompt = prompt

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from urllib.parse import urlparse
 
 from oil_gas_analyst.ingest import load_ingest_config
@@ -28,6 +28,12 @@ REFUSAL_TEXT = (
 INFRA_TEXT = (
     "I hit an infrastructure error and will not invent figures. "
     "Any oil-price or volume claims would be uncertain."
+)
+
+CHAT_MEMORY_MAX_MESSAGES = 6
+CHAT_MEMORY_MAX_CHARS = 800
+CHAT_MEMORY_HEADER = (
+    "Conversation history (context only; Reports, Web, and Forecast citations must come from this turn):"
 )
 
 
@@ -142,6 +148,58 @@ def has_grounded_report(reply: Reply) -> bool:
     return "[Отчёт" in (reply.text or "") and reply.retrieved is True
 
 
+def _trim_memory_content(content: str, *, max_chars: int = CHAT_MEMORY_MAX_CHARS) -> str:
+    text = content.strip()
+    if len(text) <= max_chars:
+        return text
+    return text[: max_chars - 1] + "…"
+
+
+def format_chat_memory(
+    history: Sequence[Mapping[str, str]],
+    *,
+    max_messages: int = CHAT_MEMORY_MAX_MESSAGES,
+) -> str:
+    """Format prior turns for multi-turn context in the Ouroboros task description."""
+    if not history:
+        return ""
+    window = list(history)[-max_messages:]
+    lines = [CHAT_MEMORY_HEADER]
+    for msg in window:
+        role = str(msg.get("role") or "").strip()
+        content = _trim_memory_content(str(msg.get("content") or ""))
+        if not content:
+            continue
+        label = "User" if role == "user" else "Assistant"
+        lines.append(f"{label}: {content}")
+    if len(lines) == 1:
+        return ""
+    lines.append("")
+    return "\n".join(lines)
+
+
+def prompt_with_chat_memory(
+    question: str,
+    history: Sequence[Mapping[str, str]] | None,
+    *,
+    max_messages: int = CHAT_MEMORY_MAX_MESSAGES,
+) -> str:
+    block = format_chat_memory(history or (), max_messages=max_messages)
+    if not block:
+        return question
+    return f"{block}Current user message:\n{question}"
+
+
+def build_turn_prompt(
+    question: str,
+    *,
+    session_start_hits: Sequence[SessionStartRailHit] | None = None,
+    chat_history: Sequence[Mapping[str, str]] | None = None,
+) -> str:
+    question_block = prompt_with_chat_memory(question, chat_history)
+    return inject_session_start_web(question_block, session_start_hits or ())
+
+
 def _safety_net(question: str, *, infra_detail: str | None = None) -> Reply:
     """Fallback when the loop did not return a live completion.
 
@@ -162,6 +220,7 @@ def run_turn(
     loop: AnalystLoop,
     *,
     session_start_hits: Sequence[SessionStartRailHit] | None = None,
+    chat_history: Sequence[Mapping[str, str]] | None = None,
 ) -> Reply:
     """Run one Analyst turn through the Ouroboros loop.
 
@@ -169,7 +228,11 @@ def run_turn(
     A live completion is not refused or citation-patched by the host.
     Timeout / 500 / empty completions use Safety nets only.
     """
-    prompt = inject_session_start_web(question, session_start_hits or ())
+    prompt = build_turn_prompt(
+        question,
+        session_start_hits=session_start_hits,
+        chat_history=chat_history,
+    )
     try:
         result = loop.complete(prompt)
     except (TimeoutError, LoopError) as exc:

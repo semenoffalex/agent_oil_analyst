@@ -2,10 +2,13 @@
 
 from oil_gas_analyst.turn import (
     apply_citation_links,
+    build_turn_prompt,
     drop_listing,
     footer_flags,
+    format_chat_memory,
     has_grounded_report,
     markdown_cite,
+    prompt_with_chat_memory,
     run_turn,
 )
 from oil_gas_analyst.types import Chunk, Citation, LoopError, LoopResult, Reply
@@ -472,3 +475,73 @@ def test_live_forecast_reply_is_not_host_patched_with_tags():
     reply = run_turn("спрогнозируй цену Brent на 3 месяца", loop)
     assert reply.text == "Brent may drift."
     assert "[Forecast " not in reply.text
+
+
+def test_format_chat_memory_empty():
+    assert format_chat_memory([]) == ""
+
+
+def test_format_chat_memory_keeps_recent_turns_only():
+    history = [
+        {"role": "user", "content": "old question"},
+        {"role": "assistant", "content": "old answer"},
+        {"role": "user", "content": "new question"},
+        {"role": "assistant", "content": "new answer"},
+    ]
+    block = format_chat_memory(history, max_messages=2)
+    assert "old question" not in block
+    assert "new question" in block
+    assert "new answer" in block
+
+
+def test_prompt_with_chat_memory_prefixes_current_question():
+    prompt = prompt_with_chat_memory(
+        "And Urals?",
+        [
+            {"role": "user", "content": "What is Brent?"},
+            {"role": "assistant", "content": "Brent is trading higher."},
+        ],
+    )
+    assert "Conversation history" in prompt
+    assert "What is Brent?" in prompt
+    assert "Current user message:\nAnd Urals?" in prompt
+
+
+def test_run_turn_includes_chat_history_in_loop_prompt():
+    loop = _FrozenLoop(LoopResult(text="Follow-up answer."))
+    run_turn(
+        "And WTI?",
+        loop,
+        chat_history=[
+            {"role": "user", "content": "What is Brent?"},
+            {"role": "assistant", "content": "Brent is up."},
+        ],
+    )
+    assert "Conversation history" in loop.questions[0]
+    assert "What is Brent?" in loop.questions[0]
+    assert "Current user message:\nAnd WTI?" in loop.questions[0]
+
+
+def test_build_turn_prompt_keeps_session_start_injection_with_memory():
+    from oil_gas_analyst.session_start_web import SESSION_START_INJECT_HEADER, visible_rail_hits
+
+    payload = {
+        "hits": [
+            {
+                "title": "Brent rises",
+                "url": "https://www.reuters.com/markets/brent",
+                "snippet": "Oil up",
+                "citation": "[Источник: reuters.com, web]",
+                "denied": False,
+            }
+        ],
+        "count": 1,
+    }
+    prompt = build_turn_prompt(
+        "Tell me more.",
+        session_start_hits=visible_rail_hits(payload),
+        chat_history=[{"role": "user", "content": "What moved Brent?"}],
+    )
+    assert SESSION_START_INJECT_HEADER in prompt
+    assert "Conversation history" in prompt
+    assert "Current user message:\nTell me more." in prompt
