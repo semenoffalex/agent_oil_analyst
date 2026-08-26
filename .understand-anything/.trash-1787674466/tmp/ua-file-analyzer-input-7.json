@@ -1,0 +1,17 @@
+{
+  "projectRoot": "/Users/semenoffalex/Cursor/sber",
+  "batchFiles": [
+    {"path": ".scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md", "language": "markdown", "sizeLines": 13, "fileCategory": "docs"},
+    {"path": ".scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md", "language": "markdown", "sizeLines": 13, "fileCategory": "docs"},
+    {"path": ".scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md", "language": "markdown", "sizeLines": 13, "fileCategory": "docs"},
+    {"path": ".scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md", "language": "markdown", "sizeLines": 15, "fileCategory": "docs"},
+    {"path": ".scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md", "language": "markdown", "sizeLines": 12, "fileCategory": "docs"}
+  ],
+  "batchImportData": {
+    ".scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md": [],
+    ".scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md": [],
+    ".scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md": [],
+    ".scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md": [],
+    ".scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md": []
+  }
+}

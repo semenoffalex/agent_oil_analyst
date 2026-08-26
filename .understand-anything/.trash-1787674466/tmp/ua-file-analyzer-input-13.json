@@ -1,0 +1,21 @@
+{
+  "projectRoot": "/Users/semenoffalex/Cursor/sber",
+  "batchFiles": [
+    {"path": "docs/adr/0021-chainlit-adapter-ouroboros-loop.md", "language": "markdown", "sizeLines": 25, "fileCategory": "docs"},
+    {"path": "docs/adr/0022-live-stubs-die-infra-nets.md", "language": "markdown", "sizeLines": 30, "fileCategory": "docs"},
+    {"path": "docs/adr/0023-main-openrouter-glm52-free.md", "language": "markdown", "sizeLines": 24, "fileCategory": "docs"},
+    {"path": "docs/adr/0024-readme-names-ouroboros-evolve-off.md", "language": "markdown", "sizeLines": 26, "fileCategory": "docs"},
+    {"path": "docs/adr/0025-openrouter-embeddings-no-local-torch.md", "language": "markdown", "sizeLines": 28, "fileCategory": "docs"},
+    {"path": "docs/adr/0026-streamlit-dashboard-is-the-demo.md", "language": "markdown", "sizeLines": 28, "fileCategory": "docs"},
+    {"path": "docs/adr/0027-deepseek-direct-api-main.md", "language": "markdown", "sizeLines": 28, "fileCategory": "docs"}
+  ],
+  "batchImportData": {
+    "docs/adr/0021-chainlit-adapter-ouroboros-loop.md": [],
+    "docs/adr/0022-live-stubs-die-infra-nets.md": [],
+    "docs/adr/0023-main-openrouter-glm52-free.md": [],
+    "docs/adr/0024-readme-names-ouroboros-evolve-off.md": [],
+    "docs/adr/0025-openrouter-embeddings-no-local-torch.md": [],
+    "docs/adr/0026-streamlit-dashboard-is-the-demo.md": [],
+    "docs/adr/0027-deepseek-direct-api-main.md": []
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "nodes": [
+    {
+      "id": "document:.scratch/analyst-dashboard/research/forecast-plot-payload.md",
+      "type": "document",
+      "name": "forecast-plot-payload.md",
+      "filePath": ".scratch/analyst-dashboard/research/forecast-plot-payload.md",
+      "summary": "Research note for ticket 06 on what Forecast already returns for a Dashboard chart: horizon-end SARIMA and Holt–Winters scalars with intervals, not history or day-by-day paths. Maps ForecastResult, forecast_for_tool JSON, citation tags, Urals/history-fail payloads, and what a chart must add to draw time series.",
+      "tags": ["documentation", "research", "forecast", "dashboard", "api-contract"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/research/session-start-search-web.md",
+      "type": "document",
+      "name": "session-start-search-web.md",
+      "filePath": ".scratch/analyst-dashboard/research/session-start-search-web.md",
+      "summary": "Fact sheet for ticket 08 on calling search_for_tool / oil_gas_web without an Ouroboros task: signatures, return dict, citation labels, empty-query and DuckDuckGo soft-fail behavior, timeouts, and Docker failure modes. Explicitly does not authorize bypassing the agent loop (ticket 05 / ADR 0019).",
+      "tags": ["documentation", "research", "web-search", "dashboard", "api-contract"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md",
+      "type": "document",
+      "name": "streamlit-ouroboros-adapter.md",
+      "filePath": ".scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md",
+      "summary": "Research for ticket 07 on using Streamlit as a thin Chat UI adapter over the same Analyst turn as Chainlit: build_loop warm/attest/toggle, run_turn, session/timeout/rate-limit hooks, compose port 8000, and risks of two UIs in one image. Recommends in-process Python seams rather than a second HTTP agent loop.",
+      "tags": ["documentation", "research", "streamlit", "ouroboros", "adapter"],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:.scratch/analyst-dashboard/research/forecast-plot-payload.md",
+      "target": "document:.scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/research/session-start-search-web.md",
+      "target": "document:.scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/research/forecast-plot-payload.md",
+      "target": "document:.scratch/analyst-dashboard/research/session-start-search-web.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

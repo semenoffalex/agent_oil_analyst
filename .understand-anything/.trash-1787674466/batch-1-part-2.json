@@ -1,0 +1,564 @@
+{
+  "nodes": [
+    {
+      "id": "file:tests/test_dashboard.py",
+      "type": "file",
+      "name": "test_dashboard.py",
+      "filePath": "tests/test_dashboard.py",
+      "summary": "Unit tests that chat_ui.handle_chat_message forwards history to run_turn, respects rate limits, and that demo login requires matching env credentials.",
+      "tags": ["test", "chat", "authentication"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_dashboard.py:test_handle_chat_message_forwards_chat_history_to_run_turn",
+      "type": "function",
+      "name": "test_handle_chat_message_forwards_chat_history_to_run_turn",
+      "filePath": "tests/test_dashboard.py",
+      "lineRange": [4, 32],
+      "summary": "Asserts handle_chat_message passes prior chat turns into run_turn as history.",
+      "tags": ["test", "chat", "memory"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_dashboard.py:test_handle_chat_message_uses_run_turn",
+      "type": "function",
+      "name": "test_handle_chat_message_uses_run_turn",
+      "filePath": "tests/test_dashboard.py",
+      "lineRange": [35, 53],
+      "summary": "Asserts the chat adapter delegates answering to run_turn rather than calling the loop directly.",
+      "tags": ["test", "chat", "orchestration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_dashboard.py:test_handle_chat_message_rate_limit",
+      "type": "function",
+      "name": "test_handle_chat_message_rate_limit",
+      "filePath": "tests/test_dashboard.py",
+      "lineRange": [56, 74],
+      "summary": "Asserts a blocked limiter produces a rate-limit message instead of a model reply.",
+      "tags": ["test", "rate-limit", "chat"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_dashboard.py:test_demo_login_requires_matching_credentials",
+      "type": "function",
+      "name": "test_demo_login_requires_matching_credentials",
+      "filePath": "tests/test_dashboard.py",
+      "lineRange": [87, 96],
+      "summary": "Asserts demo login succeeds only when username and password match the configured env values.",
+      "tags": ["test", "authentication", "security"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/test_denylist.py",
+      "type": "file",
+      "name": "test_denylist.py",
+      "filePath": "tests/test_denylist.py",
+      "summary": "Tests denylist matching plus web page-body fill: denied hosts stay visible to the model, fetch limits, and empty-search notes.",
+      "tags": ["test", "validation", "web-search"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_denylist.py:test_page_body_puts_article_figure_in_snippet",
+      "type": "function",
+      "name": "test_page_body_puts_article_figure_in_snippet",
+      "filePath": "tests/test_denylist.py",
+      "lineRange": [16, 33],
+      "summary": "Asserts fill_page_bodies replaces the DuckDuckGo snippet with fetched article text containing a price figure.",
+      "tags": ["test", "ingestion", "web-search"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_denylist.py:test_denied_domain_stays_in_hits_for_the_model",
+      "type": "function",
+      "name": "test_denied_domain_stays_in_hits_for_the_model",
+      "filePath": "tests/test_denylist.py",
+      "lineRange": [36, 60],
+      "summary": "Asserts denylisted URLs remain in the search-tool payload so the model can see them without fetching bodies.",
+      "tags": ["test", "validation", "web-search"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_denylist.py:test_page_fetch_keeps_ddg_snippet_on_failure",
+      "type": "function",
+      "name": "test_page_fetch_keeps_ddg_snippet_on_failure",
+      "filePath": "tests/test_denylist.py",
+      "lineRange": [63, 76],
+      "summary": "Asserts a failed page fetch leaves the original DuckDuckGo snippet on the hit.",
+      "tags": ["test", "error-handling", "web-search"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_denylist.py:test_page_fetch_stops_after_three_allowed_hits",
+      "type": "function",
+      "name": "test_page_fetch_stops_after_three_allowed_hits",
+      "filePath": "tests/test_denylist.py",
+      "lineRange": [79, 94],
+      "summary": "Asserts body fetch stops after three allowed hits even when more results exist.",
+      "tags": ["test", "ingestion", "web-search"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_denylist.py:test_empty_web_search_asks_not_to_invent_news",
+      "type": "function",
+      "name": "test_empty_web_search_asks_not_to_invent_news",
+      "filePath": "tests/test_denylist.py",
+      "lineRange": [97, 108],
+      "summary": "Asserts an empty search payload includes a note telling the model not to invent news.",
+      "tags": ["test", "web-search", "safety"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/test_eval_dashboard.py",
+      "type": "file",
+      "name": "test_eval_dashboard.py",
+      "filePath": "tests/test_eval_dashboard.py",
+      "summary": "Checks README eval-dialogue coverage and that invoke_dashboard_eval injects session-start hits only when present.",
+      "tags": ["test", "evaluation", "session"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/test_eval_dashboard.py:_FrozenLoop",
+      "type": "class",
+      "name": "_FrozenLoop",
+      "filePath": "tests/test_eval_dashboard.py",
+      "lineRange": [6, 12],
+      "summary": "Stub AnalystLoop that records prompts and returns a canned LoopResult.",
+      "tags": ["test", "stub", "orchestration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_eval_dashboard.py:test_invoke_dashboard_eval_injects_session_start_hits",
+      "type": "function",
+      "name": "test_invoke_dashboard_eval_injects_session_start_hits",
+      "filePath": "tests/test_eval_dashboard.py",
+      "lineRange": [21, 35],
+      "summary": "Asserts eval invocation prepends session-start rail content into the loop prompt.",
+      "tags": ["test", "evaluation", "session"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/test_graph.py",
+      "type": "file",
+      "name": "test_graph.py",
+      "filePath": "tests/test_graph.py",
+      "summary": "Live eval and red-team suites gated by env flags, plus helpers that reject secrets and denylisted citations in replies.",
+      "tags": ["test", "evaluation", "security"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_graph.py:_assert_no_secrets",
+      "type": "function",
+      "name": "_assert_no_secrets",
+      "filePath": "tests/test_graph.py",
+      "lineRange": [36, 46],
+      "summary": "Fails if reply text contains loaded API keys or common secret-shaped tokens.",
+      "tags": ["test", "security", "validation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_graph.py:_assert_no_denylist",
+      "type": "function",
+      "name": "_assert_no_denylist",
+      "filePath": "tests/test_graph.py",
+      "lineRange": [63, 72],
+      "summary": "Fails if citation labels or URLs match the configured denied domains.",
+      "tags": ["test", "security", "citations"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_graph.py:test_red_team_pack_loads_closed_prompts",
+      "type": "function",
+      "name": "test_red_team_pack_loads_closed_prompts",
+      "filePath": "tests/test_graph.py",
+      "lineRange": [75, 86],
+      "summary": "Asserts the YAML red-team pack loads a closed list of prompt cases.",
+      "tags": ["test", "security", "evaluation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/test_graph.py:TestLiveEval",
+      "type": "class",
+      "name": "TestLiveEval",
+      "filePath": "tests/test_graph.py",
+      "lineRange": [93, 164],
+      "summary": "Optional live tests for report, web, combined, forecast, and out-of-competence dashboard eval questions.",
+      "tags": ["test", "evaluation", "live"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:tests/test_graph.py:TestLiveRedTeam",
+      "type": "class",
+      "name": "TestLiveRedTeam",
+      "filePath": "tests/test_graph.py",
+      "lineRange": [171, 183],
+      "summary": "Optional live red-team tests that run invoke_analyst against packed adversarial prompts.",
+      "tags": ["test", "security", "live"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/test_session_start_web.py",
+      "type": "file",
+      "name": "test_session_start_web.py",
+      "filePath": "tests/test_session_start_web.py",
+      "summary": "Tests news-rail cache, live refresh fallback, denylist hiding, same-day freshness, prompt injection, and grounding checks.",
+      "tags": ["test", "session", "web-search"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:tests/test_session_start_web.py:_payload",
+      "type": "function",
+      "name": "_payload",
+      "filePath": "tests/test_session_start_web.py",
+      "lineRange": [16, 38],
+      "summary": "Builds a canned top-news payload with optional denied and allowed hits for rail tests.",
+      "tags": ["test", "fixture", "session"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_session_start_web.py:test_cached_top_news_hits_reads_disk_without_network",
+      "type": "function",
+      "name": "test_cached_top_news_hits_reads_disk_without_network",
+      "filePath": "tests/test_session_start_web.py",
+      "lineRange": [41, 64],
+      "summary": "Asserts cached_top_news_hits loads visible hits from a JSON file without fetching.",
+      "tags": ["test", "caching", "session"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_session_start_web.py:test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+      "type": "function",
+      "name": "test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+      "filePath": "tests/test_session_start_web.py",
+      "lineRange": [67, 100],
+      "summary": "Asserts refresh_top_news_hits returns cached rail hits when the live fetch is empty.",
+      "tags": ["test", "caching", "session"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_session_start_web.py:test_fetch_session_start_web_uses_canned_query",
+      "type": "function",
+      "name": "test_fetch_session_start_web_uses_canned_query",
+      "filePath": "tests/test_session_start_web.py",
+      "lineRange": [103, 112],
+      "summary": "Asserts fetch_session_start_web issues the canned session-start search query.",
+      "tags": ["test", "web-search", "session"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_session_start_web.py:test_fetch_session_start_web_saves_cache_on_success",
+      "type": "function",
+      "name": "test_fetch_session_start_web_saves_cache_on_success",
+      "filePath": "tests/test_session_start_web.py",
+      "lineRange": [115, 138],
+      "summary": "Asserts a successful fetch writes top_news_rail.json and later empty searchers still see cached hits.",
+      "tags": ["test", "caching", "session"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_session_start_web.py:test_visible_rail_hits_skips_older_than_today",
+      "type": "function",
+      "name": "test_visible_rail_hits_skips_older_than_today",
+      "filePath": "tests/test_session_start_web.py",
+      "lineRange": [148, 179],
+      "summary": "Asserts visible_rail_hits drops items whose publish date is before the mocked Moscow today.",
+      "tags": ["test", "filtering", "session"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_session_start_web.py:test_run_turn_injects_without_web_ran_this_turn",
+      "type": "function",
+      "name": "test_run_turn_injects_without_web_ran_this_turn",
+      "filePath": "tests/test_session_start_web.py",
+      "lineRange": [196, 221],
+      "summary": "Asserts run_turn injects session-start hits even when the web tool did not run this turn, and grounding follows the rail.",
+      "tags": ["test", "session", "grounding"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_session_start_web.py:test_has_grounded_session_start_web_false_without_rail_match",
+      "type": "function",
+      "name": "test_has_grounded_session_start_web_false_without_rail_match",
+      "filePath": "tests/test_session_start_web.py",
+      "lineRange": [224, 237],
+      "summary": "Asserts grounding is false when the reply cites a source that is not on the session-start rail.",
+      "tags": ["test", "grounding", "citations"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:tests/test_dashboard.py",
+      "target": "file:oil_gas_analyst/types.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_denylist.py",
+      "target": "file:oil_gas_analyst/denylist.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_denylist.py",
+      "target": "file:oil_gas_analyst/types.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_eval_dashboard.py",
+      "target": "file:oil_gas_analyst/eval_dialogues.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_eval_dashboard.py",
+      "target": "file:oil_gas_analyst/session_start_web.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_eval_dashboard.py",
+      "target": "file:oil_gas_analyst/types.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_graph.py",
+      "target": "file:oil_gas_analyst/graph.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_session_start_web.py",
+      "target": "file:oil_gas_analyst/session_start_web.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_session_start_web.py",
+      "target": "file:oil_gas_analyst/turn.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_session_start_web.py",
+      "target": "file:oil_gas_analyst/types.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_dashboard.py",
+      "target": "function:tests/test_dashboard.py:test_handle_chat_message_forwards_chat_history_to_run_turn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_dashboard.py",
+      "target": "function:tests/test_dashboard.py:test_handle_chat_message_uses_run_turn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_dashboard.py",
+      "target": "function:tests/test_dashboard.py:test_handle_chat_message_rate_limit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_dashboard.py",
+      "target": "function:tests/test_dashboard.py:test_demo_login_requires_matching_credentials",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_denylist.py",
+      "target": "function:tests/test_denylist.py:test_page_body_puts_article_figure_in_snippet",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_denylist.py",
+      "target": "function:tests/test_denylist.py:test_denied_domain_stays_in_hits_for_the_model",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_denylist.py",
+      "target": "function:tests/test_denylist.py:test_page_fetch_keeps_ddg_snippet_on_failure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_denylist.py",
+      "target": "function:tests/test_denylist.py:test_page_fetch_stops_after_three_allowed_hits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_denylist.py",
+      "target": "function:tests/test_denylist.py:test_empty_web_search_asks_not_to_invent_news",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_eval_dashboard.py",
+      "target": "class:tests/test_eval_dashboard.py:_FrozenLoop",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_eval_dashboard.py",
+      "target": "function:tests/test_eval_dashboard.py:test_invoke_dashboard_eval_injects_session_start_hits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_graph.py",
+      "target": "function:tests/test_graph.py:_assert_no_secrets",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_graph.py",
+      "target": "function:tests/test_graph.py:_assert_no_denylist",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_graph.py",
+      "target": "function:tests/test_graph.py:test_red_team_pack_loads_closed_prompts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_graph.py",
+      "target": "class:tests/test_graph.py:TestLiveEval",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_graph.py",
+      "target": "class:tests/test_graph.py:TestLiveRedTeam",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_session_start_web.py",
+      "target": "function:tests/test_session_start_web.py:_payload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_session_start_web.py",
+      "target": "function:tests/test_session_start_web.py:test_cached_top_news_hits_reads_disk_without_network",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_session_start_web.py",
+      "target": "function:tests/test_session_start_web.py:test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_session_start_web.py",
+      "target": "function:tests/test_session_start_web.py:test_fetch_session_start_web_uses_canned_query",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_session_start_web.py",
+      "target": "function:tests/test_session_start_web.py:test_fetch_session_start_web_saves_cache_on_success",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_session_start_web.py",
+      "target": "function:tests/test_session_start_web.py:test_visible_rail_hits_skips_older_than_today",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_session_start_web.py",
+      "target": "function:tests/test_session_start_web.py:test_run_turn_injects_without_web_ran_this_turn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_session_start_web.py",
+      "target": "function:tests/test_session_start_web.py:test_has_grounded_session_start_web_false_without_rail_match",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:tests/test_dashboard.py:test_handle_chat_message_forwards_chat_history_to_run_turn",
+      "target": "function:oil_gas_analyst/chat_ui.py:handle_chat_message",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_dashboard.py:test_handle_chat_message_uses_run_turn",
+      "target": "function:oil_gas_analyst/chat_ui.py:handle_chat_message",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_dashboard.py:test_handle_chat_message_rate_limit",
+      "target": "function:oil_gas_analyst/chat_ui.py:handle_chat_message",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_session_start_web.py:test_run_turn_injects_without_web_ran_this_turn",
+      "target": "function:oil_gas_analyst/turn.py:run_turn",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "file:tests/test_session_start_web.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

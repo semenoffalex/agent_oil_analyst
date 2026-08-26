@@ -1,0 +1,23 @@
+{
+  "projectRoot": "/Users/semenoffalex/Cursor/sber",
+  "batchFiles": [
+    {"path": ".env.example", "language": "config", "sizeLines": 61, "fileCategory": "config"},
+    {"path": "AGENTS.md", "language": "markdown", "sizeLines": 33, "fileCategory": "docs"},
+    {"path": "CONTEXT.md", "language": "markdown", "sizeLines": 105, "fileCategory": "docs"},
+    {"path": "README.md", "language": "markdown", "sizeLines": 116, "fileCategory": "docs"},
+    {"path": "pyproject.toml", "language": "toml", "sizeLines": 16, "fileCategory": "config"},
+    {"path": "requirements-analyst.txt", "language": "txt", "sizeLines": 13, "fileCategory": "docs"},
+    {"path": "requirements.txt", "language": "txt", "sizeLines": 17, "fileCategory": "docs"},
+    {"path": "task.md", "language": "markdown", "sizeLines": 61, "fileCategory": "docs"}
+  ],
+  "batchImportData": {
+    ".env.example": [],
+    "AGENTS.md": [],
+    "CONTEXT.md": [],
+    "README.md": [],
+    "pyproject.toml": [],
+    "requirements-analyst.txt": [],
+    "requirements.txt": [],
+    "task.md": []
+  }
+}

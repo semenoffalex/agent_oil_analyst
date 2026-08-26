@@ -1,0 +1,480 @@
+{
+  "nodes": [
+    {
+      "id": "config:.cursor/hooks/state/continual-learning-index.json",
+      "type": "config",
+      "name": "continual-learning-index.json",
+      "filePath": ".cursor/hooks/state/continual-learning-index.json",
+      "summary": "Cursor continual-learning hook index that records transcript versions and processed chat files for incremental agent memory updates.",
+      "tags": ["configuration", "cursor", "hooks", "indexing"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard-build/spec.md",
+      "type": "document",
+      "name": "spec.md",
+      "filePath": ".scratch/analyst-dashboard-build/spec.md",
+      "summary": "Thin build-phase pointer that marks the analyst dashboard implementation as ready-for-agent and defers to the parent dashboard spec and issues/ tickets.",
+      "tags": ["documentation", "specification", "dashboard", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/map.md",
+      "type": "document",
+      "name": "map.md",
+      "filePath": ".scratch/analyst-dashboard/map.md",
+      "summary": "Wayfinder map for the Streamlit analyst dashboard covering destination, open decisions, unspecified items, and out-of-scope layout work.",
+      "tags": ["documentation", "wayfinding", "dashboard", "planning"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:.scratch/analyst-dashboard/prototype/dashboard.html",
+      "type": "file",
+      "name": "dashboard.html",
+      "filePath": ".scratch/analyst-dashboard/prototype/dashboard.html",
+      "summary": "Throwaway HTML prototype that explores three Analyst Dashboard layouts with fake Brent actuals, forecast lines, chat, and corpus panels.",
+      "tags": ["prototype", "dashboard", "markup", "layout"],
+      "complexity": "complex",
+      "languageNotes": "Single-file HTML/CSS/JS with query-param and keyboard layout variants; not the production Streamlit Demo."
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/spec.md",
+      "type": "document",
+      "name": "spec.md",
+      "filePath": ".scratch/analyst-dashboard/spec.md",
+      "summary": "Product spec for the Streamlit demo dashboard: problem, solution, user stories, implementation and testing decisions, and out-of-scope items.",
+      "tags": ["documentation", "specification", "dashboard", "streamlit"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/oil-gas-analyst/spec.md",
+      "type": "document",
+      "name": "spec.md",
+      "filePath": ".scratch/oil-gas-analyst/spec.md",
+      "summary": "Feature spec for the oil-and-gas analyst product covering competence, tools, citations, implementation and testing decisions, and further notes.",
+      "tags": ["documentation", "specification", "analyst", "rag"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/map.md",
+      "type": "document",
+      "name": "map.md",
+      "filePath": ".scratch/ouroboros-analyst/map.md",
+      "summary": "Wayfinder map for hosting the domain analyst on current-generation Ouroboros, including destination, decisions, and remaining gaps.",
+      "tags": ["documentation", "wayfinding", "ouroboros", "planning"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/research/ouroboros-host.md",
+      "type": "document",
+      "name": "ouroboros-host.md",
+      "filePath": ".scratch/ouroboros-analyst/research/ouroboros-host.md",
+      "summary": "Research note on how Ouroboros hosts a domain analyst: tool loop, skills versus MCP, web-search paths, system prompt attachment, and runtime mode.",
+      "tags": ["documentation", "research", "ouroboros", "architecture"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/research/stubs-versus-contracts.md",
+      "type": "document",
+      "name": "stubs-versus-contracts.md",
+      "filePath": ".scratch/ouroboros-analyst/research/stubs-versus-contracts.md",
+      "summary": "Inventory that classifies analyst behaviors as stubs, mixed heuristics, or product contracts, including denylist, retrieve k, and forecast rules.",
+      "tags": ["documentation", "research", "contracts", "architecture"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/spec.md",
+      "type": "document",
+      "name": "spec.md",
+      "filePath": ".scratch/ouroboros-analyst/spec.md",
+      "summary": "Spec for running the oil-and-gas analyst as an Ouroboros-hosted demo with user stories, implementation and testing decisions, and out-of-scope items.",
+      "tags": ["documentation", "specification", "ouroboros", "demo"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:.streamlit/config.toml",
+      "type": "config",
+      "name": "config.toml",
+      "filePath": ".streamlit/config.toml",
+      "summary": "Streamlit runtime configuration for headless server mode, disabled usage stats, and a minimal client toolbar without sidebar navigation.",
+      "tags": ["configuration", "streamlit", "ui", "dashboard"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:.understand-anything/.understandignore",
+      "type": "file",
+      "name": ".understandignore",
+      "filePath": ".understand-anything/.understandignore",
+      "summary": "Ignore patterns for Understand-Anything that exclude report, chroma, and forecast caches from knowledge-graph analysis.",
+      "tags": ["configuration", "analysis", "ignore-rules", "tooling"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:.understand-anything/config.json",
+      "type": "config",
+      "name": "config.json",
+      "filePath": ".understand-anything/config.json",
+      "summary": "Understand-Anything project config that sets graph textual output language to English.",
+      "tags": ["configuration", "analysis", "localization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:data/ouroboros/identity.md",
+      "type": "document",
+      "name": "identity.md",
+      "filePath": "data/ouroboros/identity.md",
+      "summary": "Seed Ouroboros identity prompt for the demo analyst: competence, tool-citation rules, denylist, and a ban on /evolve on the demo path.",
+      "tags": ["documentation", "prompt", "ouroboros", "identity"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:data/samples/README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "data/samples/README.md",
+      "summary": "Catalog of sample OPEC, EIA, and Bank of Russia reports used for excerpt citations, plus a note on optional gitignored full reports.",
+      "tags": ["documentation", "corpus", "samples", "rag"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:deploy/demo-nginx.conf",
+      "type": "file",
+      "name": "demo-nginx.conf",
+      "filePath": "deploy/demo-nginx.conf",
+      "summary": "Example nginx front for the public demo that rate-limits by client IP and reverse-proxies to the Streamlit app on localhost:8000.",
+      "tags": ["nginx", "reverse-proxy", "rate-limit", "deployment"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:docker/cloud-init.yaml",
+      "type": "config",
+      "name": "cloud-init.yaml",
+      "filePath": "docker/cloud-init.yaml",
+      "summary": "Timeweb cloud-init user-data that installs Docker, writes demo secrets, and bootstraps the analyst stack on an Ubuntu VPS.",
+      "tags": ["configuration", "cloud-init", "deployment", "infrastructure"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:docker/ouroboros-entrypoint.sh",
+      "type": "file",
+      "name": "ouroboros-entrypoint.sh",
+      "filePath": "docker/ouroboros-entrypoint.sh",
+      "summary": "Container entrypoint that requires DEEPSEEK_API_KEY, seeds identity and skills into the data volume, then execs Ouroboros server.py.",
+      "tags": ["entrypoint", "containerization", "ouroboros", "bootstrap"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:docker/ouroboros.Dockerfile",
+      "type": "file",
+      "name": "ouroboros.Dockerfile",
+      "filePath": "docker/ouroboros.Dockerfile",
+      "summary": "Image build that vendors Ouroboros via uv, installs analyst Python deps without Torch, and copies identity, skills, package, and sample reports.",
+      "tags": ["containerization", "ouroboros", "deployment", "docker"],
+      "complexity": "moderate",
+      "languageNotes": "Copies uv from a separate image, then builds Ouroboros from a GitHub tag archive rather than a gitignored cache tarball."
+    },
+    {
+      "id": "document:docs/agents/domain.md",
+      "type": "document",
+      "name": "domain.md",
+      "filePath": "docs/agents/domain.md",
+      "summary": "Agent guide for domain docs: read CONTEXT.md and ADRs first, follow glossary vocabulary, and flag ADR conflicts.",
+      "tags": ["documentation", "agents", "domain", "adr"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/agents/issue-tracker.md",
+      "type": "document",
+      "name": "issue-tracker.md",
+      "filePath": "docs/agents/issue-tracker.md",
+      "summary": "Agent guide for the local markdown issue tracker under .scratch, including publish, fetch, and wayfinding conventions.",
+      "tags": ["documentation", "agents", "issue-tracker", "wayfinding"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:oil_gas_analyst.egg-info/PKG-INFO",
+      "type": "file",
+      "name": "PKG-INFO",
+      "filePath": "oil_gas_analyst.egg-info/PKG-INFO",
+      "summary": "Setuptools package metadata for oil-gas-analyst 0.1.0 declaring Python 3.11 or newer.",
+      "tags": ["packaging", "metadata", "python"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:scripts/render-timeweb-cloud-init.py",
+      "type": "file",
+      "name": "render-timeweb-cloud-init.py",
+      "filePath": "scripts/render-timeweb-cloud-init.py",
+      "summary": "CLI that substitutes secrets from .env into docker/cloud-init.yaml and writes a gitignored rendered user-data file.",
+      "tags": ["script", "deployment", "secrets", "cloud-init"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:scripts/render-timeweb-cloud-init.py:load_env",
+      "type": "function",
+      "name": "load_env",
+      "filePath": "scripts/render-timeweb-cloud-init.py",
+      "lineRange": [29, 39],
+      "summary": "Parses a KEY=VALUE env file into a dict, skipping comments and empty lines.",
+      "tags": ["utility", "env", "parsing"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:scripts/render-timeweb-cloud-init.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "scripts/render-timeweb-cloud-init.py",
+      "lineRange": [42, 62],
+      "summary": "Loads .env, replaces REPLACE_* placeholders in the cloud-init template, and writes the rendered YAML.",
+      "tags": ["entry-point", "templating", "deployment"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:skills/oil_gas_analyst/SKILL.md",
+      "type": "document",
+      "name": "SKILL.md",
+      "filePath": "skills/oil_gas_analyst/SKILL.md",
+      "summary": "Ouroboros skill playbook for the oil-and-gas analyst covering competence, retrieve/web/forecast tools, citation labels, and route-list hints.",
+      "tags": ["documentation", "skill", "ouroboros", "playbook"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:skills/oil_gas_forecast/plugin.py",
+      "type": "file",
+      "name": "plugin.py",
+      "filePath": "skills/oil_gas_forecast/plugin.py",
+      "summary": "Ouroboros skill plugin that registers the run_forecast tool wrapping AutoARIMA, UnobservedComponents, and AutoReg via forecast_for_tool.",
+      "tags": ["plugin", "forecast", "ouroboros", "tool-registration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:skills/oil_gas_forecast/plugin.py:register",
+      "type": "function",
+      "name": "register",
+      "filePath": "skills/oil_gas_forecast/plugin.py",
+      "lineRange": [6, 30],
+      "summary": "Registers the run_forecast Ouroboros tool with a query schema and a 120-second timeout.",
+      "tags": ["plugin", "tool-registration", "forecast"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:scripts/render-timeweb-cloud-init.py",
+      "target": "function:scripts/render-timeweb-cloud-init.py:load_env",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:scripts/render-timeweb-cloud-init.py",
+      "target": "function:scripts/render-timeweb-cloud-init.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:skills/oil_gas_forecast/plugin.py",
+      "target": "function:skills/oil_gas_forecast/plugin.py:register",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:scripts/render-timeweb-cloud-init.py",
+      "target": "function:scripts/render-timeweb-cloud-init.py:load_env",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:scripts/render-timeweb-cloud-init.py",
+      "target": "function:scripts/render-timeweb-cloud-init.py:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:skills/oil_gas_forecast/plugin.py",
+      "target": "function:skills/oil_gas_forecast/plugin.py:register",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:scripts/render-timeweb-cloud-init.py",
+      "target": "config:docker/cloud-init.yaml",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:docker/ouroboros.Dockerfile",
+      "target": "file:docker/ouroboros-entrypoint.sh",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:docker/ouroboros.Dockerfile",
+      "target": "document:data/ouroboros/identity.md",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:docker/ouroboros.Dockerfile",
+      "target": "document:skills/oil_gas_analyst/SKILL.md",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:docker/ouroboros.Dockerfile",
+      "target": "file:skills/oil_gas_forecast/plugin.py",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:docker/ouroboros-entrypoint.sh",
+      "target": "document:data/ouroboros/identity.md",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:docker/ouroboros-entrypoint.sh",
+      "target": "document:skills/oil_gas_analyst/SKILL.md",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:docker/ouroboros-entrypoint.sh",
+      "target": "file:skills/oil_gas_forecast/plugin.py",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:docker/cloud-init.yaml",
+      "target": "file:docker/ouroboros.Dockerfile",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:.understand-anything/config.json",
+      "target": "file:.understand-anything/.understandignore",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard-build/spec.md",
+      "target": "document:.scratch/analyst-dashboard/spec.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/map.md",
+      "target": "document:.scratch/analyst-dashboard/spec.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/spec.md",
+      "target": "file:.scratch/analyst-dashboard/prototype/dashboard.html",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/oil-gas-analyst/spec.md",
+      "target": "document:skills/oil_gas_analyst/SKILL.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/map.md",
+      "target": "document:.scratch/ouroboros-analyst/spec.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/research/ouroboros-host.md",
+      "target": "document:.scratch/ouroboros-analyst/spec.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/research/stubs-versus-contracts.md",
+      "target": "document:.scratch/ouroboros-analyst/spec.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/spec.md",
+      "target": "file:docker/ouroboros.Dockerfile",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/agents/domain.md",
+      "target": "document:docs/agents/issue-tracker.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/agents/issue-tracker.md",
+      "target": "document:.scratch/analyst-dashboard/spec.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:data/samples/README.md",
+      "target": "document:skills/oil_gas_analyst/SKILL.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:data/ouroboros/identity.md",
+      "target": "document:skills/oil_gas_analyst/SKILL.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:skills/oil_gas_analyst/SKILL.md",
+      "target": "file:skills/oil_gas_forecast/plugin.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:.scratch/analyst-dashboard/prototype/dashboard.html",
+      "target": "document:.scratch/analyst-dashboard/spec.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:deploy/demo-nginx.conf",
+      "target": "config:docker/cloud-init.yaml",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

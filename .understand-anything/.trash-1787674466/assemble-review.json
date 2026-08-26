@@ -1,0 +1,14 @@
+{
+  "fixedSectionOk": true,
+  "nodesRecovered": 0,
+  "edgesRestored": 6,
+  "crossBatchEdgesAdded": 0,
+  "typesRemapped": 0,
+  "complexityRemapped": 0,
+  "notes": [
+    "Fixed section: 4 tested_by flips (test→production → production→test) look correct; 0 remaining inverted tested_by edges.",
+    "Dropped calls to web_citation, has_grounded_report, and load_ingest_config: functions exist in source but were omitted from batch graphs (likely significance filter / small helpers). Did not fabricate function nodes; retargeted 6 calls edges to file:oil_gas_analyst/turn.py and file:oil_gas_analyst/ingest.py.",
+    "Import map: all 80 file-to-file import pairs already present as imports edges; merge-script recovery of 0 is expected.",
+    "report_citation → load_ingest_config is a slightly coarse batch attribution (report_citation uses _report_url, not ingest config directly); kept as file-level calls to ingest.py to preserve the dropped relationship without a fake function node."
+  ]
+}

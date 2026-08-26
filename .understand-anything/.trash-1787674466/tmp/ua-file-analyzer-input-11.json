@@ -1,0 +1,19 @@
+{
+  "projectRoot": "/Users/semenoffalex/Cursor/sber",
+  "batchFiles": [
+    {"path": "config/forecast.yaml", "language": "yaml", "sizeLines": 61, "fileCategory": "config"},
+    {"path": "config/ingest.yaml", "language": "yaml", "sizeLines": 72, "fileCategory": "config"},
+    {"path": "config/red_team_pack.yaml", "language": "yaml", "sizeLines": 44, "fileCategory": "config"},
+    {"path": "config/route_lists.yaml", "language": "yaml", "sizeLines": 68, "fileCategory": "config"},
+    {"path": "config/session_start_rail_exclusions.yaml", "language": "yaml", "sizeLines": 5, "fileCategory": "config"},
+    {"path": "config/yellow_press_denylist.yaml", "language": "yaml", "sizeLines": 29, "fileCategory": "config"}
+  ],
+  "batchImportData": {
+    "config/forecast.yaml": [],
+    "config/ingest.yaml": [],
+    "config/red_team_pack.yaml": [],
+    "config/route_lists.yaml": [],
+    "config/session_start_rail_exclusions.yaml": [],
+    "config/yellow_press_denylist.yaml": []
+  }
+}

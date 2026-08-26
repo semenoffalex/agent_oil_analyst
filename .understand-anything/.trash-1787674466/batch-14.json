@@ -1,0 +1,54 @@
+{
+  "nodes": [
+    {
+      "id": "document:oil_gas_analyst.egg-info/SOURCES.txt",
+      "type": "document",
+      "name": "SOURCES.txt",
+      "filePath": "oil_gas_analyst.egg-info/SOURCES.txt",
+      "summary": "Setuptools egg-info manifest listing every file included in the oil_gas_analyst distribution: package modules, tests, README, pyproject.toml, and generated metadata.",
+      "tags": ["documentation", "packaging", "setuptools", "manifest", "metadata"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:oil_gas_analyst.egg-info/dependency_links.txt",
+      "type": "document",
+      "name": "dependency_links.txt",
+      "filePath": "oil_gas_analyst.egg-info/dependency_links.txt",
+      "summary": "Empty setuptools egg-info list of dependency URLs; the package has no extra dependency links beyond pyproject.toml.",
+      "tags": ["documentation", "packaging", "setuptools", "metadata", "dependencies"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:oil_gas_analyst.egg-info/top_level.txt",
+      "type": "document",
+      "name": "top_level.txt",
+      "filePath": "oil_gas_analyst.egg-info/top_level.txt",
+      "summary": "Declares oil_gas_analyst as the sole top-level import name installed by the setuptools package.",
+      "tags": ["documentation", "packaging", "setuptools", "package-root", "metadata"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:oil_gas_analyst.egg-info/SOURCES.txt",
+      "target": "document:oil_gas_analyst.egg-info/dependency_links.txt",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:oil_gas_analyst.egg-info/SOURCES.txt",
+      "target": "document:oil_gas_analyst.egg-info/top_level.txt",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:oil_gas_analyst.egg-info/dependency_links.txt",
+      "target": "document:oil_gas_analyst.egg-info/top_level.txt",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

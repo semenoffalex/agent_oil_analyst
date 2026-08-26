@@ -1,0 +1,1015 @@
+{
+  "nodes": [
+    {
+      "id": "file:oil_gas_analyst/consensus_price.py",
+      "type": "file",
+      "name": "consensus_price.py",
+      "summary": "Extracts plausible USD-per-barrel oil prices from report and news text, then averages per-source figures into dashboard KPI consensus values.",
+      "tags": [
+        "utility",
+        "data-model",
+        "dashboard",
+        "parsing",
+        "forecast"
+      ],
+      "complexity": "moderate",
+      "filePath": "oil_gas_analyst/consensus_price.py",
+      "languageNotes": "Regex extractors bound prices to a 20–200 USD band before statistics.fmean."
+    },
+    {
+      "id": "file:oil_gas_analyst/dashboard.py",
+      "type": "file",
+      "name": "dashboard.py",
+      "summary": "Streamlit dashboard entry point: demo login, async chat via Ouroboros, Brent chart panel, news rail, and KPI/corpus strips.",
+      "tags": [
+        "entry-point",
+        "component",
+        "event-handler",
+        "service",
+        "ui"
+      ],
+      "complexity": "complex",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "languageNotes": "Background ThreadPoolExecutor plus st.session_state futures drive chat and chart/news refreshes without blocking Streamlit reruns."
+    },
+    {
+      "id": "file:oil_gas_analyst/dashboard_chart.py",
+      "type": "file",
+      "name": "dashboard_chart.py",
+      "summary": "Builds and caches Brent chart payloads, converts forecast paths into a display DataFrame, and renders Altair series with a fixed Y-axis floor.",
+      "tags": [
+        "utility",
+        "serialization",
+        "visualization",
+        "forecast",
+        "caching"
+      ],
+      "complexity": "moderate",
+      "filePath": "oil_gas_analyst/dashboard_chart.py",
+      "languageNotes": "Altair Scale.domainMin pins the Y-axis via CHART_Y_AXIS_MIN; display window is last ~22 business days plus forecast."
+    },
+    {
+      "id": "file:oil_gas_analyst/demo_auth.py",
+      "type": "file",
+      "name": "demo_auth.py",
+      "summary": "Optional demo login gate loaded from DEMO_LOGIN_USER and DEMO_LOGIN_PASSWORD; disabled when either env var is empty.",
+      "tags": [
+        "authentication",
+        "security",
+        "config",
+        "utility"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/demo_auth.py",
+      "languageNotes": "secrets.compare_digest compares username and password in constant time."
+    },
+    {
+      "id": "function:oil_gas_analyst/consensus_price.py:extract_oil_prices",
+      "type": "function",
+      "name": "extract_oil_prices",
+      "summary": "Scans text with dollar, USD/bbl, and Brent-context regexes and returns in-range prices.",
+      "tags": [
+        "parsing",
+        "utility",
+        "validation"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/consensus_price.py",
+      "lineRange": [
+        46,
+        59
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/consensus_price.py:consensus_from_texts",
+      "type": "function",
+      "name": "consensus_from_texts",
+      "summary": "Averages extracted prices per source text, then takes the mean of those source means.",
+      "tags": [
+        "aggregation",
+        "utility",
+        "forecast"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/consensus_price.py",
+      "lineRange": [
+        62,
+        71
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/consensus_price.py:sample_report_texts",
+      "type": "function",
+      "name": "sample_report_texts",
+      "summary": "Reads configured sample PDFs from the ingest samples directory and returns page text for consensus.",
+      "tags": [
+        "ingest",
+        "utility",
+        "data-pipeline"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/consensus_price.py",
+      "lineRange": [
+        89,
+        108
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/consensus_price.py:report_consensus_price",
+      "type": "function",
+      "name": "report_consensus_price",
+      "summary": "Prefers retriever hits for a Brent outlook query, then falls back to sample PDF texts for a consensus price.",
+      "tags": [
+        "service",
+        "forecast",
+        "rag"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/consensus_price.py",
+      "lineRange": [
+        111,
+        130
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/consensus_price.py:dashboard_kpi_row",
+      "type": "function",
+      "name": "dashboard_kpi_row",
+      "summary": "Builds last-close, report-consensus, and news-consensus KPI dicts for the dashboard metric row.",
+      "tags": [
+        "dashboard",
+        "serialization",
+        "utility"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/consensus_price.py",
+      "lineRange": [
+        138,
+        152
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard.py:_logout_demo_session",
+      "type": "function",
+      "name": "_logout_demo_session",
+      "summary": "Cancels in-flight futures and clears Streamlit session keys on demo logout.",
+      "tags": [
+        "event-handler",
+        "session",
+        "cleanup"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "lineRange": [
+        338,
+        355
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard.py:_hydrate_news_from_disk",
+      "type": "function",
+      "name": "_hydrate_news_from_disk",
+      "summary": "Loads cached session-start news hits from disk into session state when the rail is empty.",
+      "tags": [
+        "caching",
+        "session",
+        "news"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "lineRange": [
+        358,
+        367
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard.py:_start_background_refreshes",
+      "type": "function",
+      "name": "_start_background_refreshes",
+      "summary": "Submits chart, news, and Ouroboros warmup jobs on a shared ThreadPoolExecutor.",
+      "tags": [
+        "concurrency",
+        "event-handler",
+        "dashboard"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "lineRange": [
+        389,
+        402
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard.py:_collect_background_refreshes",
+      "type": "function",
+      "name": "_collect_background_refreshes",
+      "summary": "Joins completed background futures and writes chart payload, news hits, and readiness into session state.",
+      "tags": [
+        "concurrency",
+        "session",
+        "event-handler"
+      ],
+      "complexity": "moderate",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "lineRange": [
+        405,
+        442
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard.py:_start_chat_turn",
+      "type": "function",
+      "name": "_start_chat_turn",
+      "summary": "Queues handle_chat_message on the chat executor with session id, rail hits, and trimmed history.",
+      "tags": [
+        "event-handler",
+        "chat",
+        "concurrency"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "lineRange": [
+        492,
+        506
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard.py:_finish_chat_turn_if_ready",
+      "type": "function",
+      "name": "_finish_chat_turn_if_ready",
+      "summary": "Appends a completed chat reply (or infra error) to messages and may trigger a chart refresh from the prompt.",
+      "tags": [
+        "event-handler",
+        "chat",
+        "session"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "lineRange": [
+        509,
+        532
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard.py:_render_cached_spinner",
+      "type": "function",
+      "name": "_render_cached_spinner",
+      "summary": "Enqueues a Streamlit spinner proto so thinking UI survives reruns without a live spinner context.",
+      "tags": [
+        "component",
+        "ui",
+        "streamlit"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "lineRange": [
+        539,
+        553
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard.py:_render_kpi_corpus_row",
+      "type": "function",
+      "name": "_render_kpi_corpus_row",
+      "summary": "Renders last close, report/news consensus metrics, forecast-model pill, and corpus agency strip.",
+      "tags": [
+        "component",
+        "dashboard",
+        "ui"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "lineRange": [
+        600,
+        625
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard.py:_render_forecast_consensus_pill",
+      "type": "function",
+      "name": "_render_forecast_consensus_pill",
+      "summary": "Shows the mean of AutoARIMA, UCM, and AutoReg point forecasts as a metric plus HTML pill.",
+      "tags": [
+        "component",
+        "forecast",
+        "ui"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "lineRange": [
+        628,
+        655
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard.py:_render_news_pills",
+      "type": "function",
+      "name": "_render_news_pills",
+      "summary": "Renders up to N session-start news cards with outlet, snippet, and refresh spinner state.",
+      "tags": [
+        "component",
+        "news",
+        "ui"
+      ],
+      "complexity": "moderate",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "lineRange": [
+        658,
+        694
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard.py:_render_chart_panel",
+      "type": "function",
+      "name": "_render_chart_panel",
+      "summary": "Draws the Brent Altair chart with togglable model series, captions, and in-progress spinner.",
+      "tags": [
+        "component",
+        "visualization",
+        "forecast"
+      ],
+      "complexity": "moderate",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "lineRange": [
+        697,
+        748
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard.py:_render_header",
+      "type": "function",
+      "name": "_render_header",
+      "summary": "Renders the dashboard title and optional logout button in a two-column header.",
+      "tags": [
+        "component",
+        "ui",
+        "auth"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "lineRange": [
+        751,
+        763
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard.py:_render_login_gate",
+      "type": "function",
+      "name": "_render_login_gate",
+      "summary": "Shows the demo login form when credentials are configured and records auth in session state.",
+      "tags": [
+        "component",
+        "auth",
+        "ui"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "lineRange": [
+        766,
+        784
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard.py:_render_chat_panel",
+      "type": "function",
+      "name": "_render_chat_panel",
+      "summary": "Chat column: history, thinking indicator, Ouroboros readiness, and input that starts a background turn.",
+      "tags": [
+        "component",
+        "chat",
+        "ui"
+      ],
+      "complexity": "moderate",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "lineRange": [
+        787,
+        821
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard.py:main",
+      "type": "function",
+      "name": "main",
+      "summary": "Page config, CSS, login, background refresh, KPI/news rails, and side-by-side chat and chart columns.",
+      "tags": [
+        "entry-point",
+        "orchestration",
+        "dashboard"
+      ],
+      "complexity": "moderate",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "lineRange": [
+        828,
+        870
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard_chart.py:load_cached_brent_chart_payload",
+      "type": "function",
+      "name": "load_cached_brent_chart_payload",
+      "summary": "Reads a JSON chart payload from FORECAST_CACHE_PATH when the cached horizon matches.",
+      "tags": [
+        "caching",
+        "serialization",
+        "forecast"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard_chart.py",
+      "lineRange": [
+        42,
+        54
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard_chart.py:load_brent_chart_payload",
+      "type": "function",
+      "name": "load_brent_chart_payload",
+      "summary": "Runs forecast_plot_payload for Brent, caches the result, and returns the dashboard chart dict.",
+      "tags": [
+        "service",
+        "forecast",
+        "caching"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard_chart.py",
+      "lineRange": [
+        75,
+        89
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard_chart.py:forecast_model_consensus",
+      "type": "function",
+      "name": "forecast_model_consensus",
+      "summary": "Averages AutoARIMA, UnobservedComponents, and AutoReg last-horizon point forecasts.",
+      "tags": [
+        "aggregation",
+        "forecast",
+        "utility"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard_chart.py",
+      "lineRange": [
+        92,
+        103
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard_chart.py:chart_dataframe_from_payload",
+      "type": "function",
+      "name": "chart_dataframe_from_payload",
+      "summary": "Builds a datetime-indexed frame of actual closes plus three named forecast path columns.",
+      "tags": [
+        "data-model",
+        "forecast",
+        "pandas"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard_chart.py",
+      "lineRange": [
+        111,
+        133
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard_chart.py:chart_display_dataframe",
+      "type": "function",
+      "name": "chart_display_dataframe",
+      "summary": "Slices the chart frame to the last ~22 actual trading days plus the full forecast window.",
+      "tags": [
+        "visualization",
+        "utility",
+        "forecast"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard_chart.py",
+      "lineRange": [
+        136,
+        146
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/dashboard_chart.py:brent_chart_altair",
+      "type": "function",
+      "name": "brent_chart_altair",
+      "summary": "Melts the display frame into an Altair line chart with a minimum Y-axis domain.",
+      "tags": [
+        "visualization",
+        "component",
+        "altair"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/dashboard_chart.py",
+      "lineRange": [
+        149,
+        164
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:oil_gas_analyst/consensus_price.py",
+      "target": "function:oil_gas_analyst/consensus_price.py:extract_oil_prices",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/consensus_price.py",
+      "target": "function:oil_gas_analyst/consensus_price.py:extract_oil_prices",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/consensus_price.py",
+      "target": "function:oil_gas_analyst/consensus_price.py:consensus_from_texts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/consensus_price.py",
+      "target": "function:oil_gas_analyst/consensus_price.py:consensus_from_texts",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/consensus_price.py",
+      "target": "function:oil_gas_analyst/consensus_price.py:sample_report_texts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/consensus_price.py",
+      "target": "function:oil_gas_analyst/consensus_price.py:sample_report_texts",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/consensus_price.py",
+      "target": "function:oil_gas_analyst/consensus_price.py:report_consensus_price",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/consensus_price.py",
+      "target": "function:oil_gas_analyst/consensus_price.py:report_consensus_price",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/consensus_price.py",
+      "target": "function:oil_gas_analyst/consensus_price.py:dashboard_kpi_row",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/consensus_price.py",
+      "target": "function:oil_gas_analyst/consensus_price.py:dashboard_kpi_row",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_logout_demo_session",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_logout_demo_session",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_hydrate_news_from_disk",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_hydrate_news_from_disk",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_start_background_refreshes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_start_background_refreshes",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_collect_background_refreshes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_collect_background_refreshes",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_start_chat_turn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_start_chat_turn",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_finish_chat_turn_if_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_finish_chat_turn_if_ready",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_cached_spinner",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_cached_spinner",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_kpi_corpus_row",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_kpi_corpus_row",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_forecast_consensus_pill",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_forecast_consensus_pill",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_news_pills",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_news_pills",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_chart_panel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_chart_panel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_header",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_header",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_login_gate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_login_gate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_chat_panel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:_render_chat_panel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "function:oil_gas_analyst/dashboard.py:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard_chart.py",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:load_cached_brent_chart_payload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard_chart.py",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:load_cached_brent_chart_payload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard_chart.py",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:load_brent_chart_payload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard_chart.py",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:load_brent_chart_payload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard_chart.py",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:forecast_model_consensus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard_chart.py",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:forecast_model_consensus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard_chart.py",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:chart_dataframe_from_payload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard_chart.py",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:chart_dataframe_from_payload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard_chart.py",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:chart_display_dataframe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard_chart.py",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:chart_display_dataframe",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard_chart.py",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:brent_chart_altair",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard_chart.py",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:brent_chart_altair",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/consensus_price.py",
+      "target": "file:oil_gas_analyst/ingest.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "file:oil_gas_analyst/chat_ui.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "file:oil_gas_analyst/consensus_price.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "file:oil_gas_analyst/corpus_strip.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "file:oil_gas_analyst/dashboard_chart.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "file:oil_gas_analyst/demo_auth.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "file:oil_gas_analyst/forecast.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "file:oil_gas_analyst/session_start_web.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard_chart.py",
+      "target": "file:oil_gas_analyst/forecast.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:oil_gas_analyst/consensus_price.py:sample_report_texts",
+      "target": "function:oil_gas_analyst/ingest.py:load_ingest_config",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/dashboard.py:_hydrate_news_from_disk",
+      "target": "function:oil_gas_analyst/session_start_web.py:cached_top_news_hits",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/dashboard.py:_start_chat_turn",
+      "target": "function:oil_gas_analyst/chat_ui.py:handle_chat_message",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/dashboard.py:_render_kpi_corpus_row",
+      "target": "function:oil_gas_analyst/consensus_price.py:dashboard_kpi_row",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/dashboard.py:_render_forecast_consensus_pill",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:forecast_model_consensus",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/dashboard.py:_render_chart_panel",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:brent_chart_altair",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/dashboard.py:_render_chart_panel",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:chart_display_dataframe",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/dashboard_chart.py:load_brent_chart_payload",
+      "target": "function:oil_gas_analyst/forecast.py:forecast_plot_payload",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/consensus_price.py",
+      "target": "file:tests/test_consensus_price.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard.py",
+      "target": "file:tests/test_dashboard_layout.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/dashboard_chart.py",
+      "target": "file:tests/test_dashboard_layout.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "projectRoot": "/Users/semenoffalex/Cursor/sber",
+  "batchFiles": [
+    {"path": "oil_gas_analyst.egg-info/SOURCES.txt", "language": "txt", "sizeLines": 42, "fileCategory": "docs"},
+    {"path": "oil_gas_analyst.egg-info/dependency_links.txt", "language": "txt", "sizeLines": 1, "fileCategory": "docs"},
+    {"path": "oil_gas_analyst.egg-info/top_level.txt", "language": "txt", "sizeLines": 1, "fileCategory": "docs"}
+  ],
+  "batchImportData": {
+    "oil_gas_analyst.egg-info/SOURCES.txt": [],
+    "oil_gas_analyst.egg-info/dependency_links.txt": [],
+    "oil_gas_analyst.egg-info/top_level.txt": []
+  }
+}

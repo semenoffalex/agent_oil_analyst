@@ -1,0 +1,508 @@
+{
+  "nodes": [
+    {
+      "id": "document:docs/adr/0001-analyst-lives-inside-ouroboros.md",
+      "type": "document",
+      "name": "0001-analyst-lives-inside-ouroboros.md",
+      "filePath": "docs/adr/0001-analyst-lives-inside-ouroboros.md",
+      "summary": "Superseded ADR that placed the oil-and-gas Analyst as a role inside Ouroboros, with RAG, web search, and forecast as tools and native Review as the self-check.",
+      "tags": ["documentation", "architecture-decision", "ouroboros", "superseded"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0002-ouroboros-out-of-scope.md",
+      "type": "document",
+      "name": "0002-ouroboros-out-of-scope.md",
+      "filePath": "docs/adr/0002-ouroboros-out-of-scope.md",
+      "summary": "Accepted ADR dropping Ouroboros from the demo path so the user talks to a LangGraph Analyst behind a shipped simple UI.",
+      "tags": ["documentation", "architecture-decision", "ouroboros", "scope"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0003-thin-or-fresh-web.md",
+      "type": "document",
+      "name": "0003-thin-or-fresh-web.md",
+      "filePath": "docs/adr/0003-thin-or-fresh-web.md",
+      "summary": "Waterfall policy: search Reports first and open the web only on Thin retrieval or Time-sensitive questions. The Thin trigger was later replaced by always-retrieve.",
+      "tags": ["documentation", "architecture-decision", "web-search", "retrieval"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0004-forecast-only-on-explicit-verbs.md",
+      "type": "document",
+      "name": "0004-forecast-only-on-explicit-verbs.md",
+      "filePath": "docs/adr/0004-forecast-only-on-explicit-verbs.md",
+      "summary": "Accepted ADR that runs the Forecast module only on an explicit Forecast verb; other price questions take the Live-quote web path.",
+      "tags": ["documentation", "architecture-decision", "forecast", "routing"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0005-closed-route-lists.md",
+      "type": "document",
+      "name": "0005-closed-route-lists.md",
+      "filePath": "docs/adr/0005-closed-route-lists.md",
+      "summary": "Routing via closed EN+RU keyword lists for Forecast verbs and Time-sensitive markers instead of a classifier; later limited to the Eval harness, not the live loop.",
+      "tags": ["documentation", "architecture-decision", "routing", "eval"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0006-deepseek-chat-llm.md",
+      "type": "document",
+      "name": "0006-deepseek-chat-llm.md",
+      "filePath": "docs/adr/0006-deepseek-chat-llm.md",
+      "summary": "Chooses deepseek-v4-flash at api.deepseek.com as the sole product chat LLM with thinking mode off; Eval chat remains a documented OpenRouter exception.",
+      "tags": ["documentation", "architecture-decision", "llm", "deepseek"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0007-e5-chroma-reports.md",
+      "type": "document",
+      "name": "0007-e5-chroma-reports.md",
+      "filePath": "docs/adr/0007-e5-chroma-reports.md",
+      "summary": "Accepted ADR for Report RAG: multilingual-e5-base embeddings stored in in-process Chroma with title, date, and page metadata.",
+      "tags": ["documentation", "architecture-decision", "rag", "embeddings"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0008-duckduckgo-denylist.md",
+      "type": "document",
+      "name": "0008-duckduckgo-denylist.md",
+      "filePath": "docs/adr/0008-duckduckgo-denylist.md",
+      "summary": "Accepted ADR for web search: DuckDuckGo with a checked-in yellow-press domain denylist and no search-API key or LLM tabloid classifier.",
+      "tags": ["documentation", "architecture-decision", "web-search", "denylist"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0009-yfinance-sarima-ets.md",
+      "type": "document",
+      "name": "0009-yfinance-sarima-ets.md",
+      "filePath": "docs/adr/0009-yfinance-sarima-ets.md",
+      "summary": "Accepted Forecast-module ADR: live yfinance history with statsmodels SARIMA and Holt–Winters, default Brent, no silent CSV fallback, no Urals proxy.",
+      "tags": ["documentation", "architecture-decision", "forecast", "time-series"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0010-chainlit-ui.md",
+      "type": "document",
+      "name": "0010-chainlit-ui.md",
+      "filePath": "docs/adr/0010-chainlit-ui.md",
+      "summary": "Original v1 UI ADR choosing Chainlit as the browser chat shell over Streamlit, Gradio, or FastAPI; the window itself was later superseded by the Streamlit dashboard.",
+      "tags": ["documentation", "architecture-decision", "ui", "superseded"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0011-sample-and-full-reports.md",
+      "type": "document",
+      "name": "0011-sample-and-full-reports.md",
+      "filePath": "docs/adr/0011-sample-and-full-reports.md",
+      "summary": "Commits OPEC MOMR and EIA STEO sample PDF excerpts in git and fetches Full Reports via ingest; missing samples break install, IEA stays out of v1.",
+      "tags": ["documentation", "architecture-decision", "corpus", "ingest"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0012-always-retrieve-model-drops.md",
+      "type": "document",
+      "name": "0012-always-retrieve-model-drops.md",
+      "filePath": "docs/adr/0012-always-retrieve-model-drops.md",
+      "summary": "Accepted ADR: every turn retrieves k=10 Report chunks; the chat model Drops irrelevant ones instead of a Thin count/score bar opening the web.",
+      "tags": ["documentation", "architecture-decision", "retrieval", "citations"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0013-web-if-dropped-and-in-competence.md",
+      "type": "document",
+      "name": "0013-web-if-dropped-and-in-competence.md",
+      "filePath": "docs/adr/0013-web-if-dropped-and-in-competence.md",
+      "summary": "If all retrieved chunks are Dropped, allow one DuckDuckGo call only when still in Competence; out-of-competence refuses with no web or Forecast.",
+      "tags": ["documentation", "architecture-decision", "web-search", "competence"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0014-competence-classify-node.md",
+      "type": "document",
+      "name": "0014-competence-classify-node.md",
+      "filePath": "docs/adr/0014-competence-classify-node.md",
+      "summary": "Places an LLM in/out Competence classify node before tools on the old waterfall, leaving Forecast verbs and Time-sensitive markers as closed lists.",
+      "tags": ["documentation", "architecture-decision", "competence", "llm"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0015-heading-chunks.md",
+      "type": "document",
+      "name": "0015-heading-chunks.md",
+      "filePath": "docs/adr/0015-heading-chunks.md",
+      "summary": "Ingest splits reports on agency heading regexes then caps chunks at 512 e5 tokens with overlap, keeping title, date, page range, and heading metadata.",
+      "tags": ["documentation", "architecture-decision", "ingest", "chunking"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0016-cbr-sample-report.md",
+      "type": "document",
+      "name": "0016-cbr-sample-report.md",
+      "filePath": "docs/adr/0016-cbr-sample-report.md",
+      "summary": "Keeps the Bank of Russia trends bulletin as a third Sample Report so Russian oil-price questions can cite it, using CBR heading patterns in ingest config.",
+      "tags": ["documentation", "architecture-decision", "corpus", "ingest"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0017-next-cycle-is-public-demo.md",
+      "type": "document",
+      "name": "0017-next-cycle-is-public-demo.md",
+      "filePath": "docs/adr/0017-next-cycle-is-public-demo.md",
+      "summary": "Sets the cycle goal as a public Demo URL after live Eval and red-team, with no password and a post-launch rate limit; Streamlit-as-UI clauses were later superseded.",
+      "tags": ["documentation", "architecture-decision", "demo", "eval"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0018-eval-chat-openrouter-free.md",
+      "type": "document",
+      "name": "0018-eval-chat-openrouter-free.md",
+      "filePath": "docs/adr/0018-eval-chat-openrouter-free.md",
+      "summary": "Routes LIVE_EVAL chat to OpenRouter via env-configured EVAL_CHAT_MODEL while product Docker/Chainlit stays on DeepSeek with no silent fallback.",
+      "tags": ["documentation", "architecture-decision", "eval", "openrouter"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0019-model-decides-the-loop.md",
+      "type": "document",
+      "name": "0019-model-decides-the-loop.md",
+      "filePath": "docs/adr/0019-model-decides-the-loop.md",
+      "summary": "Acceptance ADR: the solve model chooses tools and stop conditions; the host must not refuse those calls, and Eval grades the visible answer and citations rather than host locks.",
+      "tags": ["documentation", "architecture-decision", "agent-loop", "eval"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0020-waterfall-grounded-citations.md",
+      "type": "document",
+      "name": "0020-waterfall-grounded-citations.md",
+      "filePath": "docs/adr/0020-waterfall-grounded-citations.md",
+      "summary": "Treats the Reports-first waterfall as prompt policy plus Eval on citations: [Отчёт …] must be grounded in retrieve this turn; extra Web is allowed; prose order is not graded.",
+      "tags": ["documentation", "architecture-decision", "citations", "eval"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:docs/adr/0001-analyst-lives-inside-ouroboros.md",
+      "target": "document:docs/adr/0002-ouroboros-out-of-scope.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0001-analyst-lives-inside-ouroboros.md",
+      "target": "file:oil_gas_analyst/ouroboros.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0002-ouroboros-out-of-scope.md",
+      "target": "file:oil_gas_analyst/graph.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0003-thin-or-fresh-web.md",
+      "target": "document:docs/adr/0012-always-retrieve-model-drops.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0003-thin-or-fresh-web.md",
+      "target": "file:oil_gas_analyst/web.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0003-thin-or-fresh-web.md",
+      "target": "file:oil_gas_analyst/retrieve.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0004-forecast-only-on-explicit-verbs.md",
+      "target": "document:docs/adr/0003-thin-or-fresh-web.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0004-forecast-only-on-explicit-verbs.md",
+      "target": "file:oil_gas_analyst/forecast.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0004-forecast-only-on-explicit-verbs.md",
+      "target": "file:oil_gas_analyst/routes.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0005-closed-route-lists.md",
+      "target": "document:docs/adr/0004-forecast-only-on-explicit-verbs.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0005-closed-route-lists.md",
+      "target": "file:oil_gas_analyst/routes.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0005-closed-route-lists.md",
+      "target": "config:config/route_lists.yaml",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0006-deepseek-chat-llm.md",
+      "target": "file:oil_gas_analyst/settings.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0006-deepseek-chat-llm.md",
+      "target": "document:docs/adr/0018-eval-chat-openrouter-free.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0007-e5-chroma-reports.md",
+      "target": "file:oil_gas_analyst/retrieve.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0007-e5-chroma-reports.md",
+      "target": "file:oil_gas_analyst/ingest.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0008-duckduckgo-denylist.md",
+      "target": "document:docs/adr/0003-thin-or-fresh-web.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0008-duckduckgo-denylist.md",
+      "target": "file:oil_gas_analyst/denylist.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0008-duckduckgo-denylist.md",
+      "target": "file:oil_gas_analyst/web.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0008-duckduckgo-denylist.md",
+      "target": "config:config/yellow_press_denylist.yaml",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0009-yfinance-sarima-ets.md",
+      "target": "document:docs/adr/0004-forecast-only-on-explicit-verbs.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0009-yfinance-sarima-ets.md",
+      "target": "file:oil_gas_analyst/forecast.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0010-chainlit-ui.md",
+      "target": "file:oil_gas_analyst/chat_ui.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0011-sample-and-full-reports.md",
+      "target": "file:oil_gas_analyst/ingest.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0011-sample-and-full-reports.md",
+      "target": "document:docs/adr/0016-cbr-sample-report.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0012-always-retrieve-model-drops.md",
+      "target": "document:docs/adr/0003-thin-or-fresh-web.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0012-always-retrieve-model-drops.md",
+      "target": "file:oil_gas_analyst/retrieve.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0013-web-if-dropped-and-in-competence.md",
+      "target": "document:docs/adr/0012-always-retrieve-model-drops.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0013-web-if-dropped-and-in-competence.md",
+      "target": "file:oil_gas_analyst/web.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0014-competence-classify-node.md",
+      "target": "document:docs/adr/0013-web-if-dropped-and-in-competence.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0014-competence-classify-node.md",
+      "target": "file:oil_gas_analyst/graph.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0015-heading-chunks.md",
+      "target": "file:oil_gas_analyst/ingest.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0015-heading-chunks.md",
+      "target": "config:config/ingest.yaml",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0016-cbr-sample-report.md",
+      "target": "document:docs/adr/0015-heading-chunks.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0016-cbr-sample-report.md",
+      "target": "file:oil_gas_analyst/ingest.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0017-next-cycle-is-public-demo.md",
+      "target": "document:docs/adr/0018-eval-chat-openrouter-free.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0017-next-cycle-is-public-demo.md",
+      "target": "file:oil_gas_analyst/eval_dialogues.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0017-next-cycle-is-public-demo.md",
+      "target": "file:oil_gas_analyst/rate_limit.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0018-eval-chat-openrouter-free.md",
+      "target": "document:docs/adr/0006-deepseek-chat-llm.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0018-eval-chat-openrouter-free.md",
+      "target": "file:oil_gas_analyst/settings.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0019-model-decides-the-loop.md",
+      "target": "document:docs/adr/0020-waterfall-grounded-citations.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0019-model-decides-the-loop.md",
+      "target": "file:oil_gas_analyst/ouroboros.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0019-model-decides-the-loop.md",
+      "target": "file:oil_gas_analyst/turn.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0020-waterfall-grounded-citations.md",
+      "target": "document:docs/adr/0019-model-decides-the-loop.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0020-waterfall-grounded-citations.md",
+      "target": "file:oil_gas_analyst/retrieve.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0020-waterfall-grounded-citations.md",
+      "target": "file:oil_gas_analyst/render.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

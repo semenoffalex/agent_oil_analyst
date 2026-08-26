@@ -1,0 +1,174 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": ".dockerignore",
+      "language": "unknown",
+      "fileCategory": "infra",
+      "totalLines": 12,
+      "nonEmptyLines": 12,
+      "metrics": {}
+    },
+    {
+      "path": "docker-compose.yml",
+      "language": "yaml",
+      "fileCategory": "infra",
+      "totalLines": 115,
+      "nonEmptyLines": 113,
+      "sections": [
+        {
+          "heading": "services",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "volumes",
+          "level": 1,
+          "line": 110
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": "Dockerfile",
+      "language": "dockerfile",
+      "fileCategory": "infra",
+      "totalLines": 30,
+      "nonEmptyLines": 23,
+      "services": [
+        {
+          "name": "python",
+          "image": "python:3.11-slim",
+          "ports": [
+            8000
+          ],
+          "startLine": 4,
+          "endLine": 31
+        }
+      ],
+      "steps": [
+        {
+          "name": "FROM python:3.11-slim",
+          "startLine": 4,
+          "endLine": 4
+        },
+        {
+          "name": "WORKDIR /app",
+          "startLine": 6,
+          "endLine": 6
+        },
+        {
+          "name": "COPY requirements-analyst.txt .",
+          "startLine": 8,
+          "endLine": 8
+        },
+        {
+          "name": "RUN pip install --no-cache-dir --default-timeout=300 --retries 5",
+          "startLine": 9,
+          "endLine": 9
+        },
+        {
+          "name": "COPY config/ config/",
+          "startLine": 11,
+          "endLine": 11
+        },
+        {
+          "name": "COPY .streamlit/ .streamlit/",
+          "startLine": 12,
+          "endLine": 12
+        },
+        {
+          "name": "COPY data/samples/ data/samples/",
+          "startLine": 13,
+          "endLine": 13
+        },
+        {
+          "name": "COPY oil_gas_analyst/ oil_gas_analyst/",
+          "startLine": 14,
+          "endLine": 14
+        },
+        {
+          "name": "COPY pyproject.toml .",
+          "startLine": 15,
+          "endLine": 15
+        },
+        {
+          "name": "COPY .env.example .env.example",
+          "startLine": 16,
+          "endLine": 16
+        },
+        {
+          "name": "ENV PYTHONUNBUFFERED=1",
+          "startLine": 18,
+          "endLine": 18
+        },
+        {
+          "name": "ENV PYTHONPATH=/app",
+          "startLine": 19,
+          "endLine": 19
+        },
+        {
+          "name": "ENV CHROMA_PATH=/app/data/chroma",
+          "startLine": 20,
+          "endLine": 20
+        },
+        {
+          "name": "ENV SAMPLES_PATH=/app/data/samples",
+          "startLine": 21,
+          "endLine": 21
+        },
+        {
+          "name": "ENV REPORTS_PATH=/app/data/reports",
+          "startLine": 22,
+          "endLine": 22
+        },
+        {
+          "name": "ENV TOP_NEWS_CACHE_PATH=/app/data/top_news_cache",
+          "startLine": 23,
+          "endLine": 23
+        },
+        {
+          "name": "ENV OUROBOROS_URL=http://ouroboros:8765",
+          "startLine": 24,
+          "endLine": 24
+        },
+        {
+          "name": "ENV EMBEDDING_BASE_URL=https://openrouter.ai/api/v1",
+          "startLine": 25,
+          "endLine": 25
+        },
+        {
+          "name": "ENV EMBEDDING_MODEL=nvidia/nemotron-3-embed-1b:free",
+          "startLine": 26,
+          "endLine": 26
+        },
+        {
+          "name": "EXPOSE 8000",
+          "startLine": 28,
+          "endLine": 28
+        },
+        {
+          "name": "CMD [\"streamlit\", \"run\", \"oil_gas_analyst/dashboard.py\", \"--serv",
+          "startLine": 30,
+          "endLine": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "serviceCount": 1,
+        "stepCount": 21
+      }
+    }
+  ]
+}

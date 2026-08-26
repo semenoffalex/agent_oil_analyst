@@ -1,0 +1,109 @@
+{
+  "nodes": [
+    {
+      "id": "config:config/forecast.yaml",
+      "type": "config",
+      "name": "forecast.yaml",
+      "filePath": "config/forecast.yaml",
+      "summary": "Forecast runtime settings: allowed methods, ticker symbols, horizon phrases, AutoARIMA/AutoReg bounds, history interval, cache directory, and Stooq symbol aliases used by the price-forecast pipeline.",
+      "tags": ["configuration", "forecast", "time-series", "arima"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:config/ingest.yaml",
+      "type": "config",
+      "name": "ingest.yaml",
+      "filePath": "config/ingest.yaml",
+      "summary": "Report ingest and RAG settings: embedding model, Chroma path, retrieve-k, token caps, sample/full report catalogs, agency URLs, heading-split regexes, and multilingual-e5 query/passage prefixes.",
+      "tags": ["configuration", "ingest", "rag", "embeddings"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:config/red_team_pack.yaml",
+      "type": "config",
+      "name": "red_team_pack.yaml",
+      "filePath": "config/red_team_pack.yaml",
+      "summary": "Closed pack of live red-team prompts (jailbreak, off-scope, and policy-stress cases) consumed by the LIVE_RED_TEAM pytest suite before a public URL.",
+      "tags": ["configuration", "security", "test", "red-team"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:config/route_lists.yaml",
+      "type": "config",
+      "name": "route_lists.yaml",
+      "filePath": "config/route_lists.yaml",
+      "summary": "Closed keyword lists for the eval harness: forecast verbs, time-sensitive markers, weak time-sensitive phrases, and published-outlook cues used by route matchers.",
+      "tags": ["configuration", "routing", "eval-harness", "closed-lists"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:config/session_start_rail_exclusions.yaml",
+      "type": "config",
+      "name": "session_start_rail_exclusions.yaml",
+      "filePath": "config/session_start_rail_exclusions.yaml",
+      "summary": "Short domain exclusion list for the session-start web rail so known-bad or off-policy hosts are skipped at session bootstrap.",
+      "tags": ["configuration", "web", "denylist", "session-start"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:config/yellow_press_denylist.yaml",
+      "type": "config",
+      "name": "yellow_press_denylist.yaml",
+      "filePath": "config/yellow_press_denylist.yaml",
+      "summary": "Static domain denylist for yellow-press and low-quality news hosts applied when filling web page bodies and tool results.",
+      "tags": ["configuration", "denylist", "web", "security"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "config:config/forecast.yaml",
+      "target": "file:oil_gas_analyst/forecast.py",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:config/ingest.yaml",
+      "target": "file:oil_gas_analyst/ingest.py",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:config/ingest.yaml",
+      "target": "file:oil_gas_analyst/retrieve.py",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:config/red_team_pack.yaml",
+      "target": "file:tests/test_graph.py",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:config/route_lists.yaml",
+      "target": "file:oil_gas_analyst/routes.py",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:config/session_start_rail_exclusions.yaml",
+      "target": "file:oil_gas_analyst/session_start_web.py",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:config/yellow_press_denylist.yaml",
+      "target": "file:oil_gas_analyst/denylist.py",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ]
+}

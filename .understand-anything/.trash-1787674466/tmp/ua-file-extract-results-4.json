@@ -1,0 +1,5586 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 8,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "oil_gas_analyst/consensus_price.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 152,
+      "nonEmptyLines": 127,
+      "functions": [
+        {
+          "name": "_parse_price_token",
+          "startLine": 36,
+          "endLine": 43,
+          "params": [
+            "raw"
+          ]
+        },
+        {
+          "name": "extract_oil_prices",
+          "startLine": 46,
+          "endLine": 59,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "consensus_from_texts",
+          "startLine": 62,
+          "endLine": 71,
+          "params": [
+            "texts"
+          ]
+        },
+        {
+          "name": "_samples_dir",
+          "startLine": 74,
+          "endLine": 76,
+          "params": []
+        },
+        {
+          "name": "_resolve_sample_path",
+          "startLine": 79,
+          "endLine": 86,
+          "params": [
+            "sample",
+            "samples_dir"
+          ]
+        },
+        {
+          "name": "sample_report_texts",
+          "startLine": 89,
+          "endLine": 108,
+          "params": [
+            "max_pages"
+          ]
+        },
+        {
+          "name": "report_consensus_price",
+          "startLine": 111,
+          "endLine": 130,
+          "params": [
+            "retrieve",
+            "sample_texts"
+          ]
+        },
+        {
+          "name": "news_consensus_price",
+          "startLine": 133,
+          "endLine": 135,
+          "params": [
+            "hits"
+          ]
+        },
+        {
+          "name": "dashboard_kpi_row",
+          "startLine": 138,
+          "endLine": 152,
+          "params": [
+            "chart_payload",
+            "news_hits",
+            "report_consensus",
+            "news_consensus"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "_parse_price_token",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "extract_oil_prices",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "consensus_from_texts",
+          "line": 62,
+          "isDefault": false
+        },
+        {
+          "name": "_samples_dir",
+          "line": 74,
+          "isDefault": false
+        },
+        {
+          "name": "_resolve_sample_path",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "sample_report_texts",
+          "line": 89,
+          "isDefault": false
+        },
+        {
+          "name": "report_consensus_price",
+          "line": 111,
+          "isDefault": false
+        },
+        {
+          "name": "news_consensus_price",
+          "line": 133,
+          "isDefault": false
+        },
+        {
+          "name": "dashboard_kpi_row",
+          "line": 138,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_parse_price_token",
+          "callee": "float",
+          "lineNumber": 38
+        },
+        {
+          "caller": "_parse_price_token",
+          "callee": "str(raw).replace",
+          "lineNumber": 38
+        },
+        {
+          "caller": "_parse_price_token",
+          "callee": "str",
+          "lineNumber": 38
+        },
+        {
+          "caller": "extract_oil_prices",
+          "callee": "str(text).strip",
+          "lineNumber": 48
+        },
+        {
+          "caller": "extract_oil_prices",
+          "callee": "str",
+          "lineNumber": 48
+        },
+        {
+          "caller": "extract_oil_prices",
+          "callee": "set",
+          "lineNumber": 51
+        },
+        {
+          "caller": "extract_oil_prices",
+          "callee": "pattern.finditer",
+          "lineNumber": 53
+        },
+        {
+          "caller": "extract_oil_prices",
+          "callee": "_parse_price_token",
+          "lineNumber": 54
+        },
+        {
+          "caller": "extract_oil_prices",
+          "callee": "match.group",
+          "lineNumber": 54
+        },
+        {
+          "caller": "extract_oil_prices",
+          "callee": "seen.add",
+          "lineNumber": 57
+        },
+        {
+          "caller": "extract_oil_prices",
+          "callee": "found.append",
+          "lineNumber": 58
+        },
+        {
+          "caller": "consensus_from_texts",
+          "callee": "extract_oil_prices",
+          "lineNumber": 66
+        },
+        {
+          "caller": "consensus_from_texts",
+          "callee": "per_source.append",
+          "lineNumber": 68
+        },
+        {
+          "caller": "consensus_from_texts",
+          "callee": "statistics.fmean",
+          "lineNumber": 68
+        },
+        {
+          "caller": "consensus_from_texts",
+          "callee": "statistics.fmean",
+          "lineNumber": 71
+        },
+        {
+          "caller": "_samples_dir",
+          "callee": "Path(__file__).resolve",
+          "lineNumber": 75
+        },
+        {
+          "caller": "_samples_dir",
+          "callee": "Path",
+          "lineNumber": 75
+        },
+        {
+          "caller": "_samples_dir",
+          "callee": "Path",
+          "lineNumber": 76
+        },
+        {
+          "caller": "_samples_dir",
+          "callee": "os.environ.get",
+          "lineNumber": 76
+        },
+        {
+          "caller": "_samples_dir",
+          "callee": "str",
+          "lineNumber": 76
+        },
+        {
+          "caller": "_resolve_sample_path",
+          "callee": "str",
+          "lineNumber": 80
+        },
+        {
+          "caller": "_resolve_sample_path",
+          "callee": "sample.get",
+          "lineNumber": 80
+        },
+        {
+          "caller": "_resolve_sample_path",
+          "callee": "Path",
+          "lineNumber": 83
+        },
+        {
+          "caller": "_resolve_sample_path",
+          "callee": "path.is_absolute",
+          "lineNumber": 84
+        },
+        {
+          "caller": "_resolve_sample_path",
+          "callee": "path.is_file",
+          "lineNumber": 86
+        },
+        {
+          "caller": "sample_report_texts",
+          "callee": "load_ingest_config",
+          "lineNumber": 93
+        },
+        {
+          "caller": "sample_report_texts",
+          "callee": "_samples_dir",
+          "lineNumber": 94
+        },
+        {
+          "caller": "sample_report_texts",
+          "callee": "cfg.get",
+          "lineNumber": 96
+        },
+        {
+          "caller": "sample_report_texts",
+          "callee": "_resolve_sample_path",
+          "lineNumber": 97
+        },
+        {
+          "caller": "sample_report_texts",
+          "callee": "PdfReader",
+          "lineNumber": 101
+        },
+        {
+          "caller": "sample_report_texts",
+          "callee": "str",
+          "lineNumber": 101
+        },
+        {
+          "caller": "sample_report_texts",
+          "callee": "\"\\n\".join",
+          "lineNumber": 103
+        },
+        {
+          "caller": "sample_report_texts",
+          "callee": "page.extract_text",
+          "lineNumber": 103
+        },
+        {
+          "caller": "sample_report_texts",
+          "callee": "text.strip",
+          "lineNumber": 106
+        },
+        {
+          "caller": "sample_report_texts",
+          "callee": "texts.append",
+          "lineNumber": 107
+        },
+        {
+          "caller": "report_consensus_price",
+          "callee": "texts.extend",
+          "lineNumber": 118
+        },
+        {
+          "caller": "report_consensus_price",
+          "callee": "str",
+          "lineNumber": 118
+        },
+        {
+          "caller": "report_consensus_price",
+          "callee": "retrieve",
+          "lineNumber": 118
+        },
+        {
+          "caller": "report_consensus_price",
+          "callee": "retrieve_for_tool",
+          "lineNumber": 123
+        },
+        {
+          "caller": "report_consensus_price",
+          "callee": "texts.extend",
+          "lineNumber": 124
+        },
+        {
+          "caller": "report_consensus_price",
+          "callee": "str",
+          "lineNumber": 124
+        },
+        {
+          "caller": "report_consensus_price",
+          "callee": "c.get",
+          "lineNumber": 124
+        },
+        {
+          "caller": "report_consensus_price",
+          "callee": "payload.get",
+          "lineNumber": 124
+        },
+        {
+          "caller": "report_consensus_price",
+          "callee": "texts.extend",
+          "lineNumber": 129
+        },
+        {
+          "caller": "report_consensus_price",
+          "callee": "str",
+          "lineNumber": 129
+        },
+        {
+          "caller": "report_consensus_price",
+          "callee": "loader",
+          "lineNumber": 129
+        },
+        {
+          "caller": "report_consensus_price",
+          "callee": "consensus_from_texts",
+          "lineNumber": 130
+        },
+        {
+          "caller": "news_consensus_price",
+          "callee": "consensus_from_texts",
+          "lineNumber": 135
+        },
+        {
+          "caller": "dashboard_kpi_row",
+          "callee": "(chart_payload or {}).get",
+          "lineNumber": 145
+        },
+        {
+          "caller": "dashboard_kpi_row",
+          "callee": "report_consensus_price",
+          "lineNumber": 146
+        },
+        {
+          "caller": "dashboard_kpi_row",
+          "callee": "news_consensus_price",
+          "lineNumber": 147
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 9,
+        "functionCount": 9,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "oil_gas_analyst/dashboard.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 874,
+      "nonEmptyLines": 761,
+      "functions": [
+        {
+          "name": "_session_id",
+          "startLine": 324,
+          "endLine": 327,
+          "params": []
+        },
+        {
+          "name": "chat_turn_in_progress",
+          "startLine": 330,
+          "endLine": 331,
+          "params": [
+            "future"
+          ]
+        },
+        {
+          "name": "_chat_future",
+          "startLine": 334,
+          "endLine": 335,
+          "params": []
+        },
+        {
+          "name": "_logout_demo_session",
+          "startLine": 338,
+          "endLine": 355,
+          "params": []
+        },
+        {
+          "name": "_hydrate_news_from_disk",
+          "startLine": 358,
+          "endLine": 367,
+          "params": []
+        },
+        {
+          "name": "_hydrate_from_disk_caches",
+          "startLine": 370,
+          "endLine": 376,
+          "params": []
+        },
+        {
+          "name": "_chart_refresh_in_progress",
+          "startLine": 379,
+          "endLine": 381,
+          "params": []
+        },
+        {
+          "name": "_news_refresh_in_progress",
+          "startLine": 384,
+          "endLine": 386,
+          "params": []
+        },
+        {
+          "name": "_start_background_refreshes",
+          "startLine": 389,
+          "endLine": 402,
+          "params": []
+        },
+        {
+          "name": "_collect_background_refreshes",
+          "startLine": 405,
+          "endLine": 442,
+          "params": []
+        },
+        {
+          "name": "_poll_dashboard_refresh",
+          "startLine": 446,
+          "endLine": 448,
+          "params": []
+        },
+        {
+          "name": "_ensure_session_start_web",
+          "startLine": 451,
+          "endLine": 454,
+          "params": []
+        },
+        {
+          "name": "_reload_chart",
+          "startLine": 457,
+          "endLine": 462,
+          "params": [
+            "horizon_days"
+          ]
+        },
+        {
+          "name": "_ensure_chart_payload",
+          "startLine": 465,
+          "endLine": 468,
+          "params": []
+        },
+        {
+          "name": "_chart_frame",
+          "startLine": 471,
+          "endLine": 478,
+          "params": [
+            "payload"
+          ]
+        },
+        {
+          "name": "_ouroboros_ready",
+          "startLine": 481,
+          "endLine": 482,
+          "params": []
+        },
+        {
+          "name": "_chat_history_for_turn",
+          "startLine": 485,
+          "endLine": 489,
+          "params": []
+        },
+        {
+          "name": "_start_chat_turn",
+          "startLine": 492,
+          "endLine": 506,
+          "params": [
+            "prompt"
+          ]
+        },
+        {
+          "name": "_finish_chat_turn_if_ready",
+          "startLine": 509,
+          "endLine": 532,
+          "params": []
+        },
+        {
+          "name": "_chat_turn_pending",
+          "startLine": 535,
+          "endLine": 536,
+          "params": []
+        },
+        {
+          "name": "_render_cached_spinner",
+          "startLine": 539,
+          "endLine": 553,
+          "params": [
+            "container",
+            "text"
+          ]
+        },
+        {
+          "name": "_render_chat_messages",
+          "startLine": 556,
+          "endLine": 564,
+          "params": []
+        },
+        {
+          "name": "_render_thinking_indicator",
+          "startLine": 567,
+          "endLine": 571,
+          "params": []
+        },
+        {
+          "name": "_poll_chat_future",
+          "startLine": 575,
+          "endLine": 578,
+          "params": []
+        },
+        {
+          "name": "_render_corpus_pill",
+          "startLine": 581,
+          "endLine": 588,
+          "params": []
+        },
+        {
+          "name": "_ensure_reports_consensus",
+          "startLine": 591,
+          "endLine": 597,
+          "params": []
+        },
+        {
+          "name": "_render_kpi_corpus_row",
+          "startLine": 600,
+          "endLine": 625,
+          "params": [
+            "chart_payload",
+            "news_hits"
+          ]
+        },
+        {
+          "name": "_render_forecast_consensus_pill",
+          "startLine": 628,
+          "endLine": 655,
+          "params": [
+            "payload"
+          ]
+        },
+        {
+          "name": "_render_news_pills",
+          "startLine": 658,
+          "endLine": 694,
+          "params": [
+            "hits",
+            "max_cards",
+            "refreshing"
+          ]
+        },
+        {
+          "name": "_render_chart_panel",
+          "startLine": 697,
+          "endLine": 748,
+          "params": [
+            "payload",
+            "refreshing"
+          ]
+        },
+        {
+          "name": "_render_header",
+          "startLine": 751,
+          "endLine": 763,
+          "params": [
+            "show_logout"
+          ]
+        },
+        {
+          "name": "_render_login_gate",
+          "startLine": 766,
+          "endLine": 784,
+          "params": []
+        },
+        {
+          "name": "_render_chat_panel",
+          "startLine": 787,
+          "endLine": 821,
+          "params": [
+            "busy"
+          ]
+        },
+        {
+          "name": "_render_workspace_resize",
+          "startLine": 824,
+          "endLine": 825,
+          "params": []
+        },
+        {
+          "name": "main",
+          "startLine": 828,
+          "endLine": 870,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "_session_id",
+          "line": 324,
+          "isDefault": false
+        },
+        {
+          "name": "chat_turn_in_progress",
+          "line": 330,
+          "isDefault": false
+        },
+        {
+          "name": "_chat_future",
+          "line": 334,
+          "isDefault": false
+        },
+        {
+          "name": "_logout_demo_session",
+          "line": 338,
+          "isDefault": false
+        },
+        {
+          "name": "_hydrate_news_from_disk",
+          "line": 358,
+          "isDefault": false
+        },
+        {
+          "name": "_hydrate_from_disk_caches",
+          "line": 370,
+          "isDefault": false
+        },
+        {
+          "name": "_chart_refresh_in_progress",
+          "line": 379,
+          "isDefault": false
+        },
+        {
+          "name": "_news_refresh_in_progress",
+          "line": 384,
+          "isDefault": false
+        },
+        {
+          "name": "_start_background_refreshes",
+          "line": 389,
+          "isDefault": false
+        },
+        {
+          "name": "_collect_background_refreshes",
+          "line": 405,
+          "isDefault": false
+        },
+        {
+          "name": "_poll_dashboard_refresh",
+          "line": 445,
+          "isDefault": false
+        },
+        {
+          "name": "_ensure_session_start_web",
+          "line": 451,
+          "isDefault": false
+        },
+        {
+          "name": "_reload_chart",
+          "line": 457,
+          "isDefault": false
+        },
+        {
+          "name": "_ensure_chart_payload",
+          "line": 465,
+          "isDefault": false
+        },
+        {
+          "name": "_chart_frame",
+          "line": 471,
+          "isDefault": false
+        },
+        {
+          "name": "_ouroboros_ready",
+          "line": 481,
+          "isDefault": false
+        },
+        {
+          "name": "_chat_history_for_turn",
+          "line": 485,
+          "isDefault": false
+        },
+        {
+          "name": "_start_chat_turn",
+          "line": 492,
+          "isDefault": false
+        },
+        {
+          "name": "_finish_chat_turn_if_ready",
+          "line": 509,
+          "isDefault": false
+        },
+        {
+          "name": "_chat_turn_pending",
+          "line": 535,
+          "isDefault": false
+        },
+        {
+          "name": "_render_cached_spinner",
+          "line": 539,
+          "isDefault": false
+        },
+        {
+          "name": "_render_chat_messages",
+          "line": 556,
+          "isDefault": false
+        },
+        {
+          "name": "_render_thinking_indicator",
+          "line": 567,
+          "isDefault": false
+        },
+        {
+          "name": "_poll_chat_future",
+          "line": 574,
+          "isDefault": false
+        },
+        {
+          "name": "_render_corpus_pill",
+          "line": 581,
+          "isDefault": false
+        },
+        {
+          "name": "_ensure_reports_consensus",
+          "line": 591,
+          "isDefault": false
+        },
+        {
+          "name": "_render_kpi_corpus_row",
+          "line": 600,
+          "isDefault": false
+        },
+        {
+          "name": "_render_forecast_consensus_pill",
+          "line": 628,
+          "isDefault": false
+        },
+        {
+          "name": "_render_news_pills",
+          "line": 658,
+          "isDefault": false
+        },
+        {
+          "name": "_render_chart_panel",
+          "line": 697,
+          "isDefault": false
+        },
+        {
+          "name": "_render_header",
+          "line": 751,
+          "isDefault": false
+        },
+        {
+          "name": "_render_login_gate",
+          "line": 766,
+          "isDefault": false
+        },
+        {
+          "name": "_render_chat_panel",
+          "line": 787,
+          "isDefault": false
+        },
+        {
+          "name": "_render_workspace_resize",
+          "line": 824,
+          "isDefault": false
+        },
+        {
+          "name": "main",
+          "line": 828,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_session_id",
+          "callee": "str",
+          "lineNumber": 326
+        },
+        {
+          "caller": "_session_id",
+          "callee": "uuid.uuid4",
+          "lineNumber": 326
+        },
+        {
+          "caller": "chat_turn_in_progress",
+          "callee": "future.done",
+          "lineNumber": 331
+        },
+        {
+          "caller": "_chat_future",
+          "callee": "st.session_state.get",
+          "lineNumber": 335
+        },
+        {
+          "caller": "_logout_demo_session",
+          "callee": "st.session_state.get",
+          "lineNumber": 339
+        },
+        {
+          "caller": "_logout_demo_session",
+          "callee": "isinstance",
+          "lineNumber": 340
+        },
+        {
+          "caller": "_logout_demo_session",
+          "callee": "future.cancel",
+          "lineNumber": 341
+        },
+        {
+          "caller": "_logout_demo_session",
+          "callee": "st.session_state.pop",
+          "lineNumber": 355
+        },
+        {
+          "caller": "_hydrate_news_from_disk",
+          "callee": "st.session_state.get",
+          "lineNumber": 360
+        },
+        {
+          "caller": "_hydrate_news_from_disk",
+          "callee": "st.session_state.get",
+          "lineNumber": 361
+        },
+        {
+          "caller": "_hydrate_news_from_disk",
+          "callee": "cached_top_news_hits",
+          "lineNumber": 363
+        },
+        {
+          "caller": "_hydrate_news_from_disk",
+          "callee": "bool",
+          "lineNumber": 366
+        },
+        {
+          "caller": "_hydrate_from_disk_caches",
+          "callee": "_hydrate_news_from_disk",
+          "lineNumber": 371
+        },
+        {
+          "caller": "_hydrate_from_disk_caches",
+          "callee": "load_cached_brent_chart_payload",
+          "lineNumber": 373
+        },
+        {
+          "caller": "_hydrate_from_disk_caches",
+          "callee": "int",
+          "lineNumber": 376
+        },
+        {
+          "caller": "_hydrate_from_disk_caches",
+          "callee": "cached.get",
+          "lineNumber": 376
+        },
+        {
+          "caller": "_chart_refresh_in_progress",
+          "callee": "st.session_state.get",
+          "lineNumber": 380
+        },
+        {
+          "caller": "_chart_refresh_in_progress",
+          "callee": "isinstance",
+          "lineNumber": 381
+        },
+        {
+          "caller": "_chart_refresh_in_progress",
+          "callee": "future.done",
+          "lineNumber": 381
+        },
+        {
+          "caller": "_news_refresh_in_progress",
+          "callee": "st.session_state.get",
+          "lineNumber": 385
+        },
+        {
+          "caller": "_news_refresh_in_progress",
+          "callee": "isinstance",
+          "lineNumber": 386
+        },
+        {
+          "caller": "_news_refresh_in_progress",
+          "callee": "future.done",
+          "lineNumber": 386
+        },
+        {
+          "caller": "_start_background_refreshes",
+          "callee": "st.session_state.get",
+          "lineNumber": 390
+        },
+        {
+          "caller": "_start_background_refreshes",
+          "callee": "_chart_refresh_in_progress",
+          "lineNumber": 394
+        },
+        {
+          "caller": "_start_background_refreshes",
+          "callee": "_CHAT_EXECUTOR.submit",
+          "lineNumber": 395
+        },
+        {
+          "caller": "_start_background_refreshes",
+          "callee": "_news_refresh_in_progress",
+          "lineNumber": 399
+        },
+        {
+          "caller": "_start_background_refreshes",
+          "callee": "_CHAT_EXECUTOR.submit",
+          "lineNumber": 400
+        },
+        {
+          "caller": "_start_background_refreshes",
+          "callee": "st.session_state.get",
+          "lineNumber": 401
+        },
+        {
+          "caller": "_start_background_refreshes",
+          "callee": "_CHAT_EXECUTOR.submit",
+          "lineNumber": 402
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "st.session_state.get",
+          "lineNumber": 408
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "isinstance",
+          "lineNumber": 409
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "chart_future.done",
+          "lineNumber": 409
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "chart_future.result",
+          "lineNumber": 411
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "st.session_state.pop",
+          "lineNumber": 413
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "st.session_state.pop",
+          "lineNumber": 416
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "st.session_state.get",
+          "lineNumber": 419
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "isinstance",
+          "lineNumber": 420
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "news_future.done",
+          "lineNumber": 420
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "news_future.result",
+          "lineNumber": 422
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "st.session_state.pop",
+          "lineNumber": 428
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "st.session_state.get",
+          "lineNumber": 431
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "isinstance",
+          "lineNumber": 432
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "ouroboros_future.done",
+          "lineNumber": 432
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "ouroboros_future.result",
+          "lineNumber": 434
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "st.session_state.pop",
+          "lineNumber": 436
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "str",
+          "lineNumber": 438
+        },
+        {
+          "caller": "_collect_background_refreshes",
+          "callee": "st.session_state.pop",
+          "lineNumber": 439
+        },
+        {
+          "caller": "_poll_dashboard_refresh",
+          "callee": "_collect_background_refreshes",
+          "lineNumber": 447
+        },
+        {
+          "caller": "_poll_dashboard_refresh",
+          "callee": "st.rerun",
+          "lineNumber": 448
+        },
+        {
+          "caller": "_ensure_session_start_web",
+          "callee": "st.session_state.get",
+          "lineNumber": 452
+        },
+        {
+          "caller": "_ensure_session_start_web",
+          "callee": "_hydrate_news_from_disk",
+          "lineNumber": 453
+        },
+        {
+          "caller": "_ensure_session_start_web",
+          "callee": "st.session_state.get",
+          "lineNumber": 454
+        },
+        {
+          "caller": "_reload_chart",
+          "callee": "load_brent_chart_payload",
+          "lineNumber": 458
+        },
+        {
+          "caller": "_reload_chart",
+          "callee": "st.session_state.pop",
+          "lineNumber": 461
+        },
+        {
+          "caller": "_ensure_chart_payload",
+          "callee": "_hydrate_from_disk_caches",
+          "lineNumber": 467
+        },
+        {
+          "caller": "_ensure_chart_payload",
+          "callee": "st.session_state.get",
+          "lineNumber": 468
+        },
+        {
+          "caller": "_chart_frame",
+          "callee": "st.session_state.get",
+          "lineNumber": 472
+        },
+        {
+          "caller": "_chart_frame",
+          "callee": "st.session_state.get",
+          "lineNumber": 473
+        },
+        {
+          "caller": "_chart_frame",
+          "callee": "id",
+          "lineNumber": 473
+        },
+        {
+          "caller": "_chart_frame",
+          "callee": "chart_dataframe_from_payload",
+          "lineNumber": 475
+        },
+        {
+          "caller": "_chart_frame",
+          "callee": "id",
+          "lineNumber": 477
+        },
+        {
+          "caller": "_ouroboros_ready",
+          "callee": "bool",
+          "lineNumber": 482
+        },
+        {
+          "caller": "_ouroboros_ready",
+          "callee": "st.session_state.get",
+          "lineNumber": 482
+        },
+        {
+          "caller": "_chat_history_for_turn",
+          "callee": "list",
+          "lineNumber": 486
+        },
+        {
+          "caller": "_chat_history_for_turn",
+          "callee": "st.session_state.get",
+          "lineNumber": 486
+        },
+        {
+          "caller": "_chat_history_for_turn",
+          "callee": "messages[-1].get",
+          "lineNumber": 487
+        },
+        {
+          "caller": "_start_chat_turn",
+          "callee": "_session_id",
+          "lineNumber": 493
+        },
+        {
+          "caller": "_start_chat_turn",
+          "callee": "_ensure_session_start_web",
+          "lineNumber": 494
+        },
+        {
+          "caller": "_start_chat_turn",
+          "callee": "_chat_history_for_turn",
+          "lineNumber": 495
+        },
+        {
+          "caller": "_run",
+          "callee": "handle_chat_message",
+          "lineNumber": 498
+        },
+        {
+          "caller": "_start_chat_turn",
+          "callee": "_CHAT_EXECUTOR.submit",
+          "lineNumber": 506
+        },
+        {
+          "caller": "_finish_chat_turn_if_ready",
+          "callee": "_chat_future",
+          "lineNumber": 511
+        },
+        {
+          "caller": "_finish_chat_turn_if_ready",
+          "callee": "isinstance",
+          "lineNumber": 512
+        },
+        {
+          "caller": "_finish_chat_turn_if_ready",
+          "callee": "future.done",
+          "lineNumber": 512
+        },
+        {
+          "caller": "_finish_chat_turn_if_ready",
+          "callee": "str",
+          "lineNumber": 515
+        },
+        {
+          "caller": "_finish_chat_turn_if_ready",
+          "callee": "st.session_state.get",
+          "lineNumber": 515
+        },
+        {
+          "caller": "_finish_chat_turn_if_ready",
+          "callee": "future.result",
+          "lineNumber": 517
+        },
+        {
+          "caller": "_finish_chat_turn_if_ready",
+          "callee": "st.session_state.pop",
+          "lineNumber": 519
+        },
+        {
+          "caller": "_finish_chat_turn_if_ready",
+          "callee": "st.session_state.pop",
+          "lineNumber": 520
+        },
+        {
+          "caller": "_finish_chat_turn_if_ready",
+          "callee": "_INFRA_MSG.format",
+          "lineNumber": 523
+        },
+        {
+          "caller": "_finish_chat_turn_if_ready",
+          "callee": "st.session_state.messages.append",
+          "lineNumber": 525
+        },
+        {
+          "caller": "_finish_chat_turn_if_ready",
+          "callee": "st.session_state.pop",
+          "lineNumber": 526
+        },
+        {
+          "caller": "_finish_chat_turn_if_ready",
+          "callee": "st.session_state.pop",
+          "lineNumber": 527
+        },
+        {
+          "caller": "_finish_chat_turn_if_ready",
+          "callee": "chart_refresh_horizon",
+          "lineNumber": 529
+        },
+        {
+          "caller": "_finish_chat_turn_if_ready",
+          "callee": "_reload_chart",
+          "lineNumber": 531
+        },
+        {
+          "caller": "_chat_turn_pending",
+          "callee": "isinstance",
+          "lineNumber": 536
+        },
+        {
+          "caller": "_chat_turn_pending",
+          "callee": "_chat_future",
+          "lineNumber": 536
+        },
+        {
+          "caller": "_render_cached_spinner",
+          "callee": "SpinnerProto",
+          "lineNumber": 546
+        },
+        {
+          "caller": "_render_cached_spinner",
+          "callee": "clean_text",
+          "lineNumber": 547
+        },
+        {
+          "caller": "_render_cached_spinner",
+          "callee": "container._enqueue",
+          "lineNumber": 549
+        },
+        {
+          "caller": "_render_cached_spinner",
+          "callee": "create_layout_config",
+          "lineNumber": 552
+        },
+        {
+          "caller": "_render_chat_messages",
+          "callee": "st.session_state.get",
+          "lineNumber": 559
+        },
+        {
+          "caller": "_render_chat_messages",
+          "callee": "st.chat_message",
+          "lineNumber": 560
+        },
+        {
+          "caller": "_render_chat_messages",
+          "callee": "st.markdown",
+          "lineNumber": 562
+        },
+        {
+          "caller": "_render_chat_messages",
+          "callee": "chat_html",
+          "lineNumber": 562
+        },
+        {
+          "caller": "_render_chat_messages",
+          "callee": "st.markdown",
+          "lineNumber": 564
+        },
+        {
+          "caller": "_render_thinking_indicator",
+          "callee": "st.chat_message",
+          "lineNumber": 568
+        },
+        {
+          "caller": "_render_thinking_indicator",
+          "callee": "_render_cached_spinner",
+          "lineNumber": 570
+        },
+        {
+          "caller": "_render_thinking_indicator",
+          "callee": "st.caption",
+          "lineNumber": 571
+        },
+        {
+          "caller": "_poll_chat_future",
+          "callee": "_finish_chat_turn_if_ready",
+          "lineNumber": 577
+        },
+        {
+          "caller": "_poll_chat_future",
+          "callee": "st.rerun",
+          "lineNumber": 578
+        },
+        {
+          "caller": "_render_corpus_pill",
+          "callee": "corpus_strip_entries",
+          "lineNumber": 582
+        },
+        {
+          "caller": "_render_corpus_pill",
+          "callee": "st.caption",
+          "lineNumber": 583
+        },
+        {
+          "caller": "_render_corpus_pill",
+          "callee": "st.caption",
+          "lineNumber": 585
+        },
+        {
+          "caller": "_render_corpus_pill",
+          "callee": "\"\".join",
+          "lineNumber": 587
+        },
+        {
+          "caller": "_render_corpus_pill",
+          "callee": "entry.link_html",
+          "lineNumber": 587
+        },
+        {
+          "caller": "_render_corpus_pill",
+          "callee": "st.markdown",
+          "lineNumber": 588
+        },
+        {
+          "caller": "_ensure_reports_consensus",
+          "callee": "st.session_state.get",
+          "lineNumber": 592
+        },
+        {
+          "caller": "_ensure_reports_consensus",
+          "callee": "st.session_state.get",
+          "lineNumber": 593
+        },
+        {
+          "caller": "_ensure_reports_consensus",
+          "callee": "report_consensus_price",
+          "lineNumber": 595
+        },
+        {
+          "caller": "_render_kpi_corpus_row",
+          "callee": "dashboard_kpi_row",
+          "lineNumber": 604
+        },
+        {
+          "caller": "_render_kpi_corpus_row",
+          "callee": "_ensure_reports_consensus",
+          "lineNumber": 607
+        },
+        {
+          "caller": "_render_kpi_corpus_row",
+          "callee": "st.columns",
+          "lineNumber": 609
+        },
+        {
+          "caller": "_render_kpi_corpus_row",
+          "callee": "st.caption",
+          "lineNumber": 611
+        },
+        {
+          "caller": "_render_kpi_corpus_row",
+          "callee": "kpis.get",
+          "lineNumber": 612
+        },
+        {
+          "caller": "_render_kpi_corpus_row",
+          "callee": "st.metric",
+          "lineNumber": 613
+        },
+        {
+          "caller": "_render_kpi_corpus_row",
+          "callee": "st.caption",
+          "lineNumber": 615
+        },
+        {
+          "caller": "_render_kpi_corpus_row",
+          "callee": "kpis.get",
+          "lineNumber": 616
+        },
+        {
+          "caller": "_render_kpi_corpus_row",
+          "callee": "st.metric",
+          "lineNumber": 617
+        },
+        {
+          "caller": "_render_kpi_corpus_row",
+          "callee": "st.caption",
+          "lineNumber": 619
+        },
+        {
+          "caller": "_render_kpi_corpus_row",
+          "callee": "kpis.get",
+          "lineNumber": 620
+        },
+        {
+          "caller": "_render_kpi_corpus_row",
+          "callee": "st.metric",
+          "lineNumber": 621
+        },
+        {
+          "caller": "_render_kpi_corpus_row",
+          "callee": "_render_forecast_consensus_pill",
+          "lineNumber": 623
+        },
+        {
+          "caller": "_render_kpi_corpus_row",
+          "callee": "_render_corpus_pill",
+          "lineNumber": 625
+        },
+        {
+          "caller": "_render_forecast_consensus_pill",
+          "callee": "forecast_model_consensus",
+          "lineNumber": 629
+        },
+        {
+          "caller": "_render_forecast_consensus_pill",
+          "callee": "st.caption",
+          "lineNumber": 632
+        },
+        {
+          "caller": "_render_forecast_consensus_pill",
+          "callee": "st.metric",
+          "lineNumber": 634
+        },
+        {
+          "caller": "_render_forecast_consensus_pill",
+          "callee": "\"\".join",
+          "lineNumber": 636
+        },
+        {
+          "caller": "_render_forecast_consensus_pill",
+          "callee": "html.escape",
+          "lineNumber": 638
+        },
+        {
+          "caller": "_render_forecast_consensus_pill",
+          "callee": "st.markdown",
+          "lineNumber": 644
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "st.subheader",
+          "lineNumber": 664
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "_news_refresh_in_progress",
+          "lineNumber": 665
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "st.caption",
+          "lineNumber": 666
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "_news_refresh_in_progress",
+          "lineNumber": 669
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "st.spinner",
+          "lineNumber": 670
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "st.caption",
+          "lineNumber": 671
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "st.session_state.get",
+          "lineNumber": 673
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "st.caption",
+          "lineNumber": 674
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "st.caption",
+          "lineNumber": 676
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "st.columns",
+          "lineNumber": 680
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "zip",
+          "lineNumber": 681
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "st.container",
+          "lineNumber": 683
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "html.escape",
+          "lineNumber": 684
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "len",
+          "lineNumber": 684
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "html.escape",
+          "lineNumber": 685
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "st.markdown",
+          "lineNumber": 686
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "hit.snippet.strip().replace",
+          "lineNumber": 691
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "hit.snippet.strip",
+          "lineNumber": 691
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "st.caption",
+          "lineNumber": 693
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "len",
+          "lineNumber": 693
+        },
+        {
+          "caller": "_render_news_pills",
+          "callee": "st.caption",
+          "lineNumber": 694
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "st.container",
+          "lineNumber": 698
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "_chart_refresh_in_progress",
+          "lineNumber": 700
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "st.spinner",
+          "lineNumber": 701
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "st.caption",
+          "lineNumber": 702
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "st.warning",
+          "lineNumber": 704
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "payload.get",
+          "lineNumber": 707
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "st.subheader",
+          "lineNumber": 708
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "_chart_refresh_in_progress",
+          "lineNumber": 709
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "st.caption",
+          "lineNumber": 710
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "_chart_frame",
+          "lineNumber": 711
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "st.warning",
+          "lineNumber": 713
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "payload.get",
+          "lineNumber": 714
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "st.caption",
+          "lineNumber": 715
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "str",
+          "lineNumber": 715
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "st.columns",
+          "lineNumber": 717
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "st.columns",
+          "lineNumber": 719
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "st.checkbox",
+          "lineNumber": 721
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "st.checkbox",
+          "lineNumber": 727
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "st.checkbox",
+          "lineNumber": 733
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "display_cols.append",
+          "lineNumber": 746
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "chart_display_dataframe",
+          "lineNumber": 747
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "st.altair_chart",
+          "lineNumber": 748
+        },
+        {
+          "caller": "_render_chart_panel",
+          "callee": "brent_chart_altair",
+          "lineNumber": 748
+        },
+        {
+          "caller": "_render_header",
+          "callee": "st.columns",
+          "lineNumber": 753
+        },
+        {
+          "caller": "_render_header",
+          "callee": "st.title",
+          "lineNumber": 755
+        },
+        {
+          "caller": "_render_header",
+          "callee": "st.button",
+          "lineNumber": 758
+        },
+        {
+          "caller": "_render_login_gate",
+          "callee": "load_demo_login_config",
+          "lineNumber": 767
+        },
+        {
+          "caller": "_render_login_gate",
+          "callee": "st.session_state.get",
+          "lineNumber": 770
+        },
+        {
+          "caller": "_render_login_gate",
+          "callee": "st.subheader",
+          "lineNumber": 773
+        },
+        {
+          "caller": "_render_login_gate",
+          "callee": "st.caption",
+          "lineNumber": 774
+        },
+        {
+          "caller": "_render_login_gate",
+          "callee": "st.form",
+          "lineNumber": 775
+        },
+        {
+          "caller": "_render_login_gate",
+          "callee": "st.text_input",
+          "lineNumber": 776
+        },
+        {
+          "caller": "_render_login_gate",
+          "callee": "st.text_input",
+          "lineNumber": 777
+        },
+        {
+          "caller": "_render_login_gate",
+          "callee": "st.form_submit_button",
+          "lineNumber": 778
+        },
+        {
+          "caller": "_render_login_gate",
+          "callee": "verify_demo_login",
+          "lineNumber": 780
+        },
+        {
+          "caller": "_render_login_gate",
+          "callee": "st.rerun",
+          "lineNumber": 782
+        },
+        {
+          "caller": "_render_login_gate",
+          "callee": "st.error",
+          "lineNumber": 783
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "st.session_state.get",
+          "lineNumber": 788
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "_chat_turn_pending",
+          "lineNumber": 789
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "st.container",
+          "lineNumber": 791
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "st.subheader",
+          "lineNumber": 792
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "st.markdown",
+          "lineNumber": 793
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "st.container",
+          "lineNumber": 795
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "_render_chat_messages",
+          "lineNumber": 796
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "_render_thinking_indicator",
+          "lineNumber": 798
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "_poll_chat_future",
+          "lineNumber": 799
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "_ouroboros_ready",
+          "lineNumber": 801
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "st.session_state.get",
+          "lineNumber": 806
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "st.session_state.get",
+          "lineNumber": 809
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "st.spinner",
+          "lineNumber": 810
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "st.caption",
+          "lineNumber": 811
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "st.session_state.get",
+          "lineNumber": 812
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "st.error",
+          "lineNumber": 813
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "st.chat_input",
+          "lineNumber": 815
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "st.session_state.messages.append",
+          "lineNumber": 819
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "_start_chat_turn",
+          "lineNumber": 820
+        },
+        {
+          "caller": "_render_chat_panel",
+          "callee": "st.rerun",
+          "lineNumber": 821
+        },
+        {
+          "caller": "_render_workspace_resize",
+          "callee": "components.html",
+          "lineNumber": 825
+        },
+        {
+          "caller": "main",
+          "callee": "st.set_page_config",
+          "lineNumber": 829
+        },
+        {
+          "caller": "main",
+          "callee": "st.markdown",
+          "lineNumber": 834
+        },
+        {
+          "caller": "main",
+          "callee": "_render_workspace_resize",
+          "lineNumber": 835
+        },
+        {
+          "caller": "main",
+          "callee": "load_demo_login_config",
+          "lineNumber": 837
+        },
+        {
+          "caller": "main",
+          "callee": "_render_login_gate",
+          "lineNumber": 838
+        },
+        {
+          "caller": "main",
+          "callee": "_hydrate_from_disk_caches",
+          "lineNumber": 841
+        },
+        {
+          "caller": "main",
+          "callee": "_render_header",
+          "lineNumber": 843
+        },
+        {
+          "caller": "main",
+          "callee": "_logout_demo_session",
+          "lineNumber": 844
+        },
+        {
+          "caller": "main",
+          "callee": "st.rerun",
+          "lineNumber": 845
+        },
+        {
+          "caller": "main",
+          "callee": "_poll_dashboard_refresh",
+          "lineNumber": 847
+        },
+        {
+          "caller": "main",
+          "callee": "_finish_chat_turn_if_ready",
+          "lineNumber": 852
+        },
+        {
+          "caller": "main",
+          "callee": "st.rerun",
+          "lineNumber": 853
+        },
+        {
+          "caller": "main",
+          "callee": "_start_background_refreshes",
+          "lineNumber": 855
+        },
+        {
+          "caller": "main",
+          "callee": "_collect_background_refreshes",
+          "lineNumber": 856
+        },
+        {
+          "caller": "main",
+          "callee": "_ensure_chart_payload",
+          "lineNumber": 858
+        },
+        {
+          "caller": "main",
+          "callee": "_ensure_session_start_web",
+          "lineNumber": 859
+        },
+        {
+          "caller": "main",
+          "callee": "_chart_refresh_in_progress",
+          "lineNumber": 860
+        },
+        {
+          "caller": "main",
+          "callee": "_news_refresh_in_progress",
+          "lineNumber": 861
+        },
+        {
+          "caller": "main",
+          "callee": "_render_kpi_corpus_row",
+          "lineNumber": 863
+        },
+        {
+          "caller": "main",
+          "callee": "_render_news_pills",
+          "lineNumber": 864
+        },
+        {
+          "caller": "main",
+          "callee": "st.columns",
+          "lineNumber": 866
+        },
+        {
+          "caller": "main",
+          "callee": "_render_chat_panel",
+          "lineNumber": 868
+        },
+        {
+          "caller": "main",
+          "callee": "_chat_turn_pending",
+          "lineNumber": 868
+        },
+        {
+          "caller": "main",
+          "callee": "_render_chart_panel",
+          "lineNumber": 870
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 35,
+        "functionCount": 35,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "oil_gas_analyst/dashboard_chart.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 164,
+      "nonEmptyLines": 132,
+      "functions": [
+        {
+          "name": "_chart_payload_cache_path",
+          "startLine": 37,
+          "endLine": 39,
+          "params": []
+        },
+        {
+          "name": "load_cached_brent_chart_payload",
+          "startLine": 42,
+          "endLine": 54,
+          "params": [
+            "horizon_days"
+          ]
+        },
+        {
+          "name": "save_brent_chart_payload_cache",
+          "startLine": 57,
+          "endLine": 62,
+          "params": [
+            "payload"
+          ]
+        },
+        {
+          "name": "chart_refresh_horizon",
+          "startLine": 65,
+          "endLine": 72,
+          "params": [
+            "user_prompt"
+          ]
+        },
+        {
+          "name": "load_brent_chart_payload",
+          "startLine": 75,
+          "endLine": 89,
+          "params": [
+            "horizon_days",
+            "load_history",
+            "history_start"
+          ]
+        },
+        {
+          "name": "forecast_model_consensus",
+          "startLine": 92,
+          "endLine": 103,
+          "params": [
+            "payload"
+          ]
+        },
+        {
+          "name": "_forecast_path_column",
+          "startLine": 106,
+          "endLine": 108,
+          "params": [
+            "closes",
+            "path"
+          ]
+        },
+        {
+          "name": "chart_dataframe_from_payload",
+          "startLine": 111,
+          "endLine": 133,
+          "params": [
+            "payload"
+          ]
+        },
+        {
+          "name": "chart_display_dataframe",
+          "startLine": 136,
+          "endLine": 146,
+          "params": [
+            "frame",
+            "history_bdays"
+          ]
+        },
+        {
+          "name": "brent_chart_altair",
+          "startLine": 149,
+          "endLine": 164,
+          "params": [
+            "frame",
+            "height",
+            "y_min"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "_chart_payload_cache_path",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "load_cached_brent_chart_payload",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "save_brent_chart_payload_cache",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "chart_refresh_horizon",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "load_brent_chart_payload",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "forecast_model_consensus",
+          "line": 92,
+          "isDefault": false
+        },
+        {
+          "name": "_forecast_path_column",
+          "line": 106,
+          "isDefault": false
+        },
+        {
+          "name": "chart_dataframe_from_payload",
+          "line": 111,
+          "isDefault": false
+        },
+        {
+          "name": "chart_display_dataframe",
+          "line": 136,
+          "isDefault": false
+        },
+        {
+          "name": "brent_chart_altair",
+          "line": 149,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_chart_payload_cache_path",
+          "callee": "Path",
+          "lineNumber": 38
+        },
+        {
+          "caller": "_chart_payload_cache_path",
+          "callee": "os.environ.get",
+          "lineNumber": 38
+        },
+        {
+          "caller": "load_cached_brent_chart_payload",
+          "callee": "_chart_payload_cache_path",
+          "lineNumber": 43
+        },
+        {
+          "caller": "load_cached_brent_chart_payload",
+          "callee": "path.is_file",
+          "lineNumber": 44
+        },
+        {
+          "caller": "load_cached_brent_chart_payload",
+          "callee": "json.loads",
+          "lineNumber": 47
+        },
+        {
+          "caller": "load_cached_brent_chart_payload",
+          "callee": "path.read_text",
+          "lineNumber": 47
+        },
+        {
+          "caller": "load_cached_brent_chart_payload",
+          "callee": "int",
+          "lineNumber": 50
+        },
+        {
+          "caller": "load_cached_brent_chart_payload",
+          "callee": "payload.get",
+          "lineNumber": 50
+        },
+        {
+          "caller": "load_cached_brent_chart_payload",
+          "callee": "payload.get",
+          "lineNumber": 52
+        },
+        {
+          "caller": "save_brent_chart_payload_cache",
+          "callee": "payload.get",
+          "lineNumber": 58
+        },
+        {
+          "caller": "save_brent_chart_payload_cache",
+          "callee": "_chart_payload_cache_path",
+          "lineNumber": 60
+        },
+        {
+          "caller": "save_brent_chart_payload_cache",
+          "callee": "path.parent.mkdir",
+          "lineNumber": 61
+        },
+        {
+          "caller": "save_brent_chart_payload_cache",
+          "callee": "path.write_text",
+          "lineNumber": 62
+        },
+        {
+          "caller": "save_brent_chart_payload_cache",
+          "callee": "json.dumps",
+          "lineNumber": 62
+        },
+        {
+          "caller": "chart_refresh_horizon",
+          "callee": "user_prompt.casefold",
+          "lineNumber": 67
+        },
+        {
+          "caller": "chart_refresh_horizon",
+          "callee": "any",
+          "lineNumber": 68
+        },
+        {
+          "caller": "chart_refresh_horizon",
+          "callee": "any",
+          "lineNumber": 70
+        },
+        {
+          "caller": "chart_refresh_horizon",
+          "callee": "detect_horizon",
+          "lineNumber": 71
+        },
+        {
+          "caller": "load_brent_chart_payload",
+          "callee": "forecast_plot_payload",
+          "lineNumber": 81
+        },
+        {
+          "caller": "load_brent_chart_payload",
+          "callee": "save_brent_chart_payload_cache",
+          "lineNumber": 88
+        },
+        {
+          "caller": "forecast_model_consensus",
+          "callee": "payload.get",
+          "lineNumber": 94
+        },
+        {
+          "caller": "forecast_model_consensus",
+          "callee": "payload.get",
+          "lineNumber": 96
+        },
+        {
+          "caller": "forecast_model_consensus",
+          "callee": "(methods.get(name) or {}).get",
+          "lineNumber": 99
+        },
+        {
+          "caller": "forecast_model_consensus",
+          "callee": "methods.get",
+          "lineNumber": 99
+        },
+        {
+          "caller": "forecast_model_consensus",
+          "callee": "float",
+          "lineNumber": 101
+        },
+        {
+          "caller": "forecast_model_consensus",
+          "callee": "statistics.fmean",
+          "lineNumber": 102
+        },
+        {
+          "caller": "forecast_model_consensus",
+          "callee": "models.values",
+          "lineNumber": 102
+        },
+        {
+          "caller": "_forecast_path_column",
+          "callee": "float",
+          "lineNumber": 107
+        },
+        {
+          "caller": "_forecast_path_column",
+          "callee": "len",
+          "lineNumber": 108
+        },
+        {
+          "caller": "_forecast_path_column",
+          "callee": "float",
+          "lineNumber": 108
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "payload.get",
+          "lineNumber": 113
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "payload.get",
+          "lineNumber": 115
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "payload.get",
+          "lineNumber": 116
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "payload.get",
+          "lineNumber": 119
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "all",
+          "lineNumber": 120
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "pd.to_datetime",
+          "lineNumber": 123
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "int",
+          "lineNumber": 124
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "payload.get",
+          "lineNumber": 124
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "pd.bdate_range",
+          "lineNumber": 125
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "float",
+          "lineNumber": 126
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "len",
+          "lineNumber": 126
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "pd.DatetimeIndex",
+          "lineNumber": 127
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "list",
+          "lineNumber": 127
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "list",
+          "lineNumber": 127
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "_forecast_path_column",
+          "lineNumber": 131
+        },
+        {
+          "caller": "chart_dataframe_from_payload",
+          "callee": "pd.DataFrame",
+          "lineNumber": 133
+        },
+        {
+          "caller": "chart_display_dataframe",
+          "callee": "frame[\"Факт\"].notna",
+          "lineNumber": 142
+        },
+        {
+          "caller": "chart_display_dataframe",
+          "callee": "len",
+          "lineNumber": 143
+        },
+        {
+          "caller": "chart_display_dataframe",
+          "callee": "len",
+          "lineNumber": 145
+        },
+        {
+          "caller": "brent_chart_altair",
+          "callee": "frame.reset_index",
+          "lineNumber": 153
+        },
+        {
+          "caller": "brent_chart_altair",
+          "callee": "plot.melt(id_vars=[\"Дата\"], var_name=\"Серия\", value_name=\"Цена\").dropna",
+          "lineNumber": 154
+        },
+        {
+          "caller": "brent_chart_altair",
+          "callee": "plot.melt",
+          "lineNumber": 154
+        },
+        {
+          "caller": "brent_chart_altair",
+          "callee": "alt.Chart(melted)\n        .mark_line()\n        .encode(\n            x=alt.X(\"Дата:T\", title=None),\n            y=alt.Y(\"Цена:Q\", title=None, scale=alt.Scale(domainMin=y_min, nice=True)),\n            color=alt.Color(\"Серия:N\", title=None),\n        )\n        .properties",
+          "lineNumber": 156
+        },
+        {
+          "caller": "brent_chart_altair",
+          "callee": "alt.Chart(melted)\n        .mark_line()\n        .encode",
+          "lineNumber": 156
+        },
+        {
+          "caller": "brent_chart_altair",
+          "callee": "alt.Chart(melted)\n        .mark_line",
+          "lineNumber": 156
+        },
+        {
+          "caller": "brent_chart_altair",
+          "callee": "alt.Chart",
+          "lineNumber": 156
+        },
+        {
+          "caller": "brent_chart_altair",
+          "callee": "alt.X",
+          "lineNumber": 159
+        },
+        {
+          "caller": "brent_chart_altair",
+          "callee": "alt.Y",
+          "lineNumber": 160
+        },
+        {
+          "caller": "brent_chart_altair",
+          "callee": "alt.Scale",
+          "lineNumber": 160
+        },
+        {
+          "caller": "brent_chart_altair",
+          "callee": "alt.Color",
+          "lineNumber": 161
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 10,
+        "functionCount": 10,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "oil_gas_analyst/demo_auth.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 23,
+      "functions": [
+        {
+          "name": "load_demo_login_config",
+          "startLine": 18,
+          "endLine": 23,
+          "params": []
+        },
+        {
+          "name": "verify_demo_login",
+          "startLine": 26,
+          "endLine": 31,
+          "params": [
+            "username",
+            "password",
+            "cfg"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DemoLoginConfig",
+          "startLine": 9,
+          "endLine": 15,
+          "methods": [
+            "enabled"
+          ],
+          "properties": [
+            "username",
+            "password"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DemoLoginConfig",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "load_demo_login_config",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "verify_demo_login",
+          "line": 26,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "enabled",
+          "callee": "bool",
+          "lineNumber": 15
+        },
+        {
+          "caller": "load_demo_login_config",
+          "callee": "DemoLoginConfig",
+          "lineNumber": 20
+        },
+        {
+          "caller": "load_demo_login_config",
+          "callee": "os.environ.get(\"DEMO_LOGIN_USER\", \"\").strip",
+          "lineNumber": 21
+        },
+        {
+          "caller": "load_demo_login_config",
+          "callee": "os.environ.get",
+          "lineNumber": 21
+        },
+        {
+          "caller": "load_demo_login_config",
+          "callee": "os.environ.get(\"DEMO_LOGIN_PASSWORD\", \"\").strip",
+          "lineNumber": 22
+        },
+        {
+          "caller": "load_demo_login_config",
+          "callee": "os.environ.get",
+          "lineNumber": 22
+        },
+        {
+          "caller": "verify_demo_login",
+          "callee": "secrets.compare_digest",
+          "lineNumber": 29
+        },
+        {
+          "caller": "verify_demo_login",
+          "callee": "username.strip",
+          "lineNumber": 29
+        },
+        {
+          "caller": "verify_demo_login",
+          "callee": "secrets.compare_digest",
+          "lineNumber": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "oil_gas_analyst/forecast.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 601,
+      "nonEmptyLines": 518,
+      "functions": [
+        {
+          "name": "load_forecast_config",
+          "startLine": 31,
+          "endLine": 32,
+          "params": [
+            "path"
+          ]
+        },
+        {
+          "name": "detect_symbol",
+          "startLine": 35,
+          "endLine": 42,
+          "params": [
+            "question",
+            "config"
+          ]
+        },
+        {
+          "name": "detect_horizon",
+          "startLine": 45,
+          "endLine": 59,
+          "params": [
+            "question",
+            "config"
+          ]
+        },
+        {
+          "name": "_interval",
+          "startLine": 62,
+          "endLine": 65,
+          "params": [
+            "pred",
+            "resid_std"
+          ]
+        },
+        {
+          "name": "_path_from_pred",
+          "startLine": 68,
+          "endLine": 69,
+          "params": [
+            "pred"
+          ]
+        },
+        {
+          "name": "_random_walk_fallback",
+          "startLine": 72,
+          "endLine": 92,
+          "params": [
+            "endog",
+            "horizon",
+            "name",
+            "label"
+          ]
+        },
+        {
+          "name": "_method_from_forecast",
+          "startLine": 95,
+          "endLine": 119,
+          "params": [
+            "name",
+            "interpretation",
+            "fitted",
+            "horizon"
+          ]
+        },
+        {
+          "name": "_fit_auto_arima",
+          "startLine": 122,
+          "endLine": 124,
+          "params": [
+            "y",
+            "horizon"
+          ]
+        },
+        {
+          "name": "_fit_auto_arima_with_path",
+          "startLine": 127,
+          "endLine": 156,
+          "params": [
+            "y",
+            "horizon"
+          ]
+        },
+        {
+          "name": "_fit_unobserved_components",
+          "startLine": 159,
+          "endLine": 161,
+          "params": [
+            "y",
+            "horizon"
+          ]
+        },
+        {
+          "name": "_fit_unobserved_components_with_path",
+          "startLine": 164,
+          "endLine": 182,
+          "params": [
+            "y",
+            "horizon"
+          ]
+        },
+        {
+          "name": "_fit_autoreg",
+          "startLine": 185,
+          "endLine": 187,
+          "params": [
+            "y",
+            "horizon"
+          ]
+        },
+        {
+          "name": "_fit_autoreg_with_path",
+          "startLine": 190,
+          "endLine": 204,
+          "params": [
+            "y",
+            "horizon"
+          ]
+        },
+        {
+          "name": "_fit_all_methods",
+          "startLine": 207,
+          "endLine": 212,
+          "params": [
+            "history",
+            "horizon"
+          ]
+        },
+        {
+          "name": "_fit_all_methods_with_paths",
+          "startLine": 215,
+          "endLine": 220,
+          "params": [
+            "history",
+            "horizon"
+          ]
+        },
+        {
+          "name": "_apply_yahoo_user_agent",
+          "startLine": 229,
+          "endLine": 238,
+          "params": [
+            "ua"
+          ]
+        },
+        {
+          "name": "_close_from_frame",
+          "startLine": 241,
+          "endLine": 258,
+          "params": [
+            "data"
+          ]
+        },
+        {
+          "name": "_usable_close",
+          "startLine": 261,
+          "endLine": 268,
+          "params": [
+            "series"
+          ]
+        },
+        {
+          "name": "_cache_path",
+          "startLine": 271,
+          "endLine": 273,
+          "params": [
+            "cache_dir",
+            "symbol"
+          ]
+        },
+        {
+          "name": "_save_cache",
+          "startLine": 276,
+          "endLine": 280,
+          "params": [
+            "cache_dir",
+            "symbol",
+            "series"
+          ]
+        },
+        {
+          "name": "_read_cache",
+          "startLine": 283,
+          "endLine": 295,
+          "params": [
+            "cache_dir",
+            "symbol"
+          ]
+        },
+        {
+          "name": "_fetch_yahoo",
+          "startLine": 298,
+          "endLine": 325,
+          "params": [
+            "symbol",
+            "period",
+            "interval"
+          ]
+        },
+        {
+          "name": "_fetch_stooq",
+          "startLine": 328,
+          "endLine": 352,
+          "params": [
+            "symbol",
+            "config"
+          ]
+        },
+        {
+          "name": "load_live_history",
+          "startLine": 355,
+          "endLine": 390,
+          "params": [
+            "symbol",
+            "fetchers",
+            "cache_dir",
+            "period",
+            "interval"
+          ]
+        },
+        {
+          "name": "default_load_history",
+          "startLine": 393,
+          "endLine": 394,
+          "params": [
+            "symbol"
+          ]
+        },
+        {
+          "name": "run_forecast",
+          "startLine": 397,
+          "endLine": 417,
+          "params": [
+            "question",
+            "load_history"
+          ]
+        },
+        {
+          "name": "forecast_for_tool",
+          "startLine": 421,
+          "endLine": 463,
+          "params": [
+            "question",
+            "load_history"
+          ]
+        },
+        {
+          "name": "_history_series_to_rows",
+          "startLine": 466,
+          "endLine": 472,
+          "params": [
+            "history"
+          ]
+        },
+        {
+          "name": "_plot_payload_from_history",
+          "startLine": 475,
+          "endLine": 501,
+          "params": [
+            "symbol",
+            "history",
+            "horizon_days"
+          ]
+        },
+        {
+          "name": "forecast_plot_payload_to_dict",
+          "startLine": 504,
+          "endLine": 523,
+          "params": [
+            "payload"
+          ]
+        },
+        {
+          "name": "_history_from_start",
+          "startLine": 526,
+          "endLine": 533,
+          "params": [
+            "history",
+            "history_start"
+          ]
+        },
+        {
+          "name": "forecast_plot_payload",
+          "startLine": 537,
+          "endLine": 601,
+          "params": [
+            "symbol",
+            "horizon_days",
+            "load_history",
+            "history_start"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ForecastError",
+          "startLine": 27,
+          "endLine": 28,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ForecastError",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "load_forecast_config",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "detect_symbol",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "detect_horizon",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "_interval",
+          "line": 62,
+          "isDefault": false
+        },
+        {
+          "name": "_path_from_pred",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "_random_walk_fallback",
+          "line": 72,
+          "isDefault": false
+        },
+        {
+          "name": "_method_from_forecast",
+          "line": 95,
+          "isDefault": false
+        },
+        {
+          "name": "_fit_auto_arima",
+          "line": 122,
+          "isDefault": false
+        },
+        {
+          "name": "_fit_auto_arima_with_path",
+          "line": 127,
+          "isDefault": false
+        },
+        {
+          "name": "_fit_unobserved_components",
+          "line": 159,
+          "isDefault": false
+        },
+        {
+          "name": "_fit_unobserved_components_with_path",
+          "line": 164,
+          "isDefault": false
+        },
+        {
+          "name": "_fit_autoreg",
+          "line": 185,
+          "isDefault": false
+        },
+        {
+          "name": "_fit_autoreg_with_path",
+          "line": 190,
+          "isDefault": false
+        },
+        {
+          "name": "_fit_all_methods",
+          "line": 207,
+          "isDefault": false
+        },
+        {
+          "name": "_fit_all_methods_with_paths",
+          "line": 215,
+          "isDefault": false
+        },
+        {
+          "name": "_apply_yahoo_user_agent",
+          "line": 229,
+          "isDefault": false
+        },
+        {
+          "name": "_close_from_frame",
+          "line": 241,
+          "isDefault": false
+        },
+        {
+          "name": "_usable_close",
+          "line": 261,
+          "isDefault": false
+        },
+        {
+          "name": "_cache_path",
+          "line": 271,
+          "isDefault": false
+        },
+        {
+          "name": "_save_cache",
+          "line": 276,
+          "isDefault": false
+        },
+        {
+          "name": "_read_cache",
+          "line": 283,
+          "isDefault": false
+        },
+        {
+          "name": "_fetch_yahoo",
+          "line": 298,
+          "isDefault": false
+        },
+        {
+          "name": "_fetch_stooq",
+          "line": 328,
+          "isDefault": false
+        },
+        {
+          "name": "load_live_history",
+          "line": 355,
+          "isDefault": false
+        },
+        {
+          "name": "default_load_history",
+          "line": 393,
+          "isDefault": false
+        },
+        {
+          "name": "run_forecast",
+          "line": 397,
+          "isDefault": false
+        },
+        {
+          "name": "forecast_for_tool",
+          "line": 420,
+          "isDefault": false
+        },
+        {
+          "name": "_history_series_to_rows",
+          "line": 466,
+          "isDefault": false
+        },
+        {
+          "name": "_plot_payload_from_history",
+          "line": 475,
+          "isDefault": false
+        },
+        {
+          "name": "forecast_plot_payload_to_dict",
+          "line": 504,
+          "isDefault": false
+        },
+        {
+          "name": "_history_from_start",
+          "line": 526,
+          "isDefault": false
+        },
+        {
+          "name": "forecast_plot_payload",
+          "line": 536,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "load_forecast_config",
+          "callee": "yaml.safe_load",
+          "lineNumber": 32
+        },
+        {
+          "caller": "load_forecast_config",
+          "callee": "(path or _CONFIG).read_text",
+          "lineNumber": 32
+        },
+        {
+          "caller": "detect_symbol",
+          "callee": "load_forecast_config",
+          "lineNumber": 36
+        },
+        {
+          "caller": "detect_symbol",
+          "callee": "question.casefold",
+          "lineNumber": 37
+        },
+        {
+          "caller": "detect_symbol",
+          "callee": "re.search",
+          "lineNumber": 38
+        },
+        {
+          "caller": "detect_symbol",
+          "callee": "re.search",
+          "lineNumber": 40
+        },
+        {
+          "caller": "detect_symbol",
+          "callee": "str",
+          "lineNumber": 41
+        },
+        {
+          "caller": "detect_symbol",
+          "callee": "str",
+          "lineNumber": 42
+        },
+        {
+          "caller": "detect_symbol",
+          "callee": "cfg[\"symbols\"].get",
+          "lineNumber": 42
+        },
+        {
+          "caller": "detect_symbol",
+          "callee": "cfg.get",
+          "lineNumber": 42
+        },
+        {
+          "caller": "detect_horizon",
+          "callee": "load_forecast_config",
+          "lineNumber": 46
+        },
+        {
+          "caller": "detect_horizon",
+          "callee": "int",
+          "lineNumber": 47
+        },
+        {
+          "caller": "detect_horizon",
+          "callee": "cfg.get",
+          "lineNumber": 47
+        },
+        {
+          "caller": "detect_horizon",
+          "callee": "question.casefold",
+          "lineNumber": 48
+        },
+        {
+          "caller": "detect_horizon",
+          "callee": "cfg.get",
+          "lineNumber": 50
+        },
+        {
+          "caller": "detect_horizon",
+          "callee": "int",
+          "lineNumber": 51
+        },
+        {
+          "caller": "detect_horizon",
+          "callee": "rule.get",
+          "lineNumber": 52
+        },
+        {
+          "caller": "detect_horizon",
+          "callee": "str(phrase).casefold().strip",
+          "lineNumber": 53
+        },
+        {
+          "caller": "detect_horizon",
+          "callee": "str(phrase).casefold",
+          "lineNumber": 53
+        },
+        {
+          "caller": "detect_horizon",
+          "callee": "str",
+          "lineNumber": 53
+        },
+        {
+          "caller": "detect_horizon",
+          "callee": "ranked.append",
+          "lineNumber": 55
+        },
+        {
+          "caller": "detect_horizon",
+          "callee": "len",
+          "lineNumber": 55
+        },
+        {
+          "caller": "detect_horizon",
+          "callee": "ranked.sort",
+          "lineNumber": 58
+        },
+        {
+          "caller": "_interval",
+          "callee": "float",
+          "lineNumber": 63
+        },
+        {
+          "caller": "_interval",
+          "callee": "float",
+          "lineNumber": 64
+        },
+        {
+          "caller": "_interval",
+          "callee": "max",
+          "lineNumber": 64
+        },
+        {
+          "caller": "_path_from_pred",
+          "callee": "tuple",
+          "lineNumber": 69
+        },
+        {
+          "caller": "_path_from_pred",
+          "callee": "float",
+          "lineNumber": 69
+        },
+        {
+          "caller": "_path_from_pred",
+          "callee": "np.asarray(pred, dtype=float).ravel",
+          "lineNumber": 69
+        },
+        {
+          "caller": "_path_from_pred",
+          "callee": "np.asarray",
+          "lineNumber": 69
+        },
+        {
+          "caller": "_random_walk_fallback",
+          "callee": "float",
+          "lineNumber": 79
+        },
+        {
+          "caller": "_random_walk_fallback",
+          "callee": "endog.diff().std",
+          "lineNumber": 79
+        },
+        {
+          "caller": "_random_walk_fallback",
+          "callee": "endog.diff",
+          "lineNumber": 79
+        },
+        {
+          "caller": "_random_walk_fallback",
+          "callee": "float",
+          "lineNumber": 80
+        },
+        {
+          "caller": "_random_walk_fallback",
+          "callee": "endog.diff().mean",
+          "lineNumber": 80
+        },
+        {
+          "caller": "_random_walk_fallback",
+          "callee": "endog.diff",
+          "lineNumber": 80
+        },
+        {
+          "caller": "_random_walk_fallback",
+          "callee": "np.arange",
+          "lineNumber": 81
+        },
+        {
+          "caller": "_random_walk_fallback",
+          "callee": "_interval",
+          "lineNumber": 82
+        },
+        {
+          "caller": "_random_walk_fallback",
+          "callee": "np.sqrt",
+          "lineNumber": 82
+        },
+        {
+          "caller": "_random_walk_fallback",
+          "callee": "MethodForecast",
+          "lineNumber": 84
+        },
+        {
+          "caller": "_random_walk_fallback",
+          "callee": "_path_from_pred",
+          "lineNumber": 91
+        },
+        {
+          "caller": "_method_from_forecast",
+          "callee": "fitted.get_forecast",
+          "lineNumber": 102
+        },
+        {
+          "caller": "_method_from_forecast",
+          "callee": "np.asarray",
+          "lineNumber": 103
+        },
+        {
+          "caller": "_method_from_forecast",
+          "callee": "fc.conf_int",
+          "lineNumber": 104
+        },
+        {
+          "caller": "_method_from_forecast",
+          "callee": "float",
+          "lineNumber": 105
+        },
+        {
+          "caller": "_method_from_forecast",
+          "callee": "np.asarray",
+          "lineNumber": 105
+        },
+        {
+          "caller": "_method_from_forecast",
+          "callee": "float",
+          "lineNumber": 106
+        },
+        {
+          "caller": "_method_from_forecast",
+          "callee": "np.asarray",
+          "lineNumber": 106
+        },
+        {
+          "caller": "_method_from_forecast",
+          "callee": "float",
+          "lineNumber": 107
+        },
+        {
+          "caller": "_method_from_forecast",
+          "callee": "MethodForecast",
+          "lineNumber": 111
+        },
+        {
+          "caller": "_method_from_forecast",
+          "callee": "_path_from_pred",
+          "lineNumber": 118
+        },
+        {
+          "caller": "_fit_auto_arima",
+          "callee": "_fit_auto_arima_with_path",
+          "lineNumber": 123
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "y.astype",
+          "lineNumber": 128
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "load_forecast_config",
+          "lineNumber": 129
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "int",
+          "lineNumber": 130
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "cfg.get",
+          "lineNumber": 130
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "int",
+          "lineNumber": 131
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "cfg.get",
+          "lineNumber": 131
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "int",
+          "lineNumber": 132
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "cfg.get",
+          "lineNumber": 132
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "float",
+          "lineNumber": 133
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "range",
+          "lineNumber": 135
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "range",
+          "lineNumber": 136
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "range",
+          "lineNumber": 137
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "ARIMA(endog, order=(p, d, q)).fit",
+          "lineNumber": 141
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "ARIMA",
+          "lineNumber": 141
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "ARIMA(endog, order=best_order).fit",
+          "lineNumber": 148
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "ARIMA",
+          "lineNumber": 148
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "_method_from_forecast",
+          "lineNumber": 149
+        },
+        {
+          "caller": "_fit_auto_arima_with_path",
+          "callee": "_random_walk_fallback",
+          "lineNumber": 156
+        },
+        {
+          "caller": "_fit_unobserved_components",
+          "callee": "_fit_unobserved_components_with_path",
+          "lineNumber": 160
+        },
+        {
+          "caller": "_fit_unobserved_components_with_path",
+          "callee": "y.astype",
+          "lineNumber": 167
+        },
+        {
+          "caller": "_fit_unobserved_components_with_path",
+          "callee": "UnobservedComponents(endog, level=\"local linear trend\").fit",
+          "lineNumber": 169
+        },
+        {
+          "caller": "_fit_unobserved_components_with_path",
+          "callee": "UnobservedComponents",
+          "lineNumber": 169
+        },
+        {
+          "caller": "_fit_unobserved_components_with_path",
+          "callee": "_method_from_forecast",
+          "lineNumber": 170
+        },
+        {
+          "caller": "_fit_unobserved_components_with_path",
+          "callee": "_random_walk_fallback",
+          "lineNumber": 177
+        },
+        {
+          "caller": "_fit_autoreg",
+          "callee": "_fit_autoreg_with_path",
+          "lineNumber": 186
+        },
+        {
+          "caller": "_fit_autoreg_with_path",
+          "callee": "y.astype",
+          "lineNumber": 191
+        },
+        {
+          "caller": "_fit_autoreg_with_path",
+          "callee": "min",
+          "lineNumber": 193
+        },
+        {
+          "caller": "_fit_autoreg_with_path",
+          "callee": "int",
+          "lineNumber": 193
+        },
+        {
+          "caller": "_fit_autoreg_with_path",
+          "callee": "load_forecast_config().get",
+          "lineNumber": 193
+        },
+        {
+          "caller": "_fit_autoreg_with_path",
+          "callee": "load_forecast_config",
+          "lineNumber": 193
+        },
+        {
+          "caller": "_fit_autoreg_with_path",
+          "callee": "max",
+          "lineNumber": 193
+        },
+        {
+          "caller": "_fit_autoreg_with_path",
+          "callee": "len",
+          "lineNumber": 193
+        },
+        {
+          "caller": "_fit_autoreg_with_path",
+          "callee": "ar_select_order",
+          "lineNumber": 194
+        },
+        {
+          "caller": "_fit_autoreg_with_path",
+          "callee": "AutoReg(endog, lags=lags, old_names=False).fit",
+          "lineNumber": 196
+        },
+        {
+          "caller": "_fit_autoreg_with_path",
+          "callee": "AutoReg",
+          "lineNumber": 196
+        },
+        {
+          "caller": "_fit_autoreg_with_path",
+          "callee": "_method_from_forecast",
+          "lineNumber": 197
+        },
+        {
+          "caller": "_fit_autoreg_with_path",
+          "callee": "list",
+          "lineNumber": 199
+        },
+        {
+          "caller": "_fit_autoreg_with_path",
+          "callee": "_random_walk_fallback",
+          "lineNumber": 204
+        },
+        {
+          "caller": "_fit_all_methods",
+          "callee": "_fit_auto_arima",
+          "lineNumber": 209
+        },
+        {
+          "caller": "_fit_all_methods",
+          "callee": "_fit_unobserved_components",
+          "lineNumber": 210
+        },
+        {
+          "caller": "_fit_all_methods",
+          "callee": "_fit_autoreg",
+          "lineNumber": 211
+        },
+        {
+          "caller": "_fit_all_methods_with_paths",
+          "callee": "_fit_auto_arima_with_path",
+          "lineNumber": 217
+        },
+        {
+          "caller": "_fit_all_methods_with_paths",
+          "callee": "_fit_unobserved_components_with_path",
+          "lineNumber": 218
+        },
+        {
+          "caller": "_fit_all_methods_with_paths",
+          "callee": "_fit_autoreg_with_path",
+          "lineNumber": 219
+        },
+        {
+          "caller": "_apply_yahoo_user_agent",
+          "callee": "getattr",
+          "lineNumber": 233
+        },
+        {
+          "caller": "_apply_yahoo_user_agent",
+          "callee": "isinstance",
+          "lineNumber": 234
+        },
+        {
+          "caller": "_close_from_frame",
+          "callee": "getattr",
+          "lineNumber": 242
+        },
+        {
+          "caller": "_close_from_frame",
+          "callee": "isinstance",
+          "lineNumber": 244
+        },
+        {
+          "caller": "_close_from_frame",
+          "callee": "isinstance",
+          "lineNumber": 254
+        },
+        {
+          "caller": "_close_from_frame",
+          "callee": "pd.to_numeric(close, errors=\"coerce\").dropna",
+          "lineNumber": 256
+        },
+        {
+          "caller": "_close_from_frame",
+          "callee": "pd.to_numeric",
+          "lineNumber": 256
+        },
+        {
+          "caller": "_close_from_frame",
+          "callee": "close.sort_index",
+          "lineNumber": 258
+        },
+        {
+          "caller": "_usable_close",
+          "callee": "pd.to_numeric(series, errors=\"coerce\").dropna().sort_index",
+          "lineNumber": 264
+        },
+        {
+          "caller": "_usable_close",
+          "callee": "pd.to_numeric(series, errors=\"coerce\").dropna",
+          "lineNumber": 264
+        },
+        {
+          "caller": "_usable_close",
+          "callee": "pd.to_numeric",
+          "lineNumber": 264
+        },
+        {
+          "caller": "_usable_close",
+          "callee": "len",
+          "lineNumber": 266
+        },
+        {
+          "caller": "_cache_path",
+          "callee": "re.sub(r\"[^A-Za-z0-9._-]+\", \"-\", symbol).strip",
+          "lineNumber": 272
+        },
+        {
+          "caller": "_cache_path",
+          "callee": "re.sub",
+          "lineNumber": 272
+        },
+        {
+          "caller": "_cache_path",
+          "callee": "Path",
+          "lineNumber": 273
+        },
+        {
+          "caller": "_save_cache",
+          "callee": "cache_dir.mkdir",
+          "lineNumber": 277
+        },
+        {
+          "caller": "_save_cache",
+          "callee": "series.dropna().rename(\"close\").to_frame().reset_index",
+          "lineNumber": 278
+        },
+        {
+          "caller": "_save_cache",
+          "callee": "series.dropna().rename(\"close\").to_frame",
+          "lineNumber": 278
+        },
+        {
+          "caller": "_save_cache",
+          "callee": "series.dropna().rename",
+          "lineNumber": 278
+        },
+        {
+          "caller": "_save_cache",
+          "callee": "series.dropna",
+          "lineNumber": 278
+        },
+        {
+          "caller": "_save_cache",
+          "callee": "frame.to_csv",
+          "lineNumber": 280
+        },
+        {
+          "caller": "_save_cache",
+          "callee": "_cache_path",
+          "lineNumber": 280
+        },
+        {
+          "caller": "_read_cache",
+          "callee": "_cache_path",
+          "lineNumber": 284
+        },
+        {
+          "caller": "_read_cache",
+          "callee": "path.is_file",
+          "lineNumber": 285
+        },
+        {
+          "caller": "_read_cache",
+          "callee": "pd.read_csv",
+          "lineNumber": 287
+        },
+        {
+          "caller": "_read_cache",
+          "callee": "pd.Series",
+          "lineNumber": 290
+        },
+        {
+          "caller": "_read_cache",
+          "callee": "pd.to_numeric",
+          "lineNumber": 291
+        },
+        {
+          "caller": "_read_cache",
+          "callee": "pd.to_datetime",
+          "lineNumber": 292
+        },
+        {
+          "caller": "_read_cache",
+          "callee": "series.dropna().sort_index",
+          "lineNumber": 295
+        },
+        {
+          "caller": "_read_cache",
+          "callee": "series.dropna",
+          "lineNumber": 295
+        },
+        {
+          "caller": "_fetch_yahoo",
+          "callee": "os.environ.get",
+          "lineNumber": 301
+        },
+        {
+          "caller": "_fetch_yahoo",
+          "callee": "_apply_yahoo_user_agent",
+          "lineNumber": 302
+        },
+        {
+          "caller": "_fetch_yahoo",
+          "callee": "yf.Ticker(symbol).history",
+          "lineNumber": 304
+        },
+        {
+          "caller": "_fetch_yahoo",
+          "callee": "yf.Ticker",
+          "lineNumber": 304
+        },
+        {
+          "caller": "_fetch_yahoo",
+          "callee": "_close_from_frame",
+          "lineNumber": 305
+        },
+        {
+          "caller": "_fetch_yahoo",
+          "callee": "yf.download",
+          "lineNumber": 311
+        },
+        {
+          "caller": "_fetch_yahoo",
+          "callee": "yf.download",
+          "lineNumber": 321
+        },
+        {
+          "caller": "_fetch_yahoo",
+          "callee": "_close_from_frame",
+          "lineNumber": 322
+        },
+        {
+          "caller": "_fetch_yahoo",
+          "callee": "ForecastError",
+          "lineNumber": 324
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "(config.get(\"stooq_symbols\") or {}).get",
+          "lineNumber": 329
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "config.get",
+          "lineNumber": 329
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "ForecastError",
+          "lineNumber": 331
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "os.environ.get",
+          "lineNumber": 333
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "urllib.request.Request",
+          "lineNumber": 334
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "urllib.request.urlopen",
+          "lineNumber": 335
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "resp.read",
+          "lineNumber": 336
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "pd.read_csv",
+          "lineNumber": 337
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "io.BytesIO",
+          "lineNumber": 337
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "ForecastError",
+          "lineNumber": 339
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "ForecastError",
+          "lineNumber": 343
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "pd.Series",
+          "lineNumber": 344
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "pd.to_numeric",
+          "lineNumber": 345
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "pd.to_datetime",
+          "lineNumber": 346
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "series.dropna().sort_index",
+          "lineNumber": 349
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "series.dropna",
+          "lineNumber": 349
+        },
+        {
+          "caller": "_fetch_stooq",
+          "callee": "ForecastError",
+          "lineNumber": 351
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "load_forecast_config",
+          "lineNumber": 363
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "Path",
+          "lineNumber": 364
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "str",
+          "lineNumber": 365
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "os.environ.get",
+          "lineNumber": 368
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "cfg.get",
+          "lineNumber": 368
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "str",
+          "lineNumber": 371
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "cfg.get",
+          "lineNumber": 371
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "str",
+          "lineNumber": 372
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "cfg.get",
+          "lineNumber": 372
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "_fetch_yahoo",
+          "lineNumber": 375
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "_fetch_stooq",
+          "lineNumber": 376
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "_usable_close",
+          "lineNumber": 381
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "fetch",
+          "lineNumber": 381
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "_save_cache",
+          "lineNumber": 383
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "_usable_close",
+          "lineNumber": 387
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "_read_cache",
+          "lineNumber": 387
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "ForecastError",
+          "lineNumber": 390
+        },
+        {
+          "caller": "load_live_history",
+          "callee": "str",
+          "lineNumber": 390
+        },
+        {
+          "caller": "default_load_history",
+          "callee": "load_live_history",
+          "lineNumber": 394
+        },
+        {
+          "caller": "run_forecast",
+          "callee": "load_forecast_config",
+          "lineNumber": 398
+        },
+        {
+          "caller": "run_forecast",
+          "callee": "detect_symbol",
+          "lineNumber": 399
+        },
+        {
+          "caller": "run_forecast",
+          "callee": "ForecastResult",
+          "lineNumber": 401
+        },
+        {
+          "caller": "run_forecast",
+          "callee": "loader",
+          "lineNumber": 408
+        },
+        {
+          "caller": "run_forecast",
+          "callee": "ForecastError",
+          "lineNumber": 412
+        },
+        {
+          "caller": "run_forecast",
+          "callee": "str",
+          "lineNumber": 412
+        },
+        {
+          "caller": "run_forecast",
+          "callee": "len",
+          "lineNumber": 413
+        },
+        {
+          "caller": "run_forecast",
+          "callee": "ForecastError",
+          "lineNumber": 414
+        },
+        {
+          "caller": "run_forecast",
+          "callee": "detect_horizon",
+          "lineNumber": 415
+        },
+        {
+          "caller": "run_forecast",
+          "callee": "_fit_all_methods",
+          "lineNumber": 416
+        },
+        {
+          "caller": "run_forecast",
+          "callee": "ForecastResult",
+          "lineNumber": 417
+        },
+        {
+          "caller": "forecast_for_tool",
+          "callee": "run_forecast",
+          "lineNumber": 427
+        },
+        {
+          "caller": "forecast_for_tool",
+          "callee": "ForecastResult",
+          "lineNumber": 429
+        },
+        {
+          "caller": "forecast_for_tool",
+          "callee": "detect_symbol",
+          "lineNumber": 430
+        },
+        {
+          "caller": "forecast_for_tool",
+          "callee": "str",
+          "lineNumber": 432
+        },
+        {
+          "caller": "forecast_for_tool",
+          "callee": "forecast_citations",
+          "lineNumber": 434
+        },
+        {
+          "caller": "_history_series_to_rows",
+          "callee": "history.items",
+          "lineNumber": 469
+        },
+        {
+          "caller": "_history_series_to_rows",
+          "callee": "dates.append",
+          "lineNumber": 470
+        },
+        {
+          "caller": "_history_series_to_rows",
+          "callee": "pd.Timestamp(idx).date().isoformat",
+          "lineNumber": 470
+        },
+        {
+          "caller": "_history_series_to_rows",
+          "callee": "pd.Timestamp(idx).date",
+          "lineNumber": 470
+        },
+        {
+          "caller": "_history_series_to_rows",
+          "callee": "pd.Timestamp",
+          "lineNumber": 470
+        },
+        {
+          "caller": "_history_series_to_rows",
+          "callee": "closes.append",
+          "lineNumber": 471
+        },
+        {
+          "caller": "_history_series_to_rows",
+          "callee": "float",
+          "lineNumber": 471
+        },
+        {
+          "caller": "_history_series_to_rows",
+          "callee": "tuple",
+          "lineNumber": 472
+        },
+        {
+          "caller": "_history_series_to_rows",
+          "callee": "tuple",
+          "lineNumber": 472
+        },
+        {
+          "caller": "_plot_payload_from_history",
+          "callee": "_fit_all_methods_with_paths",
+          "lineNumber": 481
+        },
+        {
+          "caller": "_plot_payload_from_history",
+          "callee": "_history_series_to_rows",
+          "lineNumber": 482
+        },
+        {
+          "caller": "_plot_payload_from_history",
+          "callee": "tuple",
+          "lineNumber": 483
+        },
+        {
+          "caller": "_plot_payload_from_history",
+          "callee": "MethodPathForecast",
+          "lineNumber": 484
+        },
+        {
+          "caller": "_plot_payload_from_history",
+          "callee": "float",
+          "lineNumber": 486
+        },
+        {
+          "caller": "_plot_payload_from_history",
+          "callee": "float",
+          "lineNumber": 487
+        },
+        {
+          "caller": "_plot_payload_from_history",
+          "callee": "float",
+          "lineNumber": 488
+        },
+        {
+          "caller": "_plot_payload_from_history",
+          "callee": "ForecastPlotPayload",
+          "lineNumber": 494
+        },
+        {
+          "caller": "_plot_payload_from_history",
+          "callee": "float",
+          "lineNumber": 499
+        },
+        {
+          "caller": "forecast_plot_payload_to_dict",
+          "callee": "list",
+          "lineNumber": 508
+        },
+        {
+          "caller": "forecast_plot_payload_to_dict",
+          "callee": "list",
+          "lineNumber": 509
+        },
+        {
+          "caller": "forecast_plot_payload_to_dict",
+          "callee": "list",
+          "lineNumber": 517
+        },
+        {
+          "caller": "_history_from_start",
+          "callee": "pd.Timestamp",
+          "lineNumber": 527
+        },
+        {
+          "caller": "_history_from_start",
+          "callee": "isinstance",
+          "lineNumber": 529
+        },
+        {
+          "caller": "_history_from_start",
+          "callee": "start.tz_localize",
+          "lineNumber": 530
+        },
+        {
+          "caller": "_history_from_start",
+          "callee": "start.tz_convert",
+          "lineNumber": 530
+        },
+        {
+          "caller": "_history_from_start",
+          "callee": "start.tz_localize",
+          "lineNumber": 532
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "symbol.casefold",
+          "lineNumber": 546
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "ForecastPlotPayload",
+          "lineNumber": 547
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "forecast_plot_payload_to_dict",
+          "lineNumber": 556
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "loader",
+          "lineNumber": 560
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "ForecastPlotPayload",
+          "lineNumber": 562
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "str",
+          "lineNumber": 569
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "forecast_plot_payload_to_dict",
+          "lineNumber": 571
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "ForecastPlotPayload",
+          "lineNumber": 573
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "str",
+          "lineNumber": 580
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "forecast_plot_payload_to_dict",
+          "lineNumber": 582
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "_history_from_start",
+          "lineNumber": 585
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "len",
+          "lineNumber": 587
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "ForecastPlotPayload",
+          "lineNumber": 588
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "forecast_plot_payload_to_dict",
+          "lineNumber": 597
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "forecast_plot_payload_to_dict",
+          "lineNumber": 599
+        },
+        {
+          "caller": "forecast_plot_payload",
+          "callee": "_plot_payload_from_history",
+          "lineNumber": 600
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 33,
+        "functionCount": 32,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "tests/test_consensus_price.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 71,
+      "nonEmptyLines": 58,
+      "functions": [
+        {
+          "name": "test_extract_oil_prices_finds_dollar_and_contextual_brent",
+          "startLine": 11,
+          "endLine": 15,
+          "params": []
+        },
+        {
+          "name": "test_extract_oil_prices_ignores_out_of_range_values",
+          "startLine": 18,
+          "endLine": 19,
+          "params": []
+        },
+        {
+          "name": "test_consensus_from_texts_averages_per_source",
+          "startLine": 22,
+          "endLine": 27,
+          "params": []
+        },
+        {
+          "name": "test_report_consensus_price_uses_retrieve_then_samples",
+          "startLine": 30,
+          "endLine": 36,
+          "params": []
+        },
+        {
+          "name": "test_news_consensus_price_from_rail_hits",
+          "startLine": 39,
+          "endLine": 56,
+          "params": []
+        },
+        {
+          "name": "test_dashboard_kpi_row_combines_close_and_consensus",
+          "startLine": 59,
+          "endLine": 71,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "test_extract_oil_prices_finds_dollar_and_contextual_brent",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "test_extract_oil_prices_ignores_out_of_range_values",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "test_consensus_from_texts_averages_per_source",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "test_report_consensus_price_uses_retrieve_then_samples",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "test_news_consensus_price_from_rail_hits",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "test_dashboard_kpi_row_combines_close_and_consensus",
+          "line": 59,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_extract_oil_prices_finds_dollar_and_contextual_brent",
+          "callee": "extract_oil_prices",
+          "lineNumber": 13
+        },
+        {
+          "caller": "test_extract_oil_prices_ignores_out_of_range_values",
+          "callee": "extract_oil_prices",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_consensus_from_texts_averages_per_source",
+          "callee": "consensus_from_texts",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_report_consensus_price_uses_retrieve_then_samples",
+          "callee": "report_consensus_price",
+          "lineNumber": 35
+        },
+        {
+          "caller": "test_news_consensus_price_from_rail_hits",
+          "callee": "SessionStartRailHit",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_news_consensus_price_from_rail_hits",
+          "callee": "SessionStartRailHit",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_news_consensus_price_from_rail_hits",
+          "callee": "news_consensus_price",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_dashboard_kpi_row_combines_close_and_consensus",
+          "callee": "dashboard_kpi_row",
+          "lineNumber": 61
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "tests/test_dashboard_layout.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 250,
+      "nonEmptyLines": 211,
+      "functions": [
+        {
+          "name": "test_chat_turn_in_progress",
+          "startLine": 6,
+          "endLine": 14,
+          "params": []
+        },
+        {
+          "name": "test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+          "startLine": 17,
+          "endLine": 71,
+          "params": []
+        },
+        {
+          "name": "test_dashboard_page_config_collapses_sidebar",
+          "startLine": 74,
+          "endLine": 78,
+          "params": []
+        },
+        {
+          "name": "test_rail_exclusions_hide_wikipedia",
+          "startLine": 81,
+          "endLine": 105,
+          "params": []
+        },
+        {
+          "name": "_series",
+          "startLine": 131,
+          "endLine": 135,
+          "params": [
+            "n"
+          ]
+        },
+        {
+          "name": "_plot_payload",
+          "startLine": 138,
+          "endLine": 139,
+          "params": []
+        },
+        {
+          "name": "test_chart_payload_disk_cache_roundtrip",
+          "startLine": 142,
+          "endLine": 150,
+          "params": [
+            "tmp_path",
+            "monkeypatch"
+          ]
+        },
+        {
+          "name": "test_chart_dataframe_has_actual_and_three_forecast_series",
+          "startLine": 153,
+          "endLine": 162,
+          "params": []
+        },
+        {
+          "name": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+          "startLine": 165,
+          "endLine": 174,
+          "params": []
+        },
+        {
+          "name": "test_brent_chart_altair_sets_y_axis_minimum",
+          "startLine": 177,
+          "endLine": 183,
+          "params": []
+        },
+        {
+          "name": "test_chart_dataframe_none_on_unavailable",
+          "startLine": 186,
+          "endLine": 188,
+          "params": []
+        },
+        {
+          "name": "test_forecast_model_consensus_averages_three_model_points",
+          "startLine": 191,
+          "endLine": 197,
+          "params": []
+        },
+        {
+          "name": "test_chart_history_starts_from_configured_date",
+          "startLine": 200,
+          "endLine": 203,
+          "params": []
+        },
+        {
+          "name": "test_chart_refresh_horizon_detects_forecast_and_refresh",
+          "startLine": 206,
+          "endLine": 209,
+          "params": []
+        },
+        {
+          "name": "test_corpus_strip_lists_agencies_when_samples_exist",
+          "startLine": 212,
+          "endLine": 250,
+          "params": [
+            "tmp_path"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "test_chat_turn_in_progress",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "test_dashboard_page_config_collapses_sidebar",
+          "line": 74,
+          "isDefault": false
+        },
+        {
+          "name": "test_rail_exclusions_hide_wikipedia",
+          "line": 81,
+          "isDefault": false
+        },
+        {
+          "name": "_series",
+          "line": 131,
+          "isDefault": false
+        },
+        {
+          "name": "_plot_payload",
+          "line": 138,
+          "isDefault": false
+        },
+        {
+          "name": "test_chart_payload_disk_cache_roundtrip",
+          "line": 142,
+          "isDefault": false
+        },
+        {
+          "name": "test_chart_dataframe_has_actual_and_three_forecast_series",
+          "line": 153,
+          "isDefault": false
+        },
+        {
+          "name": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+          "line": 165,
+          "isDefault": false
+        },
+        {
+          "name": "test_brent_chart_altair_sets_y_axis_minimum",
+          "line": 177,
+          "isDefault": false
+        },
+        {
+          "name": "test_chart_dataframe_none_on_unavailable",
+          "line": 186,
+          "isDefault": false
+        },
+        {
+          "name": "test_forecast_model_consensus_averages_three_model_points",
+          "line": 191,
+          "isDefault": false
+        },
+        {
+          "name": "test_chart_history_starts_from_configured_date",
+          "line": 200,
+          "isDefault": false
+        },
+        {
+          "name": "test_chart_refresh_horizon_detects_forecast_and_refresh",
+          "line": 206,
+          "isDefault": false
+        },
+        {
+          "name": "test_corpus_strip_lists_agencies_when_samples_exist",
+          "line": 212,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_chat_turn_in_progress",
+          "callee": "concurrent.futures.Future",
+          "lineNumber": 9
+        },
+        {
+          "caller": "test_chat_turn_in_progress",
+          "callee": "done.set_result",
+          "lineNumber": 10
+        },
+        {
+          "caller": "test_chat_turn_in_progress",
+          "callee": "concurrent.futures.Future",
+          "lineNumber": 11
+        },
+        {
+          "caller": "test_chat_turn_in_progress",
+          "callee": "chat_turn_in_progress",
+          "lineNumber": 12
+        },
+        {
+          "caller": "test_chat_turn_in_progress",
+          "callee": "chat_turn_in_progress",
+          "lineNumber": 13
+        },
+        {
+          "caller": "test_chat_turn_in_progress",
+          "callee": "chat_turn_in_progress",
+          "lineNumber": 14
+        },
+        {
+          "caller": "test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+          "callee": "Path(\"oil_gas_analyst/dashboard.py\").read_text",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+          "callee": "Path",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+          "callee": "text.split",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+          "callee": "main_block.index",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+          "callee": "main_block.index",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+          "callee": "main_block.index",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+          "callee": "main_block.index",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_dashboard_page_config_collapses_sidebar",
+          "callee": "Path(\"oil_gas_analyst/dashboard.py\").read_text",
+          "lineNumber": 77
+        },
+        {
+          "caller": "test_dashboard_page_config_collapses_sidebar",
+          "callee": "Path",
+          "lineNumber": 77
+        },
+        {
+          "caller": "test_rail_exclusions_hide_wikipedia",
+          "callee": "visible_rail_hits",
+          "lineNumber": 103
+        },
+        {
+          "caller": "test_rail_exclusions_hide_wikipedia",
+          "callee": "len",
+          "lineNumber": 104
+        },
+        {
+          "caller": "_series",
+          "callee": "pd.bdate_range",
+          "lineNumber": 132
+        },
+        {
+          "caller": "_series",
+          "callee": "np.random.default_rng",
+          "lineNumber": 133
+        },
+        {
+          "caller": "_series",
+          "callee": "np.cumsum",
+          "lineNumber": 134
+        },
+        {
+          "caller": "_series",
+          "callee": "rng.normal",
+          "lineNumber": 134
+        },
+        {
+          "caller": "_series",
+          "callee": "pd.Series",
+          "lineNumber": 135
+        },
+        {
+          "caller": "_plot_payload",
+          "callee": "load_brent_chart_payload",
+          "lineNumber": 139
+        },
+        {
+          "caller": "_plot_payload",
+          "callee": "_series",
+          "lineNumber": 139
+        },
+        {
+          "caller": "test_chart_payload_disk_cache_roundtrip",
+          "callee": "monkeypatch.setenv",
+          "lineNumber": 143
+        },
+        {
+          "caller": "test_chart_payload_disk_cache_roundtrip",
+          "callee": "str",
+          "lineNumber": 143
+        },
+        {
+          "caller": "test_chart_payload_disk_cache_roundtrip",
+          "callee": "load_brent_chart_payload",
+          "lineNumber": 144
+        },
+        {
+          "caller": "test_chart_payload_disk_cache_roundtrip",
+          "callee": "_series",
+          "lineNumber": 144
+        },
+        {
+          "caller": "test_chart_payload_disk_cache_roundtrip",
+          "callee": "save_brent_chart_payload_cache",
+          "lineNumber": 145
+        },
+        {
+          "caller": "test_chart_payload_disk_cache_roundtrip",
+          "callee": "load_cached_brent_chart_payload",
+          "lineNumber": 146
+        },
+        {
+          "caller": "test_chart_payload_disk_cache_roundtrip",
+          "callee": "save_brent_chart_payload_cache",
+          "lineNumber": 149
+        },
+        {
+          "caller": "test_chart_payload_disk_cache_roundtrip",
+          "callee": "load_cached_brent_chart_payload",
+          "lineNumber": 150
+        },
+        {
+          "caller": "test_chart_dataframe_has_actual_and_three_forecast_series",
+          "callee": "_plot_payload",
+          "lineNumber": 154
+        },
+        {
+          "caller": "test_chart_dataframe_has_actual_and_three_forecast_series",
+          "callee": "chart_dataframe_from_payload",
+          "lineNumber": 155
+        },
+        {
+          "caller": "test_chart_dataframe_has_actual_and_three_forecast_series",
+          "callee": "frame[CHART_METHOD_LABELS[name]].notna().sum",
+          "lineNumber": 160
+        },
+        {
+          "caller": "test_chart_dataframe_has_actual_and_three_forecast_series",
+          "callee": "frame[CHART_METHOD_LABELS[name]].notna",
+          "lineNumber": 160
+        },
+        {
+          "caller": "test_chart_dataframe_has_actual_and_three_forecast_series",
+          "callee": "frame[\"Факт\"].notna().sum",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_chart_dataframe_has_actual_and_three_forecast_series",
+          "callee": "frame[\"Факт\"].notna",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_chart_dataframe_has_actual_and_three_forecast_series",
+          "callee": "len",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+          "callee": "_plot_payload",
+          "lineNumber": 166
+        },
+        {
+          "caller": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+          "callee": "chart_dataframe_from_payload",
+          "lineNumber": 167
+        },
+        {
+          "caller": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+          "callee": "chart_display_dataframe",
+          "lineNumber": 169
+        },
+        {
+          "caller": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+          "callee": "frame[\"Факт\"].notna().sum",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+          "callee": "frame[\"Факт\"].notna",
+          "lineNumber": 170
+        },
+        {
+          "caller": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+          "callee": "display[\"Факт\"].notna().sum",
+          "lineNumber": 171
+        },
+        {
+          "caller": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+          "callee": "display[\"Факт\"].notna",
+          "lineNumber": 171
+        },
+        {
+          "caller": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+          "callee": "min",
+          "lineNumber": 172
+        },
+        {
+          "caller": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+          "callee": "display[CHART_METHOD_LABELS[\"auto_arima\"]].notna().sum",
+          "lineNumber": 173
+        },
+        {
+          "caller": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+          "callee": "display[CHART_METHOD_LABELS[\"auto_arima\"]].notna",
+          "lineNumber": 173
+        },
+        {
+          "caller": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+          "callee": "len",
+          "lineNumber": 174
+        },
+        {
+          "caller": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+          "callee": "len",
+          "lineNumber": 174
+        },
+        {
+          "caller": "test_brent_chart_altair_sets_y_axis_minimum",
+          "callee": "_plot_payload",
+          "lineNumber": 178
+        },
+        {
+          "caller": "test_brent_chart_altair_sets_y_axis_minimum",
+          "callee": "chart_dataframe_from_payload",
+          "lineNumber": 179
+        },
+        {
+          "caller": "test_brent_chart_altair_sets_y_axis_minimum",
+          "callee": "brent_chart_altair",
+          "lineNumber": 181
+        },
+        {
+          "caller": "test_brent_chart_altair_sets_y_axis_minimum",
+          "callee": "chart_display_dataframe",
+          "lineNumber": 181
+        },
+        {
+          "caller": "test_brent_chart_altair_sets_y_axis_minimum",
+          "callee": "chart.to_dict",
+          "lineNumber": 182
+        },
+        {
+          "caller": "test_chart_dataframe_none_on_unavailable",
+          "callee": "chart_dataframe_from_payload",
+          "lineNumber": 188
+        },
+        {
+          "caller": "test_forecast_model_consensus_averages_three_model_points",
+          "callee": "_plot_payload",
+          "lineNumber": 192
+        },
+        {
+          "caller": "test_forecast_model_consensus_averages_three_model_points",
+          "callee": "forecast_model_consensus",
+          "lineNumber": 193
+        },
+        {
+          "caller": "test_forecast_model_consensus_averages_three_model_points",
+          "callee": "len",
+          "lineNumber": 195
+        },
+        {
+          "caller": "test_forecast_model_consensus_averages_three_model_points",
+          "callee": "sum",
+          "lineNumber": 196
+        },
+        {
+          "caller": "test_forecast_model_consensus_averages_three_model_points",
+          "callee": "models.values",
+          "lineNumber": 196
+        },
+        {
+          "caller": "test_forecast_model_consensus_averages_three_model_points",
+          "callee": "len",
+          "lineNumber": 196
+        },
+        {
+          "caller": "test_chart_history_starts_from_configured_date",
+          "callee": "load_brent_chart_payload",
+          "lineNumber": 201
+        },
+        {
+          "caller": "test_chart_history_starts_from_configured_date",
+          "callee": "_series",
+          "lineNumber": 201
+        },
+        {
+          "caller": "test_chart_refresh_horizon_detects_forecast_and_refresh",
+          "callee": "chart_refresh_horizon",
+          "lineNumber": 207
+        },
+        {
+          "caller": "test_chart_refresh_horizon_detects_forecast_and_refresh",
+          "callee": "chart_refresh_horizon",
+          "lineNumber": 208
+        },
+        {
+          "caller": "test_chart_refresh_horizon_detects_forecast_and_refresh",
+          "callee": "chart_refresh_horizon",
+          "lineNumber": 209
+        },
+        {
+          "caller": "test_corpus_strip_lists_agencies_when_samples_exist",
+          "callee": "(tmp_path / name).write_bytes",
+          "lineNumber": 214
+        },
+        {
+          "caller": "test_corpus_strip_lists_agencies_when_samples_exist",
+          "callee": "str",
+          "lineNumber": 223
+        },
+        {
+          "caller": "test_corpus_strip_lists_agencies_when_samples_exist",
+          "callee": "str",
+          "lineNumber": 230
+        },
+        {
+          "caller": "test_corpus_strip_lists_agencies_when_samples_exist",
+          "callee": "str",
+          "lineNumber": 237
+        },
+        {
+          "caller": "test_corpus_strip_lists_agencies_when_samples_exist",
+          "callee": "corpus_strip_entries",
+          "lineNumber": 245
+        },
+        {
+          "caller": "test_corpus_strip_lists_agencies_when_samples_exist",
+          "callee": "any",
+          "lineNumber": 248
+        },
+        {
+          "caller": "test_corpus_strip_lists_agencies_when_samples_exist",
+          "callee": "entry.label",
+          "lineNumber": 248
+        },
+        {
+          "caller": "test_corpus_strip_lists_agencies_when_samples_exist",
+          "callee": "all",
+          "lineNumber": 249
+        },
+        {
+          "caller": "test_corpus_strip_lists_agencies_when_samples_exist",
+          "callee": "entries[0].link_markdown",
+          "lineNumber": 250
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 15,
+        "functionCount": 15,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "tests/test_forecast.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 241,
+      "nonEmptyLines": 179,
+      "functions": [
+        {
+          "name": "_series",
+          "startLine": 7,
+          "endLine": 11,
+          "params": [
+            "n"
+          ]
+        },
+        {
+          "name": "test_detect_urals_has_no_symbol",
+          "startLine": 14,
+          "endLine": 17,
+          "params": []
+        },
+        {
+          "name": "test_detect_horizon_closed_list",
+          "startLine": 20,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "test_run_forecast_returns_two_methods_with_intervals",
+          "startLine": 28,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "test_month_horizon_is_not_the_quarter_point",
+          "startLine": 43,
+          "endLine": 53,
+          "params": []
+        },
+        {
+          "name": "test_urals_unavailable",
+          "startLine": 56,
+          "endLine": 60,
+          "params": []
+        },
+        {
+          "name": "test_history_failure_raises",
+          "startLine": 63,
+          "endLine": 71,
+          "params": []
+        },
+        {
+          "name": "test_stooq_used_when_yahoo_empty",
+          "startLine": 74,
+          "endLine": 92,
+          "params": [
+            "tmp_path"
+          ]
+        },
+        {
+          "name": "test_cache_used_when_live_sources_fail",
+          "startLine": 95,
+          "endLine": 104,
+          "params": [
+            "tmp_path"
+          ]
+        },
+        {
+          "name": "test_no_live_history_or_cache_raises",
+          "startLine": 107,
+          "endLine": 117,
+          "params": [
+            "tmp_path"
+          ]
+        },
+        {
+          "name": "test_forecast_for_tool_shows_two_methods_and_no_average",
+          "startLine": 120,
+          "endLine": 134,
+          "params": []
+        },
+        {
+          "name": "test_forecast_for_tool_defaults_to_brent_and_honors_wti",
+          "startLine": 137,
+          "endLine": 143,
+          "params": []
+        },
+        {
+          "name": "test_forecast_for_tool_urals_has_no_series_and_no_brent_proxy",
+          "startLine": 146,
+          "endLine": 154,
+          "params": []
+        },
+        {
+          "name": "test_forecast_for_tool_history_failure_is_uncertainty",
+          "startLine": 157,
+          "endLine": 167,
+          "params": []
+        },
+        {
+          "name": "test_forecast_plot_payload_includes_history_and_two_paths",
+          "startLine": 170,
+          "endLine": 185,
+          "params": []
+        },
+        {
+          "name": "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+          "startLine": 188,
+          "endLine": 204,
+          "params": []
+        },
+        {
+          "name": "test_forecast_plot_payload_urals_has_no_series",
+          "startLine": 207,
+          "endLine": 215,
+          "params": []
+        },
+        {
+          "name": "test_forecast_plot_payload_history_failure_is_uncertainty",
+          "startLine": 218,
+          "endLine": 228,
+          "params": []
+        },
+        {
+          "name": "test_forecast_for_tool_citations_still_last_horizon_scalars",
+          "startLine": 231,
+          "endLine": 241,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "_series",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "test_detect_urals_has_no_symbol",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "test_detect_horizon_closed_list",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "test_run_forecast_returns_two_methods_with_intervals",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "test_month_horizon_is_not_the_quarter_point",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "test_urals_unavailable",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "test_history_failure_raises",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "test_stooq_used_when_yahoo_empty",
+          "line": 74,
+          "isDefault": false
+        },
+        {
+          "name": "test_cache_used_when_live_sources_fail",
+          "line": 95,
+          "isDefault": false
+        },
+        {
+          "name": "test_no_live_history_or_cache_raises",
+          "line": 107,
+          "isDefault": false
+        },
+        {
+          "name": "test_forecast_for_tool_shows_two_methods_and_no_average",
+          "line": 120,
+          "isDefault": false
+        },
+        {
+          "name": "test_forecast_for_tool_defaults_to_brent_and_honors_wti",
+          "line": 137,
+          "isDefault": false
+        },
+        {
+          "name": "test_forecast_for_tool_urals_has_no_series_and_no_brent_proxy",
+          "line": 146,
+          "isDefault": false
+        },
+        {
+          "name": "test_forecast_for_tool_history_failure_is_uncertainty",
+          "line": 157,
+          "isDefault": false
+        },
+        {
+          "name": "test_forecast_plot_payload_includes_history_and_two_paths",
+          "line": 170,
+          "isDefault": false
+        },
+        {
+          "name": "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+          "line": 188,
+          "isDefault": false
+        },
+        {
+          "name": "test_forecast_plot_payload_urals_has_no_series",
+          "line": 207,
+          "isDefault": false
+        },
+        {
+          "name": "test_forecast_plot_payload_history_failure_is_uncertainty",
+          "line": 218,
+          "isDefault": false
+        },
+        {
+          "name": "test_forecast_for_tool_citations_still_last_horizon_scalars",
+          "line": 231,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_series",
+          "callee": "pd.bdate_range",
+          "lineNumber": 8
+        },
+        {
+          "caller": "_series",
+          "callee": "np.random.default_rng",
+          "lineNumber": 9
+        },
+        {
+          "caller": "_series",
+          "callee": "np.cumsum",
+          "lineNumber": 10
+        },
+        {
+          "caller": "_series",
+          "callee": "rng.normal",
+          "lineNumber": 10
+        },
+        {
+          "caller": "_series",
+          "callee": "pd.Series",
+          "lineNumber": 11
+        },
+        {
+          "caller": "test_detect_urals_has_no_symbol",
+          "callee": "detect_symbol",
+          "lineNumber": 15
+        },
+        {
+          "caller": "test_detect_urals_has_no_symbol",
+          "callee": "detect_symbol",
+          "lineNumber": 16
+        },
+        {
+          "caller": "test_detect_urals_has_no_symbol",
+          "callee": "detect_symbol",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_detect_horizon_closed_list",
+          "callee": "detect_horizon",
+          "lineNumber": 21
+        },
+        {
+          "caller": "test_detect_horizon_closed_list",
+          "callee": "detect_horizon",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_detect_horizon_closed_list",
+          "callee": "detect_horizon",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_detect_horizon_closed_list",
+          "callee": "detect_horizon",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_detect_horizon_closed_list",
+          "callee": "detect_horizon",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_run_forecast_returns_two_methods_with_intervals",
+          "callee": "run_forecast",
+          "lineNumber": 29
+        },
+        {
+          "caller": "test_run_forecast_returns_two_methods_with_intervals",
+          "callee": "_series",
+          "lineNumber": 29
+        },
+        {
+          "caller": "test_run_forecast_returns_two_methods_with_intervals",
+          "callee": "isinstance",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_month_horizon_is_not_the_quarter_point",
+          "callee": "_series",
+          "lineNumber": 44
+        },
+        {
+          "caller": "test_month_horizon_is_not_the_quarter_point",
+          "callee": "run_forecast",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_month_horizon_is_not_the_quarter_point",
+          "callee": "run_forecast",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_month_horizon_is_not_the_quarter_point",
+          "callee": "run_forecast",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_urals_unavailable",
+          "callee": "run_forecast",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_urals_unavailable",
+          "callee": "_series",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_urals_unavailable",
+          "callee": "result.unavailable_reason.lower",
+          "lineNumber": 60
+        },
+        {
+          "caller": "boom",
+          "callee": "RuntimeError",
+          "lineNumber": 65
+        },
+        {
+          "caller": "test_history_failure_raises",
+          "callee": "run_forecast",
+          "lineNumber": 68
+        },
+        {
+          "caller": "yahoo",
+          "callee": "calls.append",
+          "lineNumber": 80
+        },
+        {
+          "caller": "yahoo",
+          "callee": "pd.Series",
+          "lineNumber": 81
+        },
+        {
+          "caller": "stooq",
+          "callee": "calls.append",
+          "lineNumber": 84
+        },
+        {
+          "caller": "stooq",
+          "callee": "_series",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_stooq_used_when_yahoo_empty",
+          "callee": "load_live_history",
+          "lineNumber": 87
+        },
+        {
+          "caller": "test_stooq_used_when_yahoo_empty",
+          "callee": "len",
+          "lineNumber": 89
+        },
+        {
+          "caller": "test_stooq_used_when_yahoo_empty",
+          "callee": "pd.read_csv",
+          "lineNumber": 90
+        },
+        {
+          "caller": "test_stooq_used_when_yahoo_empty",
+          "callee": "list",
+          "lineNumber": 91
+        },
+        {
+          "caller": "test_stooq_used_when_yahoo_empty",
+          "callee": "\"\".join",
+          "lineNumber": 92
+        },
+        {
+          "caller": "test_cache_used_when_live_sources_fail",
+          "callee": "load_live_history",
+          "lineNumber": 98
+        },
+        {
+          "caller": "test_cache_used_when_live_sources_fail",
+          "callee": "_series",
+          "lineNumber": 98
+        },
+        {
+          "caller": "boom",
+          "callee": "RuntimeError",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_cache_used_when_live_sources_fail",
+          "callee": "load_live_history",
+          "lineNumber": 103
+        },
+        {
+          "caller": "test_cache_used_when_live_sources_fail",
+          "callee": "len",
+          "lineNumber": 104
+        },
+        {
+          "caller": "boom",
+          "callee": "RuntimeError",
+          "lineNumber": 111
+        },
+        {
+          "caller": "test_no_live_history_or_cache_raises",
+          "callee": "load_live_history",
+          "lineNumber": 114
+        },
+        {
+          "caller": "test_forecast_for_tool_shows_two_methods_and_no_average",
+          "callee": "forecast_for_tool",
+          "lineNumber": 123
+        },
+        {
+          "caller": "test_forecast_for_tool_shows_two_methods_and_no_average",
+          "callee": "_series",
+          "lineNumber": 125
+        },
+        {
+          "caller": "test_forecast_for_tool_shows_two_methods_and_no_average",
+          "callee": "payload.get",
+          "lineNumber": 130
+        },
+        {
+          "caller": "test_forecast_for_tool_shows_two_methods_and_no_average",
+          "callee": "len",
+          "lineNumber": 131
+        },
+        {
+          "caller": "test_forecast_for_tool_shows_two_methods_and_no_average",
+          "callee": "all",
+          "lineNumber": 132
+        },
+        {
+          "caller": "test_forecast_for_tool_shows_two_methods_and_no_average",
+          "callee": "c.startswith",
+          "lineNumber": 132
+        },
+        {
+          "caller": "test_forecast_for_tool_shows_two_methods_and_no_average",
+          "callee": "\" \".join(payload[\"citations\"]).lower",
+          "lineNumber": 133
+        },
+        {
+          "caller": "test_forecast_for_tool_shows_two_methods_and_no_average",
+          "callee": "\" \".join",
+          "lineNumber": 133
+        },
+        {
+          "caller": "test_forecast_for_tool_defaults_to_brent_and_honors_wti",
+          "callee": "forecast_for_tool",
+          "lineNumber": 140
+        },
+        {
+          "caller": "test_forecast_for_tool_defaults_to_brent_and_honors_wti",
+          "callee": "_series",
+          "lineNumber": 140
+        },
+        {
+          "caller": "test_forecast_for_tool_defaults_to_brent_and_honors_wti",
+          "callee": "forecast_for_tool",
+          "lineNumber": 142
+        },
+        {
+          "caller": "test_forecast_for_tool_defaults_to_brent_and_honors_wti",
+          "callee": "_series",
+          "lineNumber": 142
+        },
+        {
+          "caller": "test_forecast_for_tool_urals_has_no_series_and_no_brent_proxy",
+          "callee": "forecast_for_tool",
+          "lineNumber": 149
+        },
+        {
+          "caller": "test_forecast_for_tool_urals_has_no_series_and_no_brent_proxy",
+          "callee": "_series",
+          "lineNumber": 149
+        },
+        {
+          "caller": "test_forecast_for_tool_urals_has_no_series_and_no_brent_proxy",
+          "callee": "(payload[\"unavailable_reason\"] or \"\").casefold",
+          "lineNumber": 152
+        },
+        {
+          "caller": "test_forecast_for_tool_urals_has_no_series_and_no_brent_proxy",
+          "callee": "payload[\"symbol\"].lower",
+          "lineNumber": 153
+        },
+        {
+          "caller": "test_forecast_for_tool_urals_has_no_series_and_no_brent_proxy",
+          "callee": "any",
+          "lineNumber": 154
+        },
+        {
+          "caller": "boom",
+          "callee": "RuntimeError",
+          "lineNumber": 161
+        },
+        {
+          "caller": "test_forecast_for_tool_history_failure_is_uncertainty",
+          "callee": "forecast_for_tool",
+          "lineNumber": 163
+        },
+        {
+          "caller": "test_forecast_for_tool_history_failure_is_uncertainty",
+          "callee": "(payload.get(\"note\") or payload.get(\"unavailable_reason\") or \"\").lower",
+          "lineNumber": 165
+        },
+        {
+          "caller": "test_forecast_for_tool_history_failure_is_uncertainty",
+          "callee": "payload.get",
+          "lineNumber": 165
+        },
+        {
+          "caller": "test_forecast_for_tool_history_failure_is_uncertainty",
+          "callee": "payload.get",
+          "lineNumber": 165
+        },
+        {
+          "caller": "test_forecast_for_tool_history_failure_is_uncertainty",
+          "callee": "str",
+          "lineNumber": 167
+        },
+        {
+          "caller": "test_forecast_plot_payload_includes_history_and_two_paths",
+          "callee": "forecast_plot_payload",
+          "lineNumber": 173
+        },
+        {
+          "caller": "test_forecast_plot_payload_includes_history_and_two_paths",
+          "callee": "_series",
+          "lineNumber": 173
+        },
+        {
+          "caller": "test_forecast_plot_payload_includes_history_and_two_paths",
+          "callee": "payload.get",
+          "lineNumber": 176
+        },
+        {
+          "caller": "test_forecast_plot_payload_includes_history_and_two_paths",
+          "callee": "len",
+          "lineNumber": 177
+        },
+        {
+          "caller": "test_forecast_plot_payload_includes_history_and_two_paths",
+          "callee": "len",
+          "lineNumber": 177
+        },
+        {
+          "caller": "test_forecast_plot_payload_includes_history_and_two_paths",
+          "callee": "len",
+          "lineNumber": 182
+        },
+        {
+          "caller": "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+          "callee": "pd.bdate_range",
+          "lineNumber": 193
+        },
+        {
+          "caller": "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+          "callee": "ZoneInfo",
+          "lineNumber": 193
+        },
+        {
+          "caller": "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+          "callee": "np.random.default_rng",
+          "lineNumber": 194
+        },
+        {
+          "caller": "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+          "callee": "np.cumsum",
+          "lineNumber": 195
+        },
+        {
+          "caller": "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+          "callee": "rng.normal",
+          "lineNumber": 195
+        },
+        {
+          "caller": "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+          "callee": "len",
+          "lineNumber": 195
+        },
+        {
+          "caller": "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+          "callee": "pd.Series",
+          "lineNumber": 196
+        },
+        {
+          "caller": "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+          "callee": "forecast_plot_payload",
+          "lineNumber": 198
+        },
+        {
+          "caller": "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+          "callee": "payload.get",
+          "lineNumber": 203
+        },
+        {
+          "caller": "test_forecast_plot_payload_urals_has_no_series",
+          "callee": "forecast_plot_payload",
+          "lineNumber": 210
+        },
+        {
+          "caller": "test_forecast_plot_payload_urals_has_no_series",
+          "callee": "_series",
+          "lineNumber": 210
+        },
+        {
+          "caller": "test_forecast_plot_payload_urals_has_no_series",
+          "callee": "(payload[\"unavailable_reason\"] or \"\").casefold",
+          "lineNumber": 215
+        },
+        {
+          "caller": "boom",
+          "callee": "RuntimeError",
+          "lineNumber": 222
+        },
+        {
+          "caller": "test_forecast_plot_payload_history_failure_is_uncertainty",
+          "callee": "forecast_plot_payload",
+          "lineNumber": 224
+        },
+        {
+          "caller": "test_forecast_plot_payload_history_failure_is_uncertainty",
+          "callee": "str",
+          "lineNumber": 228
+        },
+        {
+          "caller": "test_forecast_for_tool_citations_still_last_horizon_scalars",
+          "callee": "forecast_plot_payload",
+          "lineNumber": 234
+        },
+        {
+          "caller": "test_forecast_for_tool_citations_still_last_horizon_scalars",
+          "callee": "_series",
+          "lineNumber": 234
+        },
+        {
+          "caller": "test_forecast_for_tool_citations_still_last_horizon_scalars",
+          "callee": "forecast_for_tool",
+          "lineNumber": 235
+        },
+        {
+          "caller": "test_forecast_for_tool_citations_still_last_horizon_scalars",
+          "callee": "_series",
+          "lineNumber": 237
+        },
+        {
+          "caller": "test_forecast_for_tool_citations_still_last_horizon_scalars",
+          "callee": "len",
+          "lineNumber": 239
+        },
+        {
+          "caller": "test_forecast_for_tool_citations_still_last_horizon_scalars",
+          "callee": "all",
+          "lineNumber": 240
+        },
+        {
+          "caller": "test_forecast_for_tool_citations_still_last_horizon_scalars",
+          "callee": "len",
+          "lineNumber": 241
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 19,
+        "functionCount": 19,
+        "classCount": 0
+      }
+    }
+  ]
+}

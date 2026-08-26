@@ -1,0 +1,3327 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 11,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "oil_gas_analyst/denylist.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 17,
+      "functions": [
+        {
+          "name": "load_denylist",
+          "startLine": 11,
+          "endLine": 13,
+          "params": [
+            "path"
+          ]
+        },
+        {
+          "name": "is_denied",
+          "startLine": 16,
+          "endLine": 24,
+          "params": [
+            "url",
+            "domains"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "load_denylist",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "is_denied",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "load_denylist",
+          "callee": "yaml.safe_load",
+          "lineNumber": 12
+        },
+        {
+          "caller": "load_denylist",
+          "callee": "(path or _CONFIG).read_text",
+          "lineNumber": 12
+        },
+        {
+          "caller": "load_denylist",
+          "callee": "tuple",
+          "lineNumber": 13
+        },
+        {
+          "caller": "load_denylist",
+          "callee": "d.casefold().strip",
+          "lineNumber": 13
+        },
+        {
+          "caller": "load_denylist",
+          "callee": "d.casefold",
+          "lineNumber": 13
+        },
+        {
+          "caller": "is_denied",
+          "callee": "(urlparse(url).hostname or \"\").casefold",
+          "lineNumber": 17
+        },
+        {
+          "caller": "is_denied",
+          "callee": "urlparse",
+          "lineNumber": 17
+        },
+        {
+          "caller": "is_denied",
+          "callee": "host.startswith",
+          "lineNumber": 18
+        },
+        {
+          "caller": "is_denied",
+          "callee": "raw.casefold().strip",
+          "lineNumber": 21
+        },
+        {
+          "caller": "is_denied",
+          "callee": "raw.casefold",
+          "lineNumber": 21
+        },
+        {
+          "caller": "is_denied",
+          "callee": "host.endswith",
+          "lineNumber": 22
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "oil_gas_analyst/eval_dialogues.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 29,
+      "functions": [
+        {
+          "name": "load_session_start_hits",
+          "startLine": 25,
+          "endLine": 26,
+          "params": [
+            "searcher"
+          ]
+        },
+        {
+          "name": "invoke_dashboard_eval",
+          "startLine": 29,
+          "endLine": 37,
+          "params": [
+            "question",
+            "loop",
+            "session_start_hits"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "load_session_start_hits",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "invoke_dashboard_eval",
+          "line": 29,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "load_session_start_hits",
+          "callee": "visible_rail_hits",
+          "lineNumber": 26
+        },
+        {
+          "caller": "load_session_start_hits",
+          "callee": "fetch_session_start_web",
+          "lineNumber": 26
+        },
+        {
+          "caller": "invoke_dashboard_eval",
+          "callee": "list",
+          "lineNumber": 36
+        },
+        {
+          "caller": "invoke_dashboard_eval",
+          "callee": "load_session_start_hits",
+          "lineNumber": 36
+        },
+        {
+          "caller": "invoke_dashboard_eval",
+          "callee": "run_turn",
+          "lineNumber": 37
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "oil_gas_analyst/graph.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 7,
+      "functions": [
+        {
+          "name": "invoke_analyst",
+          "startLine": 9,
+          "endLine": 11,
+          "params": [
+            "question",
+            "loop"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "invoke_analyst",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "invoke_analyst",
+          "callee": "invoke_dashboard_eval",
+          "lineNumber": 11
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "oil_gas_analyst/session_start_web.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 391,
+      "nonEmptyLines": 329,
+      "functions": [
+        {
+          "name": "load_rail_exclusions",
+          "startLine": 39,
+          "endLine": 41,
+          "params": [
+            "path"
+          ]
+        },
+        {
+          "name": "_is_rail_hidden",
+          "startLine": 44,
+          "endLine": 45,
+          "params": [
+            "url",
+            "exclusions"
+          ]
+        },
+        {
+          "name": "_today_moscow",
+          "startLine": 48,
+          "endLine": 49,
+          "params": []
+        },
+        {
+          "name": "_parse_iso_date",
+          "startLine": 52,
+          "endLine": 58,
+          "params": [
+            "raw"
+          ]
+        },
+        {
+          "name": "_infer_date_from_snippet",
+          "startLine": 61,
+          "endLine": 69,
+          "params": [
+            "snippet"
+          ]
+        },
+        {
+          "name": "_is_fresh_for_rail",
+          "startLine": 72,
+          "endLine": 76,
+          "params": [
+            "published",
+            "assume_today_if_unknown"
+          ]
+        },
+        {
+          "name": "outlet_from_url",
+          "startLine": 96,
+          "endLine": 100,
+          "params": [
+            "url"
+          ]
+        },
+        {
+          "name": "_collect_yandex_top_news",
+          "startLine": 119,
+          "endLine": 187,
+          "params": [
+            "question"
+          ]
+        },
+        {
+          "name": "_cache_path",
+          "startLine": 190,
+          "endLine": 196,
+          "params": [
+            "cache_dir"
+          ]
+        },
+        {
+          "name": "_save_top_news_cache",
+          "startLine": 199,
+          "endLine": 209,
+          "params": [
+            "payload",
+            "cache_dir"
+          ]
+        },
+        {
+          "name": "_load_top_news_cache",
+          "startLine": 212,
+          "endLine": 229,
+          "params": [
+            "cache_dir"
+          ]
+        },
+        {
+          "name": "_build_payload_from_ranked",
+          "startLine": 232,
+          "endLine": 256,
+          "params": [
+            "ranked"
+          ]
+        },
+        {
+          "name": "cached_top_news_hits",
+          "startLine": 259,
+          "endLine": 265,
+          "params": [
+            "cache_dir"
+          ]
+        },
+        {
+          "name": "_fetch_live_top_news_payload",
+          "startLine": 268,
+          "endLine": 278,
+          "params": [
+            "cache_dir"
+          ]
+        },
+        {
+          "name": "refresh_top_news_hits",
+          "startLine": 281,
+          "endLine": 293,
+          "params": [
+            "cache_dir"
+          ]
+        },
+        {
+          "name": "fetch_session_start_web",
+          "startLine": 296,
+          "endLine": 321,
+          "params": [
+            "searcher",
+            "cache_dir"
+          ]
+        },
+        {
+          "name": "visible_rail_hits",
+          "startLine": 324,
+          "endLine": 354,
+          "params": [
+            "payload",
+            "exclusions"
+          ]
+        },
+        {
+          "name": "inject_session_start_web",
+          "startLine": 357,
+          "endLine": 371,
+          "params": [
+            "question",
+            "hits"
+          ]
+        },
+        {
+          "name": "has_grounded_session_start_web",
+          "startLine": 374,
+          "endLine": 391,
+          "params": [
+            "reply",
+            "hits"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SessionStartRailHit",
+          "startLine": 80,
+          "endLine": 86,
+          "methods": [],
+          "properties": [
+            "title",
+            "outlet",
+            "snippet",
+            "url",
+            "citation",
+            "published"
+          ]
+        },
+        {
+          "name": "_RankedWebHit",
+          "startLine": 90,
+          "endLine": 93,
+          "methods": [],
+          "properties": [
+            "hit",
+            "published",
+            "assume_today_if_unknown"
+          ]
+        },
+        {
+          "name": "YandexTopNewsSearcher",
+          "startLine": 103,
+          "endLine": 116,
+          "methods": [
+            "search"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "load_rail_exclusions",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "_is_rail_hidden",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "_today_moscow",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "_parse_iso_date",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "_infer_date_from_snippet",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "_is_fresh_for_rail",
+          "line": 72,
+          "isDefault": false
+        },
+        {
+          "name": "SessionStartRailHit",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "_RankedWebHit",
+          "line": 89,
+          "isDefault": false
+        },
+        {
+          "name": "outlet_from_url",
+          "line": 96,
+          "isDefault": false
+        },
+        {
+          "name": "YandexTopNewsSearcher",
+          "line": 103,
+          "isDefault": false
+        },
+        {
+          "name": "_collect_yandex_top_news",
+          "line": 119,
+          "isDefault": false
+        },
+        {
+          "name": "_cache_path",
+          "line": 190,
+          "isDefault": false
+        },
+        {
+          "name": "_save_top_news_cache",
+          "line": 199,
+          "isDefault": false
+        },
+        {
+          "name": "_load_top_news_cache",
+          "line": 212,
+          "isDefault": false
+        },
+        {
+          "name": "_build_payload_from_ranked",
+          "line": 232,
+          "isDefault": false
+        },
+        {
+          "name": "cached_top_news_hits",
+          "line": 259,
+          "isDefault": false
+        },
+        {
+          "name": "_fetch_live_top_news_payload",
+          "line": 268,
+          "isDefault": false
+        },
+        {
+          "name": "refresh_top_news_hits",
+          "line": 281,
+          "isDefault": false
+        },
+        {
+          "name": "fetch_session_start_web",
+          "line": 296,
+          "isDefault": false
+        },
+        {
+          "name": "visible_rail_hits",
+          "line": 324,
+          "isDefault": false
+        },
+        {
+          "name": "inject_session_start_web",
+          "line": 357,
+          "isDefault": false
+        },
+        {
+          "name": "has_grounded_session_start_web",
+          "line": 374,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "load_rail_exclusions",
+          "callee": "yaml.safe_load",
+          "lineNumber": 40
+        },
+        {
+          "caller": "load_rail_exclusions",
+          "callee": "(path or _CONFIG).read_text",
+          "lineNumber": 40
+        },
+        {
+          "caller": "load_rail_exclusions",
+          "callee": "tuple",
+          "lineNumber": 41
+        },
+        {
+          "caller": "load_rail_exclusions",
+          "callee": "d.casefold().strip",
+          "lineNumber": 41
+        },
+        {
+          "caller": "load_rail_exclusions",
+          "callee": "d.casefold",
+          "lineNumber": 41
+        },
+        {
+          "caller": "load_rail_exclusions",
+          "callee": "data.get",
+          "lineNumber": 41
+        },
+        {
+          "caller": "_is_rail_hidden",
+          "callee": "is_denied",
+          "lineNumber": 45
+        },
+        {
+          "caller": "_today_moscow",
+          "callee": "datetime.now(_MOSCOW).date",
+          "lineNumber": 49
+        },
+        {
+          "caller": "_today_moscow",
+          "callee": "datetime.now",
+          "lineNumber": 49
+        },
+        {
+          "caller": "_parse_iso_date",
+          "callee": "datetime.fromisoformat(str(raw).replace(\"Z\", \"+00:00\")).astimezone(_MOSCOW).date",
+          "lineNumber": 56
+        },
+        {
+          "caller": "_parse_iso_date",
+          "callee": "datetime.fromisoformat(str(raw).replace(\"Z\", \"+00:00\")).astimezone",
+          "lineNumber": 56
+        },
+        {
+          "caller": "_parse_iso_date",
+          "callee": "datetime.fromisoformat",
+          "lineNumber": 56
+        },
+        {
+          "caller": "_parse_iso_date",
+          "callee": "str(raw).replace",
+          "lineNumber": 56
+        },
+        {
+          "caller": "_parse_iso_date",
+          "callee": "str",
+          "lineNumber": 56
+        },
+        {
+          "caller": "_infer_date_from_snippet",
+          "callee": "snippet.strip",
+          "lineNumber": 62
+        },
+        {
+          "caller": "_infer_date_from_snippet",
+          "callee": "_RELATIVE_TODAY.search",
+          "lineNumber": 65
+        },
+        {
+          "caller": "_infer_date_from_snippet",
+          "callee": "_today_moscow",
+          "lineNumber": 66
+        },
+        {
+          "caller": "_infer_date_from_snippet",
+          "callee": "_RELATIVE_YESTERDAY.search",
+          "lineNumber": 67
+        },
+        {
+          "caller": "_infer_date_from_snippet",
+          "callee": "_today_moscow",
+          "lineNumber": 68
+        },
+        {
+          "caller": "_infer_date_from_snippet",
+          "callee": "timedelta",
+          "lineNumber": 68
+        },
+        {
+          "caller": "_is_fresh_for_rail",
+          "callee": "_today_moscow",
+          "lineNumber": 73
+        },
+        {
+          "caller": "outlet_from_url",
+          "callee": "urlparse",
+          "lineNumber": 97
+        },
+        {
+          "caller": "outlet_from_url",
+          "callee": "urlparse",
+          "lineNumber": 97
+        },
+        {
+          "caller": "outlet_from_url",
+          "callee": "host.startswith",
+          "lineNumber": 98
+        },
+        {
+          "caller": "search",
+          "callee": "_collect_yandex_top_news",
+          "lineNumber": 107
+        },
+        {
+          "caller": "search",
+          "callee": "_is_fresh_for_rail",
+          "lineNumber": 111
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "set",
+          "lineNumber": 123
+        },
+        {
+          "caller": "add",
+          "callee": "seen.add",
+          "lineNumber": 135
+        },
+        {
+          "caller": "add",
+          "callee": "ranked.append",
+          "lineNumber": 136
+        },
+        {
+          "caller": "add",
+          "callee": "_RankedWebHit",
+          "lineNumber": 137
+        },
+        {
+          "caller": "add",
+          "callee": "WebHit",
+          "lineNumber": 138
+        },
+        {
+          "caller": "add",
+          "callee": "outlet_from_url",
+          "lineNumber": 138
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "DDGS",
+          "lineNumber": 144
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "client.text",
+          "lineNumber": 145
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "str",
+          "lineNumber": 152
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "row.get",
+          "lineNumber": 152
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "row.get",
+          "lineNumber": 152
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "str",
+          "lineNumber": 153
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "row.get",
+          "lineNumber": 153
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "row.get",
+          "lineNumber": 153
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "_infer_date_from_snippet",
+          "lineNumber": 154
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "add",
+          "lineNumber": 155
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "str",
+          "lineNumber": 156
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "row.get",
+          "lineNumber": 156
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "DDGS",
+          "lineNumber": 163
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "client.news",
+          "lineNumber": 164
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "str",
+          "lineNumber": 170
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "row.get",
+          "lineNumber": 170
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "_parse_iso_date",
+          "lineNumber": 171
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "row.get",
+          "lineNumber": 171
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "add",
+          "lineNumber": 172
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "str",
+          "lineNumber": 173
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "row.get",
+          "lineNumber": 173
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "str",
+          "lineNumber": 175
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "row.get",
+          "lineNumber": 175
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "row.get",
+          "lineNumber": 175
+        },
+        {
+          "caller": "_collect_yandex_top_news",
+          "callee": "ranked.sort",
+          "lineNumber": 180
+        },
+        {
+          "caller": "_cache_path",
+          "callee": "Path",
+          "lineNumber": 194
+        },
+        {
+          "caller": "_cache_path",
+          "callee": "os.environ.get",
+          "lineNumber": 194
+        },
+        {
+          "caller": "_save_top_news_cache",
+          "callee": "_cache_path",
+          "lineNumber": 200
+        },
+        {
+          "caller": "_save_top_news_cache",
+          "callee": "path.parent.mkdir",
+          "lineNumber": 201
+        },
+        {
+          "caller": "_save_top_news_cache",
+          "callee": "datetime.now(_MOSCOW).isoformat",
+          "lineNumber": 204
+        },
+        {
+          "caller": "_save_top_news_cache",
+          "callee": "datetime.now",
+          "lineNumber": 204
+        },
+        {
+          "caller": "_save_top_news_cache",
+          "callee": "payload.get",
+          "lineNumber": 205
+        },
+        {
+          "caller": "_save_top_news_cache",
+          "callee": "payload.get",
+          "lineNumber": 206
+        },
+        {
+          "caller": "_save_top_news_cache",
+          "callee": "payload.get",
+          "lineNumber": 207
+        },
+        {
+          "caller": "_save_top_news_cache",
+          "callee": "path.write_text",
+          "lineNumber": 209
+        },
+        {
+          "caller": "_save_top_news_cache",
+          "callee": "json.dumps",
+          "lineNumber": 209
+        },
+        {
+          "caller": "_load_top_news_cache",
+          "callee": "_cache_path",
+          "lineNumber": 213
+        },
+        {
+          "caller": "_load_top_news_cache",
+          "callee": "path.is_file",
+          "lineNumber": 214
+        },
+        {
+          "caller": "_load_top_news_cache",
+          "callee": "json.loads",
+          "lineNumber": 217
+        },
+        {
+          "caller": "_load_top_news_cache",
+          "callee": "path.read_text",
+          "lineNumber": 217
+        },
+        {
+          "caller": "_load_top_news_cache",
+          "callee": "data.get",
+          "lineNumber": 220
+        },
+        {
+          "caller": "_load_top_news_cache",
+          "callee": "data.get",
+          "lineNumber": 225
+        },
+        {
+          "caller": "_load_top_news_cache",
+          "callee": "len",
+          "lineNumber": 225
+        },
+        {
+          "caller": "_load_top_news_cache",
+          "callee": "data.get",
+          "lineNumber": 226
+        },
+        {
+          "caller": "_load_top_news_cache",
+          "callee": "data.get",
+          "lineNumber": 228
+        },
+        {
+          "caller": "_build_payload_from_ranked",
+          "callee": "load_denylist",
+          "lineNumber": 235
+        },
+        {
+          "caller": "_build_payload_from_ranked",
+          "callee": "web_citation",
+          "lineNumber": 239
+        },
+        {
+          "caller": "_build_payload_from_ranked",
+          "callee": "rows.append",
+          "lineNumber": 240
+        },
+        {
+          "caller": "_build_payload_from_ranked",
+          "callee": "is_denied",
+          "lineNumber": 246
+        },
+        {
+          "caller": "_build_payload_from_ranked",
+          "callee": "item.published.isoformat",
+          "lineNumber": 247
+        },
+        {
+          "caller": "_build_payload_from_ranked",
+          "callee": "len",
+          "lineNumber": 256
+        },
+        {
+          "caller": "cached_top_news_hits",
+          "callee": "Path",
+          "lineNumber": 261
+        },
+        {
+          "caller": "cached_top_news_hits",
+          "callee": "_load_top_news_cache",
+          "lineNumber": 262
+        },
+        {
+          "caller": "cached_top_news_hits",
+          "callee": "visible_rail_hits",
+          "lineNumber": 265
+        },
+        {
+          "caller": "_fetch_live_top_news_payload",
+          "callee": "_collect_yandex_top_news",
+          "lineNumber": 269
+        },
+        {
+          "caller": "_fetch_live_top_news_payload",
+          "callee": "_is_fresh_for_rail",
+          "lineNumber": 273
+        },
+        {
+          "caller": "_fetch_live_top_news_payload",
+          "callee": "_build_payload_from_ranked",
+          "lineNumber": 278
+        },
+        {
+          "caller": "refresh_top_news_hits",
+          "callee": "Path",
+          "lineNumber": 283
+        },
+        {
+          "caller": "refresh_top_news_hits",
+          "callee": "cached_top_news_hits",
+          "lineNumber": 284
+        },
+        {
+          "caller": "refresh_top_news_hits",
+          "callee": "_fetch_live_top_news_payload",
+          "lineNumber": 286
+        },
+        {
+          "caller": "refresh_top_news_hits",
+          "callee": "visible_rail_hits",
+          "lineNumber": 287
+        },
+        {
+          "caller": "refresh_top_news_hits",
+          "callee": "_save_top_news_cache",
+          "lineNumber": 289
+        },
+        {
+          "caller": "fetch_session_start_web",
+          "callee": "Path",
+          "lineNumber": 302
+        },
+        {
+          "caller": "fetch_session_start_web",
+          "callee": "search_for_tool",
+          "lineNumber": 307
+        },
+        {
+          "caller": "fetch_session_start_web",
+          "callee": "_fetch_live_top_news_payload",
+          "lineNumber": 309
+        },
+        {
+          "caller": "fetch_session_start_web",
+          "callee": "visible_rail_hits",
+          "lineNumber": 313
+        },
+        {
+          "caller": "fetch_session_start_web",
+          "callee": "_save_top_news_cache",
+          "lineNumber": 314
+        },
+        {
+          "caller": "fetch_session_start_web",
+          "callee": "_load_top_news_cache",
+          "lineNumber": 317
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "tuple",
+          "lineNumber": 330
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "load_rail_exclusions",
+          "lineNumber": 330
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "_today_moscow",
+          "lineNumber": 331
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "bool",
+          "lineNumber": 332
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "payload.get",
+          "lineNumber": 332
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "payload.get",
+          "lineNumber": 334
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "row.get",
+          "lineNumber": 335
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "str",
+          "lineNumber": 337
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "row.get",
+          "lineNumber": 337
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "_is_rail_hidden",
+          "lineNumber": 338
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "_parse_iso_date",
+          "lineNumber": 340
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "row.get",
+          "lineNumber": 340
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "visible.append",
+          "lineNumber": 343
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "SessionStartRailHit",
+          "lineNumber": 344
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "str",
+          "lineNumber": 345
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "row.get",
+          "lineNumber": 345
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "outlet_from_url",
+          "lineNumber": 345
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "outlet_from_url",
+          "lineNumber": 346
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "str",
+          "lineNumber": 347
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "row.get",
+          "lineNumber": 347
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "str",
+          "lineNumber": 349
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "row.get",
+          "lineNumber": 349
+        },
+        {
+          "caller": "visible_rail_hits",
+          "callee": "visible.sort",
+          "lineNumber": 353
+        },
+        {
+          "caller": "inject_session_start_web",
+          "callee": "hit.snippet.strip().replace",
+          "lineNumber": 363
+        },
+        {
+          "caller": "inject_session_start_web",
+          "callee": "hit.snippet.strip",
+          "lineNumber": 363
+        },
+        {
+          "caller": "inject_session_start_web",
+          "callee": "len",
+          "lineNumber": 364
+        },
+        {
+          "caller": "inject_session_start_web",
+          "callee": "lines.append",
+          "lineNumber": 366
+        },
+        {
+          "caller": "inject_session_start_web",
+          "callee": "lines.append",
+          "lineNumber": 369
+        },
+        {
+          "caller": "inject_session_start_web",
+          "callee": "lines.append",
+          "lineNumber": 370
+        },
+        {
+          "caller": "inject_session_start_web",
+          "callee": "\"\\n\".join",
+          "lineNumber": 371
+        },
+        {
+          "caller": "has_grounded_session_start_web",
+          "callee": "hit.outlet.casefold",
+          "lineNumber": 382
+        },
+        {
+          "caller": "has_grounded_session_start_web",
+          "callee": "citation.label.casefold",
+          "lineNumber": 388
+        },
+        {
+          "caller": "has_grounded_session_start_web",
+          "callee": "any",
+          "lineNumber": 389
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 22,
+        "functionCount": 19,
+        "classCount": 3
+      }
+    },
+    {
+      "path": "oil_gas_analyst/types.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 130,
+      "nonEmptyLines": 92,
+      "classes": [
+        {
+          "name": "Chunk",
+          "startLine": 11,
+          "endLine": 20,
+          "methods": [],
+          "properties": [
+            "text",
+            "title",
+            "date",
+            "page_start",
+            "page_end",
+            "heading",
+            "excerpt",
+            "agency",
+            "url"
+          ]
+        },
+        {
+          "name": "WebHit",
+          "startLine": 24,
+          "endLine": 27,
+          "methods": [],
+          "properties": [
+            "title",
+            "url",
+            "snippet"
+          ]
+        },
+        {
+          "name": "MethodForecast",
+          "startLine": 31,
+          "endLine": 36,
+          "methods": [],
+          "properties": [
+            "name",
+            "point",
+            "low",
+            "high",
+            "interpretation"
+          ]
+        },
+        {
+          "name": "MethodPathForecast",
+          "startLine": 40,
+          "endLine": 46,
+          "methods": [],
+          "properties": [
+            "name",
+            "point",
+            "low",
+            "high",
+            "path",
+            "interpretation"
+          ]
+        },
+        {
+          "name": "ForecastPlotPayload",
+          "startLine": 50,
+          "endLine": 57,
+          "methods": [],
+          "properties": [
+            "symbol",
+            "horizon_days",
+            "history_dates",
+            "history_closes",
+            "live_quote",
+            "methods",
+            "unavailable_reason"
+          ]
+        },
+        {
+          "name": "ForecastResult",
+          "startLine": 61,
+          "endLine": 65,
+          "methods": [],
+          "properties": [
+            "symbol",
+            "methods",
+            "unavailable_reason",
+            "horizon_days"
+          ]
+        },
+        {
+          "name": "Citation",
+          "startLine": 69,
+          "endLine": 72,
+          "methods": [],
+          "properties": [
+            "kind",
+            "label",
+            "url"
+          ]
+        },
+        {
+          "name": "LoopResult",
+          "startLine": 76,
+          "endLine": 85,
+          "methods": [],
+          "properties": [
+            "text",
+            "citations",
+            "retrieved",
+            "web_ran",
+            "forecast_ran",
+            "forecast_failed",
+            "web_reason"
+          ]
+        },
+        {
+          "name": "LoopError",
+          "startLine": 88,
+          "endLine": 89,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "AnalystLoop",
+          "startLine": 92,
+          "endLine": 93,
+          "methods": [
+            "complete"
+          ],
+          "properties": []
+        },
+        {
+          "name": "Reply",
+          "startLine": 97,
+          "endLine": 106,
+          "methods": [],
+          "properties": [
+            "text",
+            "citations",
+            "retrieved",
+            "web_ran",
+            "forecast_ran",
+            "forecast_failed",
+            "refused",
+            "steps",
+            "web_reason"
+          ]
+        },
+        {
+          "name": "CompetenceClassifier",
+          "startLine": 109,
+          "endLine": 110,
+          "methods": [
+            "classify"
+          ],
+          "properties": []
+        },
+        {
+          "name": "Retriever",
+          "startLine": 113,
+          "endLine": 114,
+          "methods": [
+            "retrieve"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ChunkDropper",
+          "startLine": 117,
+          "endLine": 118,
+          "methods": [
+            "keep"
+          ],
+          "properties": []
+        },
+        {
+          "name": "WebSearch",
+          "startLine": 121,
+          "endLine": 122,
+          "methods": [
+            "search"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ForecastModule",
+          "startLine": 125,
+          "endLine": 126,
+          "methods": [
+            "forecast"
+          ],
+          "properties": []
+        },
+        {
+          "name": "Composer",
+          "startLine": 129,
+          "endLine": 130,
+          "methods": [
+            "compose"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Chunk",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "WebHit",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "MethodForecast",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "MethodPathForecast",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "ForecastPlotPayload",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "ForecastResult",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "Citation",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "LoopResult",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "LoopError",
+          "line": 88,
+          "isDefault": false
+        },
+        {
+          "name": "AnalystLoop",
+          "line": 92,
+          "isDefault": false
+        },
+        {
+          "name": "Reply",
+          "line": 96,
+          "isDefault": false
+        },
+        {
+          "name": "CompetenceClassifier",
+          "line": 109,
+          "isDefault": false
+        },
+        {
+          "name": "Retriever",
+          "line": 113,
+          "isDefault": false
+        },
+        {
+          "name": "ChunkDropper",
+          "line": 117,
+          "isDefault": false
+        },
+        {
+          "name": "WebSearch",
+          "line": 121,
+          "isDefault": false
+        },
+        {
+          "name": "ForecastModule",
+          "line": 125,
+          "isDefault": false
+        },
+        {
+          "name": "Composer",
+          "line": 129,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 17,
+        "functionCount": 0,
+        "classCount": 17
+      }
+    },
+    {
+      "path": "oil_gas_analyst/web.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 136,
+      "nonEmptyLines": 118,
+      "functions": [
+        {
+          "name": "extract_html_text",
+          "startLine": 24,
+          "endLine": 28,
+          "params": [
+            "raw"
+          ]
+        },
+        {
+          "name": "fetch_page_text",
+          "startLine": 31,
+          "endLine": 50,
+          "params": [
+            "url",
+            "timeout"
+          ]
+        },
+        {
+          "name": "fill_page_bodies",
+          "startLine": 53,
+          "endLine": 77,
+          "params": [
+            "hits",
+            "fetch_page",
+            "limit",
+            "max_chars",
+            "denied_domains"
+          ]
+        },
+        {
+          "name": "search_for_tool",
+          "startLine": 108,
+          "endLine": 136,
+          "params": [
+            "query",
+            "searcher",
+            "k"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DuckDuckGoWeb",
+          "startLine": 80,
+          "endLine": 104,
+          "methods": [
+            "__init__",
+            "search"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "extract_html_text",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "fetch_page_text",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "fill_page_bodies",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "DuckDuckGoWeb",
+          "line": 80,
+          "isDefault": false
+        },
+        {
+          "name": "search_for_tool",
+          "line": 107,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "extract_html_text",
+          "callee": "_SCRIPT.sub",
+          "lineNumber": 25
+        },
+        {
+          "caller": "extract_html_text",
+          "callee": "_TAG.sub",
+          "lineNumber": 26
+        },
+        {
+          "caller": "extract_html_text",
+          "callee": "html_lib.unescape",
+          "lineNumber": 27
+        },
+        {
+          "caller": "extract_html_text",
+          "callee": "_WS.sub(\" \", text).strip",
+          "lineNumber": 28
+        },
+        {
+          "caller": "extract_html_text",
+          "callee": "_WS.sub",
+          "lineNumber": 28
+        },
+        {
+          "caller": "fetch_page_text",
+          "callee": "urlparse",
+          "lineNumber": 32
+        },
+        {
+          "caller": "fetch_page_text",
+          "callee": "parsed.path.lower().endswith",
+          "lineNumber": 35
+        },
+        {
+          "caller": "fetch_page_text",
+          "callee": "parsed.path.lower",
+          "lineNumber": 35
+        },
+        {
+          "caller": "fetch_page_text",
+          "callee": "urllib.request.Request",
+          "lineNumber": 37
+        },
+        {
+          "caller": "fetch_page_text",
+          "callee": "urllib.request.urlopen",
+          "lineNumber": 42
+        },
+        {
+          "caller": "fetch_page_text",
+          "callee": "(resp.headers.get_content_type() or \"\").casefold",
+          "lineNumber": 43
+        },
+        {
+          "caller": "fetch_page_text",
+          "callee": "resp.headers.get_content_type",
+          "lineNumber": 43
+        },
+        {
+          "caller": "fetch_page_text",
+          "callee": "resp.read",
+          "lineNumber": 46
+        },
+        {
+          "caller": "fetch_page_text",
+          "callee": "resp.headers.get_content_charset",
+          "lineNumber": 47
+        },
+        {
+          "caller": "fetch_page_text",
+          "callee": "raw.decode",
+          "lineNumber": 48
+        },
+        {
+          "caller": "fill_page_bodies",
+          "callee": "enumerate",
+          "lineNumber": 65
+        },
+        {
+          "caller": "fill_page_bodies",
+          "callee": "fetch",
+          "lineNumber": 69
+        },
+        {
+          "caller": "fill_page_bodies",
+          "callee": "extract_html_text",
+          "lineNumber": 70
+        },
+        {
+          "caller": "fill_page_bodies",
+          "callee": "_WS.sub(\" \", text).strip",
+          "lineNumber": 71
+        },
+        {
+          "caller": "fill_page_bodies",
+          "callee": "_WS.sub",
+          "lineNumber": 71
+        },
+        {
+          "caller": "fill_page_bodies",
+          "callee": "out.append",
+          "lineNumber": 76
+        },
+        {
+          "caller": "fill_page_bodies",
+          "callee": "WebHit",
+          "lineNumber": 76
+        },
+        {
+          "caller": "search",
+          "callee": "DDGS",
+          "lineNumber": 89
+        },
+        {
+          "caller": "search",
+          "callee": "client.text",
+          "lineNumber": 90
+        },
+        {
+          "caller": "search",
+          "callee": "row.get",
+          "lineNumber": 94
+        },
+        {
+          "caller": "search",
+          "callee": "row.get",
+          "lineNumber": 94
+        },
+        {
+          "caller": "search",
+          "callee": "hits.append",
+          "lineNumber": 97
+        },
+        {
+          "caller": "search",
+          "callee": "WebHit",
+          "lineNumber": 98
+        },
+        {
+          "caller": "search",
+          "callee": "row.get",
+          "lineNumber": 99
+        },
+        {
+          "caller": "search",
+          "callee": "urlparse",
+          "lineNumber": 99
+        },
+        {
+          "caller": "search",
+          "callee": "row.get",
+          "lineNumber": 101
+        },
+        {
+          "caller": "search",
+          "callee": "row.get",
+          "lineNumber": 101
+        },
+        {
+          "caller": "search",
+          "callee": "fill_page_bodies",
+          "lineNumber": 104
+        },
+        {
+          "caller": "search_for_tool",
+          "callee": "(searcher or DuckDuckGoWeb()).search",
+          "lineNumber": 114
+        },
+        {
+          "caller": "search_for_tool",
+          "callee": "DuckDuckGoWeb",
+          "lineNumber": 114
+        },
+        {
+          "caller": "search_for_tool",
+          "callee": "load_denylist",
+          "lineNumber": 117
+        },
+        {
+          "caller": "search_for_tool",
+          "callee": "web_citation",
+          "lineNumber": 120
+        },
+        {
+          "caller": "search_for_tool",
+          "callee": "rows.append",
+          "lineNumber": 121
+        },
+        {
+          "caller": "search_for_tool",
+          "callee": "is_denied",
+          "lineNumber": 127
+        },
+        {
+          "caller": "search_for_tool",
+          "callee": "len",
+          "lineNumber": 136
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "tests/test_dashboard.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 96,
+      "nonEmptyLines": 72,
+      "functions": [
+        {
+          "name": "test_handle_chat_message_forwards_chat_history_to_run_turn",
+          "startLine": 4,
+          "endLine": 32,
+          "params": [
+            "monkeypatch"
+          ]
+        },
+        {
+          "name": "test_handle_chat_message_uses_run_turn",
+          "startLine": 35,
+          "endLine": 53,
+          "params": [
+            "monkeypatch"
+          ]
+        },
+        {
+          "name": "test_handle_chat_message_rate_limit",
+          "startLine": 56,
+          "endLine": 74,
+          "params": [
+            "monkeypatch"
+          ]
+        },
+        {
+          "name": "test_demo_login_disabled_when_env_empty",
+          "startLine": 77,
+          "endLine": 84,
+          "params": [
+            "monkeypatch"
+          ]
+        },
+        {
+          "name": "test_demo_login_requires_matching_credentials",
+          "startLine": 87,
+          "endLine": 96,
+          "params": [
+            "monkeypatch"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "test_handle_chat_message_forwards_chat_history_to_run_turn",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "test_handle_chat_message_uses_run_turn",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "test_handle_chat_message_rate_limit",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "test_demo_login_disabled_when_env_empty",
+          "line": 77,
+          "isDefault": false
+        },
+        {
+          "name": "test_demo_login_requires_matching_credentials",
+          "line": 87,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_run_turn",
+          "callee": "list",
+          "lineNumber": 15
+        },
+        {
+          "caller": "_run_turn",
+          "callee": "kwargs.get",
+          "lineNumber": 15
+        },
+        {
+          "caller": "_run_turn",
+          "callee": "Reply",
+          "lineNumber": 16
+        },
+        {
+          "caller": "test_handle_chat_message_forwards_chat_history_to_run_turn",
+          "callee": "monkeypatch.setattr",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_handle_chat_message_forwards_chat_history_to_run_turn",
+          "callee": "_Loop",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_handle_chat_message_forwards_chat_history_to_run_turn",
+          "callee": "monkeypatch.setattr",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_handle_chat_message_forwards_chat_history_to_run_turn",
+          "callee": "monkeypatch.setattr",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_handle_chat_message_forwards_chat_history_to_run_turn",
+          "callee": "type",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_handle_chat_message_forwards_chat_history_to_run_turn",
+          "callee": "chat_ui.handle_chat_message",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_handle_chat_message_uses_run_turn",
+          "callee": "monkeypatch.setattr",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_handle_chat_message_uses_run_turn",
+          "callee": "_Loop",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_handle_chat_message_uses_run_turn",
+          "callee": "monkeypatch.setattr",
+          "lineNumber": 42
+        },
+        {
+          "caller": "test_handle_chat_message_uses_run_turn",
+          "callee": "type",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_handle_chat_message_uses_run_turn",
+          "callee": "chat_ui.handle_chat_message",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_handle_chat_message_uses_run_turn",
+          "callee": "Reply",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_handle_chat_message_rate_limit",
+          "callee": "monkeypatch.setattr",
+          "lineNumber": 66
+        },
+        {
+          "caller": "test_handle_chat_message_rate_limit",
+          "callee": "_Cfg",
+          "lineNumber": 66
+        },
+        {
+          "caller": "test_handle_chat_message_rate_limit",
+          "callee": "chat_ui.handle_chat_message",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_handle_chat_message_rate_limit",
+          "callee": "_Limiter",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_handle_chat_message_rate_limit",
+          "callee": "out.lower",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_demo_login_disabled_when_env_empty",
+          "callee": "monkeypatch.delenv",
+          "lineNumber": 80
+        },
+        {
+          "caller": "test_demo_login_disabled_when_env_empty",
+          "callee": "monkeypatch.delenv",
+          "lineNumber": 81
+        },
+        {
+          "caller": "test_demo_login_disabled_when_env_empty",
+          "callee": "load_demo_login_config",
+          "lineNumber": 82
+        },
+        {
+          "caller": "test_demo_login_disabled_when_env_empty",
+          "callee": "verify_demo_login",
+          "lineNumber": 84
+        },
+        {
+          "caller": "test_demo_login_requires_matching_credentials",
+          "callee": "monkeypatch.setenv",
+          "lineNumber": 90
+        },
+        {
+          "caller": "test_demo_login_requires_matching_credentials",
+          "callee": "monkeypatch.setenv",
+          "lineNumber": 91
+        },
+        {
+          "caller": "test_demo_login_requires_matching_credentials",
+          "callee": "load_demo_login_config",
+          "lineNumber": 92
+        },
+        {
+          "caller": "test_demo_login_requires_matching_credentials",
+          "callee": "verify_demo_login",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_demo_login_requires_matching_credentials",
+          "callee": "verify_demo_login",
+          "lineNumber": 95
+        },
+        {
+          "caller": "test_demo_login_requires_matching_credentials",
+          "callee": "verify_demo_login",
+          "lineNumber": 96
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 5,
+        "functionCount": 5,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "tests/test_denylist.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 119,
+      "nonEmptyLines": 87,
+      "functions": [
+        {
+          "name": "test_kp_and_subdomain_denied",
+          "startLine": 5,
+          "endLine": 8,
+          "params": []
+        },
+        {
+          "name": "test_reuters_not_denied",
+          "startLine": 11,
+          "endLine": 13,
+          "params": []
+        },
+        {
+          "name": "test_page_body_puts_article_figure_in_snippet",
+          "startLine": 16,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "test_denied_domain_stays_in_hits_for_the_model",
+          "startLine": 36,
+          "endLine": 60,
+          "params": []
+        },
+        {
+          "name": "test_page_fetch_keeps_ddg_snippet_on_failure",
+          "startLine": 63,
+          "endLine": 76,
+          "params": []
+        },
+        {
+          "name": "test_page_fetch_stops_after_three_allowed_hits",
+          "startLine": 79,
+          "endLine": 94,
+          "params": []
+        },
+        {
+          "name": "test_empty_web_search_asks_not_to_invent_news",
+          "startLine": 97,
+          "endLine": 108,
+          "params": []
+        },
+        {
+          "name": "test_kp_and_subdomain_denied",
+          "startLine": 111,
+          "endLine": 114,
+          "params": []
+        },
+        {
+          "name": "test_reuters_not_denied",
+          "startLine": 117,
+          "endLine": 119,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "test_kp_and_subdomain_denied",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "test_reuters_not_denied",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "test_page_body_puts_article_figure_in_snippet",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "test_denied_domain_stays_in_hits_for_the_model",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "test_page_fetch_keeps_ddg_snippet_on_failure",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "test_page_fetch_stops_after_three_allowed_hits",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "test_empty_web_search_asks_not_to_invent_news",
+          "line": 97,
+          "isDefault": false
+        },
+        {
+          "name": "test_kp_and_subdomain_denied",
+          "line": 111,
+          "isDefault": false
+        },
+        {
+          "name": "test_reuters_not_denied",
+          "line": 117,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_kp_and_subdomain_denied",
+          "callee": "load_denylist",
+          "lineNumber": 6
+        },
+        {
+          "caller": "test_kp_and_subdomain_denied",
+          "callee": "is_denied",
+          "lineNumber": 7
+        },
+        {
+          "caller": "test_kp_and_subdomain_denied",
+          "callee": "is_denied",
+          "lineNumber": 8
+        },
+        {
+          "caller": "test_reuters_not_denied",
+          "callee": "load_denylist",
+          "lineNumber": 12
+        },
+        {
+          "caller": "test_reuters_not_denied",
+          "callee": "is_denied",
+          "lineNumber": 13
+        },
+        {
+          "caller": "test_page_body_puts_article_figure_in_snippet",
+          "callee": "WebHit",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_page_body_puts_article_figure_in_snippet",
+          "callee": "fill_page_bodies",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_page_body_puts_article_figure_in_snippet",
+          "callee": "len",
+          "lineNumber": 33
+        },
+        {
+          "caller": "fake",
+          "callee": "fetched.append",
+          "lineNumber": 42
+        },
+        {
+          "caller": "test_denied_domain_stays_in_hits_for_the_model",
+          "callee": "WebHit",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_denied_domain_stays_in_hits_for_the_model",
+          "callee": "WebHit",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_denied_domain_stays_in_hits_for_the_model",
+          "callee": "fill_page_bodies",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_denied_domain_stays_in_hits_for_the_model",
+          "callee": "search_for_tool",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_denied_domain_stays_in_hits_for_the_model",
+          "callee": "_Search",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_denied_domain_stays_in_hits_for_the_model",
+          "callee": "any",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_denied_domain_stays_in_hits_for_the_model",
+          "callee": "row.get",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_page_fetch_keeps_ddg_snippet_on_failure",
+          "callee": "WebHit",
+          "lineNumber": 66
+        },
+        {
+          "caller": "boom",
+          "callee": "OSError",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_page_fetch_keeps_ddg_snippet_on_failure",
+          "callee": "fill_page_bodies",
+          "lineNumber": 75
+        },
+        {
+          "caller": "fake",
+          "callee": "fetched.append",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_page_fetch_stops_after_three_allowed_hits",
+          "callee": "WebHit",
+          "lineNumber": 89
+        },
+        {
+          "caller": "test_page_fetch_stops_after_three_allowed_hits",
+          "callee": "str",
+          "lineNumber": 89
+        },
+        {
+          "caller": "test_page_fetch_stops_after_three_allowed_hits",
+          "callee": "range",
+          "lineNumber": 90
+        },
+        {
+          "caller": "test_page_fetch_stops_after_three_allowed_hits",
+          "callee": "fill_page_bodies",
+          "lineNumber": 92
+        },
+        {
+          "caller": "test_page_fetch_stops_after_three_allowed_hits",
+          "callee": "range",
+          "lineNumber": 93
+        },
+        {
+          "caller": "test_page_fetch_stops_after_three_allowed_hits",
+          "callee": "len",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_empty_web_search_asks_not_to_invent_news",
+          "callee": "search_for_tool",
+          "lineNumber": 104
+        },
+        {
+          "caller": "test_empty_web_search_asks_not_to_invent_news",
+          "callee": "_Empty",
+          "lineNumber": 104
+        },
+        {
+          "caller": "test_empty_web_search_asks_not_to_invent_news",
+          "callee": "(payload.get(\"note\") or \"\").lower",
+          "lineNumber": 107
+        },
+        {
+          "caller": "test_empty_web_search_asks_not_to_invent_news",
+          "callee": "payload.get",
+          "lineNumber": 107
+        },
+        {
+          "caller": "test_kp_and_subdomain_denied",
+          "callee": "load_denylist",
+          "lineNumber": 112
+        },
+        {
+          "caller": "test_kp_and_subdomain_denied",
+          "callee": "is_denied",
+          "lineNumber": 113
+        },
+        {
+          "caller": "test_kp_and_subdomain_denied",
+          "callee": "is_denied",
+          "lineNumber": 114
+        },
+        {
+          "caller": "test_reuters_not_denied",
+          "callee": "load_denylist",
+          "lineNumber": 118
+        },
+        {
+          "caller": "test_reuters_not_denied",
+          "callee": "is_denied",
+          "lineNumber": 119
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 9,
+        "functionCount": 9,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "tests/test_eval_dashboard.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 41,
+      "nonEmptyLines": 32,
+      "functions": [
+        {
+          "name": "test_readme_lists_five_eval_dialogues",
+          "startLine": 15,
+          "endLine": 18,
+          "params": []
+        },
+        {
+          "name": "test_invoke_dashboard_eval_injects_session_start_hits",
+          "startLine": 21,
+          "endLine": 35,
+          "params": []
+        },
+        {
+          "name": "test_invoke_dashboard_eval_without_hits_skips_inject",
+          "startLine": 38,
+          "endLine": 41,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "_FrozenLoop",
+          "startLine": 6,
+          "endLine": 12,
+          "methods": [
+            "__init__",
+            "complete"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "_FrozenLoop",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "test_readme_lists_five_eval_dialogues",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "test_invoke_dashboard_eval_injects_session_start_hits",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "test_invoke_dashboard_eval_without_hits_skips_inject",
+          "line": 38,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "complete",
+          "callee": "self.questions.append",
+          "lineNumber": 11
+        },
+        {
+          "caller": "complete",
+          "callee": "LoopResult",
+          "lineNumber": 12
+        },
+        {
+          "caller": "test_readme_lists_five_eval_dialogues",
+          "callee": "len",
+          "lineNumber": 16
+        },
+        {
+          "caller": "test_invoke_dashboard_eval_injects_session_start_hits",
+          "callee": "_FrozenLoop",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_invoke_dashboard_eval_injects_session_start_hits",
+          "callee": "SessionStartRailHit",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_invoke_dashboard_eval_injects_session_start_hits",
+          "callee": "invoke_dashboard_eval",
+          "lineNumber": 32
+        },
+        {
+          "caller": "test_invoke_dashboard_eval_without_hits_skips_inject",
+          "callee": "_FrozenLoop",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_invoke_dashboard_eval_without_hits_skips_inject",
+          "callee": "invoke_dashboard_eval",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "tests/test_graph.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 183,
+      "nonEmptyLines": 137,
+      "functions": [
+        {
+          "name": "_live_flag",
+          "startLine": 11,
+          "endLine": 12,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "_openrouter_env_ready",
+          "startLine": 15,
+          "endLine": 19,
+          "params": []
+        },
+        {
+          "name": "_live_eval_ready",
+          "startLine": 22,
+          "endLine": 23,
+          "params": []
+        },
+        {
+          "name": "_live_red_team_ready",
+          "startLine": 26,
+          "endLine": 27,
+          "params": []
+        },
+        {
+          "name": "_load_red_team_cases",
+          "startLine": 30,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "_assert_no_secrets",
+          "startLine": 36,
+          "endLine": 46,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "_assert_red_team_case",
+          "startLine": 49,
+          "endLine": 56,
+          "params": [
+            "reply",
+            "case"
+          ]
+        },
+        {
+          "name": "_citation_blob",
+          "startLine": 59,
+          "endLine": 60,
+          "params": [
+            "reply"
+          ]
+        },
+        {
+          "name": "_assert_no_denylist",
+          "startLine": 63,
+          "endLine": 72,
+          "params": [
+            "reply"
+          ]
+        },
+        {
+          "name": "test_red_team_pack_loads_closed_prompts",
+          "startLine": 75,
+          "endLine": 86,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "TestLiveEval",
+          "startLine": 93,
+          "endLine": 164,
+          "methods": [
+            "loop",
+            "session_start_hits",
+            "test_report_outlook",
+            "test_web_latest_statement",
+            "test_combined_brent_today",
+            "test_forecast_brent",
+            "test_out_of_competence_weather"
+          ],
+          "properties": []
+        },
+        {
+          "name": "TestLiveRedTeam",
+          "startLine": 171,
+          "endLine": 183,
+          "methods": [
+            "loop",
+            "test_prompt"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "_live_flag",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "_openrouter_env_ready",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "_live_eval_ready",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "_live_red_team_ready",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "_load_red_team_cases",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "_assert_no_secrets",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "_assert_red_team_case",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "_citation_blob",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "_assert_no_denylist",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "test_red_team_pack_loads_closed_prompts",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "TestLiveEval",
+          "line": 89,
+          "isDefault": false
+        },
+        {
+          "name": "TestLiveRedTeam",
+          "line": 167,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_live_flag",
+          "callee": "os.environ.get(name, \"\").strip().lower",
+          "lineNumber": 12
+        },
+        {
+          "caller": "_live_flag",
+          "callee": "os.environ.get(name, \"\").strip",
+          "lineNumber": 12
+        },
+        {
+          "caller": "_live_flag",
+          "callee": "os.environ.get",
+          "lineNumber": 12
+        },
+        {
+          "caller": "_openrouter_env_ready",
+          "callee": "load_dotenv",
+          "lineNumber": 18
+        },
+        {
+          "caller": "_openrouter_env_ready",
+          "callee": "bool",
+          "lineNumber": 19
+        },
+        {
+          "caller": "_openrouter_env_ready",
+          "callee": "os.environ.get(\"OPENROUTER_API_KEY\", \"\").strip",
+          "lineNumber": 19
+        },
+        {
+          "caller": "_openrouter_env_ready",
+          "callee": "os.environ.get",
+          "lineNumber": 19
+        },
+        {
+          "caller": "_live_eval_ready",
+          "callee": "_live_flag",
+          "lineNumber": 23
+        },
+        {
+          "caller": "_live_eval_ready",
+          "callee": "_openrouter_env_ready",
+          "lineNumber": 23
+        },
+        {
+          "caller": "_live_red_team_ready",
+          "callee": "_live_flag",
+          "lineNumber": 27
+        },
+        {
+          "caller": "_live_red_team_ready",
+          "callee": "_openrouter_env_ready",
+          "lineNumber": 27
+        },
+        {
+          "caller": "_load_red_team_cases",
+          "callee": "Path(__file__).resolve",
+          "lineNumber": 31
+        },
+        {
+          "caller": "_load_red_team_cases",
+          "callee": "Path",
+          "lineNumber": 31
+        },
+        {
+          "caller": "_load_red_team_cases",
+          "callee": "yaml.safe_load",
+          "lineNumber": 32
+        },
+        {
+          "caller": "_load_red_team_cases",
+          "callee": "path.read_text",
+          "lineNumber": 32
+        },
+        {
+          "caller": "_load_red_team_cases",
+          "callee": "list",
+          "lineNumber": 33
+        },
+        {
+          "caller": "_assert_no_secrets",
+          "callee": "load_dotenv",
+          "lineNumber": 39
+        },
+        {
+          "caller": "_assert_no_secrets",
+          "callee": "text.casefold",
+          "lineNumber": 40
+        },
+        {
+          "caller": "_assert_no_secrets",
+          "callee": "os.environ.get(name, \"\").strip",
+          "lineNumber": 42
+        },
+        {
+          "caller": "_assert_no_secrets",
+          "callee": "os.environ.get",
+          "lineNumber": 42
+        },
+        {
+          "caller": "_assert_no_secrets",
+          "callee": "len",
+          "lineNumber": 43
+        },
+        {
+          "caller": "_assert_no_secrets",
+          "callee": "value.casefold",
+          "lineNumber": 44
+        },
+        {
+          "caller": "_assert_no_secrets",
+          "callee": "re.search",
+          "lineNumber": 45
+        },
+        {
+          "caller": "_assert_no_secrets",
+          "callee": "re.search",
+          "lineNumber": 46
+        },
+        {
+          "caller": "_assert_red_team_case",
+          "callee": "case.get",
+          "lineNumber": 50
+        },
+        {
+          "caller": "_assert_red_team_case",
+          "callee": "_assert_no_denylist",
+          "lineNumber": 51
+        },
+        {
+          "caller": "_assert_red_team_case",
+          "callee": "_citation_blob",
+          "lineNumber": 52
+        },
+        {
+          "caller": "_assert_red_team_case",
+          "callee": "case.get",
+          "lineNumber": 55
+        },
+        {
+          "caller": "_assert_red_team_case",
+          "callee": "_assert_no_secrets",
+          "lineNumber": 56
+        },
+        {
+          "caller": "_citation_blob",
+          "callee": "\" \".join((c.label or \"\") + \" \" + (c.url or \"\") for c in reply.citations).casefold",
+          "lineNumber": 60
+        },
+        {
+          "caller": "_citation_blob",
+          "callee": "\" \".join",
+          "lineNumber": 60
+        },
+        {
+          "caller": "_assert_no_denylist",
+          "callee": "load_denylist",
+          "lineNumber": 66
+        },
+        {
+          "caller": "_assert_no_denylist",
+          "callee": "_citation_blob",
+          "lineNumber": 67
+        },
+        {
+          "caller": "_assert_no_denylist",
+          "callee": "blob.casefold",
+          "lineNumber": 68
+        },
+        {
+          "caller": "_assert_no_denylist",
+          "callee": "blob.casefold",
+          "lineNumber": 69
+        },
+        {
+          "caller": "_assert_no_denylist",
+          "callee": "is_denied",
+          "lineNumber": 72
+        },
+        {
+          "caller": "test_red_team_pack_loads_closed_prompts",
+          "callee": "_load_red_team_cases",
+          "lineNumber": 76
+        },
+        {
+          "caller": "test_red_team_pack_loads_closed_prompts",
+          "callee": "len",
+          "lineNumber": 77
+        },
+        {
+          "caller": "loop",
+          "callee": "build_eval_deps",
+          "lineNumber": 100
+        },
+        {
+          "caller": "session_start_hits",
+          "callee": "load_session_start_hits",
+          "lineNumber": 106
+        },
+        {
+          "caller": "test_report_outlook",
+          "callee": "invoke_dashboard_eval",
+          "lineNumber": 111
+        },
+        {
+          "caller": "test_report_outlook",
+          "callee": "reply.text.strip",
+          "lineNumber": 116
+        },
+        {
+          "caller": "test_report_outlook",
+          "callee": "_assert_no_denylist",
+          "lineNumber": 117
+        },
+        {
+          "caller": "test_web_latest_statement",
+          "callee": "invoke_dashboard_eval",
+          "lineNumber": 122
+        },
+        {
+          "caller": "test_web_latest_statement",
+          "callee": "reply.text.strip",
+          "lineNumber": 127
+        },
+        {
+          "caller": "test_web_latest_statement",
+          "callee": "_assert_no_denylist",
+          "lineNumber": 128
+        },
+        {
+          "caller": "test_web_latest_statement",
+          "callee": "_citation_blob",
+          "lineNumber": 129
+        },
+        {
+          "caller": "test_combined_brent_today",
+          "callee": "invoke_dashboard_eval",
+          "lineNumber": 136
+        },
+        {
+          "caller": "test_combined_brent_today",
+          "callee": "reply.text.strip",
+          "lineNumber": 141
+        },
+        {
+          "caller": "test_combined_brent_today",
+          "callee": "_assert_no_denylist",
+          "lineNumber": 142
+        },
+        {
+          "caller": "test_forecast_brent",
+          "callee": "invoke_dashboard_eval",
+          "lineNumber": 147
+        },
+        {
+          "caller": "test_forecast_brent",
+          "callee": "reply.text.strip",
+          "lineNumber": 152
+        },
+        {
+          "caller": "test_forecast_brent",
+          "callee": "_assert_no_denylist",
+          "lineNumber": 153
+        },
+        {
+          "caller": "test_out_of_competence_weather",
+          "callee": "invoke_dashboard_eval",
+          "lineNumber": 158
+        },
+        {
+          "caller": "test_out_of_competence_weather",
+          "callee": "reply.text.strip",
+          "lineNumber": 163
+        },
+        {
+          "caller": "test_out_of_competence_weather",
+          "callee": "_assert_no_secrets",
+          "lineNumber": 164
+        },
+        {
+          "caller": "loop",
+          "callee": "build_eval_deps",
+          "lineNumber": 178
+        },
+        {
+          "caller": "test_prompt",
+          "callee": "invoke_analyst",
+          "lineNumber": 182
+        },
+        {
+          "caller": "test_prompt",
+          "callee": "_assert_red_team_case",
+          "lineNumber": 183
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 12,
+        "functionCount": 10,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "tests/test_session_start_web.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 237,
+      "nonEmptyLines": 204,
+      "functions": [
+        {
+          "name": "_payload",
+          "startLine": 16,
+          "endLine": 38,
+          "params": [
+            "kp_denied",
+            "reuters"
+          ]
+        },
+        {
+          "name": "test_cached_top_news_hits_reads_disk_without_network",
+          "startLine": 41,
+          "endLine": 64,
+          "params": [
+            "tmp_path"
+          ]
+        },
+        {
+          "name": "test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+          "startLine": 67,
+          "endLine": 100,
+          "params": [
+            "tmp_path",
+            "monkeypatch"
+          ]
+        },
+        {
+          "name": "test_fetch_session_start_web_uses_canned_query",
+          "startLine": 103,
+          "endLine": 112,
+          "params": []
+        },
+        {
+          "name": "test_fetch_session_start_web_saves_cache_on_success",
+          "startLine": 115,
+          "endLine": 138,
+          "params": [
+            "tmp_path"
+          ]
+        },
+        {
+          "name": "test_visible_rail_hits_hides_denied_domains",
+          "startLine": 141,
+          "endLine": 145,
+          "params": []
+        },
+        {
+          "name": "test_visible_rail_hits_skips_older_than_today",
+          "startLine": 148,
+          "endLine": 179,
+          "params": [
+            "monkeypatch"
+          ]
+        },
+        {
+          "name": "test_inject_session_start_web_prepends_visible_hits",
+          "startLine": 182,
+          "endLine": 188,
+          "params": []
+        },
+        {
+          "name": "test_inject_skips_when_no_visible_hits",
+          "startLine": 191,
+          "endLine": 193,
+          "params": []
+        },
+        {
+          "name": "test_run_turn_injects_without_web_ran_this_turn",
+          "startLine": 196,
+          "endLine": 221,
+          "params": []
+        },
+        {
+          "name": "test_has_grounded_session_start_web_false_without_rail_match",
+          "startLine": 224,
+          "endLine": 237,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "_payload",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "test_cached_top_news_hits_reads_disk_without_network",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "test_fetch_session_start_web_uses_canned_query",
+          "line": 103,
+          "isDefault": false
+        },
+        {
+          "name": "test_fetch_session_start_web_saves_cache_on_success",
+          "line": 115,
+          "isDefault": false
+        },
+        {
+          "name": "test_visible_rail_hits_hides_denied_domains",
+          "line": 141,
+          "isDefault": false
+        },
+        {
+          "name": "test_visible_rail_hits_skips_older_than_today",
+          "line": 148,
+          "isDefault": false
+        },
+        {
+          "name": "test_inject_session_start_web_prepends_visible_hits",
+          "line": 182,
+          "isDefault": false
+        },
+        {
+          "name": "test_inject_skips_when_no_visible_hits",
+          "line": 191,
+          "isDefault": false
+        },
+        {
+          "name": "test_run_turn_injects_without_web_ran_this_turn",
+          "line": 196,
+          "isDefault": false
+        },
+        {
+          "name": "test_has_grounded_session_start_web_false_without_rail_match",
+          "line": 224,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_payload",
+          "callee": "hits.append",
+          "lineNumber": 19
+        },
+        {
+          "caller": "_payload",
+          "callee": "hits.append",
+          "lineNumber": 29
+        },
+        {
+          "caller": "_payload",
+          "callee": "len",
+          "lineNumber": 38
+        },
+        {
+          "caller": "test_cached_top_news_hits_reads_disk_without_network",
+          "callee": "(tmp_path / \"top_news_rail.json\").write_text",
+          "lineNumber": 58
+        },
+        {
+          "caller": "test_cached_top_news_hits_reads_disk_without_network",
+          "callee": "__import__(\"json\").dumps",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_cached_top_news_hits_reads_disk_without_network",
+          "callee": "__import__",
+          "lineNumber": 59
+        },
+        {
+          "caller": "test_cached_top_news_hits_reads_disk_without_network",
+          "callee": "cached_top_news_hits",
+          "lineNumber": 62
+        },
+        {
+          "caller": "test_cached_top_news_hits_reads_disk_without_network",
+          "callee": "len",
+          "lineNumber": 63
+        },
+        {
+          "caller": "test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+          "callee": "monkeypatch.setattr",
+          "lineNumber": 70
+        },
+        {
+          "caller": "test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+          "callee": "date",
+          "lineNumber": 72
+        },
+        {
+          "caller": "test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+          "callee": "(tmp_path / \"top_news_rail.json\").write_text",
+          "lineNumber": 90
+        },
+        {
+          "caller": "test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+          "callee": "__import__(\"json\").dumps",
+          "lineNumber": 91
+        },
+        {
+          "caller": "test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+          "callee": "__import__",
+          "lineNumber": 91
+        },
+        {
+          "caller": "test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+          "callee": "monkeypatch.setattr",
+          "lineNumber": 94
+        },
+        {
+          "caller": "test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+          "callee": "refresh_top_news_hits",
+          "lineNumber": 98
+        },
+        {
+          "caller": "test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+          "callee": "len",
+          "lineNumber": 99
+        },
+        {
+          "caller": "search",
+          "callee": "seen.append",
+          "lineNumber": 108
+        },
+        {
+          "caller": "test_fetch_session_start_web_uses_canned_query",
+          "callee": "fetch_session_start_web",
+          "lineNumber": 111
+        },
+        {
+          "caller": "test_fetch_session_start_web_uses_canned_query",
+          "callee": "_Search",
+          "lineNumber": 111
+        },
+        {
+          "caller": "search",
+          "callee": "WebHit",
+          "lineNumber": 121
+        },
+        {
+          "caller": "test_fetch_session_start_web_saves_cache_on_success",
+          "callee": "fetch_session_start_web",
+          "lineNumber": 128
+        },
+        {
+          "caller": "test_fetch_session_start_web_saves_cache_on_success",
+          "callee": "_Search",
+          "lineNumber": 128
+        },
+        {
+          "caller": "test_fetch_session_start_web_saves_cache_on_success",
+          "callee": "visible_rail_hits",
+          "lineNumber": 129
+        },
+        {
+          "caller": "test_fetch_session_start_web_saves_cache_on_success",
+          "callee": "(tmp_path / \"top_news_rail.json\").is_file",
+          "lineNumber": 130
+        },
+        {
+          "caller": "test_fetch_session_start_web_saves_cache_on_success",
+          "callee": "fetch_session_start_web",
+          "lineNumber": 136
+        },
+        {
+          "caller": "test_fetch_session_start_web_saves_cache_on_success",
+          "callee": "_Empty",
+          "lineNumber": 136
+        },
+        {
+          "caller": "test_fetch_session_start_web_saves_cache_on_success",
+          "callee": "cached.get",
+          "lineNumber": 137
+        },
+        {
+          "caller": "test_fetch_session_start_web_saves_cache_on_success",
+          "callee": "visible_rail_hits",
+          "lineNumber": 138
+        },
+        {
+          "caller": "test_visible_rail_hits_hides_denied_domains",
+          "callee": "visible_rail_hits",
+          "lineNumber": 142
+        },
+        {
+          "caller": "test_visible_rail_hits_hides_denied_domains",
+          "callee": "_payload",
+          "lineNumber": 142
+        },
+        {
+          "caller": "test_visible_rail_hits_hides_denied_domains",
+          "callee": "len",
+          "lineNumber": 143
+        },
+        {
+          "caller": "test_visible_rail_hits_hides_denied_domains",
+          "callee": "all",
+          "lineNumber": 145
+        },
+        {
+          "caller": "test_visible_rail_hits_skips_older_than_today",
+          "callee": "monkeypatch.setattr",
+          "lineNumber": 151
+        },
+        {
+          "caller": "test_visible_rail_hits_skips_older_than_today",
+          "callee": "date",
+          "lineNumber": 153
+        },
+        {
+          "caller": "test_visible_rail_hits_skips_older_than_today",
+          "callee": "visible_rail_hits",
+          "lineNumber": 177
+        },
+        {
+          "caller": "test_visible_rail_hits_skips_older_than_today",
+          "callee": "len",
+          "lineNumber": 178
+        },
+        {
+          "caller": "test_inject_session_start_web_prepends_visible_hits",
+          "callee": "visible_rail_hits",
+          "lineNumber": 183
+        },
+        {
+          "caller": "test_inject_session_start_web_prepends_visible_hits",
+          "callee": "_payload",
+          "lineNumber": 183
+        },
+        {
+          "caller": "test_inject_session_start_web_prepends_visible_hits",
+          "callee": "inject_session_start_web",
+          "lineNumber": 184
+        },
+        {
+          "caller": "test_inject_session_start_web_prepends_visible_hits",
+          "callee": "prompt.endswith",
+          "lineNumber": 188
+        },
+        {
+          "caller": "test_inject_skips_when_no_visible_hits",
+          "callee": "inject_session_start_web",
+          "lineNumber": 192
+        },
+        {
+          "caller": "test_run_turn_injects_without_web_ran_this_turn",
+          "callee": "visible_rail_hits",
+          "lineNumber": 197
+        },
+        {
+          "caller": "test_run_turn_injects_without_web_ran_this_turn",
+          "callee": "_payload",
+          "lineNumber": 197
+        },
+        {
+          "caller": "complete",
+          "callee": "self.questions.append",
+          "lineNumber": 204
+        },
+        {
+          "caller": "complete",
+          "callee": "LoopResult",
+          "lineNumber": 205
+        },
+        {
+          "caller": "complete",
+          "callee": "Citation",
+          "lineNumber": 209
+        },
+        {
+          "caller": "test_run_turn_injects_without_web_ran_this_turn",
+          "callee": "_Loop",
+          "lineNumber": 217
+        },
+        {
+          "caller": "test_run_turn_injects_without_web_ran_this_turn",
+          "callee": "run_turn",
+          "lineNumber": 218
+        },
+        {
+          "caller": "test_run_turn_injects_without_web_ran_this_turn",
+          "callee": "has_grounded_session_start_web",
+          "lineNumber": 221
+        },
+        {
+          "caller": "test_has_grounded_session_start_web_false_without_rail_match",
+          "callee": "visible_rail_hits",
+          "lineNumber": 225
+        },
+        {
+          "caller": "test_has_grounded_session_start_web_false_without_rail_match",
+          "callee": "_payload",
+          "lineNumber": 225
+        },
+        {
+          "caller": "test_has_grounded_session_start_web_false_without_rail_match",
+          "callee": "Reply",
+          "lineNumber": 226
+        },
+        {
+          "caller": "test_has_grounded_session_start_web_false_without_rail_match",
+          "callee": "Citation",
+          "lineNumber": 229
+        },
+        {
+          "caller": "test_has_grounded_session_start_web_false_without_rail_match",
+          "callee": "has_grounded_session_start_web",
+          "lineNumber": 237
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 11,
+        "functionCount": 11,
+        "classCount": 0
+      }
+    }
+  ]
+}

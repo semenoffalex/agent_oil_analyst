@@ -1,0 +1,268 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 6,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "config/forecast.yaml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 61,
+      "nonEmptyLines": 57,
+      "sections": [
+        {
+          "heading": "methods",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "default_symbol",
+          "level": 1,
+          "line": 7
+        },
+        {
+          "heading": "symbols",
+          "level": 1,
+          "line": 8
+        },
+        {
+          "heading": "horizon_default_days",
+          "level": 1,
+          "line": 13
+        },
+        {
+          "heading": "horizon_phrases",
+          "level": 1,
+          "line": 16
+        },
+        {
+          "heading": "history_period",
+          "level": 1,
+          "line": 50
+        },
+        {
+          "heading": "interval",
+          "level": 1,
+          "line": 51
+        },
+        {
+          "heading": "auto_arima_max_p",
+          "level": 1,
+          "line": 52
+        },
+        {
+          "heading": "auto_arima_max_d",
+          "level": 1,
+          "line": 53
+        },
+        {
+          "heading": "auto_arima_max_q",
+          "level": 1,
+          "line": 54
+        },
+        {
+          "heading": "autoreg_max_lag",
+          "level": 1,
+          "line": 55
+        },
+        {
+          "heading": "cache_dir",
+          "level": 1,
+          "line": 58
+        },
+        {
+          "heading": "stooq_symbols",
+          "level": 1,
+          "line": 59
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 13
+      }
+    },
+    {
+      "path": "config/ingest.yaml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 72,
+      "nonEmptyLines": 66,
+      "sections": [
+        {
+          "heading": "embedding_model",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "chroma_path",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "retrieve_k",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "max_tokens",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "overlap_tokens",
+          "level": 1,
+          "line": 5
+        },
+        {
+          "heading": "tokenizer",
+          "level": 1,
+          "line": 6
+        },
+        {
+          "heading": "samples_dir",
+          "level": 1,
+          "line": 8
+        },
+        {
+          "heading": "reports_dir",
+          "level": 1,
+          "line": 9
+        },
+        {
+          "heading": "agency_urls",
+          "level": 1,
+          "line": 11
+        },
+        {
+          "heading": "samples",
+          "level": 1,
+          "line": 16
+        },
+        {
+          "heading": "full_reports",
+          "level": 1,
+          "line": 48
+        },
+        {
+          "heading": "heading_patterns",
+          "level": 1,
+          "line": 60
+        },
+        {
+          "heading": "e5_prefixes",
+          "level": 1,
+          "line": 70
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 13
+      }
+    },
+    {
+      "path": "config/red_team_pack.yaml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 44,
+      "nonEmptyLines": 37,
+      "sections": [
+        {
+          "heading": "cases",
+          "level": 1,
+          "line": 4
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "config/route_lists.yaml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 68,
+      "nonEmptyLines": 64,
+      "sections": [
+        {
+          "heading": "forecast_verbs",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "time_sensitive",
+          "level": 1,
+          "line": 25
+        },
+        {
+          "heading": "time_sensitive_weak",
+          "level": 1,
+          "line": 54
+        },
+        {
+          "heading": "published_outlook",
+          "level": 1,
+          "line": 62
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    },
+    {
+      "path": "config/session_start_rail_exclusions.yaml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 5,
+      "nonEmptyLines": 4,
+      "sections": [
+        {
+          "heading": "domains",
+          "level": 1,
+          "line": 4
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "config/yellow_press_denylist.yaml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 29,
+      "nonEmptyLines": 28,
+      "sections": [
+        {
+          "heading": "domains",
+          "level": 1,
+          "line": 5
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    }
+  ]
+}

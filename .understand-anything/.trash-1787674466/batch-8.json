@@ -1,0 +1,217 @@
+{
+  "nodes": [
+    {
+      "id": "document:.scratch/analyst-dashboard/issues/01-what-frames-the-chat.md",
+      "type": "document",
+      "name": "01-what-frames-the-chat.md",
+      "filePath": ".scratch/analyst-dashboard/issues/01-what-frames-the-chat.md",
+      "summary": "Resolved grilling ticket that locks always-visible Dashboard framing around chat: Session-start Web, live quote, Forecast chart, and OPEC/EIA/CBR corpus strip, with no P&L or second chatbot.",
+      "tags": ["documentation", "dashboard", "product-decision", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/issues/02-session-start-web-fetch.md",
+      "type": "document",
+      "name": "02-session-start-web-fetch.md",
+      "filePath": ".scratch/analyst-dashboard/issues/02-session-start-web-fetch.md",
+      "summary": "Resolved contract for the one host Session-start Web fetch: canned Russian query via search_for_tool, title/outlet/snippet display, denylist hidden on the rail, and session-scoped citation grounding.",
+      "tags": ["documentation", "search-web", "product-decision", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/issues/03-streamlit-click-target.md",
+      "type": "document",
+      "name": "03-streamlit-click-target.md",
+      "filePath": ".scratch/analyst-dashboard/issues/03-streamlit-click-target.md",
+      "summary": "Product decision that Streamlit fully replaces Chainlit as the Demo click target on localhost:8000 while Ouroboros remains the agent loop.",
+      "tags": ["documentation", "streamlit", "product-decision", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md",
+      "type": "document",
+      "name": "04-dashboard-versus-demo.md",
+      "filePath": ".scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md",
+      "summary": "Locks the executive Dashboard as an expanded Demo, not a second product: same Streamlit screen, README eval dialogues, no password, Demo rate limit, and existing competence/denylist/Forecast rules.",
+      "tags": ["documentation", "dashboard", "demo", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md",
+      "type": "document",
+      "name": "05-host-start-web-versus-loop.md",
+      "filePath": ".scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md",
+      "summary": "Allows a Dashboard exception where the host fetches Session-start Web without an Ouroboros turn and injects those hits into later prompts while the model may still call search_web.",
+      "tags": ["documentation", "agent-loop", "search-web", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md",
+      "type": "document",
+      "name": "06-what-forecast-already-plots.md",
+      "filePath": ".scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md",
+      "summary": "Research note that forecast_for_tool only exposes horizon-end scalars per method; daily history and SARIMA/Holt paths stay inside run_forecast and are not serialized for a chart.",
+      "tags": ["documentation", "forecast", "research", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md",
+      "type": "document",
+      "name": "07-how-streamlit-calls-ouroboros.md",
+      "filePath": ".scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md",
+      "summary": "Research note that Streamlit should reuse the Chainlit Python seam (build_loop, run_turn, POST /api/tasks) as a thin Chat UI adapter rather than a second agent loop.",
+      "tags": ["documentation", "streamlit", "ouroboros", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/issues/08-search-web-without-a-question.md",
+      "type": "document",
+      "name": "08-search-web-without-a-question.md",
+      "filePath": ".scratch/analyst-dashboard/issues/08-search-web-without-a-question.md",
+      "summary": "Fact ticket showing search_for_tool can run with a host-chosen query and no Ouroboros task, returning hits with a denied flag and empty lists on DuckDuckGo failure.",
+      "tags": ["documentation", "search-web", "research", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md",
+      "type": "document",
+      "name": "09-exec-dashboard-layout.md",
+      "filePath": ".scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md",
+      "summary": "Resolved layout ticket choosing prototype variant C (briefing KPI): corpus and forecast numbers on top, Session-start Web left, Forecast chart stacked over chat on the right.",
+      "tags": ["documentation", "layout", "prototype", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/issues/10-history-without-forecast-request.md",
+      "type": "document",
+      "name": "10-history-without-forecast-request.md",
+      "filePath": ".scratch/analyst-dashboard/issues/10-history-without-forecast-request.md",
+      "summary": "Allows the host to draw actuals plus a 21-trading-day two-method Forecast at session start without a Forecast verb, and requires exposing history and per-step paths instead of last-point-only tool JSON.",
+      "tags": ["documentation", "forecast", "dashboard", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md",
+      "type": "document",
+      "name": "11-where-urals-series-comes-from.md",
+      "filePath": ".scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md",
+      "summary": "Defers Urals on the Demo Dashboard until a real series exists: this cut is Brent-only, with no Brent proxy, and chat still reports no Urals series.",
+      "tags": ["documentation", "forecast", "urals", "issue-tracker"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/01-what-frames-the-chat.md",
+      "target": "document:.scratch/analyst-dashboard/issues/02-session-start-web-fetch.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/01-what-frames-the-chat.md",
+      "target": "document:.scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/01-what-frames-the-chat.md",
+      "target": "document:.scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/01-what-frames-the-chat.md",
+      "target": "document:.scratch/analyst-dashboard/issues/10-history-without-forecast-request.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/02-session-start-web-fetch.md",
+      "target": "document:.scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/03-streamlit-click-target.md",
+      "target": "document:.scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md",
+      "target": "document:.scratch/analyst-dashboard/issues/02-session-start-web-fetch.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md",
+      "target": "document:.scratch/analyst-dashboard/issues/02-session-start-web-fetch.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md",
+      "target": "document:.scratch/analyst-dashboard/issues/03-streamlit-click-target.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md",
+      "target": "document:.scratch/analyst-dashboard/issues/08-search-web-without-a-question.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md",
+      "target": "document:.scratch/analyst-dashboard/issues/03-streamlit-click-target.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/08-search-web-without-a-question.md",
+      "target": "document:.scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/10-history-without-forecast-request.md",
+      "target": "document:.scratch/analyst-dashboard/issues/01-what-frames-the-chat.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/10-history-without-forecast-request.md",
+      "target": "document:.scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/10-history-without-forecast-request.md",
+      "target": "document:.scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md",
+      "target": "document:.scratch/analyst-dashboard/issues/10-history-without-forecast-request.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

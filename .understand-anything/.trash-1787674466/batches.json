@@ -1,0 +1,3074 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "louvain",
+  "totalFiles": 150,
+  "totalBatches": 16,
+  "exportsByPath": {
+    ".understand-anything/.understandignore": [],
+    "deploy/demo-nginx.conf": [],
+    "docker/ouroboros.Dockerfile": [],
+    "oil_gas_analyst.egg-info/PKG-INFO": [],
+    "oil_gas_analyst/__init__.py": [],
+    "oil_gas_analyst/__main__.py": [
+      "main"
+    ],
+    "oil_gas_analyst/app.py": [
+      "_warm",
+      "_wait_loop",
+      "start",
+      "on_message"
+    ],
+    "oil_gas_analyst/chat_ui.py": [
+      "_warm",
+      "wait_loop",
+      "rate_limit_key",
+      "handle_chat_message"
+    ],
+    "oil_gas_analyst/consensus_price.py": [
+      "_parse_price_token",
+      "extract_oil_prices",
+      "consensus_from_texts",
+      "_samples_dir",
+      "_resolve_sample_path",
+      "sample_report_texts",
+      "report_consensus_price",
+      "news_consensus_price",
+      "dashboard_kpi_row"
+    ],
+    "oil_gas_analyst/corpus_strip.py": [
+      "CorpusStripEntry",
+      "_samples_dir",
+      "_resolve_path",
+      "corpus_strip_entries"
+    ],
+    "oil_gas_analyst/dashboard_chart.py": [
+      "_chart_payload_cache_path",
+      "load_cached_brent_chart_payload",
+      "save_brent_chart_payload_cache",
+      "chart_refresh_horizon",
+      "load_brent_chart_payload",
+      "forecast_model_consensus",
+      "_forecast_path_column",
+      "chart_dataframe_from_payload",
+      "chart_display_dataframe",
+      "brent_chart_altair"
+    ],
+    "oil_gas_analyst/dashboard.py": [
+      "_session_id",
+      "chat_turn_in_progress",
+      "_chat_future",
+      "_logout_demo_session",
+      "_hydrate_news_from_disk",
+      "_hydrate_from_disk_caches",
+      "_chart_refresh_in_progress",
+      "_news_refresh_in_progress",
+      "_start_background_refreshes",
+      "_collect_background_refreshes",
+      "_poll_dashboard_refresh",
+      "_ensure_session_start_web",
+      "_reload_chart",
+      "_ensure_chart_payload",
+      "_chart_frame",
+      "_ouroboros_ready",
+      "_chat_history_for_turn",
+      "_start_chat_turn",
+      "_finish_chat_turn_if_ready",
+      "_chat_turn_pending",
+      "_render_cached_spinner",
+      "_render_chat_messages",
+      "_render_thinking_indicator",
+      "_poll_chat_future",
+      "_render_corpus_pill",
+      "_ensure_reports_consensus",
+      "_render_kpi_corpus_row",
+      "_render_forecast_consensus_pill",
+      "_render_news_pills",
+      "_render_chart_panel",
+      "_render_header",
+      "_render_login_gate",
+      "_render_chat_panel",
+      "_render_workspace_resize",
+      "main"
+    ],
+    "oil_gas_analyst/demo_auth.py": [
+      "DemoLoginConfig",
+      "load_demo_login_config",
+      "verify_demo_login"
+    ],
+    "oil_gas_analyst/denylist.py": [
+      "load_denylist",
+      "is_denied"
+    ],
+    "oil_gas_analyst/deps.py": [
+      "build_loop",
+      "enable_domain_skills",
+      "build_deps",
+      "_IndexDeps",
+      "build_eval_deps",
+      "download_full_reports"
+    ],
+    "oil_gas_analyst/eval_dialogues.py": [
+      "load_session_start_hits",
+      "invoke_dashboard_eval"
+    ],
+    "oil_gas_analyst/forecast.py": [
+      "ForecastError",
+      "load_forecast_config",
+      "detect_symbol",
+      "detect_horizon",
+      "_interval",
+      "_path_from_pred",
+      "_random_walk_fallback",
+      "_method_from_forecast",
+      "_fit_auto_arima",
+      "_fit_auto_arima_with_path",
+      "_fit_unobserved_components",
+      "_fit_unobserved_components_with_path",
+      "_fit_autoreg",
+      "_fit_autoreg_with_path",
+      "_fit_all_methods",
+      "_fit_all_methods_with_paths",
+      "_apply_yahoo_user_agent",
+      "_close_from_frame",
+      "_usable_close",
+      "_cache_path",
+      "_save_cache",
+      "_read_cache",
+      "_fetch_yahoo",
+      "_fetch_stooq",
+      "load_live_history",
+      "default_load_history",
+      "run_forecast",
+      "forecast_for_tool",
+      "_history_series_to_rows",
+      "_plot_payload_from_history",
+      "forecast_plot_payload_to_dict",
+      "_history_from_start",
+      "forecast_plot_payload"
+    ],
+    "oil_gas_analyst/graph.py": [
+      "invoke_analyst"
+    ],
+    "oil_gas_analyst/ingest.py": [
+      "load_ingest_config",
+      "_word_tokens",
+      "e5_token_count",
+      "_compile_headings",
+      "_is_heading",
+      "_known_for",
+      "_flush",
+      "chunk_pages",
+      "chunk_pdf"
+    ],
+    "oil_gas_analyst/ouroboros.py": [
+      "OuroborosError",
+      "OuroborosLoop",
+      "_is_terminal",
+      "_answer_text",
+      "_tool_ran",
+      "_citations_from_text"
+    ],
+    "oil_gas_analyst/rate_limit.py": [
+      "RateLimitConfig",
+      "load_rate_limit_config",
+      "client_key",
+      "RateLimiter"
+    ],
+    "oil_gas_analyst/render.py": [
+      "_normalize_host",
+      "_clean_url",
+      "_web_url_for_host",
+      "_report_url_for_label",
+      "enrich_citations",
+      "_fix_markdown_links",
+      "_dedupe_trailing_urls",
+      "_strip_orphan_markdown",
+      "_fix_bold_markdown",
+      "_link_web_brackets",
+      "_link_inline_web_sources",
+      "_normalize_bare_web_citations",
+      "_link_report_tags",
+      "_split_glued_cyrillic",
+      "_fix_prose_chunk",
+      "_fix_prose_spacing",
+      "_prepare_body",
+      "_sources_for_footer",
+      "format_reply",
+      "_md_inline_html",
+      "chat_html"
+    ],
+    "oil_gas_analyst/retrieve.py": [
+      "IndexPlan",
+      "_prefer_ipv4",
+      "OpenAICompatibleEmbeddingFunction",
+      "embedding_model_name",
+      "embedding_base_url",
+      "embedding_api_key",
+      "make_embedding_function",
+      "_meta_bool",
+      "drop_redundant_excerpts",
+      "_chunk_from_meta",
+      "ChromaRetriever",
+      "_date_from_name",
+      "_agency_from_name",
+      "_url_for_agency",
+      "_resolve_sample_path",
+      "iter_ingest_jobs",
+      "_job_manifest_entry",
+      "build_corpus_manifest",
+      "corpus_fingerprint_from_manifest",
+      "corpus_fingerprint",
+      "plan_corpus_index",
+      "ingest_jobs",
+      "ensure_index",
+      "ingest_samples_and_reports",
+      "_default_retriever",
+      "retrieve_for_tool"
+    ],
+    "oil_gas_analyst/routes.py": [
+      "RouteLists",
+      "load_route_lists",
+      "_is_cyr_stem",
+      "_contains",
+      "is_forecast_request",
+      "is_time_sensitive",
+      "is_out_of_scope_topic"
+    ],
+    "oil_gas_analyst/session_start_web.py": [
+      "load_rail_exclusions",
+      "_is_rail_hidden",
+      "_today_moscow",
+      "_parse_iso_date",
+      "_infer_date_from_snippet",
+      "_is_fresh_for_rail",
+      "SessionStartRailHit",
+      "_RankedWebHit",
+      "outlet_from_url",
+      "YandexTopNewsSearcher",
+      "_collect_yandex_top_news",
+      "_cache_path",
+      "_save_top_news_cache",
+      "_load_top_news_cache",
+      "_build_payload_from_ranked",
+      "cached_top_news_hits",
+      "_fetch_live_top_news_payload",
+      "refresh_top_news_hits",
+      "fetch_session_start_web",
+      "visible_rail_hits",
+      "inject_session_start_web",
+      "has_grounded_session_start_web"
+    ],
+    "oil_gas_analyst/settings.py": [
+      "ModelSlots",
+      "require_deepseek_key",
+      "require_embedding_api_key",
+      "require_openrouter_key",
+      "_env",
+      "maybe_traceable",
+      "normalize_chat_model",
+      "resolve_model_slots",
+      "running_in_docker",
+      "resolve_ouroboros_url",
+      "ouroboros_process_env"
+    ],
+    "oil_gas_analyst/turn.py": [
+      "drop_listing",
+      "footer_flags",
+      "_agency_of",
+      "_agency_urls",
+      "_report_url",
+      "report_citation",
+      "web_citation",
+      "forecast_citations",
+      "has_grounded_report",
+      "_trim_memory_content",
+      "format_chat_memory",
+      "prompt_with_chat_memory",
+      "build_turn_prompt",
+      "_safety_net",
+      "run_turn",
+      "markdown_cite",
+      "apply_citation_links"
+    ],
+    "oil_gas_analyst/types.py": [
+      "Chunk",
+      "WebHit",
+      "MethodForecast",
+      "MethodPathForecast",
+      "ForecastPlotPayload",
+      "ForecastResult",
+      "Citation",
+      "LoopResult",
+      "LoopError",
+      "AnalystLoop",
+      "Reply",
+      "CompetenceClassifier",
+      "Retriever",
+      "ChunkDropper",
+      "WebSearch",
+      "ForecastModule",
+      "Composer"
+    ],
+    "oil_gas_analyst/web.py": [
+      "extract_html_text",
+      "fetch_page_text",
+      "fill_page_bodies",
+      "DuckDuckGoWeb",
+      "search_for_tool"
+    ],
+    "scripts/render-timeweb-cloud-init.py": [
+      "load_env",
+      "main"
+    ],
+    "skills/oil_gas_forecast/plugin.py": [
+      "register"
+    ],
+    "skills/oil_gas_retrieve/plugin.py": [
+      "register"
+    ],
+    "skills/oil_gas_web/plugin.py": [
+      "register"
+    ],
+    "tests/conftest.py": [],
+    "tests/test_consensus_price.py": [
+      "test_extract_oil_prices_finds_dollar_and_contextual_brent",
+      "test_extract_oil_prices_ignores_out_of_range_values",
+      "test_consensus_from_texts_averages_per_source",
+      "test_report_consensus_price_uses_retrieve_then_samples",
+      "test_news_consensus_price_from_rail_hits",
+      "test_dashboard_kpi_row_combines_close_and_consensus"
+    ],
+    "tests/test_dashboard_layout.py": [
+      "test_chat_turn_in_progress",
+      "test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+      "test_dashboard_page_config_collapses_sidebar",
+      "test_rail_exclusions_hide_wikipedia",
+      "_series",
+      "_plot_payload",
+      "test_chart_payload_disk_cache_roundtrip",
+      "test_chart_dataframe_has_actual_and_three_forecast_series",
+      "test_chart_display_dataframe_shows_last_month_plus_forecast",
+      "test_brent_chart_altair_sets_y_axis_minimum",
+      "test_chart_dataframe_none_on_unavailable",
+      "test_forecast_model_consensus_averages_three_model_points",
+      "test_chart_history_starts_from_configured_date",
+      "test_chart_refresh_horizon_detects_forecast_and_refresh",
+      "test_corpus_strip_lists_agencies_when_samples_exist"
+    ],
+    "tests/test_dashboard.py": [
+      "test_handle_chat_message_forwards_chat_history_to_run_turn",
+      "test_handle_chat_message_uses_run_turn",
+      "test_handle_chat_message_rate_limit",
+      "test_demo_login_disabled_when_env_empty",
+      "test_demo_login_requires_matching_credentials"
+    ],
+    "tests/test_denylist.py": [
+      "test_kp_and_subdomain_denied",
+      "test_reuters_not_denied",
+      "test_page_body_puts_article_figure_in_snippet",
+      "test_denied_domain_stays_in_hits_for_the_model",
+      "test_page_fetch_keeps_ddg_snippet_on_failure",
+      "test_page_fetch_stops_after_three_allowed_hits",
+      "test_empty_web_search_asks_not_to_invent_news",
+      "test_kp_and_subdomain_denied",
+      "test_reuters_not_denied"
+    ],
+    "tests/test_eval_dashboard.py": [
+      "_FrozenLoop",
+      "test_readme_lists_five_eval_dialogues",
+      "test_invoke_dashboard_eval_injects_session_start_hits",
+      "test_invoke_dashboard_eval_without_hits_skips_inject"
+    ],
+    "tests/test_forecast.py": [
+      "_series",
+      "test_detect_urals_has_no_symbol",
+      "test_detect_horizon_closed_list",
+      "test_run_forecast_returns_two_methods_with_intervals",
+      "test_month_horizon_is_not_the_quarter_point",
+      "test_urals_unavailable",
+      "test_history_failure_raises",
+      "test_stooq_used_when_yahoo_empty",
+      "test_cache_used_when_live_sources_fail",
+      "test_no_live_history_or_cache_raises",
+      "test_forecast_for_tool_shows_two_methods_and_no_average",
+      "test_forecast_for_tool_defaults_to_brent_and_honors_wti",
+      "test_forecast_for_tool_urals_has_no_series_and_no_brent_proxy",
+      "test_forecast_for_tool_history_failure_is_uncertainty",
+      "test_forecast_plot_payload_includes_history_and_two_paths",
+      "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+      "test_forecast_plot_payload_urals_has_no_series",
+      "test_forecast_plot_payload_history_failure_is_uncertainty",
+      "test_forecast_for_tool_citations_still_last_horizon_scalars"
+    ],
+    "tests/test_graph.py": [
+      "_live_flag",
+      "_openrouter_env_ready",
+      "_live_eval_ready",
+      "_live_red_team_ready",
+      "_load_red_team_cases",
+      "_assert_no_secrets",
+      "_assert_red_team_case",
+      "_citation_blob",
+      "_assert_no_denylist",
+      "test_red_team_pack_loads_closed_prompts",
+      "TestLiveEval",
+      "TestLiveRedTeam"
+    ],
+    "tests/test_ingest.py": [
+      "test_heading_split_assigns_world_oil_demand",
+      "test_sample_momr_pdf_yields_demand_chunk",
+      "test_sample_cbr_pdf_keeps_oil_mention_and_bulletin_heading",
+      "test_cbr_heading_split_assigns_oil_section",
+      "test_drop_redundant_excerpts_skips_steo_excerpt_when_full_listed",
+      "test_drop_redundant_excerpts_keeps_excerpt_without_full",
+      "test_corpus_fingerprint_omits_steo_excerpt_when_full_exists",
+      "test_ensure_index_rebuilds_stale_volume_then_skips",
+      "test_ensure_index_force_rebuilds_matching_fingerprint",
+      "test_plan_corpus_index_skips_when_fingerprint_matches",
+      "test_plan_corpus_index_syncs_only_new_pdf",
+      "test_e5_token_count_is_whitespace_without_transformers",
+      "test_make_embedding_function_uses_openrouter_nemotron",
+      "test_make_embedding_function_raises_without_key",
+      "test_missing_sample_report_breaks_ingest"
+    ],
+    "tests/test_ouroboros.py": [
+      "_Http",
+      "_Resp",
+      "test_gateway_turn_returns_task_answer",
+      "test_gateway_reads_answer_from_outcome_axes",
+      "test_gateway_marks_retrieve_when_tool_name_is_in_the_task_record",
+      "test_gateway_marks_web_when_search_tool_is_in_the_task_record",
+      "test_gateway_marks_forecast_when_tool_is_in_the_task_record",
+      "test_gateway_retries_while_supervisor_is_starting"
+    ],
+    "tests/test_rate_limit.py": [
+      "test_rate_limit_disabled_when_max_zero",
+      "test_rate_limit_blocks_after_max_in_window",
+      "test_rate_limit_keys_are_per_client",
+      "test_client_key_prefers_forwarded_for",
+      "test_client_key_falls_back_to_session"
+    ],
+    "tests/test_routes.py": [
+      "test_forecast_verb_russian_hits",
+      "test_forecast_verb_english_hits",
+      "test_horizon_without_verb_is_not_forecast_request",
+      "test_prognoz_as_request_hits_but_prognozakh_does_not",
+      "test_time_sensitive_today_hits",
+      "test_bare_demand_question_is_not_time_sensitive",
+      "test_now_consensus_is_published_outlook_not_web",
+      "test_weather_is_out_of_scope_even_in_inflected_russian"
+    ],
+    "tests/test_session_start_web.py": [
+      "_payload",
+      "test_cached_top_news_hits_reads_disk_without_network",
+      "test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+      "test_fetch_session_start_web_uses_canned_query",
+      "test_fetch_session_start_web_saves_cache_on_success",
+      "test_visible_rail_hits_hides_denied_domains",
+      "test_visible_rail_hits_skips_older_than_today",
+      "test_inject_session_start_web_prepends_visible_hits",
+      "test_inject_skips_when_no_visible_hits",
+      "test_run_turn_injects_without_web_ran_this_turn",
+      "test_has_grounded_session_start_web_false_without_rail_match"
+    ],
+    "tests/test_settings.py": [
+      "test_missing_deepseek_key_fails_loudly",
+      "test_openrouter_key_is_not_a_silent_chat_fallback",
+      "test_missing_embedding_key_fails_loudly",
+      "test_unset_slots_use_main_deepseek_flash_with_no_vendor_fallback",
+      "test_normalize_chat_model_adds_openai_compatible_prefix",
+      "test_env_overrides_heavy_and_eval_only",
+      "test_ouroboros_process_env_pins_light_mode_and_thinking_off",
+      "test_local_requirements_do_not_pull_legacy_langgraph_stack",
+      "test_readme_names_ouroboros_adapter_evolve_off_and_port_8000",
+      "test_readme_eval_targets_streamlit_dashboard",
+      "test_compose_publishes_streamlit_only_and_pins_light_mode",
+      "test_maybe_traceable_keeps_run_turn_callable",
+      "test_resolve_ouroboros_url_defaults_to_localhost_outside_docker",
+      "test_resolve_ouroboros_url_defaults_to_compose_service_in_docker",
+      "test_resolve_ouroboros_url_rewrites_loopback_in_docker",
+      "test_resolve_ouroboros_url_keeps_explicit_compose_url_in_docker"
+    ],
+    "tests/test_turn.py": [
+      "_FrozenLoop",
+      "test_live_reply_passes_through_without_host_report_patch",
+      "test_host_does_not_refuse_out_of_competence_question",
+      "test_reply_records_which_tools_the_loop_ran",
+      "test_web_citation_markdown_includes_full_url",
+      "test_report_citation_markdown_includes_pdf_page_url",
+      "test_dropper_sees_figure_past_800_chars",
+      "test_format_reply_does_not_require_langgraph_steps",
+      "test_format_reply_links_web_sources_from_session_rail",
+      "test_format_reply_links_report_source_from_ingest_config",
+      "test_format_reply_normalizes_bare_web_citations",
+      "test_format_reply_dedupes_double_markdown_urls",
+      "test_format_reply_fixes_spaced_markdown_urls",
+      "test_format_reply_links_inline_web_sources_from_session_rail",
+      "test_format_reply_fixes_glued_cyrillic_and_broken_vc_url",
+      "test_format_reply_fixes_broken_bold_with_multiplication",
+      "test_format_reply_normalizes_realistic_broken_prose",
+      "test_chat_html_renders_links_and_bold",
+      "test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+      "test_report_tag_without_retrieve_this_turn_is_not_grounded",
+      "test_russian_question_can_use_english_report_chunks",
+      "test_live_weather_with_tools_is_not_host_blocked",
+      "test_infra_timeout_on_weather_uses_competence_safety_net",
+      "test_infra_timeout_on_oil_question_is_uncertainty_not_invented_figures",
+      "test_playbook_documents_prompt_failure_not_host_lock",
+      "test_live_denylist_citation_is_not_host_stripped",
+      "test_combined_report_and_web_tags_are_allowed",
+      "test_host_does_not_refuse_forecast_without_a_verb",
+      "test_live_forecast_reply_is_not_host_patched_with_tags",
+      "test_format_chat_memory_empty",
+      "test_format_chat_memory_keeps_recent_turns_only",
+      "test_prompt_with_chat_memory_prefixes_current_question",
+      "test_run_turn_includes_chat_history_in_loop_prompt",
+      "test_build_turn_prompt_keeps_session_start_injection_with_memory"
+    ]
+  },
+  "batches": [
+    {
+      "batchIndex": 1,
+      "files": [
+        {
+          "path": "oil_gas_analyst/denylist.py",
+          "language": "python",
+          "sizeLines": 24,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/eval_dialogues.py",
+          "language": "python",
+          "sizeLines": 37,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/graph.py",
+          "language": "python",
+          "sizeLines": 11,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/session_start_web.py",
+          "language": "python",
+          "sizeLines": 391,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/types.py",
+          "language": "python",
+          "sizeLines": 130,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/web.py",
+          "language": "python",
+          "sizeLines": 136,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/test_dashboard.py",
+          "language": "python",
+          "sizeLines": 96,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/test_denylist.py",
+          "language": "python",
+          "sizeLines": 119,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/test_eval_dashboard.py",
+          "language": "python",
+          "sizeLines": 41,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/test_graph.py",
+          "language": "python",
+          "sizeLines": 183,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/test_session_start_web.py",
+          "language": "python",
+          "sizeLines": 237,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "oil_gas_analyst/denylist.py": [],
+        "oil_gas_analyst/eval_dialogues.py": [
+          "oil_gas_analyst/session_start_web.py",
+          "oil_gas_analyst/turn.py",
+          "oil_gas_analyst/types.py"
+        ],
+        "oil_gas_analyst/graph.py": [
+          "oil_gas_analyst/eval_dialogues.py",
+          "oil_gas_analyst/types.py"
+        ],
+        "oil_gas_analyst/session_start_web.py": [
+          "oil_gas_analyst/denylist.py",
+          "oil_gas_analyst/types.py",
+          "oil_gas_analyst/web.py"
+        ],
+        "oil_gas_analyst/types.py": [],
+        "oil_gas_analyst/web.py": [
+          "oil_gas_analyst/settings.py",
+          "oil_gas_analyst/types.py"
+        ],
+        "tests/test_dashboard.py": [
+          "oil_gas_analyst/types.py"
+        ],
+        "tests/test_denylist.py": [
+          "oil_gas_analyst/denylist.py",
+          "oil_gas_analyst/types.py"
+        ],
+        "tests/test_eval_dashboard.py": [
+          "oil_gas_analyst/eval_dialogues.py",
+          "oil_gas_analyst/session_start_web.py",
+          "oil_gas_analyst/types.py"
+        ],
+        "tests/test_graph.py": [
+          "oil_gas_analyst/graph.py"
+        ],
+        "tests/test_session_start_web.py": [
+          "oil_gas_analyst/session_start_web.py",
+          "oil_gas_analyst/turn.py",
+          "oil_gas_analyst/types.py"
+        ]
+      },
+      "neighborMap": {
+        "oil_gas_analyst/eval_dialogues.py": [
+          {
+            "path": "oil_gas_analyst/turn.py",
+            "batchIndex": 2,
+            "symbols": [
+              "drop_listing",
+              "footer_flags",
+              "_agency_of",
+              "_agency_urls",
+              "_report_url",
+              "report_citation",
+              "web_citation",
+              "forecast_citations",
+              "has_grounded_report",
+              "_trim_memory_content",
+              "format_chat_memory",
+              "prompt_with_chat_memory",
+              "build_turn_prompt",
+              "_safety_net",
+              "run_turn",
+              "markdown_cite",
+              "apply_citation_links"
+            ]
+          }
+        ],
+        "oil_gas_analyst/session_start_web.py": [
+          {
+            "path": "oil_gas_analyst/chat_ui.py",
+            "batchIndex": 2,
+            "symbols": [
+              "_warm",
+              "wait_loop",
+              "rate_limit_key",
+              "handle_chat_message"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/dashboard.py",
+            "batchIndex": 4,
+            "symbols": [
+              "_session_id",
+              "chat_turn_in_progress",
+              "_chat_future",
+              "_logout_demo_session",
+              "_hydrate_news_from_disk",
+              "_hydrate_from_disk_caches",
+              "_chart_refresh_in_progress",
+              "_news_refresh_in_progress",
+              "_start_background_refreshes",
+              "_collect_background_refreshes",
+              "_poll_dashboard_refresh",
+              "_ensure_session_start_web",
+              "_reload_chart",
+              "_ensure_chart_payload",
+              "_chart_frame",
+              "_ouroboros_ready",
+              "_chat_history_for_turn",
+              "_start_chat_turn",
+              "_finish_chat_turn_if_ready",
+              "_chat_turn_pending",
+              "_render_cached_spinner",
+              "_render_chat_messages",
+              "_render_thinking_indicator",
+              "_poll_chat_future",
+              "_render_corpus_pill",
+              "_ensure_reports_consensus",
+              "_render_kpi_corpus_row",
+              "_render_forecast_consensus_pill",
+              "_render_news_pills",
+              "_render_chart_panel",
+              "_render_header",
+              "_render_login_gate",
+              "_render_chat_panel",
+              "_render_workspace_resize",
+              "main"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/render.py",
+            "batchIndex": 2,
+            "symbols": [
+              "_normalize_host",
+              "_clean_url",
+              "_web_url_for_host",
+              "_report_url_for_label",
+              "enrich_citations",
+              "_fix_markdown_links",
+              "_dedupe_trailing_urls",
+              "_strip_orphan_markdown",
+              "_fix_bold_markdown",
+              "_link_web_brackets",
+              "_link_inline_web_sources",
+              "_normalize_bare_web_citations",
+              "_link_report_tags",
+              "_split_glued_cyrillic",
+              "_fix_prose_chunk",
+              "_fix_prose_spacing",
+              "_prepare_body",
+              "_sources_for_footer",
+              "format_reply",
+              "_md_inline_html",
+              "chat_html"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/turn.py",
+            "batchIndex": 2,
+            "symbols": [
+              "drop_listing",
+              "footer_flags",
+              "_agency_of",
+              "_agency_urls",
+              "_report_url",
+              "report_citation",
+              "web_citation",
+              "forecast_citations",
+              "has_grounded_report",
+              "_trim_memory_content",
+              "format_chat_memory",
+              "prompt_with_chat_memory",
+              "build_turn_prompt",
+              "_safety_net",
+              "run_turn",
+              "markdown_cite",
+              "apply_citation_links"
+            ]
+          },
+          {
+            "path": "tests/test_consensus_price.py",
+            "batchIndex": 4,
+            "symbols": [
+              "test_extract_oil_prices_finds_dollar_and_contextual_brent",
+              "test_extract_oil_prices_ignores_out_of_range_values",
+              "test_consensus_from_texts_averages_per_source",
+              "test_report_consensus_price_uses_retrieve_then_samples",
+              "test_news_consensus_price_from_rail_hits",
+              "test_dashboard_kpi_row_combines_close_and_consensus"
+            ]
+          }
+        ],
+        "oil_gas_analyst/types.py": [
+          {
+            "path": "oil_gas_analyst/app.py",
+            "batchIndex": 2,
+            "symbols": [
+              "_warm",
+              "_wait_loop",
+              "start",
+              "on_message"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/forecast.py",
+            "batchIndex": 4,
+            "symbols": [
+              "ForecastError",
+              "load_forecast_config",
+              "detect_symbol",
+              "detect_horizon",
+              "_interval",
+              "_path_from_pred",
+              "_random_walk_fallback",
+              "_method_from_forecast",
+              "_fit_auto_arima",
+              "_fit_auto_arima_with_path",
+              "_fit_unobserved_components",
+              "_fit_unobserved_components_with_path",
+              "_fit_autoreg",
+              "_fit_autoreg_with_path",
+              "_fit_all_methods",
+              "_fit_all_methods_with_paths",
+              "_apply_yahoo_user_agent",
+              "_close_from_frame",
+              "_usable_close",
+              "_cache_path",
+              "_save_cache",
+              "_read_cache",
+              "_fetch_yahoo",
+              "_fetch_stooq",
+              "load_live_history",
+              "default_load_history",
+              "run_forecast",
+              "forecast_for_tool",
+              "_history_series_to_rows",
+              "_plot_payload_from_history",
+              "forecast_plot_payload_to_dict",
+              "_history_from_start",
+              "forecast_plot_payload"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/ingest.py",
+            "batchIndex": 3,
+            "symbols": [
+              "load_ingest_config",
+              "_word_tokens",
+              "e5_token_count",
+              "_compile_headings",
+              "_is_heading",
+              "_known_for",
+              "_flush",
+              "chunk_pages",
+              "chunk_pdf"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/ouroboros.py",
+            "batchIndex": 3,
+            "symbols": [
+              "OuroborosError",
+              "OuroborosLoop",
+              "_is_terminal",
+              "_answer_text",
+              "_tool_ran",
+              "_citations_from_text"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/render.py",
+            "batchIndex": 2,
+            "symbols": [
+              "_normalize_host",
+              "_clean_url",
+              "_web_url_for_host",
+              "_report_url_for_label",
+              "enrich_citations",
+              "_fix_markdown_links",
+              "_dedupe_trailing_urls",
+              "_strip_orphan_markdown",
+              "_fix_bold_markdown",
+              "_link_web_brackets",
+              "_link_inline_web_sources",
+              "_normalize_bare_web_citations",
+              "_link_report_tags",
+              "_split_glued_cyrillic",
+              "_fix_prose_chunk",
+              "_fix_prose_spacing",
+              "_prepare_body",
+              "_sources_for_footer",
+              "format_reply",
+              "_md_inline_html",
+              "chat_html"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/retrieve.py",
+            "batchIndex": 3,
+            "symbols": [
+              "IndexPlan",
+              "_prefer_ipv4",
+              "OpenAICompatibleEmbeddingFunction",
+              "embedding_model_name",
+              "embedding_base_url",
+              "embedding_api_key",
+              "make_embedding_function",
+              "_meta_bool",
+              "drop_redundant_excerpts",
+              "_chunk_from_meta",
+              "ChromaRetriever",
+              "_date_from_name",
+              "_agency_from_name",
+              "_url_for_agency",
+              "_resolve_sample_path",
+              "iter_ingest_jobs",
+              "_job_manifest_entry",
+              "build_corpus_manifest",
+              "corpus_fingerprint_from_manifest",
+              "corpus_fingerprint",
+              "plan_corpus_index",
+              "ingest_jobs",
+              "ensure_index",
+              "ingest_samples_and_reports",
+              "_default_retriever",
+              "retrieve_for_tool"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/turn.py",
+            "batchIndex": 2,
+            "symbols": [
+              "drop_listing",
+              "footer_flags",
+              "_agency_of",
+              "_agency_urls",
+              "_report_url",
+              "report_citation",
+              "web_citation",
+              "forecast_citations",
+              "has_grounded_report",
+              "_trim_memory_content",
+              "format_chat_memory",
+              "prompt_with_chat_memory",
+              "build_turn_prompt",
+              "_safety_net",
+              "run_turn",
+              "markdown_cite",
+              "apply_citation_links"
+            ]
+          },
+          {
+            "path": "tests/test_forecast.py",
+            "batchIndex": 4,
+            "symbols": [
+              "_series",
+              "test_detect_urals_has_no_symbol",
+              "test_detect_horizon_closed_list",
+              "test_run_forecast_returns_two_methods_with_intervals",
+              "test_month_horizon_is_not_the_quarter_point",
+              "test_urals_unavailable",
+              "test_history_failure_raises",
+              "test_stooq_used_when_yahoo_empty",
+              "test_cache_used_when_live_sources_fail",
+              "test_no_live_history_or_cache_raises",
+              "test_forecast_for_tool_shows_two_methods_and_no_average",
+              "test_forecast_for_tool_defaults_to_brent_and_honors_wti",
+              "test_forecast_for_tool_urals_has_no_series_and_no_brent_proxy",
+              "test_forecast_for_tool_history_failure_is_uncertainty",
+              "test_forecast_plot_payload_includes_history_and_two_paths",
+              "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+              "test_forecast_plot_payload_urals_has_no_series",
+              "test_forecast_plot_payload_history_failure_is_uncertainty",
+              "test_forecast_for_tool_citations_still_last_horizon_scalars"
+            ]
+          },
+          {
+            "path": "tests/test_turn.py",
+            "batchIndex": 2,
+            "symbols": [
+              "_FrozenLoop",
+              "test_live_reply_passes_through_without_host_report_patch",
+              "test_host_does_not_refuse_out_of_competence_question",
+              "test_reply_records_which_tools_the_loop_ran",
+              "test_web_citation_markdown_includes_full_url",
+              "test_report_citation_markdown_includes_pdf_page_url",
+              "test_dropper_sees_figure_past_800_chars",
+              "test_format_reply_does_not_require_langgraph_steps",
+              "test_format_reply_links_web_sources_from_session_rail",
+              "test_format_reply_links_report_source_from_ingest_config",
+              "test_format_reply_normalizes_bare_web_citations",
+              "test_format_reply_dedupes_double_markdown_urls",
+              "test_format_reply_fixes_spaced_markdown_urls",
+              "test_format_reply_links_inline_web_sources_from_session_rail",
+              "test_format_reply_fixes_glued_cyrillic_and_broken_vc_url",
+              "test_format_reply_fixes_broken_bold_with_multiplication",
+              "test_format_reply_normalizes_realistic_broken_prose",
+              "test_chat_html_renders_links_and_bold",
+              "test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+              "test_report_tag_without_retrieve_this_turn_is_not_grounded",
+              "test_russian_question_can_use_english_report_chunks",
+              "test_live_weather_with_tools_is_not_host_blocked",
+              "test_infra_timeout_on_weather_uses_competence_safety_net",
+              "test_infra_timeout_on_oil_question_is_uncertainty_not_invented_figures",
+              "test_playbook_documents_prompt_failure_not_host_lock",
+              "test_live_denylist_citation_is_not_host_stripped",
+              "test_combined_report_and_web_tags_are_allowed",
+              "test_host_does_not_refuse_forecast_without_a_verb",
+              "test_live_forecast_reply_is_not_host_patched_with_tags",
+              "test_format_chat_memory_empty",
+              "test_format_chat_memory_keeps_recent_turns_only",
+              "test_prompt_with_chat_memory_prefixes_current_question",
+              "test_run_turn_includes_chat_history_in_loop_prompt",
+              "test_build_turn_prompt_keeps_session_start_injection_with_memory"
+            ]
+          }
+        ],
+        "oil_gas_analyst/web.py": [
+          {
+            "path": "oil_gas_analyst/settings.py",
+            "batchIndex": 3,
+            "symbols": [
+              "ModelSlots",
+              "require_deepseek_key",
+              "require_embedding_api_key",
+              "require_openrouter_key",
+              "_env",
+              "maybe_traceable",
+              "normalize_chat_model",
+              "resolve_model_slots",
+              "running_in_docker",
+              "resolve_ouroboros_url",
+              "ouroboros_process_env"
+            ]
+          }
+        ],
+        "tests/test_session_start_web.py": [
+          {
+            "path": "oil_gas_analyst/turn.py",
+            "batchIndex": 2,
+            "symbols": [
+              "drop_listing",
+              "footer_flags",
+              "_agency_of",
+              "_agency_urls",
+              "_report_url",
+              "report_citation",
+              "web_citation",
+              "forecast_citations",
+              "has_grounded_report",
+              "_trim_memory_content",
+              "format_chat_memory",
+              "prompt_with_chat_memory",
+              "build_turn_prompt",
+              "_safety_net",
+              "run_turn",
+              "markdown_cite",
+              "apply_citation_links"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 2,
+      "files": [
+        {
+          "path": "oil_gas_analyst/__init__.py",
+          "language": "python",
+          "sizeLines": 3,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/app.py",
+          "language": "python",
+          "sizeLines": 87,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/chat_ui.py",
+          "language": "python",
+          "sizeLines": 77,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/rate_limit.py",
+          "language": "python",
+          "sizeLines": 63,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/render.py",
+          "language": "python",
+          "sizeLines": 420,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/routes.py",
+          "language": "python",
+          "sizeLines": 105,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/turn.py",
+          "language": "python",
+          "sizeLines": 273,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/test_rate_limit.py",
+          "language": "python",
+          "sizeLines": 37,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/test_routes.py",
+          "language": "python",
+          "sizeLines": 62,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/test_turn.py",
+          "language": "python",
+          "sizeLines": 547,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "oil_gas_analyst/__init__.py": [
+          "oil_gas_analyst/turn.py"
+        ],
+        "oil_gas_analyst/app.py": [
+          "oil_gas_analyst/deps.py",
+          "oil_gas_analyst/rate_limit.py",
+          "oil_gas_analyst/render.py",
+          "oil_gas_analyst/turn.py",
+          "oil_gas_analyst/types.py"
+        ],
+        "oil_gas_analyst/chat_ui.py": [
+          "oil_gas_analyst/deps.py",
+          "oil_gas_analyst/rate_limit.py",
+          "oil_gas_analyst/render.py",
+          "oil_gas_analyst/session_start_web.py",
+          "oil_gas_analyst/turn.py"
+        ],
+        "oil_gas_analyst/rate_limit.py": [],
+        "oil_gas_analyst/render.py": [
+          "oil_gas_analyst/ingest.py",
+          "oil_gas_analyst/session_start_web.py",
+          "oil_gas_analyst/turn.py",
+          "oil_gas_analyst/types.py"
+        ],
+        "oil_gas_analyst/routes.py": [],
+        "oil_gas_analyst/turn.py": [
+          "oil_gas_analyst/ingest.py",
+          "oil_gas_analyst/routes.py",
+          "oil_gas_analyst/session_start_web.py",
+          "oil_gas_analyst/settings.py",
+          "oil_gas_analyst/types.py"
+        ],
+        "tests/test_rate_limit.py": [
+          "oil_gas_analyst/rate_limit.py"
+        ],
+        "tests/test_routes.py": [
+          "oil_gas_analyst/routes.py"
+        ],
+        "tests/test_turn.py": [
+          "oil_gas_analyst/turn.py",
+          "oil_gas_analyst/types.py"
+        ]
+      },
+      "neighborMap": {
+        "oil_gas_analyst/app.py": [
+          {
+            "path": "oil_gas_analyst/deps.py",
+            "batchIndex": 3,
+            "symbols": [
+              "build_loop",
+              "enable_domain_skills",
+              "build_deps",
+              "_IndexDeps",
+              "build_eval_deps",
+              "download_full_reports"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/types.py",
+            "batchIndex": 1,
+            "symbols": [
+              "Chunk",
+              "WebHit",
+              "MethodForecast",
+              "MethodPathForecast",
+              "ForecastPlotPayload",
+              "ForecastResult",
+              "Citation",
+              "LoopResult",
+              "LoopError",
+              "AnalystLoop",
+              "Reply",
+              "CompetenceClassifier",
+              "Retriever",
+              "ChunkDropper",
+              "WebSearch",
+              "ForecastModule",
+              "Composer"
+            ]
+          }
+        ],
+        "oil_gas_analyst/chat_ui.py": [
+          {
+            "path": "oil_gas_analyst/deps.py",
+            "batchIndex": 3,
+            "symbols": [
+              "build_loop",
+              "enable_domain_skills",
+              "build_deps",
+              "_IndexDeps",
+              "build_eval_deps",
+              "download_full_reports"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/session_start_web.py",
+            "batchIndex": 1,
+            "symbols": [
+              "load_rail_exclusions",
+              "_is_rail_hidden",
+              "_today_moscow",
+              "_parse_iso_date",
+              "_infer_date_from_snippet",
+              "_is_fresh_for_rail",
+              "SessionStartRailHit",
+              "_RankedWebHit",
+              "outlet_from_url",
+              "YandexTopNewsSearcher",
+              "_collect_yandex_top_news",
+              "_cache_path",
+              "_save_top_news_cache",
+              "_load_top_news_cache",
+              "_build_payload_from_ranked",
+              "cached_top_news_hits",
+              "_fetch_live_top_news_payload",
+              "refresh_top_news_hits",
+              "fetch_session_start_web",
+              "visible_rail_hits",
+              "inject_session_start_web",
+              "has_grounded_session_start_web"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/dashboard.py",
+            "batchIndex": 4,
+            "symbols": [
+              "_session_id",
+              "chat_turn_in_progress",
+              "_chat_future",
+              "_logout_demo_session",
+              "_hydrate_news_from_disk",
+              "_hydrate_from_disk_caches",
+              "_chart_refresh_in_progress",
+              "_news_refresh_in_progress",
+              "_start_background_refreshes",
+              "_collect_background_refreshes",
+              "_poll_dashboard_refresh",
+              "_ensure_session_start_web",
+              "_reload_chart",
+              "_ensure_chart_payload",
+              "_chart_frame",
+              "_ouroboros_ready",
+              "_chat_history_for_turn",
+              "_start_chat_turn",
+              "_finish_chat_turn_if_ready",
+              "_chat_turn_pending",
+              "_render_cached_spinner",
+              "_render_chat_messages",
+              "_render_thinking_indicator",
+              "_poll_chat_future",
+              "_render_corpus_pill",
+              "_ensure_reports_consensus",
+              "_render_kpi_corpus_row",
+              "_render_forecast_consensus_pill",
+              "_render_news_pills",
+              "_render_chart_panel",
+              "_render_header",
+              "_render_login_gate",
+              "_render_chat_panel",
+              "_render_workspace_resize",
+              "main"
+            ]
+          }
+        ],
+        "oil_gas_analyst/render.py": [
+          {
+            "path": "oil_gas_analyst/ingest.py",
+            "batchIndex": 3,
+            "symbols": [
+              "load_ingest_config",
+              "_word_tokens",
+              "e5_token_count",
+              "_compile_headings",
+              "_is_heading",
+              "_known_for",
+              "_flush",
+              "chunk_pages",
+              "chunk_pdf"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/session_start_web.py",
+            "batchIndex": 1,
+            "symbols": [
+              "load_rail_exclusions",
+              "_is_rail_hidden",
+              "_today_moscow",
+              "_parse_iso_date",
+              "_infer_date_from_snippet",
+              "_is_fresh_for_rail",
+              "SessionStartRailHit",
+              "_RankedWebHit",
+              "outlet_from_url",
+              "YandexTopNewsSearcher",
+              "_collect_yandex_top_news",
+              "_cache_path",
+              "_save_top_news_cache",
+              "_load_top_news_cache",
+              "_build_payload_from_ranked",
+              "cached_top_news_hits",
+              "_fetch_live_top_news_payload",
+              "refresh_top_news_hits",
+              "fetch_session_start_web",
+              "visible_rail_hits",
+              "inject_session_start_web",
+              "has_grounded_session_start_web"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/types.py",
+            "batchIndex": 1,
+            "symbols": [
+              "Chunk",
+              "WebHit",
+              "MethodForecast",
+              "MethodPathForecast",
+              "ForecastPlotPayload",
+              "ForecastResult",
+              "Citation",
+              "LoopResult",
+              "LoopError",
+              "AnalystLoop",
+              "Reply",
+              "CompetenceClassifier",
+              "Retriever",
+              "ChunkDropper",
+              "WebSearch",
+              "ForecastModule",
+              "Composer"
+            ]
+          }
+        ],
+        "oil_gas_analyst/turn.py": [
+          {
+            "path": "oil_gas_analyst/ingest.py",
+            "batchIndex": 3,
+            "symbols": [
+              "load_ingest_config",
+              "_word_tokens",
+              "e5_token_count",
+              "_compile_headings",
+              "_is_heading",
+              "_known_for",
+              "_flush",
+              "chunk_pages",
+              "chunk_pdf"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/session_start_web.py",
+            "batchIndex": 1,
+            "symbols": [
+              "load_rail_exclusions",
+              "_is_rail_hidden",
+              "_today_moscow",
+              "_parse_iso_date",
+              "_infer_date_from_snippet",
+              "_is_fresh_for_rail",
+              "SessionStartRailHit",
+              "_RankedWebHit",
+              "outlet_from_url",
+              "YandexTopNewsSearcher",
+              "_collect_yandex_top_news",
+              "_cache_path",
+              "_save_top_news_cache",
+              "_load_top_news_cache",
+              "_build_payload_from_ranked",
+              "cached_top_news_hits",
+              "_fetch_live_top_news_payload",
+              "refresh_top_news_hits",
+              "fetch_session_start_web",
+              "visible_rail_hits",
+              "inject_session_start_web",
+              "has_grounded_session_start_web"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/settings.py",
+            "batchIndex": 3,
+            "symbols": [
+              "ModelSlots",
+              "require_deepseek_key",
+              "require_embedding_api_key",
+              "require_openrouter_key",
+              "_env",
+              "maybe_traceable",
+              "normalize_chat_model",
+              "resolve_model_slots",
+              "running_in_docker",
+              "resolve_ouroboros_url",
+              "ouroboros_process_env"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/types.py",
+            "batchIndex": 1,
+            "symbols": [
+              "Chunk",
+              "WebHit",
+              "MethodForecast",
+              "MethodPathForecast",
+              "ForecastPlotPayload",
+              "ForecastResult",
+              "Citation",
+              "LoopResult",
+              "LoopError",
+              "AnalystLoop",
+              "Reply",
+              "CompetenceClassifier",
+              "Retriever",
+              "ChunkDropper",
+              "WebSearch",
+              "ForecastModule",
+              "Composer"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/eval_dialogues.py",
+            "batchIndex": 1,
+            "symbols": [
+              "load_session_start_hits",
+              "invoke_dashboard_eval"
+            ]
+          },
+          {
+            "path": "tests/test_ouroboros.py",
+            "batchIndex": 3,
+            "symbols": [
+              "_Http",
+              "_Resp",
+              "test_gateway_turn_returns_task_answer",
+              "test_gateway_reads_answer_from_outcome_axes",
+              "test_gateway_marks_retrieve_when_tool_name_is_in_the_task_record",
+              "test_gateway_marks_web_when_search_tool_is_in_the_task_record",
+              "test_gateway_marks_forecast_when_tool_is_in_the_task_record",
+              "test_gateway_retries_while_supervisor_is_starting"
+            ]
+          },
+          {
+            "path": "tests/test_session_start_web.py",
+            "batchIndex": 1,
+            "symbols": [
+              "_payload",
+              "test_cached_top_news_hits_reads_disk_without_network",
+              "test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+              "test_fetch_session_start_web_uses_canned_query",
+              "test_fetch_session_start_web_saves_cache_on_success",
+              "test_visible_rail_hits_hides_denied_domains",
+              "test_visible_rail_hits_skips_older_than_today",
+              "test_inject_session_start_web_prepends_visible_hits",
+              "test_inject_skips_when_no_visible_hits",
+              "test_run_turn_injects_without_web_ran_this_turn",
+              "test_has_grounded_session_start_web_false_without_rail_match"
+            ]
+          }
+        ],
+        "tests/test_turn.py": [
+          {
+            "path": "oil_gas_analyst/types.py",
+            "batchIndex": 1,
+            "symbols": [
+              "Chunk",
+              "WebHit",
+              "MethodForecast",
+              "MethodPathForecast",
+              "ForecastPlotPayload",
+              "ForecastResult",
+              "Citation",
+              "LoopResult",
+              "LoopError",
+              "AnalystLoop",
+              "Reply",
+              "CompetenceClassifier",
+              "Retriever",
+              "ChunkDropper",
+              "WebSearch",
+              "ForecastModule",
+              "Composer"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 3,
+      "files": [
+        {
+          "path": "oil_gas_analyst/__main__.py",
+          "language": "python",
+          "sizeLines": 26,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/corpus_strip.py",
+          "language": "python",
+          "sizeLines": 89,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/deps.py",
+          "language": "python",
+          "sizeLines": 130,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/ingest.py",
+          "language": "python",
+          "sizeLines": 236,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/ouroboros.py",
+          "language": "python",
+          "sizeLines": 161,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/retrieve.py",
+          "language": "python",
+          "sizeLines": 759,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/settings.py",
+          "language": "python",
+          "sizeLines": 175,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/test_ingest.py",
+          "language": "python",
+          "sizeLines": 382,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/test_ouroboros.py",
+          "language": "python",
+          "sizeLines": 192,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/test_settings.py",
+          "language": "python",
+          "sizeLines": 198,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "oil_gas_analyst/__main__.py": [
+          "oil_gas_analyst/deps.py",
+          "oil_gas_analyst/retrieve.py"
+        ],
+        "oil_gas_analyst/corpus_strip.py": [
+          "oil_gas_analyst/ingest.py",
+          "oil_gas_analyst/retrieve.py"
+        ],
+        "oil_gas_analyst/deps.py": [
+          "oil_gas_analyst/ingest.py",
+          "oil_gas_analyst/ouroboros.py",
+          "oil_gas_analyst/settings.py"
+        ],
+        "oil_gas_analyst/ingest.py": [
+          "oil_gas_analyst/types.py"
+        ],
+        "oil_gas_analyst/ouroboros.py": [
+          "oil_gas_analyst/settings.py",
+          "oil_gas_analyst/types.py"
+        ],
+        "oil_gas_analyst/retrieve.py": [
+          "oil_gas_analyst/ingest.py",
+          "oil_gas_analyst/settings.py",
+          "oil_gas_analyst/types.py"
+        ],
+        "oil_gas_analyst/settings.py": [],
+        "tests/test_ingest.py": [
+          "oil_gas_analyst/ingest.py"
+        ],
+        "tests/test_ouroboros.py": [
+          "oil_gas_analyst/ouroboros.py",
+          "oil_gas_analyst/turn.py"
+        ],
+        "tests/test_settings.py": [
+          "oil_gas_analyst/settings.py"
+        ]
+      },
+      "neighborMap": {
+        "oil_gas_analyst/corpus_strip.py": [
+          {
+            "path": "oil_gas_analyst/dashboard.py",
+            "batchIndex": 4,
+            "symbols": [
+              "_session_id",
+              "chat_turn_in_progress",
+              "_chat_future",
+              "_logout_demo_session",
+              "_hydrate_news_from_disk",
+              "_hydrate_from_disk_caches",
+              "_chart_refresh_in_progress",
+              "_news_refresh_in_progress",
+              "_start_background_refreshes",
+              "_collect_background_refreshes",
+              "_poll_dashboard_refresh",
+              "_ensure_session_start_web",
+              "_reload_chart",
+              "_ensure_chart_payload",
+              "_chart_frame",
+              "_ouroboros_ready",
+              "_chat_history_for_turn",
+              "_start_chat_turn",
+              "_finish_chat_turn_if_ready",
+              "_chat_turn_pending",
+              "_render_cached_spinner",
+              "_render_chat_messages",
+              "_render_thinking_indicator",
+              "_poll_chat_future",
+              "_render_corpus_pill",
+              "_ensure_reports_consensus",
+              "_render_kpi_corpus_row",
+              "_render_forecast_consensus_pill",
+              "_render_news_pills",
+              "_render_chart_panel",
+              "_render_header",
+              "_render_login_gate",
+              "_render_chat_panel",
+              "_render_workspace_resize",
+              "main"
+            ]
+          },
+          {
+            "path": "tests/test_dashboard_layout.py",
+            "batchIndex": 4,
+            "symbols": [
+              "test_chat_turn_in_progress",
+              "test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+              "test_dashboard_page_config_collapses_sidebar",
+              "test_rail_exclusions_hide_wikipedia",
+              "_series",
+              "_plot_payload",
+              "test_chart_payload_disk_cache_roundtrip",
+              "test_chart_dataframe_has_actual_and_three_forecast_series",
+              "test_chart_display_dataframe_shows_last_month_plus_forecast",
+              "test_brent_chart_altair_sets_y_axis_minimum",
+              "test_chart_dataframe_none_on_unavailable",
+              "test_forecast_model_consensus_averages_three_model_points",
+              "test_chart_history_starts_from_configured_date",
+              "test_chart_refresh_horizon_detects_forecast_and_refresh",
+              "test_corpus_strip_lists_agencies_when_samples_exist"
+            ]
+          }
+        ],
+        "oil_gas_analyst/deps.py": [
+          {
+            "path": "oil_gas_analyst/app.py",
+            "batchIndex": 2,
+            "symbols": [
+              "_warm",
+              "_wait_loop",
+              "start",
+              "on_message"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/chat_ui.py",
+            "batchIndex": 2,
+            "symbols": [
+              "_warm",
+              "wait_loop",
+              "rate_limit_key",
+              "handle_chat_message"
+            ]
+          }
+        ],
+        "oil_gas_analyst/ingest.py": [
+          {
+            "path": "oil_gas_analyst/types.py",
+            "batchIndex": 1,
+            "symbols": [
+              "Chunk",
+              "WebHit",
+              "MethodForecast",
+              "MethodPathForecast",
+              "ForecastPlotPayload",
+              "ForecastResult",
+              "Citation",
+              "LoopResult",
+              "LoopError",
+              "AnalystLoop",
+              "Reply",
+              "CompetenceClassifier",
+              "Retriever",
+              "ChunkDropper",
+              "WebSearch",
+              "ForecastModule",
+              "Composer"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/consensus_price.py",
+            "batchIndex": 4,
+            "symbols": [
+              "_parse_price_token",
+              "extract_oil_prices",
+              "consensus_from_texts",
+              "_samples_dir",
+              "_resolve_sample_path",
+              "sample_report_texts",
+              "report_consensus_price",
+              "news_consensus_price",
+              "dashboard_kpi_row"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/render.py",
+            "batchIndex": 2,
+            "symbols": [
+              "_normalize_host",
+              "_clean_url",
+              "_web_url_for_host",
+              "_report_url_for_label",
+              "enrich_citations",
+              "_fix_markdown_links",
+              "_dedupe_trailing_urls",
+              "_strip_orphan_markdown",
+              "_fix_bold_markdown",
+              "_link_web_brackets",
+              "_link_inline_web_sources",
+              "_normalize_bare_web_citations",
+              "_link_report_tags",
+              "_split_glued_cyrillic",
+              "_fix_prose_chunk",
+              "_fix_prose_spacing",
+              "_prepare_body",
+              "_sources_for_footer",
+              "format_reply",
+              "_md_inline_html",
+              "chat_html"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/turn.py",
+            "batchIndex": 2,
+            "symbols": [
+              "drop_listing",
+              "footer_flags",
+              "_agency_of",
+              "_agency_urls",
+              "_report_url",
+              "report_citation",
+              "web_citation",
+              "forecast_citations",
+              "has_grounded_report",
+              "_trim_memory_content",
+              "format_chat_memory",
+              "prompt_with_chat_memory",
+              "build_turn_prompt",
+              "_safety_net",
+              "run_turn",
+              "markdown_cite",
+              "apply_citation_links"
+            ]
+          }
+        ],
+        "oil_gas_analyst/ouroboros.py": [
+          {
+            "path": "oil_gas_analyst/types.py",
+            "batchIndex": 1,
+            "symbols": [
+              "Chunk",
+              "WebHit",
+              "MethodForecast",
+              "MethodPathForecast",
+              "ForecastPlotPayload",
+              "ForecastResult",
+              "Citation",
+              "LoopResult",
+              "LoopError",
+              "AnalystLoop",
+              "Reply",
+              "CompetenceClassifier",
+              "Retriever",
+              "ChunkDropper",
+              "WebSearch",
+              "ForecastModule",
+              "Composer"
+            ]
+          }
+        ],
+        "oil_gas_analyst/retrieve.py": [
+          {
+            "path": "oil_gas_analyst/types.py",
+            "batchIndex": 1,
+            "symbols": [
+              "Chunk",
+              "WebHit",
+              "MethodForecast",
+              "MethodPathForecast",
+              "ForecastPlotPayload",
+              "ForecastResult",
+              "Citation",
+              "LoopResult",
+              "LoopError",
+              "AnalystLoop",
+              "Reply",
+              "CompetenceClassifier",
+              "Retriever",
+              "ChunkDropper",
+              "WebSearch",
+              "ForecastModule",
+              "Composer"
+            ]
+          }
+        ],
+        "oil_gas_analyst/settings.py": [
+          {
+            "path": "oil_gas_analyst/forecast.py",
+            "batchIndex": 4,
+            "symbols": [
+              "ForecastError",
+              "load_forecast_config",
+              "detect_symbol",
+              "detect_horizon",
+              "_interval",
+              "_path_from_pred",
+              "_random_walk_fallback",
+              "_method_from_forecast",
+              "_fit_auto_arima",
+              "_fit_auto_arima_with_path",
+              "_fit_unobserved_components",
+              "_fit_unobserved_components_with_path",
+              "_fit_autoreg",
+              "_fit_autoreg_with_path",
+              "_fit_all_methods",
+              "_fit_all_methods_with_paths",
+              "_apply_yahoo_user_agent",
+              "_close_from_frame",
+              "_usable_close",
+              "_cache_path",
+              "_save_cache",
+              "_read_cache",
+              "_fetch_yahoo",
+              "_fetch_stooq",
+              "load_live_history",
+              "default_load_history",
+              "run_forecast",
+              "forecast_for_tool",
+              "_history_series_to_rows",
+              "_plot_payload_from_history",
+              "forecast_plot_payload_to_dict",
+              "_history_from_start",
+              "forecast_plot_payload"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/turn.py",
+            "batchIndex": 2,
+            "symbols": [
+              "drop_listing",
+              "footer_flags",
+              "_agency_of",
+              "_agency_urls",
+              "_report_url",
+              "report_citation",
+              "web_citation",
+              "forecast_citations",
+              "has_grounded_report",
+              "_trim_memory_content",
+              "format_chat_memory",
+              "prompt_with_chat_memory",
+              "build_turn_prompt",
+              "_safety_net",
+              "run_turn",
+              "markdown_cite",
+              "apply_citation_links"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/web.py",
+            "batchIndex": 1,
+            "symbols": [
+              "extract_html_text",
+              "fetch_page_text",
+              "fill_page_bodies",
+              "DuckDuckGoWeb",
+              "search_for_tool"
+            ]
+          }
+        ],
+        "tests/test_ouroboros.py": [
+          {
+            "path": "oil_gas_analyst/turn.py",
+            "batchIndex": 2,
+            "symbols": [
+              "drop_listing",
+              "footer_flags",
+              "_agency_of",
+              "_agency_urls",
+              "_report_url",
+              "report_citation",
+              "web_citation",
+              "forecast_citations",
+              "has_grounded_report",
+              "_trim_memory_content",
+              "format_chat_memory",
+              "prompt_with_chat_memory",
+              "build_turn_prompt",
+              "_safety_net",
+              "run_turn",
+              "markdown_cite",
+              "apply_citation_links"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 4,
+      "files": [
+        {
+          "path": "oil_gas_analyst/consensus_price.py",
+          "language": "python",
+          "sizeLines": 152,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/dashboard.py",
+          "language": "python",
+          "sizeLines": 874,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/dashboard_chart.py",
+          "language": "python",
+          "sizeLines": 164,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/demo_auth.py",
+          "language": "python",
+          "sizeLines": 31,
+          "fileCategory": "code"
+        },
+        {
+          "path": "oil_gas_analyst/forecast.py",
+          "language": "python",
+          "sizeLines": 601,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/test_consensus_price.py",
+          "language": "python",
+          "sizeLines": 71,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/test_dashboard_layout.py",
+          "language": "python",
+          "sizeLines": 250,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/test_forecast.py",
+          "language": "python",
+          "sizeLines": 241,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "oil_gas_analyst/consensus_price.py": [
+          "oil_gas_analyst/ingest.py"
+        ],
+        "oil_gas_analyst/dashboard.py": [
+          "oil_gas_analyst/chat_ui.py",
+          "oil_gas_analyst/consensus_price.py",
+          "oil_gas_analyst/corpus_strip.py",
+          "oil_gas_analyst/dashboard_chart.py",
+          "oil_gas_analyst/demo_auth.py",
+          "oil_gas_analyst/forecast.py",
+          "oil_gas_analyst/session_start_web.py"
+        ],
+        "oil_gas_analyst/dashboard_chart.py": [
+          "oil_gas_analyst/forecast.py"
+        ],
+        "oil_gas_analyst/demo_auth.py": [],
+        "oil_gas_analyst/forecast.py": [
+          "oil_gas_analyst/settings.py",
+          "oil_gas_analyst/types.py"
+        ],
+        "tests/test_consensus_price.py": [
+          "oil_gas_analyst/consensus_price.py",
+          "oil_gas_analyst/session_start_web.py"
+        ],
+        "tests/test_dashboard_layout.py": [
+          "oil_gas_analyst/corpus_strip.py",
+          "oil_gas_analyst/dashboard_chart.py",
+          "oil_gas_analyst/dashboard.py",
+          "oil_gas_analyst/forecast.py"
+        ],
+        "tests/test_forecast.py": [
+          "oil_gas_analyst/forecast.py",
+          "oil_gas_analyst/types.py"
+        ]
+      },
+      "neighborMap": {
+        "oil_gas_analyst/consensus_price.py": [
+          {
+            "path": "oil_gas_analyst/ingest.py",
+            "batchIndex": 3,
+            "symbols": [
+              "load_ingest_config",
+              "_word_tokens",
+              "e5_token_count",
+              "_compile_headings",
+              "_is_heading",
+              "_known_for",
+              "_flush",
+              "chunk_pages",
+              "chunk_pdf"
+            ]
+          }
+        ],
+        "oil_gas_analyst/dashboard.py": [
+          {
+            "path": "oil_gas_analyst/chat_ui.py",
+            "batchIndex": 2,
+            "symbols": [
+              "_warm",
+              "wait_loop",
+              "rate_limit_key",
+              "handle_chat_message"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/corpus_strip.py",
+            "batchIndex": 3,
+            "symbols": [
+              "CorpusStripEntry",
+              "_samples_dir",
+              "_resolve_path",
+              "corpus_strip_entries"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/session_start_web.py",
+            "batchIndex": 1,
+            "symbols": [
+              "load_rail_exclusions",
+              "_is_rail_hidden",
+              "_today_moscow",
+              "_parse_iso_date",
+              "_infer_date_from_snippet",
+              "_is_fresh_for_rail",
+              "SessionStartRailHit",
+              "_RankedWebHit",
+              "outlet_from_url",
+              "YandexTopNewsSearcher",
+              "_collect_yandex_top_news",
+              "_cache_path",
+              "_save_top_news_cache",
+              "_load_top_news_cache",
+              "_build_payload_from_ranked",
+              "cached_top_news_hits",
+              "_fetch_live_top_news_payload",
+              "refresh_top_news_hits",
+              "fetch_session_start_web",
+              "visible_rail_hits",
+              "inject_session_start_web",
+              "has_grounded_session_start_web"
+            ]
+          }
+        ],
+        "oil_gas_analyst/forecast.py": [
+          {
+            "path": "oil_gas_analyst/settings.py",
+            "batchIndex": 3,
+            "symbols": [
+              "ModelSlots",
+              "require_deepseek_key",
+              "require_embedding_api_key",
+              "require_openrouter_key",
+              "_env",
+              "maybe_traceable",
+              "normalize_chat_model",
+              "resolve_model_slots",
+              "running_in_docker",
+              "resolve_ouroboros_url",
+              "ouroboros_process_env"
+            ]
+          },
+          {
+            "path": "oil_gas_analyst/types.py",
+            "batchIndex": 1,
+            "symbols": [
+              "Chunk",
+              "WebHit",
+              "MethodForecast",
+              "MethodPathForecast",
+              "ForecastPlotPayload",
+              "ForecastResult",
+              "Citation",
+              "LoopResult",
+              "LoopError",
+              "AnalystLoop",
+              "Reply",
+              "CompetenceClassifier",
+              "Retriever",
+              "ChunkDropper",
+              "WebSearch",
+              "ForecastModule",
+              "Composer"
+            ]
+          }
+        ],
+        "tests/test_consensus_price.py": [
+          {
+            "path": "oil_gas_analyst/session_start_web.py",
+            "batchIndex": 1,
+            "symbols": [
+              "load_rail_exclusions",
+              "_is_rail_hidden",
+              "_today_moscow",
+              "_parse_iso_date",
+              "_infer_date_from_snippet",
+              "_is_fresh_for_rail",
+              "SessionStartRailHit",
+              "_RankedWebHit",
+              "outlet_from_url",
+              "YandexTopNewsSearcher",
+              "_collect_yandex_top_news",
+              "_cache_path",
+              "_save_top_news_cache",
+              "_load_top_news_cache",
+              "_build_payload_from_ranked",
+              "cached_top_news_hits",
+              "_fetch_live_top_news_payload",
+              "refresh_top_news_hits",
+              "fetch_session_start_web",
+              "visible_rail_hits",
+              "inject_session_start_web",
+              "has_grounded_session_start_web"
+            ]
+          }
+        ],
+        "tests/test_dashboard_layout.py": [
+          {
+            "path": "oil_gas_analyst/corpus_strip.py",
+            "batchIndex": 3,
+            "symbols": [
+              "CorpusStripEntry",
+              "_samples_dir",
+              "_resolve_path",
+              "corpus_strip_entries"
+            ]
+          }
+        ],
+        "tests/test_forecast.py": [
+          {
+            "path": "oil_gas_analyst/types.py",
+            "batchIndex": 1,
+            "symbols": [
+              "Chunk",
+              "WebHit",
+              "MethodForecast",
+              "MethodPathForecast",
+              "ForecastPlotPayload",
+              "ForecastResult",
+              "Citation",
+              "LoopResult",
+              "LoopError",
+              "AnalystLoop",
+              "Reply",
+              "CompetenceClassifier",
+              "Retriever",
+              "ChunkDropper",
+              "WebSearch",
+              "ForecastModule",
+              "Composer"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 5,
+      "files": [
+        {
+          "path": ".dockerignore",
+          "language": "unknown",
+          "sizeLines": 12,
+          "fileCategory": "infra"
+        },
+        {
+          "path": "docker-compose.yml",
+          "language": "yaml",
+          "sizeLines": 115,
+          "fileCategory": "infra"
+        },
+        {
+          "path": "Dockerfile",
+          "language": "dockerfile",
+          "sizeLines": 30,
+          "fileCategory": "infra"
+        }
+      ],
+      "batchImportData": {
+        ".dockerignore": [],
+        "docker-compose.yml": [],
+        "Dockerfile": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 6,
+      "files": [
+        {
+          "path": ".env.example",
+          "language": "config",
+          "sizeLines": 61,
+          "fileCategory": "config"
+        },
+        {
+          "path": "AGENTS.md",
+          "language": "markdown",
+          "sizeLines": 33,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "CONTEXT.md",
+          "language": "markdown",
+          "sizeLines": 105,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "README.md",
+          "language": "markdown",
+          "sizeLines": 116,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "pyproject.toml",
+          "language": "toml",
+          "sizeLines": 16,
+          "fileCategory": "config"
+        },
+        {
+          "path": "requirements-analyst.txt",
+          "language": "txt",
+          "sizeLines": 13,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "requirements.txt",
+          "language": "txt",
+          "sizeLines": 17,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "task.md",
+          "language": "markdown",
+          "sizeLines": 61,
+          "fileCategory": "docs"
+        }
+      ],
+      "batchImportData": {
+        ".env.example": [],
+        "AGENTS.md": [],
+        "CONTEXT.md": [],
+        "README.md": [],
+        "pyproject.toml": [],
+        "requirements-analyst.txt": [],
+        "requirements.txt": [],
+        "task.md": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 7,
+      "files": [
+        {
+          "path": ".scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md",
+          "language": "markdown",
+          "sizeLines": 13,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md",
+          "language": "markdown",
+          "sizeLines": 13,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md",
+          "language": "markdown",
+          "sizeLines": 13,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md",
+          "language": "markdown",
+          "sizeLines": 15,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md",
+          "language": "markdown",
+          "sizeLines": 12,
+          "fileCategory": "docs"
+        }
+      ],
+      "batchImportData": {
+        ".scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md": [],
+        ".scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md": [],
+        ".scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md": [],
+        ".scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md": [],
+        ".scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 8,
+      "files": [
+        {
+          "path": ".scratch/analyst-dashboard/issues/01-what-frames-the-chat.md",
+          "language": "markdown",
+          "sizeLines": 31,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard/issues/02-session-start-web-fetch.md",
+          "language": "markdown",
+          "sizeLines": 33,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard/issues/03-streamlit-click-target.md",
+          "language": "markdown",
+          "sizeLines": 22,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md",
+          "language": "markdown",
+          "sizeLines": 20,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md",
+          "language": "markdown",
+          "sizeLines": 21,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md",
+          "language": "markdown",
+          "sizeLines": 17,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md",
+          "language": "markdown",
+          "sizeLines": 17,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard/issues/08-search-web-without-a-question.md",
+          "language": "markdown",
+          "sizeLines": 17,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md",
+          "language": "markdown",
+          "sizeLines": 19,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard/issues/10-history-without-forecast-request.md",
+          "language": "markdown",
+          "sizeLines": 31,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md",
+          "language": "markdown",
+          "sizeLines": 22,
+          "fileCategory": "docs"
+        }
+      ],
+      "batchImportData": {
+        ".scratch/analyst-dashboard/issues/01-what-frames-the-chat.md": [],
+        ".scratch/analyst-dashboard/issues/02-session-start-web-fetch.md": [],
+        ".scratch/analyst-dashboard/issues/03-streamlit-click-target.md": [],
+        ".scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md": [],
+        ".scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md": [],
+        ".scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md": [],
+        ".scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md": [],
+        ".scratch/analyst-dashboard/issues/08-search-web-without-a-question.md": [],
+        ".scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md": [],
+        ".scratch/analyst-dashboard/issues/10-history-without-forecast-request.md": [],
+        ".scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 9,
+      "files": [
+        {
+          "path": ".scratch/analyst-dashboard/research/forecast-plot-payload.md",
+          "language": "markdown",
+          "sizeLines": 141,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard/research/session-start-search-web.md",
+          "language": "markdown",
+          "sizeLines": 194,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md",
+          "language": "markdown",
+          "sizeLines": 192,
+          "fileCategory": "docs"
+        }
+      ],
+      "batchImportData": {
+        ".scratch/analyst-dashboard/research/forecast-plot-payload.md": [],
+        ".scratch/analyst-dashboard/research/session-start-search-web.md": [],
+        ".scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 10,
+      "files": [
+        {
+          "path": ".scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md",
+          "language": "markdown",
+          "sizeLines": 34,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md",
+          "language": "markdown",
+          "sizeLines": 52,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md",
+          "language": "markdown",
+          "sizeLines": 45,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md",
+          "language": "markdown",
+          "sizeLines": 32,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md",
+          "language": "markdown",
+          "sizeLines": 34,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md",
+          "language": "markdown",
+          "sizeLines": 29,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md",
+          "language": "markdown",
+          "sizeLines": 36,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md",
+          "language": "markdown",
+          "sizeLines": 22,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+          "language": "markdown",
+          "sizeLines": 18,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md",
+          "language": "markdown",
+          "sizeLines": 17,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md",
+          "language": "markdown",
+          "sizeLines": 16,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md",
+          "language": "markdown",
+          "sizeLines": 17,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md",
+          "language": "markdown",
+          "sizeLines": 17,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+          "language": "markdown",
+          "sizeLines": 13,
+          "fileCategory": "docs"
+        }
+      ],
+      "batchImportData": {
+        ".scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md": [],
+        ".scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md": [],
+        ".scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md": [],
+        ".scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md": [],
+        ".scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md": [],
+        ".scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md": [],
+        ".scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md": [],
+        ".scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md": [],
+        ".scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md": [],
+        ".scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md": [],
+        ".scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md": [],
+        ".scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md": [],
+        ".scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md": [],
+        ".scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 11,
+      "files": [
+        {
+          "path": "config/forecast.yaml",
+          "language": "yaml",
+          "sizeLines": 61,
+          "fileCategory": "config"
+        },
+        {
+          "path": "config/ingest.yaml",
+          "language": "yaml",
+          "sizeLines": 72,
+          "fileCategory": "config"
+        },
+        {
+          "path": "config/red_team_pack.yaml",
+          "language": "yaml",
+          "sizeLines": 44,
+          "fileCategory": "config"
+        },
+        {
+          "path": "config/route_lists.yaml",
+          "language": "yaml",
+          "sizeLines": 68,
+          "fileCategory": "config"
+        },
+        {
+          "path": "config/session_start_rail_exclusions.yaml",
+          "language": "yaml",
+          "sizeLines": 5,
+          "fileCategory": "config"
+        },
+        {
+          "path": "config/yellow_press_denylist.yaml",
+          "language": "yaml",
+          "sizeLines": 29,
+          "fileCategory": "config"
+        }
+      ],
+      "batchImportData": {
+        "config/forecast.yaml": [],
+        "config/ingest.yaml": [],
+        "config/red_team_pack.yaml": [],
+        "config/route_lists.yaml": [],
+        "config/session_start_rail_exclusions.yaml": [],
+        "config/yellow_press_denylist.yaml": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 12,
+      "files": [
+        {
+          "path": "docs/adr/0001-analyst-lives-inside-ouroboros.md",
+          "language": "markdown",
+          "sizeLines": 29,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0002-ouroboros-out-of-scope.md",
+          "language": "markdown",
+          "sizeLines": 21,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0003-thin-or-fresh-web.md",
+          "language": "markdown",
+          "sizeLines": 27,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0004-forecast-only-on-explicit-verbs.md",
+          "language": "markdown",
+          "sizeLines": 33,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0005-closed-route-lists.md",
+          "language": "markdown",
+          "sizeLines": 23,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0006-deepseek-chat-llm.md",
+          "language": "markdown",
+          "sizeLines": 28,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0007-e5-chroma-reports.md",
+          "language": "markdown",
+          "sizeLines": 26,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0008-duckduckgo-denylist.md",
+          "language": "markdown",
+          "sizeLines": 24,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0009-yfinance-sarima-ets.md",
+          "language": "markdown",
+          "sizeLines": 26,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0010-chainlit-ui.md",
+          "language": "markdown",
+          "sizeLines": 22,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0011-sample-and-full-reports.md",
+          "language": "markdown",
+          "sizeLines": 32,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0012-always-retrieve-model-drops.md",
+          "language": "markdown",
+          "sizeLines": 25,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0013-web-if-dropped-and-in-competence.md",
+          "language": "markdown",
+          "sizeLines": 27,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0014-competence-classify-node.md",
+          "language": "markdown",
+          "sizeLines": 27,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0015-heading-chunks.md",
+          "language": "markdown",
+          "sizeLines": 21,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0016-cbr-sample-report.md",
+          "language": "markdown",
+          "sizeLines": 26,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0017-next-cycle-is-public-demo.md",
+          "language": "markdown",
+          "sizeLines": 43,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0018-eval-chat-openrouter-free.md",
+          "language": "markdown",
+          "sizeLines": 22,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0019-model-decides-the-loop.md",
+          "language": "markdown",
+          "sizeLines": 30,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0020-waterfall-grounded-citations.md",
+          "language": "markdown",
+          "sizeLines": 25,
+          "fileCategory": "docs"
+        }
+      ],
+      "batchImportData": {
+        "docs/adr/0001-analyst-lives-inside-ouroboros.md": [],
+        "docs/adr/0002-ouroboros-out-of-scope.md": [],
+        "docs/adr/0003-thin-or-fresh-web.md": [],
+        "docs/adr/0004-forecast-only-on-explicit-verbs.md": [],
+        "docs/adr/0005-closed-route-lists.md": [],
+        "docs/adr/0006-deepseek-chat-llm.md": [],
+        "docs/adr/0007-e5-chroma-reports.md": [],
+        "docs/adr/0008-duckduckgo-denylist.md": [],
+        "docs/adr/0009-yfinance-sarima-ets.md": [],
+        "docs/adr/0010-chainlit-ui.md": [],
+        "docs/adr/0011-sample-and-full-reports.md": [],
+        "docs/adr/0012-always-retrieve-model-drops.md": [],
+        "docs/adr/0013-web-if-dropped-and-in-competence.md": [],
+        "docs/adr/0014-competence-classify-node.md": [],
+        "docs/adr/0015-heading-chunks.md": [],
+        "docs/adr/0016-cbr-sample-report.md": [],
+        "docs/adr/0017-next-cycle-is-public-demo.md": [],
+        "docs/adr/0018-eval-chat-openrouter-free.md": [],
+        "docs/adr/0019-model-decides-the-loop.md": [],
+        "docs/adr/0020-waterfall-grounded-citations.md": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 13,
+      "files": [
+        {
+          "path": "docs/adr/0021-chainlit-adapter-ouroboros-loop.md",
+          "language": "markdown",
+          "sizeLines": 25,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0022-live-stubs-die-infra-nets.md",
+          "language": "markdown",
+          "sizeLines": 30,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0023-main-openrouter-glm52-free.md",
+          "language": "markdown",
+          "sizeLines": 24,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0024-readme-names-ouroboros-evolve-off.md",
+          "language": "markdown",
+          "sizeLines": 26,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0025-openrouter-embeddings-no-local-torch.md",
+          "language": "markdown",
+          "sizeLines": 28,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0026-streamlit-dashboard-is-the-demo.md",
+          "language": "markdown",
+          "sizeLines": 28,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/adr/0027-deepseek-direct-api-main.md",
+          "language": "markdown",
+          "sizeLines": 28,
+          "fileCategory": "docs"
+        }
+      ],
+      "batchImportData": {
+        "docs/adr/0021-chainlit-adapter-ouroboros-loop.md": [],
+        "docs/adr/0022-live-stubs-die-infra-nets.md": [],
+        "docs/adr/0023-main-openrouter-glm52-free.md": [],
+        "docs/adr/0024-readme-names-ouroboros-evolve-off.md": [],
+        "docs/adr/0025-openrouter-embeddings-no-local-torch.md": [],
+        "docs/adr/0026-streamlit-dashboard-is-the-demo.md": [],
+        "docs/adr/0027-deepseek-direct-api-main.md": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 14,
+      "files": [
+        {
+          "path": "oil_gas_analyst.egg-info/SOURCES.txt",
+          "language": "txt",
+          "sizeLines": 42,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "oil_gas_analyst.egg-info/dependency_links.txt",
+          "language": "txt",
+          "sizeLines": 1,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "oil_gas_analyst.egg-info/top_level.txt",
+          "language": "txt",
+          "sizeLines": 1,
+          "fileCategory": "docs"
+        }
+      ],
+      "batchImportData": {
+        "oil_gas_analyst.egg-info/SOURCES.txt": [],
+        "oil_gas_analyst.egg-info/dependency_links.txt": [],
+        "oil_gas_analyst.egg-info/top_level.txt": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 15,
+      "files": [
+        {
+          "path": ".cursor/hooks/state/continual-learning-index.json",
+          "language": "json",
+          "sizeLines": 40,
+          "fileCategory": "config"
+        },
+        {
+          "path": ".scratch/analyst-dashboard-build/spec.md",
+          "language": "markdown",
+          "sizeLines": 5,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard/map.md",
+          "language": "markdown",
+          "sizeLines": 45,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/analyst-dashboard/prototype/dashboard.html",
+          "language": "html",
+          "sizeLines": 246,
+          "fileCategory": "markup"
+        },
+        {
+          "path": ".scratch/analyst-dashboard/spec.md",
+          "language": "markdown",
+          "sizeLines": 60,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/oil-gas-analyst/spec.md",
+          "language": "markdown",
+          "sizeLines": 120,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/map.md",
+          "language": "markdown",
+          "sizeLines": 46,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/research/ouroboros-host.md",
+          "language": "markdown",
+          "sizeLines": 230,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/research/stubs-versus-contracts.md",
+          "language": "markdown",
+          "sizeLines": 184,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".scratch/ouroboros-analyst/spec.md",
+          "language": "markdown",
+          "sizeLines": 140,
+          "fileCategory": "docs"
+        },
+        {
+          "path": ".streamlit/config.toml",
+          "language": "toml",
+          "sizeLines": 9,
+          "fileCategory": "config"
+        },
+        {
+          "path": ".understand-anything/.understandignore",
+          "language": "unknown",
+          "sizeLines": 58,
+          "fileCategory": "code"
+        },
+        {
+          "path": ".understand-anything/config.json",
+          "language": "json",
+          "sizeLines": 3,
+          "fileCategory": "config"
+        },
+        {
+          "path": "data/ouroboros/identity.md",
+          "language": "markdown",
+          "sizeLines": 7,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "data/samples/README.md",
+          "language": "markdown",
+          "sizeLines": 9,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "deploy/demo-nginx.conf",
+          "language": "conf",
+          "sizeLines": 20,
+          "fileCategory": "code"
+        },
+        {
+          "path": "docker/cloud-init.yaml",
+          "language": "yaml",
+          "sizeLines": 156,
+          "fileCategory": "config"
+        },
+        {
+          "path": "docker/ouroboros-entrypoint.sh",
+          "language": "shell",
+          "sizeLines": 33,
+          "fileCategory": "script"
+        },
+        {
+          "path": "docker/ouroboros.Dockerfile",
+          "language": "dockerfile",
+          "sizeLines": 71,
+          "fileCategory": "code"
+        },
+        {
+          "path": "docs/agents/domain.md",
+          "language": "markdown",
+          "sizeLines": 53,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/agents/issue-tracker.md",
+          "language": "markdown",
+          "sizeLines": 30,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "oil_gas_analyst.egg-info/PKG-INFO",
+          "language": "unknown",
+          "sizeLines": 4,
+          "fileCategory": "code"
+        },
+        {
+          "path": "scripts/render-timeweb-cloud-init.py",
+          "language": "python",
+          "sizeLines": 66,
+          "fileCategory": "code"
+        },
+        {
+          "path": "skills/oil_gas_analyst/SKILL.md",
+          "language": "markdown",
+          "sizeLines": 55,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "skills/oil_gas_forecast/plugin.py",
+          "language": "python",
+          "sizeLines": 30,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        ".cursor/hooks/state/continual-learning-index.json": [],
+        ".scratch/analyst-dashboard-build/spec.md": [],
+        ".scratch/analyst-dashboard/map.md": [],
+        ".scratch/analyst-dashboard/prototype/dashboard.html": [],
+        ".scratch/analyst-dashboard/spec.md": [],
+        ".scratch/oil-gas-analyst/spec.md": [],
+        ".scratch/ouroboros-analyst/map.md": [],
+        ".scratch/ouroboros-analyst/research/ouroboros-host.md": [],
+        ".scratch/ouroboros-analyst/research/stubs-versus-contracts.md": [],
+        ".scratch/ouroboros-analyst/spec.md": [],
+        ".streamlit/config.toml": [],
+        ".understand-anything/.understandignore": [],
+        ".understand-anything/config.json": [],
+        "data/ouroboros/identity.md": [],
+        "data/samples/README.md": [],
+        "deploy/demo-nginx.conf": [],
+        "docker/cloud-init.yaml": [],
+        "docker/ouroboros-entrypoint.sh": [],
+        "docker/ouroboros.Dockerfile": [],
+        "docs/agents/domain.md": [],
+        "docs/agents/issue-tracker.md": [],
+        "oil_gas_analyst.egg-info/PKG-INFO": [],
+        "scripts/render-timeweb-cloud-init.py": [],
+        "skills/oil_gas_analyst/SKILL.md": [],
+        "skills/oil_gas_forecast/plugin.py": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 16,
+      "files": [
+        {
+          "path": "skills/oil_gas_forecast/SKILL.md",
+          "language": "markdown",
+          "sizeLines": 22,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "skills/oil_gas_retrieve/plugin.py",
+          "language": "python",
+          "sizeLines": 30,
+          "fileCategory": "code"
+        },
+        {
+          "path": "skills/oil_gas_retrieve/SKILL.md",
+          "language": "markdown",
+          "sizeLines": 20,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "skills/oil_gas_web/plugin.py",
+          "language": "python",
+          "sizeLines": 30,
+          "fileCategory": "code"
+        },
+        {
+          "path": "skills/oil_gas_web/SKILL.md",
+          "language": "markdown",
+          "sizeLines": 22,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "tests/conftest.py",
+          "language": "python",
+          "sizeLines": 1,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "skills/oil_gas_forecast/SKILL.md": [],
+        "skills/oil_gas_retrieve/plugin.py": [],
+        "skills/oil_gas_retrieve/SKILL.md": [],
+        "skills/oil_gas_web/plugin.py": [],
+        "skills/oil_gas_web/SKILL.md": [],
+        "tests/conftest.py": []
+      },
+      "neighborMap": {}
+    }
+  ]
+}

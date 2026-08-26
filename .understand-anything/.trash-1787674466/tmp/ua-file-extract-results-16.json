@@ -1,0 +1,167 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 6,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "skills/oil_gas_forecast/SKILL.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 22,
+      "nonEmptyLines": 20,
+      "sections": [
+        {
+          "heading": "Forecast",
+          "level": 1,
+          "line": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "skills/oil_gas_retrieve/plugin.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 25,
+      "functions": [
+        {
+          "name": "register",
+          "startLine": 6,
+          "endLine": 30,
+          "params": [
+            "api"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "register",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "retrieve_reports",
+          "callee": "retrieve_for_tool",
+          "lineNumber": 10
+        },
+        {
+          "caller": "register",
+          "callee": "api.register_tool",
+          "lineNumber": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "skills/oil_gas_retrieve/SKILL.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 20,
+      "nonEmptyLines": 18,
+      "sections": [
+        {
+          "heading": "Report retrieve",
+          "level": 1,
+          "line": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "skills/oil_gas_web/plugin.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 25,
+      "functions": [
+        {
+          "name": "register",
+          "startLine": 6,
+          "endLine": 30,
+          "params": [
+            "api"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "register",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "search_web",
+          "callee": "search_for_tool",
+          "lineNumber": 10
+        },
+        {
+          "caller": "register",
+          "callee": "api.register_tool",
+          "lineNumber": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "skills/oil_gas_web/SKILL.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 22,
+      "nonEmptyLines": 20,
+      "sections": [
+        {
+          "heading": "Web search",
+          "level": 1,
+          "line": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "tests/conftest.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    }
+  ]
+}

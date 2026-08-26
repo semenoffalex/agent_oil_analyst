@@ -1,0 +1,38 @@
+{
+  "issues": [],
+  "warnings": [
+    "Node 'document:docs/adr/0022-live-stubs-die-infra-nets.md' has no edges (orphan)",
+    "Node 'config:.cursor/hooks/state/continual-learning-index.json' has no edges (orphan)",
+    "Node 'config:.streamlit/config.toml' has no edges (orphan)",
+    "Node 'file:oil_gas_analyst.egg-info/PKG-INFO' has no edges (orphan)",
+    "Node 'document:skills/oil_gas_forecast/SKILL.md' has no edges (orphan)",
+    "Node 'file:tests/conftest.py' has no edges (orphan)"
+  ],
+  "stats": {
+    "totalNodes": 405,
+    "totalEdges": 851,
+    "totalLayers": 7,
+    "tourSteps": 12,
+    "nodeTypes": {
+      "file": 50,
+      "function": 219,
+      "class": 33,
+      "service": 6,
+      "config": 12,
+      "document": 85
+    },
+    "edgeTypes": {
+      "imports": 80,
+      "contains": 258,
+      "calls": 116,
+      "tested_by": 28,
+      "exports": 193,
+      "implements": 4,
+      "depends_on": 12,
+      "related": 86,
+      "deploys": 1,
+      "configures": 12,
+      "documents": 61
+    }
+  }
+}

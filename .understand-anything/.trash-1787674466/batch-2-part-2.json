@@ -1,0 +1,1281 @@
+{
+  "nodes": [
+    {
+      "id": "file:oil_gas_analyst/routes.py",
+      "type": "file",
+      "name": "routes.py",
+      "filePath": "oil_gas_analyst/routes.py",
+      "summary": "Eval harness for YAML route lists: forecast verbs, time-sensitive phrasing, and out-of-scope safety-net topics.",
+      "tags": [
+        "validation",
+        "routing",
+        "eval-harness"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Closed word lists plus Cyrillic stem matching; not used as a live Ouroboros tool gate."
+    },
+    {
+      "id": "file:oil_gas_analyst/turn.py",
+      "type": "file",
+      "name": "turn.py",
+      "filePath": "oil_gas_analyst/turn.py",
+      "summary": "Orchestrates one Analyst turn: prompt with memory and session web, Ouroboros completion, citations, and infra safety nets.",
+      "tags": [
+        "service",
+        "orchestration",
+        "entry-point"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:tests/test_rate_limit.py",
+      "type": "file",
+      "name": "test_rate_limit.py",
+      "filePath": "tests/test_rate_limit.py",
+      "summary": "Unit tests for RateLimiter windows, per-client keys, and X-Forwarded-For vs session fallback.",
+      "tags": [
+        "test",
+        "rate-limit",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/test_routes.py",
+      "type": "file",
+      "name": "test_routes.py",
+      "filePath": "tests/test_routes.py",
+      "summary": "List-contract tests for forecast verbs, time-sensitive vs outlook phrasing, and inflected out-of-scope Russian topics.",
+      "tags": [
+        "test",
+        "routing",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/test_turn.py",
+      "type": "file",
+      "name": "test_turn.py",
+      "filePath": "tests/test_turn.py",
+      "summary": "Broad host-contract tests for run_turn, citation Markdown/HTML rendering, grounding flags, and chat-memory prompts.",
+      "tags": [
+        "test",
+        "orchestration",
+        "integration-test"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:oil_gas_analyst/routes.py:RouteLists",
+      "type": "class",
+      "name": "RouteLists",
+      "filePath": "oil_gas_analyst/routes.py",
+      "lineRange": [
+        22,
+        26
+      ],
+      "summary": "Frozen tuples of forecast verbs, time-sensitive phrases, weak time cues, and published-outlook wording.",
+      "tags": [
+        "data-model",
+        "configuration",
+        "routing"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/test_turn.py:_FrozenLoop",
+      "type": "class",
+      "name": "_FrozenLoop",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        17,
+        24
+      ],
+      "summary": "Test double for AnalystLoop that records prompts and returns a canned LoopResult from complete().",
+      "tags": [
+        "test",
+        "test-double",
+        "factory"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/routes.py:_contains",
+      "type": "function",
+      "name": "_contains",
+      "filePath": "oil_gas_analyst/routes.py",
+      "lineRange": [
+        48,
+        59
+      ],
+      "summary": "Case-folded phrase match with Cyrillic stem rules so inflected forms hit truncated route-list stems.",
+      "tags": [
+        "validation",
+        "i18n",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/routes.py:is_out_of_scope_topic",
+      "type": "function",
+      "name": "is_out_of_scope_topic",
+      "filePath": "oil_gas_analyst/routes.py",
+      "lineRange": [
+        92,
+        105
+      ],
+      "summary": "Safety-net dictionary check for off-domain topics (e.g. weather) used only when the loop fails.",
+      "tags": [
+        "validation",
+        "safety-net",
+        "routing"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/turn.py:drop_listing",
+      "type": "function",
+      "name": "drop_listing",
+      "filePath": "oil_gas_analyst/turn.py",
+      "lineRange": [
+        40,
+        49
+      ],
+      "summary": "Formats retrieved report chunks as numbered heading:text lines for a Dropper relevance prompt.",
+      "tags": [
+        "utility",
+        "rag",
+        "formatting"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/turn.py:footer_flags",
+      "type": "function",
+      "name": "footer_flags",
+      "filePath": "oil_gas_analyst/turn.py",
+      "lineRange": [
+        52,
+        64
+      ],
+      "summary": "Builds human-readable footer tokens from Reply tool flags (retrieved, web, forecast, refused).",
+      "tags": [
+        "utility",
+        "formatting",
+        "chat-adapter"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/turn.py:_agency_of",
+      "type": "function",
+      "name": "_agency_of",
+      "filePath": "oil_gas_analyst/turn.py",
+      "lineRange": [
+        67,
+        78
+      ],
+      "summary": "Infers OPEC, EIA, or CBR agency from a chunk's explicit field or title/heading text.",
+      "tags": [
+        "utility",
+        "citation",
+        "data-model"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/turn.py:report_citation",
+      "type": "function",
+      "name": "report_citation",
+      "filePath": "oil_gas_analyst/turn.py",
+      "lineRange": [
+        97,
+        112
+      ],
+      "summary": "Builds a report Citation with a localized label and PDF page URL from a retrieved chunk.",
+      "tags": [
+        "citation",
+        "serialization",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/turn.py:forecast_citations",
+      "type": "function",
+      "name": "forecast_citations",
+      "filePath": "oil_gas_analyst/turn.py",
+      "lineRange": [
+        122,
+        142
+      ],
+      "summary": "Collects citations from a forecast LoopResult including method tags and supporting report chunks.",
+      "tags": [
+        "citation",
+        "forecast",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/turn.py:format_chat_memory",
+      "type": "function",
+      "name": "format_chat_memory",
+      "filePath": "oil_gas_analyst/turn.py",
+      "lineRange": [
+        158,
+        178
+      ],
+      "summary": "Serializes the last N user/assistant turns into a compact prompt block with trimmed message bodies.",
+      "tags": [
+        "utility",
+        "chat-memory",
+        "formatting"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/turn.py:prompt_with_chat_memory",
+      "type": "function",
+      "name": "prompt_with_chat_memory",
+      "filePath": "oil_gas_analyst/turn.py",
+      "lineRange": [
+        181,
+        190
+      ],
+      "summary": "Prefixes the current question with formatted chat memory when prior turns exist.",
+      "tags": [
+        "utility",
+        "chat-memory",
+        "orchestration"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/turn.py:_safety_net",
+      "type": "function",
+      "name": "_safety_net",
+      "filePath": "oil_gas_analyst/turn.py",
+      "lineRange": [
+        203,
+        214
+      ],
+      "summary": "Returns a refused Reply for out-of-scope topics or a no-invent-figures infra message on loop failure.",
+      "tags": [
+        "safety-net",
+        "error-handling",
+        "orchestration"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/turn.py:run_turn",
+      "type": "function",
+      "name": "run_turn",
+      "filePath": "oil_gas_analyst/turn.py",
+      "lineRange": [
+        218,
+        250
+      ],
+      "summary": "Public turn seam: builds prompt, calls AnalystLoop.complete, maps LoopResult to Reply, or uses the safety net.",
+      "tags": [
+        "entry-point",
+        "orchestration",
+        "service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/turn.py:apply_citation_links",
+      "type": "function",
+      "name": "apply_citation_links",
+      "filePath": "oil_gas_analyst/turn.py",
+      "lineRange": [
+        263,
+        273
+      ],
+      "summary": "Replaces citation labels in prose with Markdown links when a URL is present, longest label first.",
+      "tags": [
+        "citation",
+        "markdown",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_reply_records_which_tools_the_loop_ran",
+      "type": "function",
+      "name": "test_reply_records_which_tools_the_loop_ran",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        45,
+        56
+      ],
+      "summary": "Asserts Reply records retrieved/web/forecast flags from a live loop result without host rewriting.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_web_citation_markdown_includes_full_url",
+      "type": "function",
+      "name": "test_web_citation_markdown_includes_full_url",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        59,
+        70
+      ],
+      "summary": "Checks web_citation Markdown includes the full hit URL.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_report_citation_markdown_includes_pdf_page_url",
+      "type": "function",
+      "name": "test_report_citation_markdown_includes_pdf_page_url",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        73,
+        91
+      ],
+      "summary": "Checks report_citation Markdown includes a PDF URL with page fragment.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_dropper_sees_figure_past_800_chars",
+      "type": "function",
+      "name": "test_dropper_sees_figure_past_800_chars",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        94,
+        107
+      ],
+      "summary": "Ensures drop_listing keeps figure text beyond an 800-character cutoff.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_format_reply_links_web_sources_from_session_rail",
+      "type": "function",
+      "name": "test_format_reply_links_web_sources_from_session_rail",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        118,
+        136
+      ],
+      "summary": "format_reply turns session-rail web hosts into clickable Markdown links.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_format_reply_normalizes_bare_web_citations",
+      "type": "function",
+      "name": "test_format_reply_normalizes_bare_web_citations",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        150,
+        160
+      ],
+      "summary": "Bare web citation tokens are normalized into linked Markdown.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_format_reply_dedupes_double_markdown_urls",
+      "type": "function",
+      "name": "test_format_reply_dedupes_double_markdown_urls",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        163,
+        184
+      ],
+      "summary": "Duplicate trailing Markdown URLs are collapsed after linking.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_format_reply_fixes_spaced_markdown_urls",
+      "type": "function",
+      "name": "test_format_reply_fixes_spaced_markdown_urls",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        187,
+        196
+      ],
+      "summary": "Spaced Markdown URL syntax is repaired into valid links.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_format_reply_links_inline_web_sources_from_session_rail",
+      "type": "function",
+      "name": "test_format_reply_links_inline_web_sources_from_session_rail",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        199,
+        213
+      ],
+      "summary": "Inline web source names from the session rail become links.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_format_reply_fixes_glued_cyrillic_and_broken_vc_url",
+      "type": "function",
+      "name": "test_format_reply_fixes_glued_cyrillic_and_broken_vc_url",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        216,
+        234
+      ],
+      "summary": "Glued Cyrillic prose and broken VC URLs are repaired in format_reply.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_format_reply_normalizes_realistic_broken_prose",
+      "type": "function",
+      "name": "test_format_reply_normalizes_realistic_broken_prose",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        245,
+        302
+      ],
+      "summary": "Long fixture of broken Analyst prose is normalized into readable linked Markdown.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_chat_html_renders_links_and_bold",
+      "type": "function",
+      "name": "test_chat_html_renders_links_and_bold",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        305,
+        315
+      ],
+      "summary": "chat_html emits <a> and <strong> for linked and bold Markdown.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+      "type": "function",
+      "name": "test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        330,
+        344
+      ],
+      "summary": "has_grounded_report is true when retrieve ran this turn on a corpus outlook.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_report_tag_without_retrieve_this_turn_is_not_grounded",
+      "type": "function",
+      "name": "test_report_tag_without_retrieve_this_turn_is_not_grounded",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        347,
+        357
+      ],
+      "summary": "A report tag without retrieve-this-turn does not count as grounded.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_russian_question_can_use_english_report_chunks",
+      "type": "function",
+      "name": "test_russian_question_can_use_english_report_chunks",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        360,
+        371
+      ],
+      "summary": "Russian questions may still be answered from English report chunks.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_infra_timeout_on_weather_uses_competence_safety_net",
+      "type": "function",
+      "name": "test_infra_timeout_on_weather_uses_competence_safety_net",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        384,
+        393
+      ],
+      "summary": "Weather plus infra timeout uses the out-of-scope safety net, not invented figures.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_playbook_documents_prompt_failure_not_host_lock",
+      "type": "function",
+      "name": "test_playbook_documents_prompt_failure_not_host_lock",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        407,
+        421
+      ],
+      "summary": "Playbook text documents prompt failure rather than a host competence lock.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_live_denylist_citation_is_not_host_stripped",
+      "type": "function",
+      "name": "test_live_denylist_citation_is_not_host_stripped",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        424,
+        434
+      ],
+      "summary": "Live denylist citations are not stripped by the host adapter.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_combined_report_and_web_tags_are_allowed",
+      "type": "function",
+      "name": "test_combined_report_and_web_tags_are_allowed",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        437,
+        452
+      ],
+      "summary": "Combined report and web citation tags pass through without host refusal.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_host_does_not_refuse_forecast_without_a_verb",
+      "type": "function",
+      "name": "test_host_does_not_refuse_forecast_without_a_verb",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        455,
+        470
+      ],
+      "summary": "Forecast answers without a forecast verb are not host-refused.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_format_chat_memory_keeps_recent_turns_only",
+      "type": "function",
+      "name": "test_format_chat_memory_keeps_recent_turns_only",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        484,
+        494
+      ],
+      "summary": "format_chat_memory keeps only the most recent N turns.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_prompt_with_chat_memory_prefixes_current_question",
+      "type": "function",
+      "name": "test_prompt_with_chat_memory_prefixes_current_question",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        497,
+        507
+      ],
+      "summary": "prompt_with_chat_memory prefixes the current question after memory.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_run_turn_includes_chat_history_in_loop_prompt",
+      "type": "function",
+      "name": "test_run_turn_includes_chat_history_in_loop_prompt",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        510,
+        522
+      ],
+      "summary": "run_turn includes formatted chat history in the loop prompt.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_turn.py:test_build_turn_prompt_keeps_session_start_injection_with_memory",
+      "type": "function",
+      "name": "test_build_turn_prompt_keeps_session_start_injection_with_memory",
+      "filePath": "tests/test_turn.py",
+      "lineRange": [
+        525,
+        547
+      ],
+      "summary": "build_turn_prompt still injects session-start web when chat memory is present.",
+      "tags": [
+        "test",
+        "orchestration",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_routes.py:test_prognoz_as_request_hits_but_prognozakh_does_not",
+      "type": "function",
+      "name": "test_prognoz_as_request_hits_but_prognozakh_does_not",
+      "filePath": "tests/test_routes.py",
+      "lineRange": [
+        28,
+        37
+      ],
+      "summary": "is_forecast_request matches прогноз as a request but not прогнозах in passing.",
+      "tags": [
+        "test",
+        "routing",
+        "unit-test"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "file:oil_gas_analyst/ingest.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "file:oil_gas_analyst/routes.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "file:oil_gas_analyst/session_start_web.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "file:oil_gas_analyst/settings.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "file:oil_gas_analyst/types.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_rate_limit.py",
+      "target": "file:oil_gas_analyst/rate_limit.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_routes.py",
+      "target": "file:oil_gas_analyst/routes.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "file:oil_gas_analyst/turn.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "file:oil_gas_analyst/types.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/routes.py",
+      "target": "class:oil_gas_analyst/routes.py:RouteLists",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/routes.py",
+      "target": "class:oil_gas_analyst/routes.py:RouteLists",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "class:tests/test_turn.py:_FrozenLoop",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "class:tests/test_turn.py:_FrozenLoop",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/routes.py",
+      "target": "function:oil_gas_analyst/routes.py:_contains",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/routes.py",
+      "target": "function:oil_gas_analyst/routes.py:_contains",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/routes.py",
+      "target": "function:oil_gas_analyst/routes.py:is_out_of_scope_topic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/routes.py",
+      "target": "function:oil_gas_analyst/routes.py:is_out_of_scope_topic",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:drop_listing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:drop_listing",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:footer_flags",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:footer_flags",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:_agency_of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:_agency_of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:report_citation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:report_citation",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:forecast_citations",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:forecast_citations",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:format_chat_memory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:format_chat_memory",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:prompt_with_chat_memory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:prompt_with_chat_memory",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:_safety_net",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:_safety_net",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:run_turn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:run_turn",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:apply_citation_links",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "function:oil_gas_analyst/turn.py:apply_citation_links",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_reply_records_which_tools_the_loop_ran",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_web_citation_markdown_includes_full_url",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_report_citation_markdown_includes_pdf_page_url",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_dropper_sees_figure_past_800_chars",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_format_reply_links_web_sources_from_session_rail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_format_reply_normalizes_bare_web_citations",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_format_reply_dedupes_double_markdown_urls",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_format_reply_fixes_spaced_markdown_urls",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_format_reply_links_inline_web_sources_from_session_rail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_format_reply_fixes_glued_cyrillic_and_broken_vc_url",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_format_reply_normalizes_realistic_broken_prose",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_chat_html_renders_links_and_bold",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_report_tag_without_retrieve_this_turn_is_not_grounded",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_russian_question_can_use_english_report_chunks",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_infra_timeout_on_weather_uses_competence_safety_net",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_playbook_documents_prompt_failure_not_host_lock",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_live_denylist_citation_is_not_host_stripped",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_combined_report_and_web_tags_are_allowed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_host_does_not_refuse_forecast_without_a_verb",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_format_chat_memory_keeps_recent_turns_only",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_prompt_with_chat_memory_prefixes_current_question",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_run_turn_includes_chat_history_in_loop_prompt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_turn.py",
+      "target": "function:tests/test_turn.py:test_build_turn_prompt_keeps_session_start_injection_with_memory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_routes.py",
+      "target": "function:tests/test_routes.py:test_prognoz_as_request_hits_but_prognozakh_does_not",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:oil_gas_analyst/turn.py:_safety_net",
+      "target": "function:oil_gas_analyst/routes.py:is_out_of_scope_topic",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/turn.py:run_turn",
+      "target": "function:oil_gas_analyst/session_start_web.py:inject_session_start_web",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/turn.py:report_citation",
+      "target": "function:oil_gas_analyst/ingest.py:load_ingest_config",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_turn.py:test_format_reply_links_web_sources_from_session_rail",
+      "target": "function:oil_gas_analyst/render.py:format_reply",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_turn.py:test_format_reply_normalizes_realistic_broken_prose",
+      "target": "function:oil_gas_analyst/render.py:format_reply",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_turn.py:test_chat_html_renders_links_and_bold",
+      "target": "function:oil_gas_analyst/render.py:chat_html",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_turn.py:test_web_citation_markdown_includes_full_url",
+      "target": "function:oil_gas_analyst/turn.py:apply_citation_links",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_turn.py:test_report_citation_markdown_includes_pdf_page_url",
+      "target": "function:oil_gas_analyst/turn.py:report_citation",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_turn.py:test_dropper_sees_figure_past_800_chars",
+      "target": "function:oil_gas_analyst/turn.py:drop_listing",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_turn.py:test_run_turn_includes_chat_history_in_loop_prompt",
+      "target": "function:oil_gas_analyst/turn.py:run_turn",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_turn.py:test_format_chat_memory_keeps_recent_turns_only",
+      "target": "function:oil_gas_analyst/turn.py:format_chat_memory",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_turn.py:test_prompt_with_chat_memory_prefixes_current_question",
+      "target": "function:oil_gas_analyst/turn.py:prompt_with_chat_memory",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_turn.py:test_infra_timeout_on_weather_uses_competence_safety_net",
+      "target": "function:oil_gas_analyst/turn.py:run_turn",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_routes.py:test_prognoz_as_request_hits_but_prognozakh_does_not",
+      "target": "function:oil_gas_analyst/routes.py:_contains",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/routes.py",
+      "target": "file:tests/test_routes.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/turn.py",
+      "target": "file:tests/test_turn.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

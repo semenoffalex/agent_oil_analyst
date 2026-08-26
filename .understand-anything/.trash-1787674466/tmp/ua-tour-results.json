@@ -1,0 +1,1732 @@
+{
+  "scriptCompleted": true,
+  "entryPointCandidates": [
+    {
+      "id": "file:oil_gas_analyst/app.py",
+      "score": 5,
+      "name": "app.py",
+      "summary": "Chainlit adapter that warms the Ouroboros analyst loop, applies demo rate limits, and renders replies."
+    },
+    {
+      "id": "file:oil_gas_analyst/__main__.py",
+      "score": 5,
+      "name": "__main__.py",
+      "summary": "CLI entry point for python -m oil_gas_analyst: downloads full agency reports and force-rebuilds the Chroma report index."
+    },
+    {
+      "id": "document:README.md",
+      "score": 5,
+      "name": "README.md",
+      "summary": "Human-facing Russian getting-started guide for the Streamlit Dashboard demo: Docker and local install, KPI/chat/chart layout, RAG-then-web answering, eval commands, and product limitations."
+    },
+    {
+      "id": "file:oil_gas_analyst/eval_dialogues.py",
+      "score": 2,
+      "name": "eval_dialogues.py",
+      "summary": "Evaluation helper that loads session-start news-rail hits and invokes a dashboard-style turn with optional prompt injection."
+    },
+    {
+      "id": "file:oil_gas_analyst/session_start_web.py",
+      "score": 2,
+      "name": "session_start_web.py",
+      "summary": "Fetches, caches, and filters same-day oil-and-gas news for the Streamlit session-start rail, then injects visible hits into the first-turn prompt."
+    }
+  ],
+  "fanInRanking": [
+    {
+      "id": "file:oil_gas_analyst/types.py",
+      "fanIn": 17,
+      "name": "types.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/ingest.py",
+      "fanIn": 12,
+      "name": "ingest.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/session_start_web.py",
+      "fanIn": 9,
+      "name": "session_start_web.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/turn.py",
+      "fanIn": 9,
+      "name": "turn.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/settings.py",
+      "fanIn": 9,
+      "name": "settings.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/dashboard.py",
+      "fanIn": 8,
+      "name": "dashboard.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/retrieve.py",
+      "fanIn": 7,
+      "name": "retrieve.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/forecast.py",
+      "fanIn": 7,
+      "name": "forecast.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/denylist.py",
+      "fanIn": 5,
+      "name": "denylist.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/routes.py",
+      "fanIn": 5,
+      "name": "routes.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/dashboard_chart.py",
+      "fanIn": 5,
+      "name": "dashboard_chart.py"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+      "fanIn": 5,
+      "name": "14-five-readme-dialogues.md"
+    },
+    {
+      "id": "document:skills/oil_gas_analyst/SKILL.md",
+      "fanIn": 5,
+      "name": "SKILL.md"
+    },
+    {
+      "id": "file:oil_gas_analyst/web.py",
+      "fanIn": 4,
+      "name": "web.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/rate_limit.py",
+      "fanIn": 4,
+      "name": "rate_limit.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/ouroboros.py",
+      "fanIn": 4,
+      "name": "ouroboros.py"
+    },
+    {
+      "id": "file:tests/test_dashboard_layout.py",
+      "fanIn": 4,
+      "name": "test_dashboard_layout.py"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/spec.md",
+      "fanIn": 4,
+      "name": "spec.md"
+    },
+    {
+      "id": "file:tests/test_denylist.py",
+      "fanIn": 3,
+      "name": "test_denylist.py"
+    },
+    {
+      "id": "file:tests/test_eval_dashboard.py",
+      "fanIn": 3,
+      "name": "test_eval_dashboard.py"
+    }
+  ],
+  "fanOutRanking": [
+    {
+      "id": "file:oil_gas_analyst/dashboard.py",
+      "fanOut": 8,
+      "name": "dashboard.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/turn.py",
+      "fanOut": 7,
+      "name": "turn.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/session_start_web.py",
+      "fanOut": 6,
+      "name": "session_start_web.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/eval_dialogues.py",
+      "fanOut": 5,
+      "name": "eval_dialogues.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/types.py",
+      "fanOut": 5,
+      "name": "types.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/app.py",
+      "fanOut": 5,
+      "name": "app.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/chat_ui.py",
+      "fanOut": 5,
+      "name": "chat_ui.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/render.py",
+      "fanOut": 5,
+      "name": "render.py"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md",
+      "fanOut": 5,
+      "name": "04-layout-c-around-chat.md"
+    },
+    {
+      "id": "file:oil_gas_analyst/web.py",
+      "fanOut": 4,
+      "name": "web.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/retrieve.py",
+      "fanOut": 4,
+      "name": "retrieve.py"
+    },
+    {
+      "id": "file:oil_gas_analyst/forecast.py",
+      "fanOut": 4,
+      "name": "forecast.py"
+    },
+    {
+      "id": "file:tests/test_dashboard_layout.py",
+      "fanOut": 4,
+      "name": "test_dashboard_layout.py"
+    },
+    {
+      "id": "service:docker-compose.yml",
+      "fanOut": 4,
+      "name": "docker-compose.yml"
+    },
+    {
+      "id": "document:AGENTS.md",
+      "fanOut": 4,
+      "name": "AGENTS.md"
+    },
+    {
+      "id": "document:README.md",
+      "fanOut": 4,
+      "name": "README.md"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md",
+      "fanOut": 4,
+      "name": "05-readme-and-eval-on-streamlit.md"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard/issues/01-what-frames-the-chat.md",
+      "fanOut": 4,
+      "name": "01-what-frames-the-chat.md"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "fanOut": 4,
+      "name": "09-chainlit-talks-to-ouroboros.md"
+    },
+    {
+      "id": "document:docs/adr/0008-duckduckgo-denylist.md",
+      "fanOut": 4,
+      "name": "0008-duckduckgo-denylist.md"
+    }
+  ],
+  "bfsTraversal": {
+    "startNode": "file:oil_gas_analyst/app.py",
+    "order": [
+      "file:oil_gas_analyst/app.py",
+      "file:oil_gas_analyst/deps.py",
+      "file:oil_gas_analyst/rate_limit.py",
+      "file:oil_gas_analyst/render.py",
+      "file:oil_gas_analyst/turn.py",
+      "file:oil_gas_analyst/types.py",
+      "file:oil_gas_analyst/ingest.py",
+      "file:oil_gas_analyst/ouroboros.py",
+      "file:oil_gas_analyst/settings.py",
+      "file:oil_gas_analyst/session_start_web.py",
+      "file:oil_gas_analyst/routes.py",
+      "file:oil_gas_analyst/denylist.py",
+      "file:oil_gas_analyst/web.py"
+    ],
+    "depthMap": {
+      "file:oil_gas_analyst/app.py": 0,
+      "file:oil_gas_analyst/deps.py": 1,
+      "file:oil_gas_analyst/rate_limit.py": 1,
+      "file:oil_gas_analyst/render.py": 1,
+      "file:oil_gas_analyst/turn.py": 1,
+      "file:oil_gas_analyst/types.py": 1,
+      "file:oil_gas_analyst/ingest.py": 2,
+      "file:oil_gas_analyst/ouroboros.py": 2,
+      "file:oil_gas_analyst/settings.py": 2,
+      "file:oil_gas_analyst/session_start_web.py": 2,
+      "file:oil_gas_analyst/routes.py": 2,
+      "file:oil_gas_analyst/denylist.py": 3,
+      "file:oil_gas_analyst/web.py": 3
+    },
+    "byDepth": {
+      "0": [
+        "file:oil_gas_analyst/app.py"
+      ],
+      "1": [
+        "file:oil_gas_analyst/deps.py",
+        "file:oil_gas_analyst/rate_limit.py",
+        "file:oil_gas_analyst/render.py",
+        "file:oil_gas_analyst/turn.py",
+        "file:oil_gas_analyst/types.py"
+      ],
+      "2": [
+        "file:oil_gas_analyst/ingest.py",
+        "file:oil_gas_analyst/ouroboros.py",
+        "file:oil_gas_analyst/settings.py",
+        "file:oil_gas_analyst/session_start_web.py",
+        "file:oil_gas_analyst/routes.py"
+      ],
+      "3": [
+        "file:oil_gas_analyst/denylist.py",
+        "file:oil_gas_analyst/web.py"
+      ]
+    }
+  },
+  "nonCodeFiles": {
+    "documentation": [
+      {
+        "id": "document:AGENTS.md",
+        "name": "AGENTS.md",
+        "type": "document",
+        "summary": "Workspace guidance for coding agents: issue-tracker and domain-doc locations, learned user preferences (Russian chat, English tickets, Docker-first README), and operational facts about the Streamlit demo and production host."
+      },
+      {
+        "id": "document:CONTEXT.md",
+        "name": "CONTEXT.md",
+        "type": "document",
+        "summary": "Canonical glossary for the Oil and Gas Analyst product: Analyst, Demo, Eval, Chat UI, Dashboard, Session-start Web, forecast modules, and related avoid-lists, with pointers to ADRs."
+      },
+      {
+        "id": "document:README.md",
+        "name": "README.md",
+        "type": "document",
+        "summary": "Human-facing Russian getting-started guide for the Streamlit Dashboard demo: Docker and local install, KPI/chat/chart layout, RAG-then-web answering, eval commands, and product limitations."
+      },
+      {
+        "id": "document:requirements-analyst.txt",
+        "name": "requirements-analyst.txt",
+        "type": "document",
+        "summary": "Pinned pip dependencies for the Streamlit Dashboard adapter image: Streamlit, pydantic-settings, RAG/PDF, statsmodels/yfinance, and LangSmith — not the full Ouroboros skills stack."
+      },
+      {
+        "id": "document:requirements.txt",
+        "name": "requirements.txt",
+        "type": "document",
+        "summary": "Local pip requirements for pytest, ingest CLI, and the Ouroboros skill process, including Streamlit, Chroma, Chainlit leftover, yfinance, and LangSmith."
+      },
+      {
+        "id": "document:task.md",
+        "name": "task.md",
+        "type": "document",
+        "summary": "Original Russian product brief for the oil-and-gas analyst agent: role, RAG over industry reports, web search, source priority, and a computational oil-price forecast module, plus technical and deliverable requirements."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md",
+        "name": "01-forecast-plot-payload.md",
+        "type": "document",
+        "summary": "Done issue specifying the Forecast plot payload: Brent daily history plus separate SARIMA and Holt–Winters 21-day paths, no averaged series, no Urals proxy, and loader failure as uncertainty rather than invented prices."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md",
+        "name": "02-streamlit-is-the-chat-ui.md",
+        "type": "document",
+        "summary": "Done issue requiring Streamlit on port 8000 as the Demo chat UI after one compose command, with the same Ouroboros Analyst turn, demo rate limit, and safety nets; Chainlit is not the click target."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md",
+        "name": "03-session-start-web-on-the-rail.md",
+        "type": "document",
+        "summary": "Done issue for a single host Web fetch at Streamlit session start using a canned Brent/OPEC+ query, showing denylist-filtered hits on the rail and injecting them into later turns without inventing headlines."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md",
+        "name": "04-layout-c-around-chat.md",
+        "type": "document",
+        "summary": "Done issue locking Demo layout variant C: KPI row on top, Session-start Web on the left, Forecast chart stacked over chat on the right, with Brent actuals plus two method paths and refresh-on-request only."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md",
+        "name": "05-readme-and-eval-on-streamlit.md",
+        "type": "document",
+        "summary": "Done issue requiring the README to name Streamlit as Chat UI and Ouroboros as the loop, and to run the five README dialogues as live Eval on the Dashboard at port 8000 rather than Chainlit."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/issues/01-what-frames-the-chat.md",
+        "name": "01-what-frames-the-chat.md",
+        "type": "document",
+        "summary": "Resolved grilling ticket that locks always-visible Dashboard framing around chat: Session-start Web, live quote, Forecast chart, and OPEC/EIA/CBR corpus strip, with no P&L or second chatbot."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/issues/02-session-start-web-fetch.md",
+        "name": "02-session-start-web-fetch.md",
+        "type": "document",
+        "summary": "Resolved contract for the one host Session-start Web fetch: canned Russian query via search_for_tool, title/outlet/snippet display, denylist hidden on the rail, and session-scoped citation grounding."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/issues/03-streamlit-click-target.md",
+        "name": "03-streamlit-click-target.md",
+        "type": "document",
+        "summary": "Product decision that Streamlit fully replaces Chainlit as the Demo click target on localhost:8000 while Ouroboros remains the agent loop."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md",
+        "name": "04-dashboard-versus-demo.md",
+        "type": "document",
+        "summary": "Locks the executive Dashboard as an expanded Demo, not a second product: same Streamlit screen, README eval dialogues, no password, Demo rate limit, and existing competence/denylist/Forecast rules."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md",
+        "name": "05-host-start-web-versus-loop.md",
+        "type": "document",
+        "summary": "Allows a Dashboard exception where the host fetches Session-start Web without an Ouroboros turn and injects those hits into later prompts while the model may still call search_web."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md",
+        "name": "06-what-forecast-already-plots.md",
+        "type": "document",
+        "summary": "Research note that forecast_for_tool only exposes horizon-end scalars per method; daily history and SARIMA/Holt paths stay inside run_forecast and are not serialized for a chart."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md",
+        "name": "07-how-streamlit-calls-ouroboros.md",
+        "type": "document",
+        "summary": "Research note that Streamlit should reuse the Chainlit Python seam (build_loop, run_turn, POST /api/tasks) as a thin Chat UI adapter rather than a second agent loop."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/issues/08-search-web-without-a-question.md",
+        "name": "08-search-web-without-a-question.md",
+        "type": "document",
+        "summary": "Fact ticket showing search_for_tool can run with a host-chosen query and no Ouroboros task, returning hits with a denied flag and empty lists on DuckDuckGo failure."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md",
+        "name": "09-exec-dashboard-layout.md",
+        "type": "document",
+        "summary": "Resolved layout ticket choosing prototype variant C (briefing KPI): corpus and forecast numbers on top, Session-start Web left, Forecast chart stacked over chat on the right."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/issues/10-history-without-forecast-request.md",
+        "name": "10-history-without-forecast-request.md",
+        "type": "document",
+        "summary": "Allows the host to draw actuals plus a 21-trading-day two-method Forecast at session start without a Forecast verb, and requires exposing history and per-step paths instead of last-point-only tool JSON."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md",
+        "name": "11-where-urals-series-comes-from.md",
+        "type": "document",
+        "summary": "Defers Urals on the Demo Dashboard until a real series exists: this cut is Brent-only, with no Brent proxy, and chat still reports no Urals series."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/research/forecast-plot-payload.md",
+        "name": "forecast-plot-payload.md",
+        "type": "document",
+        "summary": "Research note for ticket 06 on what Forecast already returns for a Dashboard chart: horizon-end SARIMA and Holt–Winters scalars with intervals, not history or day-by-day paths. Maps ForecastResult, forecast_for_tool JSON, citation tags, Urals/history-fail payloads, and what a chart must add to draw time series."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/research/session-start-search-web.md",
+        "name": "session-start-search-web.md",
+        "type": "document",
+        "summary": "Fact sheet for ticket 08 on calling search_for_tool / oil_gas_web without an Ouroboros task: signatures, return dict, citation labels, empty-query and DuckDuckGo soft-fail behavior, timeouts, and Docker failure modes. Explicitly does not authorize bypassing the agent loop (ticket 05 / ADR 0019)."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md",
+        "name": "streamlit-ouroboros-adapter.md",
+        "type": "document",
+        "summary": "Research for ticket 07 on using Streamlit as a thin Chat UI adapter over the same Analyst turn as Chainlit: build_loop warm/attest/toggle, run_turn, session/timeout/rate-limit hooks, compose port 8000, and risks of two UIs in one image. Recommends in-process Python seams rather than a second HTTP agent loop."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md",
+        "name": "01-how-ouroboros-hosts-the-analyst.md",
+        "type": "document",
+        "summary": "Resolved research ticket on how current-generation Ouroboros hosts a domain Analyst: the solve model runs the tool loop, domain tools are reviewed extensions, and graders start via docker or ouroboros server—not a pip import into LangGraph."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md",
+        "name": "02-stubs-versus-product-contracts.md",
+        "type": "document",
+        "summary": "Resolved inventory classifying oil_gas_analyst hardcoded rules as stub, mixed, or product contract, covering report-tag patching, out-of-scope dictionaries, Route lists, denylist, and Forecast module constraints."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md",
+        "name": "03-what-the-agent-must-decide.md",
+        "type": "document",
+        "summary": "Resolved grilling ticket stating the solve model decides Competence, retrieve, Drop, Web, Forecast, stop, and order each turn, while hard answer constraints (no invented prices, denylist citations, grounded Report tags) remain."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md",
+        "name": "04-where-the-reviewer-talks.md",
+        "type": "document",
+        "summary": "Resolved ticket picking Chainlit at localhost:8000 as the reviewer surface, with the turn running in the Ouroboros loop and LangGraph no longer the conversation runtime."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md",
+        "name": "05-waterfall-inside-the-agent-loop.md",
+        "type": "document",
+        "summary": "Resolved ticket treating the TZ Reports-then-Web waterfall as prompt policy plus Eval on grounded citations, requiring retrieve this turn for [Отчёт] tags rather than a host graph or paragraph order."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md",
+        "name": "06-which-stubs-must-die.md",
+        "type": "document",
+        "summary": "Resolved ticket listing live-model stubs to remove (report-tag patching, out-of-scope dictionary, restore-after-Drop, heading-rank, Route-list tool gates) while keeping denylist, Forecast methods, and infra-only safety nets."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md",
+        "name": "07-which-trust-surfaces-the-grader-sees.md",
+        "type": "document",
+        "summary": "Resolved ticket requiring README to name Ouroboros, reviewed skills, Chainlit adapter, and /evolve off, while keeping task-acceptance Review, P3, and /review off the Eval path."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md",
+        "name": "08-which-model-fills-the-main-slot.md",
+        "type": "document",
+        "summary": "Resolved ticket pinning Ouroboros Main to OpenRouter z-ai/glm-5.2:free with thinking off, allowing other slots via env, and forbidding silent fallback to Grok or DeepSeek."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+        "name": "09-chainlit-talks-to-ouroboros.md",
+        "type": "document",
+        "summary": "Resolved build ticket: one compose command serves Chainlit on :8000 as an adapter that POSTs to the Ouroboros gateway, with GLM Main, evolve off, and loud failure on a missing OpenRouter key."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md",
+        "name": "10-grounded-report-retrieve.md",
+        "type": "document",
+        "summary": "Resolved ticket for oil_gas_retrieve: corpus-covered answers must include a grounded [Отчёт] tag backed by retrieve this turn, without host-patching live replies that omit the tag."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md",
+        "name": "11-web-sources-without-denylist-citations.md",
+        "type": "document",
+        "summary": "Resolved ticket for search_web in oil_gas_web: the model chooses when to search DuckDuckGo, denylist domains must not be cited, and the host does not strip those URLs from raw hits."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md",
+        "name": "12-forecast-module-in-the-loop.md",
+        "type": "document",
+        "summary": "Resolved ticket wrapping SARIMA and Holt–Winters as run_forecast in the Ouroboros loop: Brent default, no Urals series, no silent average, and Forecast verbs as playbook hints not host detectors."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md",
+        "name": "13-competence-playbook-and-safety-nets.md",
+        "type": "document",
+        "summary": "Resolved ticket placing the Analyst role on identity.md plus an instruction skill, removing live Competence stubs, and allowing timeout/500/empty safety nets without host-blocking tools."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+        "name": "14-five-readme-dialogues.md",
+        "type": "document",
+        "summary": "Open ticket to document five README demo dialogues (Report, Web, combined, Forecast, Out-of-competence) with grounded-citation pass rules, stack limits, and optional Full Report ingest."
+      },
+      {
+        "id": "document:docs/adr/0001-analyst-lives-inside-ouroboros.md",
+        "name": "0001-analyst-lives-inside-ouroboros.md",
+        "type": "document",
+        "summary": "Superseded ADR that placed the oil-and-gas Analyst as a role inside Ouroboros, with RAG, web search, and forecast as tools and native Review as the self-check."
+      },
+      {
+        "id": "document:docs/adr/0002-ouroboros-out-of-scope.md",
+        "name": "0002-ouroboros-out-of-scope.md",
+        "type": "document",
+        "summary": "Accepted ADR dropping Ouroboros from the demo path so the user talks to a LangGraph Analyst behind a shipped simple UI."
+      },
+      {
+        "id": "document:docs/adr/0003-thin-or-fresh-web.md",
+        "name": "0003-thin-or-fresh-web.md",
+        "type": "document",
+        "summary": "Waterfall policy: search Reports first and open the web only on Thin retrieval or Time-sensitive questions. The Thin trigger was later replaced by always-retrieve."
+      },
+      {
+        "id": "document:docs/adr/0004-forecast-only-on-explicit-verbs.md",
+        "name": "0004-forecast-only-on-explicit-verbs.md",
+        "type": "document",
+        "summary": "Accepted ADR that runs the Forecast module only on an explicit Forecast verb; other price questions take the Live-quote web path."
+      },
+      {
+        "id": "document:docs/adr/0005-closed-route-lists.md",
+        "name": "0005-closed-route-lists.md",
+        "type": "document",
+        "summary": "Routing via closed EN+RU keyword lists for Forecast verbs and Time-sensitive markers instead of a classifier; later limited to the Eval harness, not the live loop."
+      },
+      {
+        "id": "document:docs/adr/0006-deepseek-chat-llm.md",
+        "name": "0006-deepseek-chat-llm.md",
+        "type": "document",
+        "summary": "Chooses deepseek-v4-flash at api.deepseek.com as the sole product chat LLM with thinking mode off; Eval chat remains a documented OpenRouter exception."
+      },
+      {
+        "id": "document:docs/adr/0007-e5-chroma-reports.md",
+        "name": "0007-e5-chroma-reports.md",
+        "type": "document",
+        "summary": "Accepted ADR for Report RAG: multilingual-e5-base embeddings stored in in-process Chroma with title, date, and page metadata."
+      },
+      {
+        "id": "document:docs/adr/0008-duckduckgo-denylist.md",
+        "name": "0008-duckduckgo-denylist.md",
+        "type": "document",
+        "summary": "Accepted ADR for web search: DuckDuckGo with a checked-in yellow-press domain denylist and no search-API key or LLM tabloid classifier."
+      },
+      {
+        "id": "document:docs/adr/0009-yfinance-sarima-ets.md",
+        "name": "0009-yfinance-sarima-ets.md",
+        "type": "document",
+        "summary": "Accepted Forecast-module ADR: live yfinance history with statsmodels SARIMA and Holt–Winters, default Brent, no silent CSV fallback, no Urals proxy."
+      },
+      {
+        "id": "document:docs/adr/0010-chainlit-ui.md",
+        "name": "0010-chainlit-ui.md",
+        "type": "document",
+        "summary": "Original v1 UI ADR choosing Chainlit as the browser chat shell over Streamlit, Gradio, or FastAPI; the window itself was later superseded by the Streamlit dashboard."
+      },
+      {
+        "id": "document:docs/adr/0011-sample-and-full-reports.md",
+        "name": "0011-sample-and-full-reports.md",
+        "type": "document",
+        "summary": "Commits OPEC MOMR and EIA STEO sample PDF excerpts in git and fetches Full Reports via ingest; missing samples break install, IEA stays out of v1."
+      },
+      {
+        "id": "document:docs/adr/0012-always-retrieve-model-drops.md",
+        "name": "0012-always-retrieve-model-drops.md",
+        "type": "document",
+        "summary": "Accepted ADR: every turn retrieves k=10 Report chunks; the chat model Drops irrelevant ones instead of a Thin count/score bar opening the web."
+      },
+      {
+        "id": "document:docs/adr/0013-web-if-dropped-and-in-competence.md",
+        "name": "0013-web-if-dropped-and-in-competence.md",
+        "type": "document",
+        "summary": "If all retrieved chunks are Dropped, allow one DuckDuckGo call only when still in Competence; out-of-competence refuses with no web or Forecast."
+      },
+      {
+        "id": "document:docs/adr/0014-competence-classify-node.md",
+        "name": "0014-competence-classify-node.md",
+        "type": "document",
+        "summary": "Places an LLM in/out Competence classify node before tools on the old waterfall, leaving Forecast verbs and Time-sensitive markers as closed lists."
+      },
+      {
+        "id": "document:docs/adr/0015-heading-chunks.md",
+        "name": "0015-heading-chunks.md",
+        "type": "document",
+        "summary": "Ingest splits reports on agency heading regexes then caps chunks at 512 e5 tokens with overlap, keeping title, date, page range, and heading metadata."
+      },
+      {
+        "id": "document:docs/adr/0016-cbr-sample-report.md",
+        "name": "0016-cbr-sample-report.md",
+        "type": "document",
+        "summary": "Keeps the Bank of Russia trends bulletin as a third Sample Report so Russian oil-price questions can cite it, using CBR heading patterns in ingest config."
+      },
+      {
+        "id": "document:docs/adr/0017-next-cycle-is-public-demo.md",
+        "name": "0017-next-cycle-is-public-demo.md",
+        "type": "document",
+        "summary": "Sets the cycle goal as a public Demo URL after live Eval and red-team, with no password and a post-launch rate limit; Streamlit-as-UI clauses were later superseded."
+      },
+      {
+        "id": "document:docs/adr/0018-eval-chat-openrouter-free.md",
+        "name": "0018-eval-chat-openrouter-free.md",
+        "type": "document",
+        "summary": "Routes LIVE_EVAL chat to OpenRouter via env-configured EVAL_CHAT_MODEL while product Docker/Chainlit stays on DeepSeek with no silent fallback."
+      },
+      {
+        "id": "document:docs/adr/0019-model-decides-the-loop.md",
+        "name": "0019-model-decides-the-loop.md",
+        "type": "document",
+        "summary": "Acceptance ADR: the solve model chooses tools and stop conditions; the host must not refuse those calls, and Eval grades the visible answer and citations rather than host locks."
+      },
+      {
+        "id": "document:docs/adr/0020-waterfall-grounded-citations.md",
+        "name": "0020-waterfall-grounded-citations.md",
+        "type": "document",
+        "summary": "Treats the Reports-first waterfall as prompt policy plus Eval on citations: [Отчёт …] must be grounded in retrieve this turn; extra Web is allowed; prose order is not graded."
+      },
+      {
+        "id": "document:docs/adr/0021-chainlit-adapter-ouroboros-loop.md",
+        "name": "0021-chainlit-adapter-ouroboros-loop.md",
+        "type": "document",
+        "summary": "ADR that made Chainlit on port 8000 an adapter over the Ouroboros agent loop (not LangGraph), with :8765 remaining an internal gateway. Status is superseded for the click target by ADR 0026 (Streamlit Dashboard)."
+      },
+      {
+        "id": "document:docs/adr/0022-live-stubs-die-infra-nets.md",
+        "name": "0022-live-stubs-die-infra-nets.md",
+        "type": "document",
+        "summary": "Accepted ADR forbidding host patches of live model output (fake citations, out-of-scope dictionaries, chunk restore/re-rank, route lists as routers) while allowing infra safety nets on timeout, HTTP 500, or empty completions."
+      },
+      {
+        "id": "document:docs/adr/0023-main-openrouter-glm52-free.md",
+        "name": "0023-main-openrouter-glm52-free.md",
+        "type": "document",
+        "summary": "ADR that pinned Main chat to OpenRouter z-ai/glm-5.2:free with thinking off and loud failure on missing keys or dead :free ids. Status is superseded for chat by ADR 0027 (DeepSeek direct API)."
+      },
+      {
+        "id": "document:docs/adr/0024-readme-names-ouroboros-evolve-off.md",
+        "name": "0024-readme-names-ouroboros-evolve-off.md",
+        "type": "document",
+        "summary": "Accepted ADR requiring the README to name Ouroboros as the conversation runtime, domain tools as reviewed skills, and /evolve off (runtime_mode=light) so graders do not mistake the demo for LangGraph."
+      },
+      {
+        "id": "document:docs/adr/0025-openrouter-embeddings-no-local-torch.md",
+        "name": "0025-openrouter-embeddings-no-local-torch.md",
+        "type": "document",
+        "summary": "Accepted ADR that retrieve/ingest must call a remote OpenAI-compatible embeddings API (default LAN LM Studio e5) with no local Torch, SentenceTransformer, or baked Hugging Face weights; Chroma still stores vectors in-process."
+      },
+      {
+        "id": "document:docs/adr/0026-streamlit-dashboard-is-the-demo.md",
+        "name": "0026-streamlit-dashboard-is-the-demo.md",
+        "type": "document",
+        "summary": "Accepted ADR making the Streamlit Dashboard at :8000 the demo chat UI: session-start web rail, Brent forecast chart, and report corpus strip around chat, with Streamlit calling Ouroboros run_turn and Chainlit removed from the demo image."
+      },
+      {
+        "id": "document:docs/adr/0027-deepseek-direct-api-main.md",
+        "name": "0027-deepseek-direct-api-main.md",
+        "type": "document",
+        "summary": "Accepted ADR pinning Main chat to deepseek-v4-flash via DeepSeek API on the openai-compatible Ouroboros lane, thinking off, with compose splitting DEEPSEEK_API_KEY to ouroboros and OPENROUTER_API_KEY to analyst embeddings."
+      },
+      {
+        "id": "document:oil_gas_analyst.egg-info/SOURCES.txt",
+        "name": "SOURCES.txt",
+        "type": "document",
+        "summary": "Setuptools egg-info manifest listing every file included in the oil_gas_analyst distribution: package modules, tests, README, pyproject.toml, and generated metadata."
+      },
+      {
+        "id": "document:oil_gas_analyst.egg-info/dependency_links.txt",
+        "name": "dependency_links.txt",
+        "type": "document",
+        "summary": "Empty setuptools egg-info list of dependency URLs; the package has no extra dependency links beyond pyproject.toml."
+      },
+      {
+        "id": "document:oil_gas_analyst.egg-info/top_level.txt",
+        "name": "top_level.txt",
+        "type": "document",
+        "summary": "Declares oil_gas_analyst as the sole top-level import name installed by the setuptools package."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard-build/spec.md",
+        "name": "spec.md",
+        "type": "document",
+        "summary": "Thin build-phase pointer that marks the analyst dashboard implementation as ready-for-agent and defers to the parent dashboard spec and issues/ tickets."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/map.md",
+        "name": "map.md",
+        "type": "document",
+        "summary": "Wayfinder map for the Streamlit analyst dashboard covering destination, open decisions, unspecified items, and out-of-scope layout work."
+      },
+      {
+        "id": "document:.scratch/analyst-dashboard/spec.md",
+        "name": "spec.md",
+        "type": "document",
+        "summary": "Product spec for the Streamlit demo dashboard: problem, solution, user stories, implementation and testing decisions, and out-of-scope items."
+      },
+      {
+        "id": "document:.scratch/oil-gas-analyst/spec.md",
+        "name": "spec.md",
+        "type": "document",
+        "summary": "Feature spec for the oil-and-gas analyst product covering competence, tools, citations, implementation and testing decisions, and further notes."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/map.md",
+        "name": "map.md",
+        "type": "document",
+        "summary": "Wayfinder map for hosting the domain analyst on current-generation Ouroboros, including destination, decisions, and remaining gaps."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/research/ouroboros-host.md",
+        "name": "ouroboros-host.md",
+        "type": "document",
+        "summary": "Research note on how Ouroboros hosts a domain analyst: tool loop, skills versus MCP, web-search paths, system prompt attachment, and runtime mode."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/research/stubs-versus-contracts.md",
+        "name": "stubs-versus-contracts.md",
+        "type": "document",
+        "summary": "Inventory that classifies analyst behaviors as stubs, mixed heuristics, or product contracts, including denylist, retrieve k, and forecast rules."
+      },
+      {
+        "id": "document:.scratch/ouroboros-analyst/spec.md",
+        "name": "spec.md",
+        "type": "document",
+        "summary": "Spec for running the oil-and-gas analyst as an Ouroboros-hosted demo with user stories, implementation and testing decisions, and out-of-scope items."
+      },
+      {
+        "id": "document:data/ouroboros/identity.md",
+        "name": "identity.md",
+        "type": "document",
+        "summary": "Seed Ouroboros identity prompt for the demo analyst: competence, tool-citation rules, denylist, and a ban on /evolve on the demo path."
+      },
+      {
+        "id": "document:data/samples/README.md",
+        "name": "README.md",
+        "type": "document",
+        "summary": "Catalog of sample OPEC, EIA, and Bank of Russia reports used for excerpt citations, plus a note on optional gitignored full reports."
+      },
+      {
+        "id": "document:docs/agents/domain.md",
+        "name": "domain.md",
+        "type": "document",
+        "summary": "Agent guide for domain docs: read CONTEXT.md and ADRs first, follow glossary vocabulary, and flag ADR conflicts."
+      },
+      {
+        "id": "document:docs/agents/issue-tracker.md",
+        "name": "issue-tracker.md",
+        "type": "document",
+        "summary": "Agent guide for the local markdown issue tracker under .scratch, including publish, fetch, and wayfinding conventions."
+      },
+      {
+        "id": "document:skills/oil_gas_analyst/SKILL.md",
+        "name": "SKILL.md",
+        "type": "document",
+        "summary": "Ouroboros skill playbook for the oil-and-gas analyst covering competence, retrieve/web/forecast tools, citation labels, and route-list hints."
+      },
+      {
+        "id": "document:skills/oil_gas_forecast/SKILL.md",
+        "name": "SKILL.md",
+        "type": "document",
+        "summary": "Ouroboros skill spec for the oil-price Forecast tool: when to call it, Brent vs WTI vs Urals rules, and the requirement to show all three methods without averaging."
+      },
+      {
+        "id": "document:skills/oil_gas_retrieve/SKILL.md",
+        "name": "SKILL.md",
+        "type": "document",
+        "summary": "Skill spec for report retrieve: in-competence OPEC/EIA/CBR questions, verbatim [Отчёт …] citations, and a same-turn tool-call requirement before citing."
+      },
+      {
+        "id": "document:skills/oil_gas_web/SKILL.md",
+        "name": "SKILL.md",
+        "type": "document",
+        "summary": "Skill spec for web search: freshness and live quotes, verbatim [Источник: …, web] citations, and a ban on citing denied Yellow-press hits."
+      }
+    ],
+    "infrastructure": [
+      {
+        "id": "service:.dockerignore",
+        "name": ".dockerignore",
+        "type": "service",
+        "summary": "Docker build-context ignore list that keeps git metadata, secrets, virtualenvs, local Chroma and report data, caches, tests, and scratch notes out of the analyst image."
+      },
+      {
+        "id": "service:docker-compose.yml",
+        "name": "docker-compose.yml",
+        "type": "service",
+        "summary": "Orchestrates the Ouroboros conversation runtime on port 8765 and the Streamlit analyst dashboard on port 8000, sharing named volumes for Chroma, reports, forecast cache, and news cache."
+      },
+      {
+        "id": "service:docker-compose.yml:ouroboros",
+        "name": "ouroboros",
+        "type": "service",
+        "summary": "Compose service that builds docker/ouroboros.Dockerfile, binds DeepSeek-compatible model settings, and exposes the internal API on 8765 with persistent /data volumes."
+      },
+      {
+        "id": "service:docker-compose.yml:analyst",
+        "name": "analyst",
+        "type": "service",
+        "summary": "Compose service that builds the root Dockerfile, publishes Streamlit on 8000, bind-mounts oil_gas_analyst for live code, and starts only after Ouroboros is healthy."
+      },
+      {
+        "id": "service:Dockerfile",
+        "name": "Dockerfile",
+        "type": "service",
+        "summary": "Single-stage Python 3.11-slim image for the Streamlit dashboard adapter: installs requirements-analyst.txt, copies config, samples, and oil_gas_analyst, and runs dashboard.py on port 8000 without Torch or Hugging Face weights."
+      },
+      {
+        "id": "service:Dockerfile:python",
+        "name": "python",
+        "type": "service",
+        "summary": "python:3.11-slim build stage that installs analyst dependencies, sets Chroma/samples/reports/news-cache paths, and launches Streamlit on 0.0.0.0:8000."
+      }
+    ],
+    "data": [],
+    "config": [
+      {
+        "id": "config:.env.example",
+        "name": ".env.example",
+        "type": "config",
+        "summary": "Template of runtime environment variables for chat models, OpenRouter embeddings, Ouroboros timeouts and review modes, demo login and rate limits, RAG paths, and LangSmith tracing."
+      },
+      {
+        "id": "config:pyproject.toml",
+        "name": "pyproject.toml",
+        "type": "config",
+        "summary": "setuptools packaging for the oil-gas-analyst project (Python 3.11+), package discovery under oil_gas_analyst*, and pytest pythonpath/testpaths."
+      },
+      {
+        "id": "config:config/forecast.yaml",
+        "name": "forecast.yaml",
+        "type": "config",
+        "summary": "Forecast runtime settings: allowed methods, ticker symbols, horizon phrases, AutoARIMA/AutoReg bounds, history interval, cache directory, and Stooq symbol aliases used by the price-forecast pipeline."
+      },
+      {
+        "id": "config:config/ingest.yaml",
+        "name": "ingest.yaml",
+        "type": "config",
+        "summary": "Report ingest and RAG settings: embedding model, Chroma path, retrieve-k, token caps, sample/full report catalogs, agency URLs, heading-split regexes, and multilingual-e5 query/passage prefixes."
+      },
+      {
+        "id": "config:config/red_team_pack.yaml",
+        "name": "red_team_pack.yaml",
+        "type": "config",
+        "summary": "Closed pack of live red-team prompts (jailbreak, off-scope, and policy-stress cases) consumed by the LIVE_RED_TEAM pytest suite before a public URL."
+      },
+      {
+        "id": "config:config/route_lists.yaml",
+        "name": "route_lists.yaml",
+        "type": "config",
+        "summary": "Closed keyword lists for the eval harness: forecast verbs, time-sensitive markers, weak time-sensitive phrases, and published-outlook cues used by route matchers."
+      },
+      {
+        "id": "config:config/session_start_rail_exclusions.yaml",
+        "name": "session_start_rail_exclusions.yaml",
+        "type": "config",
+        "summary": "Short domain exclusion list for the session-start web rail so known-bad or off-policy hosts are skipped at session bootstrap."
+      },
+      {
+        "id": "config:config/yellow_press_denylist.yaml",
+        "name": "yellow_press_denylist.yaml",
+        "type": "config",
+        "summary": "Static domain denylist for yellow-press and low-quality news hosts applied when filling web page bodies and tool results."
+      },
+      {
+        "id": "config:.cursor/hooks/state/continual-learning-index.json",
+        "name": "continual-learning-index.json",
+        "type": "config",
+        "summary": "Cursor continual-learning hook index that records transcript versions and processed chat files for incremental agent memory updates."
+      },
+      {
+        "id": "config:.streamlit/config.toml",
+        "name": "config.toml",
+        "type": "config",
+        "summary": "Streamlit runtime configuration for headless server mode, disabled usage stats, and a minimal client toolbar without sidebar navigation."
+      },
+      {
+        "id": "config:.understand-anything/config.json",
+        "name": "config.json",
+        "type": "config",
+        "summary": "Understand-Anything project config that sets graph textual output language to English."
+      },
+      {
+        "id": "config:docker/cloud-init.yaml",
+        "name": "cloud-init.yaml",
+        "type": "config",
+        "summary": "Timeweb cloud-init user-data that installs Docker, writes demo secrets, and bootstraps the analyst stack on an Ubuntu VPS."
+      }
+    ]
+  },
+  "clusters": [],
+  "layers": {
+    "count": 7,
+    "list": [
+      {
+        "id": "layer:ui",
+        "name": "Streamlit Dashboard",
+        "description": "Streamlit chat UI, Brent forecast chart, demo auth, and layout that adapt user turns onto the analyst runtime on port 8000."
+      },
+      {
+        "id": "layer:agent-runtime",
+        "name": "Agent Runtime",
+        "description": "Ouroboros adapter, turn loop, routing, session start, rate limits, and shared types that orchestrate each analyst conversation."
+      },
+      {
+        "id": "layer:domain-skills",
+        "name": "Domain Skills",
+        "description": "Retrieve, web, and forecast implementations plus Ouroboros skill plugins that search the report corpus, query the web, and produce Brent forecasts."
+      },
+      {
+        "id": "layer:config",
+        "name": "Configuration",
+        "description": "YAML route lists, denylist and ingest settings, environment templates, packaging metadata, and tool configs that parameterize the analyst."
+      },
+      {
+        "id": "layer:test",
+        "name": "Tests",
+        "description": "Pytest suite covering dashboard layout, Ouroboros turns, routing, ingest, forecast, and related analyst behavior."
+      },
+      {
+        "id": "layer:documentation",
+        "name": "Documentation",
+        "description": "README and CONTEXT, architecture decision records, agent guides, scratch tickets, and sample-data notes that document product and design choices."
+      },
+      {
+        "id": "layer:infrastructure",
+        "name": "Infrastructure",
+        "description": "Docker images, Compose services for analyst and Ouroboros, nginx demo config, cloud-init, and deploy scripts that run the stack."
+      }
+    ]
+  },
+  "nodeSummaryIndex": {
+    "file:tests/test_dashboard.py": {
+      "name": "test_dashboard.py",
+      "type": "file",
+      "summary": "Unit tests that chat_ui.handle_chat_message forwards history to run_turn, respects rate limits, and that demo login requires matching env credentials."
+    },
+    "file:tests/test_denylist.py": {
+      "name": "test_denylist.py",
+      "type": "file",
+      "summary": "Tests denylist matching plus web page-body fill: denied hosts stay visible to the model, fetch limits, and empty-search notes."
+    },
+    "file:tests/test_eval_dashboard.py": {
+      "name": "test_eval_dashboard.py",
+      "type": "file",
+      "summary": "Checks README eval-dialogue coverage and that invoke_dashboard_eval injects session-start hits only when present."
+    },
+    "file:tests/test_graph.py": {
+      "name": "test_graph.py",
+      "type": "file",
+      "summary": "Live eval and red-team suites gated by env flags, plus helpers that reject secrets and denylisted citations in replies."
+    },
+    "file:tests/test_session_start_web.py": {
+      "name": "test_session_start_web.py",
+      "type": "file",
+      "summary": "Tests news-rail cache, live refresh fallback, denylist hiding, same-day freshness, prompt injection, and grounding checks."
+    },
+    "file:oil_gas_analyst/denylist.py": {
+      "name": "denylist.py",
+      "type": "file",
+      "summary": "Loads YAML-configured denied domains and checks whether a URL host matches the denylist, including subdomain suffix matches."
+    },
+    "file:oil_gas_analyst/eval_dialogues.py": {
+      "name": "eval_dialogues.py",
+      "type": "file",
+      "summary": "Evaluation helper that loads session-start news-rail hits and invokes a dashboard-style turn with optional prompt injection."
+    },
+    "file:oil_gas_analyst/graph.py": {
+      "name": "graph.py",
+      "type": "file",
+      "summary": "Thin wrapper that exposes invoke_analyst as a dashboard-eval call without extra session-start hits."
+    },
+    "file:oil_gas_analyst/session_start_web.py": {
+      "name": "session_start_web.py",
+      "type": "file",
+      "summary": "Fetches, caches, and filters same-day oil-and-gas news for the Streamlit session-start rail, then injects visible hits into the first-turn prompt."
+    },
+    "file:oil_gas_analyst/types.py": {
+      "name": "types.py",
+      "type": "file",
+      "summary": "Shared dataclasses and Protocol interfaces for chunks, web hits, forecasts, citations, loop results, and pluggable analyst components."
+    },
+    "file:oil_gas_analyst/web.py": {
+      "name": "web.py",
+      "type": "file",
+      "summary": "DuckDuckGo-backed web search with HTML stripping, page-body fetch, denylist flags, and tool payload formatting for the analyst loop."
+    },
+    "file:oil_gas_analyst/routes.py": {
+      "name": "routes.py",
+      "type": "file",
+      "summary": "Eval harness for YAML route lists: forecast verbs, time-sensitive phrasing, and out-of-scope safety-net topics."
+    },
+    "file:oil_gas_analyst/turn.py": {
+      "name": "turn.py",
+      "type": "file",
+      "summary": "Orchestrates one Analyst turn: prompt with memory and session web, Ouroboros completion, citations, and infra safety nets."
+    },
+    "file:tests/test_rate_limit.py": {
+      "name": "test_rate_limit.py",
+      "type": "file",
+      "summary": "Unit tests for RateLimiter windows, per-client keys, and X-Forwarded-For vs session fallback."
+    },
+    "file:tests/test_routes.py": {
+      "name": "test_routes.py",
+      "type": "file",
+      "summary": "List-contract tests for forecast verbs, time-sensitive vs outlook phrasing, and inflected out-of-scope Russian topics."
+    },
+    "file:tests/test_turn.py": {
+      "name": "test_turn.py",
+      "type": "file",
+      "summary": "Broad host-contract tests for run_turn, citation Markdown/HTML rendering, grounding flags, and chat-memory prompts."
+    },
+    "file:oil_gas_analyst/__init__.py": {
+      "name": "__init__.py",
+      "type": "file",
+      "summary": "Package barrel that re-exports run_turn as the public Analyst turn entry point."
+    },
+    "file:oil_gas_analyst/app.py": {
+      "name": "app.py",
+      "type": "file",
+      "summary": "Chainlit adapter that warms the Ouroboros analyst loop, applies demo rate limits, and renders replies."
+    },
+    "file:oil_gas_analyst/chat_ui.py": {
+      "name": "chat_ui.py",
+      "type": "file",
+      "summary": "Streamlit-facing chat adapter that runs one Analyst turn with rate limiting, session rail hits, and chat history."
+    },
+    "file:oil_gas_analyst/rate_limit.py": {
+      "name": "rate_limit.py",
+      "type": "file",
+      "summary": "In-memory sliding-window demo rate limiter keyed by client IP or session, configured from environment variables."
+    },
+    "file:oil_gas_analyst/render.py": {
+      "name": "render.py",
+      "type": "file",
+      "summary": "Turns Analyst Reply objects into linked Markdown and Streamlit HTML, enriching citations and repairing broken prose."
+    },
+    "file:oil_gas_analyst/__main__.py": {
+      "name": "__main__.py",
+      "type": "file",
+      "summary": "CLI entry point for python -m oil_gas_analyst: downloads full agency reports and force-rebuilds the Chroma report index."
+    },
+    "file:oil_gas_analyst/corpus_strip.py": {
+      "name": "corpus_strip.py",
+      "type": "file",
+      "summary": "Builds dashboard corpus-strip entries (agency, title, date, excerpt, URL) from ingest sample config, preferring full-report links over redundant excerpts."
+    },
+    "file:oil_gas_analyst/deps.py": {
+      "name": "deps.py",
+      "type": "file",
+      "summary": "Wires Ouroboros loop, embedding-backed Chroma retriever, and full-report downloads for CLI ingest and Streamlit chat."
+    },
+    "file:oil_gas_analyst/ingest.py": {
+      "name": "ingest.py",
+      "type": "file",
+      "summary": "PDF and page chunking for agency reports: heading-aware splits, token budgets, overlap, and YAML ingest-config loading."
+    },
+    "file:oil_gas_analyst/ouroboros.py": {
+      "name": "ouroboros.py",
+      "type": "file",
+      "summary": "HTTP client for the Ouroboros gateway: creates a task, polls until terminal, extracts the answer, tool flags, and citations."
+    },
+    "file:oil_gas_analyst/retrieve.py": {
+      "name": "retrieve.py",
+      "type": "file",
+      "summary": "Chroma report index: OpenAI-compatible embeddings, ingest job planning, fingerprint/manifest sync, and retrieve_for_tool for Ouroboros skills."
+    },
+    "file:oil_gas_analyst/settings.py": {
+      "name": "settings.py",
+      "type": "file",
+      "summary": "Environment-driven model slots, API-key gates, LangSmith maybe_traceable wrapper, and Ouroboros URL/process env for Docker vs local."
+    },
+    "file:tests/test_ingest.py": {
+      "name": "test_ingest.py",
+      "type": "file",
+      "summary": "Pytest coverage for heading chunking, sample PDFs, excerpt dropping, corpus fingerprints, ensure_index planning, and embedding factory."
+    },
+    "file:tests/test_ouroboros.py": {
+      "name": "test_ouroboros.py",
+      "type": "file",
+      "summary": "Gateway tests with scripted urllib stubs: answer extraction, retrieve/web/forecast tool flags, and supervisor-start retries."
+    },
+    "file:tests/test_settings.py": {
+      "name": "test_settings.py",
+      "type": "file",
+      "summary": "Tests API-key gates, model-slot defaults, Ouroboros URL in/out of Docker, process env, and README/compose contracts."
+    },
+    "file:oil_gas_analyst/forecast.py": {
+      "name": "forecast.py",
+      "type": "file",
+      "summary": "Fits AutoARIMA, UnobservedComponents, and AutoReg on live Brent/WTI history (Yahoo then Stooq with disk cache) and returns tool plus plot payloads."
+    },
+    "file:tests/test_consensus_price.py": {
+      "name": "test_consensus_price.py",
+      "type": "file",
+      "summary": "Unit tests for oil-price regex extraction, per-source consensus averaging, retrieve-then-sample report fallback, and dashboard KPI assembly."
+    },
+    "file:tests/test_dashboard_layout.py": {
+      "name": "test_dashboard_layout.py",
+      "type": "file",
+      "summary": "Layout and chart tests: Streamlit column order, page config, news-rail exclusions, Brent series shape, Y-axis minimum, and corpus-strip agencies."
+    },
+    "file:tests/test_forecast.py": {
+      "name": "test_forecast.py",
+      "type": "file",
+      "summary": "Forecast tests covering symbol/horizon detection, three-method intervals, Yahoo/Stooq/cache fallbacks, tool payloads, and Urals unavailability."
+    },
+    "file:oil_gas_analyst/consensus_price.py": {
+      "name": "consensus_price.py",
+      "type": "file",
+      "summary": "Extracts plausible USD-per-barrel oil prices from report and news text, then averages per-source figures into dashboard KPI consensus values."
+    },
+    "file:oil_gas_analyst/dashboard.py": {
+      "name": "dashboard.py",
+      "type": "file",
+      "summary": "Streamlit dashboard entry point: demo login, async chat via Ouroboros, Brent chart panel, news rail, and KPI/corpus strips."
+    },
+    "file:oil_gas_analyst/dashboard_chart.py": {
+      "name": "dashboard_chart.py",
+      "type": "file",
+      "summary": "Builds and caches Brent chart payloads, converts forecast paths into a display DataFrame, and renders Altair series with a fixed Y-axis floor."
+    },
+    "file:oil_gas_analyst/demo_auth.py": {
+      "name": "demo_auth.py",
+      "type": "file",
+      "summary": "Optional demo login gate loaded from DEMO_LOGIN_USER and DEMO_LOGIN_PASSWORD; disabled when either env var is empty."
+    },
+    "service:.dockerignore": {
+      "name": ".dockerignore",
+      "type": "service",
+      "summary": "Docker build-context ignore list that keeps git metadata, secrets, virtualenvs, local Chroma and report data, caches, tests, and scratch notes out of the analyst image."
+    },
+    "service:docker-compose.yml": {
+      "name": "docker-compose.yml",
+      "type": "service",
+      "summary": "Orchestrates the Ouroboros conversation runtime on port 8765 and the Streamlit analyst dashboard on port 8000, sharing named volumes for Chroma, reports, forecast cache, and news cache."
+    },
+    "service:docker-compose.yml:ouroboros": {
+      "name": "ouroboros",
+      "type": "service",
+      "summary": "Compose service that builds docker/ouroboros.Dockerfile, binds DeepSeek-compatible model settings, and exposes the internal API on 8765 with persistent /data volumes."
+    },
+    "service:docker-compose.yml:analyst": {
+      "name": "analyst",
+      "type": "service",
+      "summary": "Compose service that builds the root Dockerfile, publishes Streamlit on 8000, bind-mounts oil_gas_analyst for live code, and starts only after Ouroboros is healthy."
+    },
+    "service:Dockerfile": {
+      "name": "Dockerfile",
+      "type": "service",
+      "summary": "Single-stage Python 3.11-slim image for the Streamlit dashboard adapter: installs requirements-analyst.txt, copies config, samples, and oil_gas_analyst, and runs dashboard.py on port 8000 without Torch or Hugging Face weights."
+    },
+    "service:Dockerfile:python": {
+      "name": "python",
+      "type": "service",
+      "summary": "python:3.11-slim build stage that installs analyst dependencies, sets Chroma/samples/reports/news-cache paths, and launches Streamlit on 0.0.0.0:8000."
+    },
+    "config:.env.example": {
+      "name": ".env.example",
+      "type": "config",
+      "summary": "Template of runtime environment variables for chat models, OpenRouter embeddings, Ouroboros timeouts and review modes, demo login and rate limits, RAG paths, and LangSmith tracing."
+    },
+    "document:AGENTS.md": {
+      "name": "AGENTS.md",
+      "type": "document",
+      "summary": "Workspace guidance for coding agents: issue-tracker and domain-doc locations, learned user preferences (Russian chat, English tickets, Docker-first README), and operational facts about the Streamlit demo and production host."
+    },
+    "document:CONTEXT.md": {
+      "name": "CONTEXT.md",
+      "type": "document",
+      "summary": "Canonical glossary for the Oil and Gas Analyst product: Analyst, Demo, Eval, Chat UI, Dashboard, Session-start Web, forecast modules, and related avoid-lists, with pointers to ADRs."
+    },
+    "document:README.md": {
+      "name": "README.md",
+      "type": "document",
+      "summary": "Human-facing Russian getting-started guide for the Streamlit Dashboard demo: Docker and local install, KPI/chat/chart layout, RAG-then-web answering, eval commands, and product limitations."
+    },
+    "config:pyproject.toml": {
+      "name": "pyproject.toml",
+      "type": "config",
+      "summary": "setuptools packaging for the oil-gas-analyst project (Python 3.11+), package discovery under oil_gas_analyst*, and pytest pythonpath/testpaths."
+    },
+    "document:requirements-analyst.txt": {
+      "name": "requirements-analyst.txt",
+      "type": "document",
+      "summary": "Pinned pip dependencies for the Streamlit Dashboard adapter image: Streamlit, pydantic-settings, RAG/PDF, statsmodels/yfinance, and LangSmith — not the full Ouroboros skills stack."
+    },
+    "document:requirements.txt": {
+      "name": "requirements.txt",
+      "type": "document",
+      "summary": "Local pip requirements for pytest, ingest CLI, and the Ouroboros skill process, including Streamlit, Chroma, Chainlit leftover, yfinance, and LangSmith."
+    },
+    "document:task.md": {
+      "name": "task.md",
+      "type": "document",
+      "summary": "Original Russian product brief for the oil-and-gas analyst agent: role, RAG over industry reports, web search, source priority, and a computational oil-price forecast module, plus technical and deliverable requirements."
+    },
+    "document:.scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md": {
+      "name": "01-forecast-plot-payload.md",
+      "type": "document",
+      "summary": "Done issue specifying the Forecast plot payload: Brent daily history plus separate SARIMA and Holt–Winters 21-day paths, no averaged series, no Urals proxy, and loader failure as uncertainty rather than invented prices."
+    },
+    "document:.scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md": {
+      "name": "02-streamlit-is-the-chat-ui.md",
+      "type": "document",
+      "summary": "Done issue requiring Streamlit on port 8000 as the Demo chat UI after one compose command, with the same Ouroboros Analyst turn, demo rate limit, and safety nets; Chainlit is not the click target."
+    },
+    "document:.scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md": {
+      "name": "03-session-start-web-on-the-rail.md",
+      "type": "document",
+      "summary": "Done issue for a single host Web fetch at Streamlit session start using a canned Brent/OPEC+ query, showing denylist-filtered hits on the rail and injecting them into later turns without inventing headlines."
+    },
+    "document:.scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md": {
+      "name": "04-layout-c-around-chat.md",
+      "type": "document",
+      "summary": "Done issue locking Demo layout variant C: KPI row on top, Session-start Web on the left, Forecast chart stacked over chat on the right, with Brent actuals plus two method paths and refresh-on-request only."
+    },
+    "document:.scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md": {
+      "name": "05-readme-and-eval-on-streamlit.md",
+      "type": "document",
+      "summary": "Done issue requiring the README to name Streamlit as Chat UI and Ouroboros as the loop, and to run the five README dialogues as live Eval on the Dashboard at port 8000 rather than Chainlit."
+    },
+    "document:.scratch/analyst-dashboard/issues/01-what-frames-the-chat.md": {
+      "name": "01-what-frames-the-chat.md",
+      "type": "document",
+      "summary": "Resolved grilling ticket that locks always-visible Dashboard framing around chat: Session-start Web, live quote, Forecast chart, and OPEC/EIA/CBR corpus strip, with no P&L or second chatbot."
+    },
+    "document:.scratch/analyst-dashboard/issues/02-session-start-web-fetch.md": {
+      "name": "02-session-start-web-fetch.md",
+      "type": "document",
+      "summary": "Resolved contract for the one host Session-start Web fetch: canned Russian query via search_for_tool, title/outlet/snippet display, denylist hidden on the rail, and session-scoped citation grounding."
+    },
+    "document:.scratch/analyst-dashboard/issues/03-streamlit-click-target.md": {
+      "name": "03-streamlit-click-target.md",
+      "type": "document",
+      "summary": "Product decision that Streamlit fully replaces Chainlit as the Demo click target on localhost:8000 while Ouroboros remains the agent loop."
+    },
+    "document:.scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md": {
+      "name": "04-dashboard-versus-demo.md",
+      "type": "document",
+      "summary": "Locks the executive Dashboard as an expanded Demo, not a second product: same Streamlit screen, README eval dialogues, no password, Demo rate limit, and existing competence/denylist/Forecast rules."
+    },
+    "document:.scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md": {
+      "name": "05-host-start-web-versus-loop.md",
+      "type": "document",
+      "summary": "Allows a Dashboard exception where the host fetches Session-start Web without an Ouroboros turn and injects those hits into later prompts while the model may still call search_web."
+    },
+    "document:.scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md": {
+      "name": "06-what-forecast-already-plots.md",
+      "type": "document",
+      "summary": "Research note that forecast_for_tool only exposes horizon-end scalars per method; daily history and SARIMA/Holt paths stay inside run_forecast and are not serialized for a chart."
+    },
+    "document:.scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md": {
+      "name": "07-how-streamlit-calls-ouroboros.md",
+      "type": "document",
+      "summary": "Research note that Streamlit should reuse the Chainlit Python seam (build_loop, run_turn, POST /api/tasks) as a thin Chat UI adapter rather than a second agent loop."
+    },
+    "document:.scratch/analyst-dashboard/issues/08-search-web-without-a-question.md": {
+      "name": "08-search-web-without-a-question.md",
+      "type": "document",
+      "summary": "Fact ticket showing search_for_tool can run with a host-chosen query and no Ouroboros task, returning hits with a denied flag and empty lists on DuckDuckGo failure."
+    },
+    "document:.scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md": {
+      "name": "09-exec-dashboard-layout.md",
+      "type": "document",
+      "summary": "Resolved layout ticket choosing prototype variant C (briefing KPI): corpus and forecast numbers on top, Session-start Web left, Forecast chart stacked over chat on the right."
+    },
+    "document:.scratch/analyst-dashboard/issues/10-history-without-forecast-request.md": {
+      "name": "10-history-without-forecast-request.md",
+      "type": "document",
+      "summary": "Allows the host to draw actuals plus a 21-trading-day two-method Forecast at session start without a Forecast verb, and requires exposing history and per-step paths instead of last-point-only tool JSON."
+    },
+    "document:.scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md": {
+      "name": "11-where-urals-series-comes-from.md",
+      "type": "document",
+      "summary": "Defers Urals on the Demo Dashboard until a real series exists: this cut is Brent-only, with no Brent proxy, and chat still reports no Urals series."
+    },
+    "document:.scratch/analyst-dashboard/research/forecast-plot-payload.md": {
+      "name": "forecast-plot-payload.md",
+      "type": "document",
+      "summary": "Research note for ticket 06 on what Forecast already returns for a Dashboard chart: horizon-end SARIMA and Holt–Winters scalars with intervals, not history or day-by-day paths. Maps ForecastResult, forecast_for_tool JSON, citation tags, Urals/history-fail payloads, and what a chart must add to draw time series."
+    },
+    "document:.scratch/analyst-dashboard/research/session-start-search-web.md": {
+      "name": "session-start-search-web.md",
+      "type": "document",
+      "summary": "Fact sheet for ticket 08 on calling search_for_tool / oil_gas_web without an Ouroboros task: signatures, return dict, citation labels, empty-query and DuckDuckGo soft-fail behavior, timeouts, and Docker failure modes. Explicitly does not authorize bypassing the agent loop (ticket 05 / ADR 0019)."
+    },
+    "document:.scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md": {
+      "name": "streamlit-ouroboros-adapter.md",
+      "type": "document",
+      "summary": "Research for ticket 07 on using Streamlit as a thin Chat UI adapter over the same Analyst turn as Chainlit: build_loop warm/attest/toggle, run_turn, session/timeout/rate-limit hooks, compose port 8000, and risks of two UIs in one image. Recommends in-process Python seams rather than a second HTTP agent loop."
+    },
+    "document:.scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md": {
+      "name": "01-how-ouroboros-hosts-the-analyst.md",
+      "type": "document",
+      "summary": "Resolved research ticket on how current-generation Ouroboros hosts a domain Analyst: the solve model runs the tool loop, domain tools are reviewed extensions, and graders start via docker or ouroboros server—not a pip import into LangGraph."
+    },
+    "document:.scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md": {
+      "name": "02-stubs-versus-product-contracts.md",
+      "type": "document",
+      "summary": "Resolved inventory classifying oil_gas_analyst hardcoded rules as stub, mixed, or product contract, covering report-tag patching, out-of-scope dictionaries, Route lists, denylist, and Forecast module constraints."
+    },
+    "document:.scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md": {
+      "name": "03-what-the-agent-must-decide.md",
+      "type": "document",
+      "summary": "Resolved grilling ticket stating the solve model decides Competence, retrieve, Drop, Web, Forecast, stop, and order each turn, while hard answer constraints (no invented prices, denylist citations, grounded Report tags) remain."
+    },
+    "document:.scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md": {
+      "name": "04-where-the-reviewer-talks.md",
+      "type": "document",
+      "summary": "Resolved ticket picking Chainlit at localhost:8000 as the reviewer surface, with the turn running in the Ouroboros loop and LangGraph no longer the conversation runtime."
+    },
+    "document:.scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md": {
+      "name": "05-waterfall-inside-the-agent-loop.md",
+      "type": "document",
+      "summary": "Resolved ticket treating the TZ Reports-then-Web waterfall as prompt policy plus Eval on grounded citations, requiring retrieve this turn for [Отчёт] tags rather than a host graph or paragraph order."
+    },
+    "document:.scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md": {
+      "name": "06-which-stubs-must-die.md",
+      "type": "document",
+      "summary": "Resolved ticket listing live-model stubs to remove (report-tag patching, out-of-scope dictionary, restore-after-Drop, heading-rank, Route-list tool gates) while keeping denylist, Forecast methods, and infra-only safety nets."
+    },
+    "document:.scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md": {
+      "name": "07-which-trust-surfaces-the-grader-sees.md",
+      "type": "document",
+      "summary": "Resolved ticket requiring README to name Ouroboros, reviewed skills, Chainlit adapter, and /evolve off, while keeping task-acceptance Review, P3, and /review off the Eval path."
+    },
+    "document:.scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md": {
+      "name": "08-which-model-fills-the-main-slot.md",
+      "type": "document",
+      "summary": "Resolved ticket pinning Ouroboros Main to OpenRouter z-ai/glm-5.2:free with thinking off, allowing other slots via env, and forbidding silent fallback to Grok or DeepSeek."
+    },
+    "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md": {
+      "name": "09-chainlit-talks-to-ouroboros.md",
+      "type": "document",
+      "summary": "Resolved build ticket: one compose command serves Chainlit on :8000 as an adapter that POSTs to the Ouroboros gateway, with GLM Main, evolve off, and loud failure on a missing OpenRouter key."
+    },
+    "document:.scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md": {
+      "name": "10-grounded-report-retrieve.md",
+      "type": "document",
+      "summary": "Resolved ticket for oil_gas_retrieve: corpus-covered answers must include a grounded [Отчёт] tag backed by retrieve this turn, without host-patching live replies that omit the tag."
+    },
+    "document:.scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md": {
+      "name": "11-web-sources-without-denylist-citations.md",
+      "type": "document",
+      "summary": "Resolved ticket for search_web in oil_gas_web: the model chooses when to search DuckDuckGo, denylist domains must not be cited, and the host does not strip those URLs from raw hits."
+    },
+    "document:.scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md": {
+      "name": "12-forecast-module-in-the-loop.md",
+      "type": "document",
+      "summary": "Resolved ticket wrapping SARIMA and Holt–Winters as run_forecast in the Ouroboros loop: Brent default, no Urals series, no silent average, and Forecast verbs as playbook hints not host detectors."
+    },
+    "document:.scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md": {
+      "name": "13-competence-playbook-and-safety-nets.md",
+      "type": "document",
+      "summary": "Resolved ticket placing the Analyst role on identity.md plus an instruction skill, removing live Competence stubs, and allowing timeout/500/empty safety nets without host-blocking tools."
+    },
+    "document:.scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md": {
+      "name": "14-five-readme-dialogues.md",
+      "type": "document",
+      "summary": "Open ticket to document five README demo dialogues (Report, Web, combined, Forecast, Out-of-competence) with grounded-citation pass rules, stack limits, and optional Full Report ingest."
+    },
+    "config:config/forecast.yaml": {
+      "name": "forecast.yaml",
+      "type": "config",
+      "summary": "Forecast runtime settings: allowed methods, ticker symbols, horizon phrases, AutoARIMA/AutoReg bounds, history interval, cache directory, and Stooq symbol aliases used by the price-forecast pipeline."
+    },
+    "config:config/ingest.yaml": {
+      "name": "ingest.yaml",
+      "type": "config",
+      "summary": "Report ingest and RAG settings: embedding model, Chroma path, retrieve-k, token caps, sample/full report catalogs, agency URLs, heading-split regexes, and multilingual-e5 query/passage prefixes."
+    },
+    "config:config/red_team_pack.yaml": {
+      "name": "red_team_pack.yaml",
+      "type": "config",
+      "summary": "Closed pack of live red-team prompts (jailbreak, off-scope, and policy-stress cases) consumed by the LIVE_RED_TEAM pytest suite before a public URL."
+    },
+    "config:config/route_lists.yaml": {
+      "name": "route_lists.yaml",
+      "type": "config",
+      "summary": "Closed keyword lists for the eval harness: forecast verbs, time-sensitive markers, weak time-sensitive phrases, and published-outlook cues used by route matchers."
+    },
+    "config:config/session_start_rail_exclusions.yaml": {
+      "name": "session_start_rail_exclusions.yaml",
+      "type": "config",
+      "summary": "Short domain exclusion list for the session-start web rail so known-bad or off-policy hosts are skipped at session bootstrap."
+    },
+    "config:config/yellow_press_denylist.yaml": {
+      "name": "yellow_press_denylist.yaml",
+      "type": "config",
+      "summary": "Static domain denylist for yellow-press and low-quality news hosts applied when filling web page bodies and tool results."
+    },
+    "document:docs/adr/0001-analyst-lives-inside-ouroboros.md": {
+      "name": "0001-analyst-lives-inside-ouroboros.md",
+      "type": "document",
+      "summary": "Superseded ADR that placed the oil-and-gas Analyst as a role inside Ouroboros, with RAG, web search, and forecast as tools and native Review as the self-check."
+    },
+    "document:docs/adr/0002-ouroboros-out-of-scope.md": {
+      "name": "0002-ouroboros-out-of-scope.md",
+      "type": "document",
+      "summary": "Accepted ADR dropping Ouroboros from the demo path so the user talks to a LangGraph Analyst behind a shipped simple UI."
+    },
+    "document:docs/adr/0003-thin-or-fresh-web.md": {
+      "name": "0003-thin-or-fresh-web.md",
+      "type": "document",
+      "summary": "Waterfall policy: search Reports first and open the web only on Thin retrieval or Time-sensitive questions. The Thin trigger was later replaced by always-retrieve."
+    },
+    "document:docs/adr/0004-forecast-only-on-explicit-verbs.md": {
+      "name": "0004-forecast-only-on-explicit-verbs.md",
+      "type": "document",
+      "summary": "Accepted ADR that runs the Forecast module only on an explicit Forecast verb; other price questions take the Live-quote web path."
+    },
+    "document:docs/adr/0005-closed-route-lists.md": {
+      "name": "0005-closed-route-lists.md",
+      "type": "document",
+      "summary": "Routing via closed EN+RU keyword lists for Forecast verbs and Time-sensitive markers instead of a classifier; later limited to the Eval harness, not the live loop."
+    },
+    "document:docs/adr/0006-deepseek-chat-llm.md": {
+      "name": "0006-deepseek-chat-llm.md",
+      "type": "document",
+      "summary": "Chooses deepseek-v4-flash at api.deepseek.com as the sole product chat LLM with thinking mode off; Eval chat remains a documented OpenRouter exception."
+    },
+    "document:docs/adr/0007-e5-chroma-reports.md": {
+      "name": "0007-e5-chroma-reports.md",
+      "type": "document",
+      "summary": "Accepted ADR for Report RAG: multilingual-e5-base embeddings stored in in-process Chroma with title, date, and page metadata."
+    },
+    "document:docs/adr/0008-duckduckgo-denylist.md": {
+      "name": "0008-duckduckgo-denylist.md",
+      "type": "document",
+      "summary": "Accepted ADR for web search: DuckDuckGo with a checked-in yellow-press domain denylist and no search-API key or LLM tabloid classifier."
+    },
+    "document:docs/adr/0009-yfinance-sarima-ets.md": {
+      "name": "0009-yfinance-sarima-ets.md",
+      "type": "document",
+      "summary": "Accepted Forecast-module ADR: live yfinance history with statsmodels SARIMA and Holt–Winters, default Brent, no silent CSV fallback, no Urals proxy."
+    },
+    "document:docs/adr/0010-chainlit-ui.md": {
+      "name": "0010-chainlit-ui.md",
+      "type": "document",
+      "summary": "Original v1 UI ADR choosing Chainlit as the browser chat shell over Streamlit, Gradio, or FastAPI; the window itself was later superseded by the Streamlit dashboard."
+    },
+    "document:docs/adr/0011-sample-and-full-reports.md": {
+      "name": "0011-sample-and-full-reports.md",
+      "type": "document",
+      "summary": "Commits OPEC MOMR and EIA STEO sample PDF excerpts in git and fetches Full Reports via ingest; missing samples break install, IEA stays out of v1."
+    },
+    "document:docs/adr/0012-always-retrieve-model-drops.md": {
+      "name": "0012-always-retrieve-model-drops.md",
+      "type": "document",
+      "summary": "Accepted ADR: every turn retrieves k=10 Report chunks; the chat model Drops irrelevant ones instead of a Thin count/score bar opening the web."
+    },
+    "document:docs/adr/0013-web-if-dropped-and-in-competence.md": {
+      "name": "0013-web-if-dropped-and-in-competence.md",
+      "type": "document",
+      "summary": "If all retrieved chunks are Dropped, allow one DuckDuckGo call only when still in Competence; out-of-competence refuses with no web or Forecast."
+    },
+    "document:docs/adr/0014-competence-classify-node.md": {
+      "name": "0014-competence-classify-node.md",
+      "type": "document",
+      "summary": "Places an LLM in/out Competence classify node before tools on the old waterfall, leaving Forecast verbs and Time-sensitive markers as closed lists."
+    },
+    "document:docs/adr/0015-heading-chunks.md": {
+      "name": "0015-heading-chunks.md",
+      "type": "document",
+      "summary": "Ingest splits reports on agency heading regexes then caps chunks at 512 e5 tokens with overlap, keeping title, date, page range, and heading metadata."
+    },
+    "document:docs/adr/0016-cbr-sample-report.md": {
+      "name": "0016-cbr-sample-report.md",
+      "type": "document",
+      "summary": "Keeps the Bank of Russia trends bulletin as a third Sample Report so Russian oil-price questions can cite it, using CBR heading patterns in ingest config."
+    },
+    "document:docs/adr/0017-next-cycle-is-public-demo.md": {
+      "name": "0017-next-cycle-is-public-demo.md",
+      "type": "document",
+      "summary": "Sets the cycle goal as a public Demo URL after live Eval and red-team, with no password and a post-launch rate limit; Streamlit-as-UI clauses were later superseded."
+    },
+    "document:docs/adr/0018-eval-chat-openrouter-free.md": {
+      "name": "0018-eval-chat-openrouter-free.md",
+      "type": "document",
+      "summary": "Routes LIVE_EVAL chat to OpenRouter via env-configured EVAL_CHAT_MODEL while product Docker/Chainlit stays on DeepSeek with no silent fallback."
+    },
+    "document:docs/adr/0019-model-decides-the-loop.md": {
+      "name": "0019-model-decides-the-loop.md",
+      "type": "document",
+      "summary": "Acceptance ADR: the solve model chooses tools and stop conditions; the host must not refuse those calls, and Eval grades the visible answer and citations rather than host locks."
+    },
+    "document:docs/adr/0020-waterfall-grounded-citations.md": {
+      "name": "0020-waterfall-grounded-citations.md",
+      "type": "document",
+      "summary": "Treats the Reports-first waterfall as prompt policy plus Eval on citations: [Отчёт …] must be grounded in retrieve this turn; extra Web is allowed; prose order is not graded."
+    },
+    "document:docs/adr/0021-chainlit-adapter-ouroboros-loop.md": {
+      "name": "0021-chainlit-adapter-ouroboros-loop.md",
+      "type": "document",
+      "summary": "ADR that made Chainlit on port 8000 an adapter over the Ouroboros agent loop (not LangGraph), with :8765 remaining an internal gateway. Status is superseded for the click target by ADR 0026 (Streamlit Dashboard)."
+    },
+    "document:docs/adr/0022-live-stubs-die-infra-nets.md": {
+      "name": "0022-live-stubs-die-infra-nets.md",
+      "type": "document",
+      "summary": "Accepted ADR forbidding host patches of live model output (fake citations, out-of-scope dictionaries, chunk restore/re-rank, route lists as routers) while allowing infra safety nets on timeout, HTTP 500, or empty completions."
+    },
+    "document:docs/adr/0023-main-openrouter-glm52-free.md": {
+      "name": "0023-main-openrouter-glm52-free.md",
+      "type": "document",
+      "summary": "ADR that pinned Main chat to OpenRouter z-ai/glm-5.2:free with thinking off and loud failure on missing keys or dead :free ids. Status is superseded for chat by ADR 0027 (DeepSeek direct API)."
+    },
+    "document:docs/adr/0024-readme-names-ouroboros-evolve-off.md": {
+      "name": "0024-readme-names-ouroboros-evolve-off.md",
+      "type": "document",
+      "summary": "Accepted ADR requiring the README to name Ouroboros as the conversation runtime, domain tools as reviewed skills, and /evolve off (runtime_mode=light) so graders do not mistake the demo for LangGraph."
+    },
+    "document:docs/adr/0025-openrouter-embeddings-no-local-torch.md": {
+      "name": "0025-openrouter-embeddings-no-local-torch.md",
+      "type": "document",
+      "summary": "Accepted ADR that retrieve/ingest must call a remote OpenAI-compatible embeddings API (default LAN LM Studio e5) with no local Torch, SentenceTransformer, or baked Hugging Face weights; Chroma still stores vectors in-process."
+    },
+    "document:docs/adr/0026-streamlit-dashboard-is-the-demo.md": {
+      "name": "0026-streamlit-dashboard-is-the-demo.md",
+      "type": "document",
+      "summary": "Accepted ADR making the Streamlit Dashboard at :8000 the demo chat UI: session-start web rail, Brent forecast chart, and report corpus strip around chat, with Streamlit calling Ouroboros run_turn and Chainlit removed from the demo image."
+    },
+    "document:docs/adr/0027-deepseek-direct-api-main.md": {
+      "name": "0027-deepseek-direct-api-main.md",
+      "type": "document",
+      "summary": "Accepted ADR pinning Main chat to deepseek-v4-flash via DeepSeek API on the openai-compatible Ouroboros lane, thinking off, with compose splitting DEEPSEEK_API_KEY to ouroboros and OPENROUTER_API_KEY to analyst embeddings."
+    },
+    "document:oil_gas_analyst.egg-info/SOURCES.txt": {
+      "name": "SOURCES.txt",
+      "type": "document",
+      "summary": "Setuptools egg-info manifest listing every file included in the oil_gas_analyst distribution: package modules, tests, README, pyproject.toml, and generated metadata."
+    },
+    "document:oil_gas_analyst.egg-info/dependency_links.txt": {
+      "name": "dependency_links.txt",
+      "type": "document",
+      "summary": "Empty setuptools egg-info list of dependency URLs; the package has no extra dependency links beyond pyproject.toml."
+    },
+    "document:oil_gas_analyst.egg-info/top_level.txt": {
+      "name": "top_level.txt",
+      "type": "document",
+      "summary": "Declares oil_gas_analyst as the sole top-level import name installed by the setuptools package."
+    },
+    "config:.cursor/hooks/state/continual-learning-index.json": {
+      "name": "continual-learning-index.json",
+      "type": "config",
+      "summary": "Cursor continual-learning hook index that records transcript versions and processed chat files for incremental agent memory updates."
+    },
+    "document:.scratch/analyst-dashboard-build/spec.md": {
+      "name": "spec.md",
+      "type": "document",
+      "summary": "Thin build-phase pointer that marks the analyst dashboard implementation as ready-for-agent and defers to the parent dashboard spec and issues/ tickets."
+    },
+    "document:.scratch/analyst-dashboard/map.md": {
+      "name": "map.md",
+      "type": "document",
+      "summary": "Wayfinder map for the Streamlit analyst dashboard covering destination, open decisions, unspecified items, and out-of-scope layout work."
+    },
+    "file:.scratch/analyst-dashboard/prototype/dashboard.html": {
+      "name": "dashboard.html",
+      "type": "file",
+      "summary": "Throwaway HTML prototype that explores three Analyst Dashboard layouts with fake Brent actuals, forecast lines, chat, and corpus panels."
+    },
+    "document:.scratch/analyst-dashboard/spec.md": {
+      "name": "spec.md",
+      "type": "document",
+      "summary": "Product spec for the Streamlit demo dashboard: problem, solution, user stories, implementation and testing decisions, and out-of-scope items."
+    },
+    "document:.scratch/oil-gas-analyst/spec.md": {
+      "name": "spec.md",
+      "type": "document",
+      "summary": "Feature spec for the oil-and-gas analyst product covering competence, tools, citations, implementation and testing decisions, and further notes."
+    },
+    "document:.scratch/ouroboros-analyst/map.md": {
+      "name": "map.md",
+      "type": "document",
+      "summary": "Wayfinder map for hosting the domain analyst on current-generation Ouroboros, including destination, decisions, and remaining gaps."
+    },
+    "document:.scratch/ouroboros-analyst/research/ouroboros-host.md": {
+      "name": "ouroboros-host.md",
+      "type": "document",
+      "summary": "Research note on how Ouroboros hosts a domain analyst: tool loop, skills versus MCP, web-search paths, system prompt attachment, and runtime mode."
+    },
+    "document:.scratch/ouroboros-analyst/research/stubs-versus-contracts.md": {
+      "name": "stubs-versus-contracts.md",
+      "type": "document",
+      "summary": "Inventory that classifies analyst behaviors as stubs, mixed heuristics, or product contracts, including denylist, retrieve k, and forecast rules."
+    },
+    "document:.scratch/ouroboros-analyst/spec.md": {
+      "name": "spec.md",
+      "type": "document",
+      "summary": "Spec for running the oil-and-gas analyst as an Ouroboros-hosted demo with user stories, implementation and testing decisions, and out-of-scope items."
+    },
+    "config:.streamlit/config.toml": {
+      "name": "config.toml",
+      "type": "config",
+      "summary": "Streamlit runtime configuration for headless server mode, disabled usage stats, and a minimal client toolbar without sidebar navigation."
+    },
+    "file:.understand-anything/.understandignore": {
+      "name": ".understandignore",
+      "type": "file",
+      "summary": "Ignore patterns for Understand-Anything that exclude report, chroma, and forecast caches from knowledge-graph analysis."
+    },
+    "config:.understand-anything/config.json": {
+      "name": "config.json",
+      "type": "config",
+      "summary": "Understand-Anything project config that sets graph textual output language to English."
+    },
+    "document:data/ouroboros/identity.md": {
+      "name": "identity.md",
+      "type": "document",
+      "summary": "Seed Ouroboros identity prompt for the demo analyst: competence, tool-citation rules, denylist, and a ban on /evolve on the demo path."
+    },
+    "document:data/samples/README.md": {
+      "name": "README.md",
+      "type": "document",
+      "summary": "Catalog of sample OPEC, EIA, and Bank of Russia reports used for excerpt citations, plus a note on optional gitignored full reports."
+    },
+    "file:deploy/demo-nginx.conf": {
+      "name": "demo-nginx.conf",
+      "type": "file",
+      "summary": "Example nginx front for the public demo that rate-limits by client IP and reverse-proxies to the Streamlit app on localhost:8000."
+    },
+    "config:docker/cloud-init.yaml": {
+      "name": "cloud-init.yaml",
+      "type": "config",
+      "summary": "Timeweb cloud-init user-data that installs Docker, writes demo secrets, and bootstraps the analyst stack on an Ubuntu VPS."
+    },
+    "file:docker/ouroboros-entrypoint.sh": {
+      "name": "ouroboros-entrypoint.sh",
+      "type": "file",
+      "summary": "Container entrypoint that requires DEEPSEEK_API_KEY, seeds identity and skills into the data volume, then execs Ouroboros server.py."
+    },
+    "file:docker/ouroboros.Dockerfile": {
+      "name": "ouroboros.Dockerfile",
+      "type": "file",
+      "summary": "Image build that vendors Ouroboros via uv, installs analyst Python deps without Torch, and copies identity, skills, package, and sample reports."
+    },
+    "document:docs/agents/domain.md": {
+      "name": "domain.md",
+      "type": "document",
+      "summary": "Agent guide for domain docs: read CONTEXT.md and ADRs first, follow glossary vocabulary, and flag ADR conflicts."
+    },
+    "document:docs/agents/issue-tracker.md": {
+      "name": "issue-tracker.md",
+      "type": "document",
+      "summary": "Agent guide for the local markdown issue tracker under .scratch, including publish, fetch, and wayfinding conventions."
+    },
+    "file:oil_gas_analyst.egg-info/PKG-INFO": {
+      "name": "PKG-INFO",
+      "type": "file",
+      "summary": "Setuptools package metadata for oil-gas-analyst 0.1.0 declaring Python 3.11 or newer."
+    },
+    "file:scripts/render-timeweb-cloud-init.py": {
+      "name": "render-timeweb-cloud-init.py",
+      "type": "file",
+      "summary": "CLI that substitutes secrets from .env into docker/cloud-init.yaml and writes a gitignored rendered user-data file."
+    },
+    "document:skills/oil_gas_analyst/SKILL.md": {
+      "name": "SKILL.md",
+      "type": "document",
+      "summary": "Ouroboros skill playbook for the oil-and-gas analyst covering competence, retrieve/web/forecast tools, citation labels, and route-list hints."
+    },
+    "file:skills/oil_gas_forecast/plugin.py": {
+      "name": "plugin.py",
+      "type": "file",
+      "summary": "Ouroboros skill plugin that registers the run_forecast tool wrapping AutoARIMA, UnobservedComponents, and AutoReg via forecast_for_tool."
+    },
+    "document:skills/oil_gas_forecast/SKILL.md": {
+      "name": "SKILL.md",
+      "type": "document",
+      "summary": "Ouroboros skill spec for the oil-price Forecast tool: when to call it, Brent vs WTI vs Urals rules, and the requirement to show all three methods without averaging."
+    },
+    "file:skills/oil_gas_retrieve/plugin.py": {
+      "name": "plugin.py",
+      "type": "file",
+      "summary": "Ouroboros extension that registers retrieve_reports, lazily calling retrieve_for_tool to search OPEC/EIA/CBR report chunks."
+    },
+    "document:skills/oil_gas_retrieve/SKILL.md": {
+      "name": "SKILL.md",
+      "type": "document",
+      "summary": "Skill spec for report retrieve: in-competence OPEC/EIA/CBR questions, verbatim [Отчёт …] citations, and a same-turn tool-call requirement before citing."
+    },
+    "file:skills/oil_gas_web/plugin.py": {
+      "name": "plugin.py",
+      "type": "file",
+      "summary": "Ouroboros extension that registers search_web, lazily calling search_for_tool for DuckDuckGo oil/gas news and live quotes."
+    },
+    "document:skills/oil_gas_web/SKILL.md": {
+      "name": "SKILL.md",
+      "type": "document",
+      "summary": "Skill spec for web search: freshness and live quotes, verbatim [Источник: …, web] citations, and a ban on citing denied Yellow-press hits."
+    },
+    "file:tests/conftest.py": {
+      "name": "conftest.py",
+      "type": "file",
+      "summary": "Placeholder pytest conftest that points testers to pyproject.toml for pytest configuration."
+    }
+  },
+  "totalNodes": 153,
+  "totalEdges": 851
+}

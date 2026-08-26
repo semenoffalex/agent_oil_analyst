@@ -1,0 +1,29 @@
+{
+  "projectRoot": "/Users/semenoffalex/Cursor/sber",
+  "batchFiles": [
+    {"path": ".scratch/analyst-dashboard/issues/01-what-frames-the-chat.md", "language": "markdown", "sizeLines": 31, "fileCategory": "docs"},
+    {"path": ".scratch/analyst-dashboard/issues/02-session-start-web-fetch.md", "language": "markdown", "sizeLines": 33, "fileCategory": "docs"},
+    {"path": ".scratch/analyst-dashboard/issues/03-streamlit-click-target.md", "language": "markdown", "sizeLines": 22, "fileCategory": "docs"},
+    {"path": ".scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md", "language": "markdown", "sizeLines": 20, "fileCategory": "docs"},
+    {"path": ".scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md", "language": "markdown", "sizeLines": 21, "fileCategory": "docs"},
+    {"path": ".scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md", "language": "markdown", "sizeLines": 17, "fileCategory": "docs"},
+    {"path": ".scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md", "language": "markdown", "sizeLines": 17, "fileCategory": "docs"},
+    {"path": ".scratch/analyst-dashboard/issues/08-search-web-without-a-question.md", "language": "markdown", "sizeLines": 17, "fileCategory": "docs"},
+    {"path": ".scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md", "language": "markdown", "sizeLines": 19, "fileCategory": "docs"},
+    {"path": ".scratch/analyst-dashboard/issues/10-history-without-forecast-request.md", "language": "markdown", "sizeLines": 31, "fileCategory": "docs"},
+    {"path": ".scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md", "language": "markdown", "sizeLines": 22, "fileCategory": "docs"}
+  ],
+  "batchImportData": {
+    ".scratch/analyst-dashboard/issues/01-what-frames-the-chat.md": [],
+    ".scratch/analyst-dashboard/issues/02-session-start-web-fetch.md": [],
+    ".scratch/analyst-dashboard/issues/03-streamlit-click-target.md": [],
+    ".scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md": [],
+    ".scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md": [],
+    ".scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md": [],
+    ".scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md": [],
+    ".scratch/analyst-dashboard/issues/08-search-web-without-a-question.md": [],
+    ".scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md": [],
+    ".scratch/analyst-dashboard/issues/10-history-without-forecast-request.md": [],
+    ".scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md": []
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "projectRoot": "/Users/semenoffalex/Cursor/sber",
+  "batchFiles": [
+    {
+      "path": "oil_gas_analyst/__init__.py",
+      "language": "python",
+      "sizeLines": 3,
+      "fileCategory": "code"
+    },
+    {
+      "path": "oil_gas_analyst/app.py",
+      "language": "python",
+      "sizeLines": 87,
+      "fileCategory": "code"
+    },
+    {
+      "path": "oil_gas_analyst/chat_ui.py",
+      "language": "python",
+      "sizeLines": 77,
+      "fileCategory": "code"
+    },
+    {
+      "path": "oil_gas_analyst/rate_limit.py",
+      "language": "python",
+      "sizeLines": 63,
+      "fileCategory": "code"
+    },
+    {
+      "path": "oil_gas_analyst/render.py",
+      "language": "python",
+      "sizeLines": 420,
+      "fileCategory": "code"
+    },
+    {
+      "path": "oil_gas_analyst/routes.py",
+      "language": "python",
+      "sizeLines": 105,
+      "fileCategory": "code"
+    },
+    {
+      "path": "oil_gas_analyst/turn.py",
+      "language": "python",
+      "sizeLines": 273,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/test_rate_limit.py",
+      "language": "python",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/test_routes.py",
+      "language": "python",
+      "sizeLines": 62,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/test_turn.py",
+      "language": "python",
+      "sizeLines": 547,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "oil_gas_analyst/__init__.py": [
+      "oil_gas_analyst/turn.py"
+    ],
+    "oil_gas_analyst/app.py": [
+      "oil_gas_analyst/deps.py",
+      "oil_gas_analyst/rate_limit.py",
+      "oil_gas_analyst/render.py",
+      "oil_gas_analyst/turn.py",
+      "oil_gas_analyst/types.py"
+    ],
+    "oil_gas_analyst/chat_ui.py": [
+      "oil_gas_analyst/deps.py",
+      "oil_gas_analyst/rate_limit.py",
+      "oil_gas_analyst/render.py",
+      "oil_gas_analyst/session_start_web.py",
+      "oil_gas_analyst/turn.py"
+    ],
+    "oil_gas_analyst/rate_limit.py": [],
+    "oil_gas_analyst/render.py": [
+      "oil_gas_analyst/ingest.py",
+      "oil_gas_analyst/session_start_web.py",
+      "oil_gas_analyst/turn.py",
+      "oil_gas_analyst/types.py"
+    ],
+    "oil_gas_analyst/routes.py": [],
+    "oil_gas_analyst/turn.py": [
+      "oil_gas_analyst/ingest.py",
+      "oil_gas_analyst/routes.py",
+      "oil_gas_analyst/session_start_web.py",
+      "oil_gas_analyst/settings.py",
+      "oil_gas_analyst/types.py"
+    ],
+    "tests/test_rate_limit.py": [
+      "oil_gas_analyst/rate_limit.py"
+    ],
+    "tests/test_routes.py": [
+      "oil_gas_analyst/routes.py"
+    ],
+    "tests/test_turn.py": [
+      "oil_gas_analyst/turn.py",
+      "oil_gas_analyst/types.py"
+    ]
+  }
+}

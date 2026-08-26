@@ -1,0 +1,58 @@
+{
+  "projectRoot": "/Users/semenoffalex/Cursor/sber",
+  "batchFiles": [
+    {"path": "oil_gas_analyst/denylist.py", "language": "python", "sizeLines": 24, "fileCategory": "code"},
+    {"path": "oil_gas_analyst/eval_dialogues.py", "language": "python", "sizeLines": 37, "fileCategory": "code"},
+    {"path": "oil_gas_analyst/graph.py", "language": "python", "sizeLines": 11, "fileCategory": "code"},
+    {"path": "oil_gas_analyst/session_start_web.py", "language": "python", "sizeLines": 391, "fileCategory": "code"},
+    {"path": "oil_gas_analyst/types.py", "language": "python", "sizeLines": 130, "fileCategory": "code"},
+    {"path": "oil_gas_analyst/web.py", "language": "python", "sizeLines": 136, "fileCategory": "code"},
+    {"path": "tests/test_dashboard.py", "language": "python", "sizeLines": 96, "fileCategory": "code"},
+    {"path": "tests/test_denylist.py", "language": "python", "sizeLines": 119, "fileCategory": "code"},
+    {"path": "tests/test_eval_dashboard.py", "language": "python", "sizeLines": 41, "fileCategory": "code"},
+    {"path": "tests/test_graph.py", "language": "python", "sizeLines": 183, "fileCategory": "code"},
+    {"path": "tests/test_session_start_web.py", "language": "python", "sizeLines": 237, "fileCategory": "code"}
+  ],
+  "batchImportData": {
+    "oil_gas_analyst/denylist.py": [],
+    "oil_gas_analyst/eval_dialogues.py": [
+      "oil_gas_analyst/session_start_web.py",
+      "oil_gas_analyst/turn.py",
+      "oil_gas_analyst/types.py"
+    ],
+    "oil_gas_analyst/graph.py": [
+      "oil_gas_analyst/eval_dialogues.py",
+      "oil_gas_analyst/types.py"
+    ],
+    "oil_gas_analyst/session_start_web.py": [
+      "oil_gas_analyst/denylist.py",
+      "oil_gas_analyst/types.py",
+      "oil_gas_analyst/web.py"
+    ],
+    "oil_gas_analyst/types.py": [],
+    "oil_gas_analyst/web.py": [
+      "oil_gas_analyst/settings.py",
+      "oil_gas_analyst/types.py"
+    ],
+    "tests/test_dashboard.py": [
+      "oil_gas_analyst/types.py"
+    ],
+    "tests/test_denylist.py": [
+      "oil_gas_analyst/denylist.py",
+      "oil_gas_analyst/types.py"
+    ],
+    "tests/test_eval_dashboard.py": [
+      "oil_gas_analyst/eval_dialogues.py",
+      "oil_gas_analyst/session_start_web.py",
+      "oil_gas_analyst/types.py"
+    ],
+    "tests/test_graph.py": [
+      "oil_gas_analyst/graph.py"
+    ],
+    "tests/test_session_start_web.py": [
+      "oil_gas_analyst/session_start_web.py",
+      "oil_gas_analyst/turn.py",
+      "oil_gas_analyst/types.py"
+    ]
+  }
+}

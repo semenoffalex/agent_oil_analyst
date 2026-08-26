@@ -1,0 +1,7099 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "ec148f9615fcd8cadfea4afcf2f9776110f6cc82",
+  "generatedAt": "2026-08-25T16:14:13.722Z",
+  "files": {
+    ".cursor/hooks/state/continual-learning-index.json": {
+      "filePath": ".cursor/hooks/state/continual-learning-index.json",
+      "contentHash": "e9389d94a9cc8761dd44133e63f688974f6d8ebe9f0ebdee4c4620de59b300b9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 41,
+      "hasStructuralAnalysis": true
+    },
+    ".dockerignore": {
+      "filePath": ".dockerignore",
+      "contentHash": "a8e6ca9131f6063bfc5c0472d2d969c6de06d3a40480d7837a826c557ae89542",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13,
+      "hasStructuralAnalysis": false
+    },
+    ".env.example": {
+      "filePath": ".env.example",
+      "contentHash": "be915688b1ef1bd6347de95b38799adef5981ed781d59132c84b86b566b69510",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 62,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md": {
+      "filePath": ".scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md",
+      "contentHash": "6af3cff50be82ed2e02d45a01f81edf4ae90ac5bc7b008045558009d5c3d716b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 14,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md": {
+      "filePath": ".scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md",
+      "contentHash": "2e5381aee82d8321238bc9f053165bcd82b46a30eefb5c6f2eb866f622d281b8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 14,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md": {
+      "filePath": ".scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md",
+      "contentHash": "a87c34cb792b4445c8809e27a2941f0ae4cf42de7a9123353ee41ef33cf86c95",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 14,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md": {
+      "filePath": ".scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md",
+      "contentHash": "5ac825ac308ee1c7e77034c52488d8ddb6800932e5db5adae9879c1c08fbfb65",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 16,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md": {
+      "filePath": ".scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md",
+      "contentHash": "957166364686d09a1f98e5681b302d3290ee6ad16432d496c4878502902d5269",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard-build/spec.md": {
+      "filePath": ".scratch/analyst-dashboard-build/spec.md",
+      "contentHash": "9bacf3330ab4375043c1d03a78f948092454789b924d907dd25c3dacd7e643d6",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/issues/01-what-frames-the-chat.md": {
+      "filePath": ".scratch/analyst-dashboard/issues/01-what-frames-the-chat.md",
+      "contentHash": "1ea840f54abd2f5259340ea985d82da99435f84c0871fcf4faa7f4ed22a56fb3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 32,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/issues/02-session-start-web-fetch.md": {
+      "filePath": ".scratch/analyst-dashboard/issues/02-session-start-web-fetch.md",
+      "contentHash": "d115c9ade9afacab49396eb84b491092d3ea4911800e610248eb5b9be1699e06",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 34,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/issues/03-streamlit-click-target.md": {
+      "filePath": ".scratch/analyst-dashboard/issues/03-streamlit-click-target.md",
+      "contentHash": "7d1534daaf77b561064022f38c4ef7dfd484465077229e79061affdcdcb1043f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 23,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md": {
+      "filePath": ".scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md",
+      "contentHash": "25010cc9f92025d125cef5b589d32ce4844484dd62dcc3c8eed6cc10c23c3aed",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 21,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md": {
+      "filePath": ".scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md",
+      "contentHash": "0be6c8682fe79352ed00d96fa9fd9e29baa388e347e855b251f534db97bbd553",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 22,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md": {
+      "filePath": ".scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md",
+      "contentHash": "1cbe42f8557419bdf71df689e8bea195cfb9d90d329eaa1ebe4537ba30533222",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md": {
+      "filePath": ".scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md",
+      "contentHash": "80edc605a159664f5d2f9010fefec259a5dbd3cc519585583cb71e806aad5480",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/issues/08-search-web-without-a-question.md": {
+      "filePath": ".scratch/analyst-dashboard/issues/08-search-web-without-a-question.md",
+      "contentHash": "cc4a9cd770a3c0005470475ecca4dcedeef1f7398933499eae1b81b9c7477342",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md": {
+      "filePath": ".scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md",
+      "contentHash": "02151dd75d738cd6561e9c0079d456d25376cec3911709ab5fa0022e56f4a1ed",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 20,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/issues/10-history-without-forecast-request.md": {
+      "filePath": ".scratch/analyst-dashboard/issues/10-history-without-forecast-request.md",
+      "contentHash": "5f800f431bb243fc8d6a33724c410372a38c3d91957d40c6f5a16b1b63b4df24",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 32,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md": {
+      "filePath": ".scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md",
+      "contentHash": "213e1abc51bc9c72a722cccbc4757865a038b680433e777a366016457245eac8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 23,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/map.md": {
+      "filePath": ".scratch/analyst-dashboard/map.md",
+      "contentHash": "a2de045110c47d229a3cf68ec00879e12842da326340492f89e6958e58404150",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 46,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/prototype/dashboard.html": {
+      "filePath": ".scratch/analyst-dashboard/prototype/dashboard.html",
+      "contentHash": "e1a850778cd5e26388f0e4d39451eed808938c27362e810e360a27ba8de5d307",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 247,
+      "hasStructuralAnalysis": false
+    },
+    ".scratch/analyst-dashboard/research/forecast-plot-payload.md": {
+      "filePath": ".scratch/analyst-dashboard/research/forecast-plot-payload.md",
+      "contentHash": "2be49b539b9280f0488ed10b9e6aeee4717961244458cfc9b40f67d39100bdce",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 142,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/research/session-start-search-web.md": {
+      "filePath": ".scratch/analyst-dashboard/research/session-start-search-web.md",
+      "contentHash": "7a3cd88ffb0b74e3e42140358d53f95c749eee286a3d47cd5767c0d3428b5471",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 195,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md": {
+      "filePath": ".scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md",
+      "contentHash": "bd1bfea25c44f94674090b2b0191f2ae94124d31a3287562839b625d76536ab8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 193,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/analyst-dashboard/spec.md": {
+      "filePath": ".scratch/analyst-dashboard/spec.md",
+      "contentHash": "d07025a0b68b6be49d0ee02974e0d080ca9ab0bd39dbc1278df851b2efea422a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 61,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/oil-gas-analyst/spec.md": {
+      "filePath": ".scratch/oil-gas-analyst/spec.md",
+      "contentHash": "a43661e3bfeea673d17e4218c8d694427314cdd5b378a83d69fb50543c647802",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 121,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md": {
+      "filePath": ".scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md",
+      "contentHash": "4268c2d7489c7e37b6a773db1960115dae188d21c725b1949a6cfaa98889632d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 35,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md": {
+      "filePath": ".scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md",
+      "contentHash": "61c0b660dd0c7d0be344aeecdfe5d0a8679538e77e8a71dfba0a8e25b19c1fd7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 53,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md": {
+      "filePath": ".scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md",
+      "contentHash": "69159ec09e4b97de37eec07b62ffac4087da3b731c8d816fe5ac057856b021d4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 46,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md": {
+      "filePath": ".scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md",
+      "contentHash": "d02ef2e8efc4add802145d1a712168ecf0c6b7d82a9ad68bc424b3cad0e8cb36",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 33,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md": {
+      "filePath": ".scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md",
+      "contentHash": "5ad993f7ceab40ee7ecd37a11ad07a0e9e4d2d591a681223b630dc7f65ec5836",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 35,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md": {
+      "filePath": ".scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md",
+      "contentHash": "0725638644b1b08d2e869c1e12abcfedcf1e84d24deed221225b488f6dac49b7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 30,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md": {
+      "filePath": ".scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md",
+      "contentHash": "7e18b62c3a96482583a0a67eb87580f20f39b754d4befc7c5827562dd067f80b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 37,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md": {
+      "filePath": ".scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md",
+      "contentHash": "450782de063ca71cad27ccb2b8a45d970c0267a719ab8e2126db02c86bc95607",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 23,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md": {
+      "filePath": ".scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "contentHash": "23e118d14bcec730c189a8f255eeb576e148eb19b313c8cfcc7921f55aaed6ae",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 19,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md": {
+      "filePath": ".scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md",
+      "contentHash": "36e3029d994a6de80a15ab864fb6b980b0014e2af87919a778823cd53e31f4d7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md": {
+      "filePath": ".scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md",
+      "contentHash": "12e0249ba1d01e181582e1d37b19911e9863e6c283f0473edbc83af7cd02e621",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 17,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md": {
+      "filePath": ".scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md",
+      "contentHash": "c123cd1355a9ea9cd765be4ed646294ac45e4c5c9fae8557f7016826bf77a34f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md": {
+      "filePath": ".scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md",
+      "contentHash": "43267d5d86721a209d8c0ffc6548e507175f52a656638eaab92f1047ecbec7ed",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md": {
+      "filePath": ".scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+      "contentHash": "113849dcf128b3da8616131b970648fc04745341609a80af59a7d39a14939935",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 14,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/map.md": {
+      "filePath": ".scratch/ouroboros-analyst/map.md",
+      "contentHash": "89861c3687521493670d976b0b3d25290433954f10e6bfc2063a9430f53130ab",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 47,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/research/ouroboros-host.md": {
+      "filePath": ".scratch/ouroboros-analyst/research/ouroboros-host.md",
+      "contentHash": "5c545c24c423d46bd294bf4b92aed35aae53039ec4fa3ba3a9b01cd591d49d27",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 231,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/research/stubs-versus-contracts.md": {
+      "filePath": ".scratch/ouroboros-analyst/research/stubs-versus-contracts.md",
+      "contentHash": "e2c88caf51640e62c3abe04bc7d8fcc73bda5c256326f7cf933c376c5a6ba769",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 185,
+      "hasStructuralAnalysis": true
+    },
+    ".scratch/ouroboros-analyst/spec.md": {
+      "filePath": ".scratch/ouroboros-analyst/spec.md",
+      "contentHash": "3de3507fe7d440beb7d0fc8a719a577db18b6cdc95fc3a9693249a3e17712215",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 141,
+      "hasStructuralAnalysis": true
+    },
+    ".streamlit/config.toml": {
+      "filePath": ".streamlit/config.toml",
+      "contentHash": "edf575e0f49ee72426e6e53071acb1da19411b31d07df2ff5cb8c1087038fb18",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 10,
+      "hasStructuralAnalysis": true
+    },
+    ".understand-anything/.understandignore": {
+      "filePath": ".understand-anything/.understandignore",
+      "contentHash": "af4920a9dba5e8d2320231510d596689bbeb1be95f3e5c8b2e745f4b26ace5e8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 59,
+      "hasStructuralAnalysis": false
+    },
+    ".understand-anything/config.json": {
+      "filePath": ".understand-anything/config.json",
+      "contentHash": "08d37f20ea0af2233ae24f094723759f952381ecb6dd7f2aaa05ef96e95eae6b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 4,
+      "hasStructuralAnalysis": true
+    },
+    "AGENTS.md": {
+      "filePath": "AGENTS.md",
+      "contentHash": "b0d84770666ae66d03f046da65327834928b43124b0a0abf8859bea5c1fcbe11",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 34,
+      "hasStructuralAnalysis": true
+    },
+    "config/forecast.yaml": {
+      "filePath": "config/forecast.yaml",
+      "contentHash": "a250efdf29c39cbfe0f90f30e8558b66a6b0b96f11053ea6c24f66f2f00d77fb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 62,
+      "hasStructuralAnalysis": true
+    },
+    "config/ingest.yaml": {
+      "filePath": "config/ingest.yaml",
+      "contentHash": "d3068ac99312ca7a18f995a78c1a4728115ee18cfca99451be46ae55fe724397",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 73,
+      "hasStructuralAnalysis": true
+    },
+    "config/red_team_pack.yaml": {
+      "filePath": "config/red_team_pack.yaml",
+      "contentHash": "23dc6ba75d20891ebeb13b771772f7b4a11c9b5f2e09f6389712c3841625e2c6",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 45,
+      "hasStructuralAnalysis": true
+    },
+    "config/route_lists.yaml": {
+      "filePath": "config/route_lists.yaml",
+      "contentHash": "d87aa01381cf440bf419457e76fdeb55766f243741013bc16e7702db6a03d812",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 69,
+      "hasStructuralAnalysis": true
+    },
+    "config/session_start_rail_exclusions.yaml": {
+      "filePath": "config/session_start_rail_exclusions.yaml",
+      "contentHash": "613dfd3873816cbb91f80a2e6e854d7b73a0b721bbf8a963c105287c1a32ef71",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "config/yellow_press_denylist.yaml": {
+      "filePath": "config/yellow_press_denylist.yaml",
+      "contentHash": "4406553856d4fa0be0f81078849211d4ca6cc78d11a61a07dbc782e8b1cd7ff2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 30,
+      "hasStructuralAnalysis": true
+    },
+    "CONTEXT.md": {
+      "filePath": "CONTEXT.md",
+      "contentHash": "157d5ce56f1ef07cd3127d8d7e33c1efad8cc60ffc5bb0ff0c652382287466ec",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 106,
+      "hasStructuralAnalysis": true
+    },
+    "data/ouroboros/identity.md": {
+      "filePath": "data/ouroboros/identity.md",
+      "contentHash": "680db156f2dfbd8ee9b4d8e80076bbeaa3dfb065705d5fef89b0917134a60cdc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 8,
+      "hasStructuralAnalysis": true
+    },
+    "data/samples/README.md": {
+      "filePath": "data/samples/README.md",
+      "contentHash": "d9cfb37a448f8f3829dd8576a2e063c403c6884483fc3b14a57434008d25f590",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 10,
+      "hasStructuralAnalysis": true
+    },
+    "deploy/demo-nginx.conf": {
+      "filePath": "deploy/demo-nginx.conf",
+      "contentHash": "978f35f6b49e7adf4a75b8c64baf5211501e564b0e2a3146dd633589a0815d9b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 21,
+      "hasStructuralAnalysis": false
+    },
+    "docker-compose.yml": {
+      "filePath": "docker-compose.yml",
+      "contentHash": "4c072507a90c5ec00cad8e25e6fbcad635688efb05747a1436f9040b5f90c44f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 116,
+      "hasStructuralAnalysis": true
+    },
+    "docker/cloud-init.yaml": {
+      "filePath": "docker/cloud-init.yaml",
+      "contentHash": "90de538e80df289cf9e37e4766d0866a4efb1f7bf8e12e085739c07f17a90b13",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 157,
+      "hasStructuralAnalysis": true
+    },
+    "docker/ouroboros-entrypoint.sh": {
+      "filePath": "docker/ouroboros-entrypoint.sh",
+      "contentHash": "6fb71b0357b75637c8398cf3c154c4e6347e05e2324084232040e62bcaf20ae3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 34,
+      "hasStructuralAnalysis": true
+    },
+    "docker/ouroboros.Dockerfile": {
+      "filePath": "docker/ouroboros.Dockerfile",
+      "contentHash": "92d37b5f70e3502d0d22fe9ad47ecb3c12468542cd4db787c635cbec4565e324",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 72,
+      "hasStructuralAnalysis": false
+    },
+    "Dockerfile": {
+      "filePath": "Dockerfile",
+      "contentHash": "65f29ed3360be2e97e4f0e6a0d18a6a5c8069700be0b6325d8f4e7c746bd1a30",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 31,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0001-analyst-lives-inside-ouroboros.md": {
+      "filePath": "docs/adr/0001-analyst-lives-inside-ouroboros.md",
+      "contentHash": "579dee1f9f22676eed2765a63d17ad29dafd60d30ecde6e8b91e31d814ffc151",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 30,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0002-ouroboros-out-of-scope.md": {
+      "filePath": "docs/adr/0002-ouroboros-out-of-scope.md",
+      "contentHash": "217d68730777798018608f224ccf47c1edc76536ebaeeb5cb3dd0bd11f4bfd07",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 22,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0003-thin-or-fresh-web.md": {
+      "filePath": "docs/adr/0003-thin-or-fresh-web.md",
+      "contentHash": "190ab7946d9432e9cc5fb09cf1b275c261f00247ddaa926cdfd175973bea089c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 28,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0004-forecast-only-on-explicit-verbs.md": {
+      "filePath": "docs/adr/0004-forecast-only-on-explicit-verbs.md",
+      "contentHash": "ad14e4a809bf5e204ca117c1601cffec80b95757ba94ccd1af0a7586eba06d45",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 34,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0005-closed-route-lists.md": {
+      "filePath": "docs/adr/0005-closed-route-lists.md",
+      "contentHash": "81c996aeac3d734052110161d47e15b3853f0af9bd71913b1e0769b3e2abf25b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 24,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0006-deepseek-chat-llm.md": {
+      "filePath": "docs/adr/0006-deepseek-chat-llm.md",
+      "contentHash": "721502a241dac3e151c88a3b3b14ceb975ef2168bc7a52113b7151ae8ee65487",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 29,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0007-e5-chroma-reports.md": {
+      "filePath": "docs/adr/0007-e5-chroma-reports.md",
+      "contentHash": "f23464020b2d41fa87639bc019197d02687661beb0bf40d2cb43c302afc681ab",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 27,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0008-duckduckgo-denylist.md": {
+      "filePath": "docs/adr/0008-duckduckgo-denylist.md",
+      "contentHash": "d74ae49069ea06eb3ba191b6fb4c769201083f49154dba901bfe57e2d9b1c6c5",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 25,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0009-yfinance-sarima-ets.md": {
+      "filePath": "docs/adr/0009-yfinance-sarima-ets.md",
+      "contentHash": "ba1962548f1e0b82c4690bd2486c7287ee070a5eaf818ad21d9fa0c5c9533e42",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 27,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0010-chainlit-ui.md": {
+      "filePath": "docs/adr/0010-chainlit-ui.md",
+      "contentHash": "2a6b464d8259ea5ef4d51ec8ea50093b3987c585916f50525f5e6fd3ec302640",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 23,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0011-sample-and-full-reports.md": {
+      "filePath": "docs/adr/0011-sample-and-full-reports.md",
+      "contentHash": "3d85b475458c272252bbfba81df81413a5e793402deead1c73c5ee9f74f68fd3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 33,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0012-always-retrieve-model-drops.md": {
+      "filePath": "docs/adr/0012-always-retrieve-model-drops.md",
+      "contentHash": "f646c4f2ccc5c63279d3827205a486c3014190e7f240741d43b1275325354b69",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 26,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0013-web-if-dropped-and-in-competence.md": {
+      "filePath": "docs/adr/0013-web-if-dropped-and-in-competence.md",
+      "contentHash": "0ecf34808c52c58c032b118e4cda82d95259f33665ad040dd0821429e1fc8cd4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 28,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0014-competence-classify-node.md": {
+      "filePath": "docs/adr/0014-competence-classify-node.md",
+      "contentHash": "58bb8e3499aef48ffb5cfd95c92a8fc35791a53d74bc32744784c0548127371a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 28,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0015-heading-chunks.md": {
+      "filePath": "docs/adr/0015-heading-chunks.md",
+      "contentHash": "a493a1d9eedf8e668be70232feeeb55c99672c8c5d57ed95ab6220fb2dbd5bb6",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 22,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0016-cbr-sample-report.md": {
+      "filePath": "docs/adr/0016-cbr-sample-report.md",
+      "contentHash": "1b9b4b73e98b29a46f51eb857343f68a3288f37de9d3a7fe9d7347451fdd9781",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 27,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0017-next-cycle-is-public-demo.md": {
+      "filePath": "docs/adr/0017-next-cycle-is-public-demo.md",
+      "contentHash": "df508a0c792d2c133e6a34ad4e4456d859601b0a9bf47ef10a913a6d2935fc23",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 44,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0018-eval-chat-openrouter-free.md": {
+      "filePath": "docs/adr/0018-eval-chat-openrouter-free.md",
+      "contentHash": "765b3bb5c28f7e9fd858b1d9172ec8139d69ff1efaca2119fb4581fc0d98692c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 23,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0019-model-decides-the-loop.md": {
+      "filePath": "docs/adr/0019-model-decides-the-loop.md",
+      "contentHash": "f4a1ac0b8874c3ca44cbc9c326201c421cdfe8b57b284880ab7cbcd74351553e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 31,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0020-waterfall-grounded-citations.md": {
+      "filePath": "docs/adr/0020-waterfall-grounded-citations.md",
+      "contentHash": "1f3cf866a4c6005d7b401ff0de8d1ee733bb1b35814d05e7e84a1b76af596055",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 26,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0021-chainlit-adapter-ouroboros-loop.md": {
+      "filePath": "docs/adr/0021-chainlit-adapter-ouroboros-loop.md",
+      "contentHash": "e9892935ed00a088d300eb3ed6d2b8cade69c107e854dd85104df271ec9c915e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 26,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0022-live-stubs-die-infra-nets.md": {
+      "filePath": "docs/adr/0022-live-stubs-die-infra-nets.md",
+      "contentHash": "23442b031348ce5b2e3543b53755718d3122af37c4b388fdbfb2ae1917119ed9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 31,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0023-main-openrouter-glm52-free.md": {
+      "filePath": "docs/adr/0023-main-openrouter-glm52-free.md",
+      "contentHash": "5a1e61a3fa4ee1896d9303aafd49639ba5568592669454609cf83ea916e07b2e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 25,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0024-readme-names-ouroboros-evolve-off.md": {
+      "filePath": "docs/adr/0024-readme-names-ouroboros-evolve-off.md",
+      "contentHash": "21c73f9b96849d0a41740acf04a39487d389cf2d2263b69dc3ec584c8c14cdfe",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 27,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0025-openrouter-embeddings-no-local-torch.md": {
+      "filePath": "docs/adr/0025-openrouter-embeddings-no-local-torch.md",
+      "contentHash": "f29a061e73049b7f0df1625597b69da7b1d93c9ef67dd277b9fc0909daecb390",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 29,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0026-streamlit-dashboard-is-the-demo.md": {
+      "filePath": "docs/adr/0026-streamlit-dashboard-is-the-demo.md",
+      "contentHash": "3a32a4fa34aa495674f49b4fbb51be13acccec3b5e8fb41cb3afbb8384776584",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 29,
+      "hasStructuralAnalysis": true
+    },
+    "docs/adr/0027-deepseek-direct-api-main.md": {
+      "filePath": "docs/adr/0027-deepseek-direct-api-main.md",
+      "contentHash": "be84b59b6986d371f26e59297e42a61fd32e2fa6ca95e624e92b10bd5f1ad295",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 29,
+      "hasStructuralAnalysis": true
+    },
+    "docs/agents/domain.md": {
+      "filePath": "docs/agents/domain.md",
+      "contentHash": "aa25963e3c25fabda2d7b0e483f5eeb5b30510eb6bc07038441e092fddec58a3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 54,
+      "hasStructuralAnalysis": true
+    },
+    "docs/agents/issue-tracker.md": {
+      "filePath": "docs/agents/issue-tracker.md",
+      "contentHash": "b2735f94323b494796a35cfaf85c03b49dcf717e231f078c62d4e7a30f463c39",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 31,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst.egg-info/dependency_links.txt": {
+      "filePath": "oil_gas_analyst.egg-info/dependency_links.txt",
+      "contentHash": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": false
+    },
+    "oil_gas_analyst.egg-info/PKG-INFO": {
+      "filePath": "oil_gas_analyst.egg-info/PKG-INFO",
+      "contentHash": "525d9cf99c5f224608960bb30472f089746e6199ef2d777fe6352a7ad7bafa4c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 5,
+      "hasStructuralAnalysis": false
+    },
+    "oil_gas_analyst.egg-info/SOURCES.txt": {
+      "filePath": "oil_gas_analyst.egg-info/SOURCES.txt",
+      "contentHash": "238f553d2959c27a6940e95f7c3376594d1fe1ffa5025567f5d25b3f2a6d01cd",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 43,
+      "hasStructuralAnalysis": false
+    },
+    "oil_gas_analyst.egg-info/top_level.txt": {
+      "filePath": "oil_gas_analyst.egg-info/top_level.txt",
+      "contentHash": "c2513f5bd3c58413646b26865058bb5ada4312546f262127da1a272a1f75708e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": false
+    },
+    "oil_gas_analyst/__init__.py": {
+      "filePath": "oil_gas_analyst/__init__.py",
+      "contentHash": "c5457ec210c8b03065a0742a16f962ad3a1114d374e53abc8226a781256b7353",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "oil_gas_analyst.turn",
+          "specifiers": [
+            "run_turn"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 4,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/__main__.py": {
+      "filePath": "oil_gas_analyst/__main__.py",
+      "contentHash": "ed67e5997ef9f287f10d61a4b05a0763acc7ce37eb6dd64d288cafd3a322caca",
+      "functions": [
+        {
+          "name": "main",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 13
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.deps",
+          "specifiers": [
+            "ROOT",
+            "build_deps",
+            "download_full_reports"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.retrieve",
+          "specifiers": [
+            "ensure_index"
+          ]
+        }
+      ],
+      "exports": [
+        "main"
+      ],
+      "totalLines": 27,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/app.py": {
+      "filePath": "oil_gas_analyst/app.py",
+      "contentHash": "8e05e26235291e6d65a291a2315421328d2ac47507afeb20f8711e5ff252d4f0",
+      "functions": [
+        {
+          "name": "_warm",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_wait_loop",
+          "params": [],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "start",
+          "params": [],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "on_message",
+          "params": [
+            "message"
+          ],
+          "exported": true,
+          "lineCount": 17
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "asyncio",
+          "specifiers": [
+            "asyncio"
+          ]
+        },
+        {
+          "source": "threading",
+          "specifiers": [
+            "threading"
+          ]
+        },
+        {
+          "source": "chainlit",
+          "specifiers": [
+            "cl"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.deps",
+          "specifiers": [
+            "build_loop"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.rate_limit",
+          "specifiers": [
+            "RateLimiter",
+            "client_key",
+            "load_rate_limit_config"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.render",
+          "specifiers": [
+            "format_reply"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.turn",
+          "specifiers": [
+            "run_turn"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "Reply"
+          ]
+        }
+      ],
+      "exports": [
+        "_warm",
+        "_wait_loop",
+        "start",
+        "on_message"
+      ],
+      "totalLines": 88,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/chat_ui.py": {
+      "filePath": "oil_gas_analyst/chat_ui.py",
+      "contentHash": "9b52ad13e3a41927b0fde20ac65f18d0fb1e39abcbc20f49c71ebbcc85fdfc33",
+      "functions": [
+        {
+          "name": "_warm",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "wait_loop",
+          "params": [],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "rate_limit_key",
+          "params": [
+            "session_id"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "handle_chat_message",
+          "params": [
+            "content",
+            "session_id",
+            "session_start_hits",
+            "chat_history",
+            "rate_limiter",
+            "turn_runner"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 27
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "threading",
+          "specifiers": [
+            "threading"
+          ]
+        },
+        {
+          "source": "uuid",
+          "specifiers": [
+            "uuid"
+          ]
+        },
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Sequence"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Callable"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.deps",
+          "specifiers": [
+            "build_loop"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.rate_limit",
+          "specifiers": [
+            "RateLimiter",
+            "client_key",
+            "load_rate_limit_config"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.render",
+          "specifiers": [
+            "format_reply"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.session_start_web",
+          "specifiers": [
+            "SessionStartRailHit"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.turn",
+          "specifiers": [
+            "run_turn"
+          ]
+        }
+      ],
+      "exports": [
+        "_warm",
+        "wait_loop",
+        "rate_limit_key",
+        "handle_chat_message"
+      ],
+      "totalLines": 78,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/consensus_price.py": {
+      "filePath": "oil_gas_analyst/consensus_price.py",
+      "contentHash": "c61eb264398efb0442c486f321e491ad5923e486243263fac39e7c903820b871",
+      "functions": [
+        {
+          "name": "_parse_price_token",
+          "params": [
+            "raw"
+          ],
+          "returnType": "float | None",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "extract_oil_prices",
+          "params": [
+            "text"
+          ],
+          "returnType": "list[float]",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "consensus_from_texts",
+          "params": [
+            "texts"
+          ],
+          "returnType": "float | None",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "_samples_dir",
+          "params": [],
+          "returnType": "Path",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_resolve_sample_path",
+          "params": [
+            "sample",
+            "samples_dir"
+          ],
+          "returnType": "Path | None",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "sample_report_texts",
+          "params": [
+            "max_pages"
+          ],
+          "returnType": "list[str]",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "report_consensus_price",
+          "params": [
+            "retrieve",
+            "sample_texts"
+          ],
+          "returnType": "float | None",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "news_consensus_price",
+          "params": [
+            "hits"
+          ],
+          "returnType": "float | None",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "dashboard_kpi_row",
+          "params": [
+            "chart_payload",
+            "news_hits",
+            "report_consensus",
+            "news_consensus"
+          ],
+          "returnType": "dict[str, float | None]",
+          "exported": true,
+          "lineCount": 15
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "statistics",
+          "specifiers": [
+            "statistics"
+          ]
+        },
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Callable",
+            "Sequence"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "TYPE_CHECKING"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.ingest",
+          "specifiers": [
+            "load_ingest_config"
+          ]
+        }
+      ],
+      "exports": [
+        "_parse_price_token",
+        "extract_oil_prices",
+        "consensus_from_texts",
+        "_samples_dir",
+        "_resolve_sample_path",
+        "sample_report_texts",
+        "report_consensus_price",
+        "news_consensus_price",
+        "dashboard_kpi_row"
+      ],
+      "totalLines": 153,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/corpus_strip.py": {
+      "filePath": "oil_gas_analyst/corpus_strip.py",
+      "contentHash": "2aa37bbe83e1855a7c57ada0b671ae0030cd97ee9a8235b8bde291d947295fbc",
+      "functions": [
+        {
+          "name": "_samples_dir",
+          "params": [],
+          "returnType": "Path",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_resolve_path",
+          "params": [
+            "sample",
+            "samples_dir"
+          ],
+          "returnType": "Path | None",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "corpus_strip_entries",
+          "params": [
+            "cfg",
+            "samples_dir"
+          ],
+          "returnType": "list[CorpusStripEntry]",
+          "exported": true,
+          "lineCount": 33
+        }
+      ],
+      "classes": [
+        {
+          "name": "CorpusStripEntry",
+          "methods": [
+            "label",
+            "link_markdown",
+            "link_html"
+          ],
+          "properties": [
+            "agency",
+            "title",
+            "date",
+            "excerpt",
+            "url"
+          ],
+          "exported": true,
+          "lineCount": 26
+        }
+      ],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.ingest",
+          "specifiers": [
+            "load_ingest_config"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.retrieve",
+          "specifiers": [
+            "drop_redundant_excerpts"
+          ]
+        }
+      ],
+      "exports": [
+        "CorpusStripEntry",
+        "_samples_dir",
+        "_resolve_path",
+        "corpus_strip_entries"
+      ],
+      "totalLines": 90,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/dashboard_chart.py": {
+      "filePath": "oil_gas_analyst/dashboard_chart.py",
+      "contentHash": "f66bbdc3519ac573f98dc1aa558c41a72d8515dd004975c6f4dae3da95348327",
+      "functions": [
+        {
+          "name": "_chart_payload_cache_path",
+          "params": [],
+          "returnType": "Path",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "load_cached_brent_chart_payload",
+          "params": [
+            "horizon_days"
+          ],
+          "returnType": "dict | None",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "save_brent_chart_payload_cache",
+          "params": [
+            "payload"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "chart_refresh_horizon",
+          "params": [
+            "user_prompt"
+          ],
+          "returnType": "int | None",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "load_brent_chart_payload",
+          "params": [
+            "horizon_days",
+            "load_history",
+            "history_start"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "forecast_model_consensus",
+          "params": [
+            "payload"
+          ],
+          "returnType": "dict[str, float | None | dict[str, float]]",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "_forecast_path_column",
+          "params": [
+            "closes",
+            "path"
+          ],
+          "returnType": "list[float]",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "chart_dataframe_from_payload",
+          "params": [
+            "payload"
+          ],
+          "returnType": "pd.DataFrame | None",
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "chart_display_dataframe",
+          "params": [
+            "frame",
+            "history_bdays"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "brent_chart_altair",
+          "params": [
+            "frame",
+            "height",
+            "y_min"
+          ],
+          "exported": true,
+          "lineCount": 16
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "math",
+          "specifiers": [
+            "math"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "statistics",
+          "specifiers": [
+            "statistics"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.forecast",
+          "specifiers": [
+            "FORECAST_METHOD_ORDER",
+            "detect_horizon",
+            "forecast_plot_payload"
+          ]
+        }
+      ],
+      "exports": [
+        "_chart_payload_cache_path",
+        "load_cached_brent_chart_payload",
+        "save_brent_chart_payload_cache",
+        "chart_refresh_horizon",
+        "load_brent_chart_payload",
+        "forecast_model_consensus",
+        "_forecast_path_column",
+        "chart_dataframe_from_payload",
+        "chart_display_dataframe",
+        "brent_chart_altair"
+      ],
+      "totalLines": 165,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/dashboard.py": {
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "contentHash": "7444dbe1cb0d631fc5d1e3aa4f2b463014fac5c08ea5d031993cc7009aaaf64f",
+      "functions": [
+        {
+          "name": "_session_id",
+          "params": [],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "chat_turn_in_progress",
+          "params": [
+            "future"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_chat_future",
+          "params": [],
+          "returnType": "concurrent.futures.Future | None",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_logout_demo_session",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "_hydrate_news_from_disk",
+          "params": [],
+          "returnType": "list[SessionStartRailHit]",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "_hydrate_from_disk_caches",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "_chart_refresh_in_progress",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_news_refresh_in_progress",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_start_background_refreshes",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "_collect_background_refreshes",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 38
+        },
+        {
+          "name": "_poll_dashboard_refresh",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_ensure_session_start_web",
+          "params": [],
+          "returnType": "list[SessionStartRailHit]",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_reload_chart",
+          "params": [
+            "horizon_days"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "_ensure_chart_payload",
+          "params": [],
+          "returnType": "dict | None",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_chart_frame",
+          "params": [
+            "payload"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_ouroboros_ready",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_chat_history_for_turn",
+          "params": [],
+          "returnType": "list[dict[str, str]]",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_start_chat_turn",
+          "params": [
+            "prompt"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "_finish_chat_turn_if_ready",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 24
+        },
+        {
+          "name": "_chat_turn_pending",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_render_cached_spinner",
+          "params": [
+            "container",
+            "text"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "_render_chat_messages",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "_render_thinking_indicator",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_poll_chat_future",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_render_corpus_pill",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_ensure_reports_consensus",
+          "params": [],
+          "returnType": "float | None",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "_render_kpi_corpus_row",
+          "params": [
+            "chart_payload",
+            "news_hits"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 26
+        },
+        {
+          "name": "_render_forecast_consensus_pill",
+          "params": [
+            "payload"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 28
+        },
+        {
+          "name": "_render_news_pills",
+          "params": [
+            "hits",
+            "max_cards",
+            "refreshing"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 37
+        },
+        {
+          "name": "_render_chart_panel",
+          "params": [
+            "payload",
+            "refreshing"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 52
+        },
+        {
+          "name": "_render_header",
+          "params": [
+            "show_logout"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "_render_login_gate",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "_render_chat_panel",
+          "params": [
+            "busy"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 35
+        },
+        {
+          "name": "_render_workspace_resize",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "main",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 43
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "concurrent.futures",
+          "specifiers": [
+            "concurrent.futures"
+          ]
+        },
+        {
+          "source": "html",
+          "specifiers": [
+            "html"
+          ]
+        },
+        {
+          "source": "uuid",
+          "specifiers": [
+            "uuid"
+          ]
+        },
+        {
+          "source": "streamlit",
+          "specifiers": [
+            "st"
+          ]
+        },
+        {
+          "source": "streamlit.components.v1",
+          "specifiers": [
+            "components"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.chat_ui",
+          "specifiers": [
+            "handle_chat_message",
+            "wait_loop"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.corpus_strip",
+          "specifiers": [
+            "corpus_strip_entries"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.demo_auth",
+          "specifiers": [
+            "load_demo_login_config",
+            "verify_demo_login"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.consensus_price",
+          "specifiers": [
+            "dashboard_kpi_row",
+            "report_consensus_price"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.dashboard_chart",
+          "specifiers": [
+            "CHART_METHOD_LABELS",
+            "CHART_METHOD_SHORT_LABELS",
+            "CHART_UNCERTAINTY_COPY",
+            "brent_chart_altair",
+            "chart_dataframe_from_payload",
+            "chart_display_dataframe",
+            "chart_refresh_horizon",
+            "forecast_model_consensus",
+            "load_brent_chart_payload",
+            "load_cached_brent_chart_payload"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.forecast",
+          "specifiers": [
+            "FORECAST_METHOD_ORDER"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.session_start_web",
+          "specifiers": [
+            "NEWS_REFRESH_COPY",
+            "RAIL_EMPTY_COPY",
+            "TOP_NEWS_RAIL_TITLE",
+            "SessionStartRailHit",
+            "cached_top_news_hits",
+            "refresh_top_news_hits",
+            "visible_rail_hits"
+          ]
+        }
+      ],
+      "exports": [
+        "_session_id",
+        "chat_turn_in_progress",
+        "_chat_future",
+        "_logout_demo_session",
+        "_hydrate_news_from_disk",
+        "_hydrate_from_disk_caches",
+        "_chart_refresh_in_progress",
+        "_news_refresh_in_progress",
+        "_start_background_refreshes",
+        "_collect_background_refreshes",
+        "_poll_dashboard_refresh",
+        "_ensure_session_start_web",
+        "_reload_chart",
+        "_ensure_chart_payload",
+        "_chart_frame",
+        "_ouroboros_ready",
+        "_chat_history_for_turn",
+        "_start_chat_turn",
+        "_finish_chat_turn_if_ready",
+        "_chat_turn_pending",
+        "_render_cached_spinner",
+        "_render_chat_messages",
+        "_render_thinking_indicator",
+        "_poll_chat_future",
+        "_render_corpus_pill",
+        "_ensure_reports_consensus",
+        "_render_kpi_corpus_row",
+        "_render_forecast_consensus_pill",
+        "_render_news_pills",
+        "_render_chart_panel",
+        "_render_header",
+        "_render_login_gate",
+        "_render_chat_panel",
+        "_render_workspace_resize",
+        "main"
+      ],
+      "totalLines": 875,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/demo_auth.py": {
+      "filePath": "oil_gas_analyst/demo_auth.py",
+      "contentHash": "93fd87c935f6839fccdd0aa14ec7ff2058d7504c12295a5459b0401cc38dd2b5",
+      "functions": [
+        {
+          "name": "load_demo_login_config",
+          "params": [],
+          "returnType": "DemoLoginConfig",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "verify_demo_login",
+          "params": [
+            "username",
+            "password",
+            "cfg"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 6
+        }
+      ],
+      "classes": [
+        {
+          "name": "DemoLoginConfig",
+          "methods": [
+            "enabled"
+          ],
+          "properties": [
+            "username",
+            "password"
+          ],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "secrets",
+          "specifiers": [
+            "secrets"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass"
+          ]
+        }
+      ],
+      "exports": [
+        "DemoLoginConfig",
+        "load_demo_login_config",
+        "verify_demo_login"
+      ],
+      "totalLines": 32,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/denylist.py": {
+      "filePath": "oil_gas_analyst/denylist.py",
+      "contentHash": "35573ff0bec87274091c75e1bb05bbfc3cff45a8d26019a2e29f0e4958bbbac9",
+      "functions": [
+        {
+          "name": "load_denylist",
+          "params": [
+            "path"
+          ],
+          "returnType": "tuple[str, ...]",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "is_denied",
+          "params": [
+            "url",
+            "domains"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 9
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "urllib.parse",
+          "specifiers": [
+            "urlparse"
+          ]
+        },
+        {
+          "source": "yaml",
+          "specifiers": [
+            "yaml"
+          ]
+        }
+      ],
+      "exports": [
+        "load_denylist",
+        "is_denied"
+      ],
+      "totalLines": 25,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/deps.py": {
+      "filePath": "oil_gas_analyst/deps.py",
+      "contentHash": "535e20d533c6f3c447b3e9048fb72bdf4e9c2a9d4b9508e48b17036f763aa8c7",
+      "functions": [
+        {
+          "name": "build_loop",
+          "params": [],
+          "returnType": "OuroborosLoop",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "enable_domain_skills",
+          "params": [
+            "base_url"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 35
+        },
+        {
+          "name": "build_deps",
+          "params": [
+            "ingest_if_empty"
+          ],
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "build_eval_deps",
+          "params": [
+            "ingest_if_empty"
+          ],
+          "returnType": "OuroborosLoop",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "download_full_reports",
+          "params": [],
+          "returnType": "list[Path]",
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [
+        {
+          "name": "_IndexDeps",
+          "methods": [
+            "__init__"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "urllib.request",
+          "specifiers": [
+            "Request",
+            "urlopen"
+          ]
+        },
+        {
+          "source": "dotenv",
+          "specifiers": [
+            "load_dotenv"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.ingest",
+          "specifiers": [
+            "load_ingest_config"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.ouroboros",
+          "specifiers": [
+            "OuroborosLoop"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.settings",
+          "specifiers": [
+            "require_deepseek_key",
+            "require_embedding_api_key",
+            "resolve_ouroboros_url"
+          ]
+        }
+      ],
+      "exports": [
+        "build_loop",
+        "enable_domain_skills",
+        "build_deps",
+        "_IndexDeps",
+        "build_eval_deps",
+        "download_full_reports"
+      ],
+      "totalLines": 131,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/eval_dialogues.py": {
+      "filePath": "oil_gas_analyst/eval_dialogues.py",
+      "contentHash": "7f51cdc5ff57b3a279635da2d57eb443ae0638e018c308b3546c79e8982b5a6c",
+      "functions": [
+        {
+          "name": "load_session_start_hits",
+          "params": [
+            "searcher"
+          ],
+          "returnType": "list[SessionStartRailHit]",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "invoke_dashboard_eval",
+          "params": [
+            "question",
+            "loop",
+            "session_start_hits"
+          ],
+          "returnType": "Reply",
+          "exported": true,
+          "lineCount": 9
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Sequence"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.session_start_web",
+          "specifiers": [
+            "SessionStartRailHit",
+            "fetch_session_start_web",
+            "visible_rail_hits"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.turn",
+          "specifiers": [
+            "run_turn"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "AnalystLoop",
+            "Reply"
+          ]
+        }
+      ],
+      "exports": [
+        "load_session_start_hits",
+        "invoke_dashboard_eval"
+      ],
+      "totalLines": 38,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/forecast.py": {
+      "filePath": "oil_gas_analyst/forecast.py",
+      "contentHash": "db55ee1ac00390bd70d7d7740be990f856342a67d780c926c059bfb6d97ec715",
+      "functions": [
+        {
+          "name": "load_forecast_config",
+          "params": [
+            "path"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "detect_symbol",
+          "params": [
+            "question",
+            "config"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "detect_horizon",
+          "params": [
+            "question",
+            "config"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "_interval",
+          "params": [
+            "pred",
+            "resid_std"
+          ],
+          "returnType": "tuple[float, float, float]",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_path_from_pred",
+          "params": [
+            "pred"
+          ],
+          "returnType": "tuple[float, ...]",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_random_walk_fallback",
+          "params": [
+            "endog",
+            "horizon",
+            "name",
+            "label"
+          ],
+          "returnType": "tuple[MethodForecast, tuple[float, ...]]",
+          "exported": true,
+          "lineCount": 21
+        },
+        {
+          "name": "_method_from_forecast",
+          "params": [
+            "name",
+            "interpretation",
+            "fitted",
+            "horizon"
+          ],
+          "returnType": "tuple[MethodForecast, tuple[float, ...]]",
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "_fit_auto_arima",
+          "params": [
+            "y",
+            "horizon"
+          ],
+          "returnType": "MethodForecast",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_fit_auto_arima_with_path",
+          "params": [
+            "y",
+            "horizon"
+          ],
+          "returnType": "tuple[MethodForecast, tuple[float, ...]]",
+          "exported": true,
+          "lineCount": 30
+        },
+        {
+          "name": "_fit_unobserved_components",
+          "params": [
+            "y",
+            "horizon"
+          ],
+          "returnType": "MethodForecast",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_fit_unobserved_components_with_path",
+          "params": [
+            "y",
+            "horizon"
+          ],
+          "returnType": "tuple[MethodForecast, tuple[float, ...]]",
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "_fit_autoreg",
+          "params": [
+            "y",
+            "horizon"
+          ],
+          "returnType": "MethodForecast",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_fit_autoreg_with_path",
+          "params": [
+            "y",
+            "horizon"
+          ],
+          "returnType": "tuple[MethodForecast, tuple[float, ...]]",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "_fit_all_methods",
+          "params": [
+            "history",
+            "horizon"
+          ],
+          "returnType": "list[MethodForecast]",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "_fit_all_methods_with_paths",
+          "params": [
+            "history",
+            "horizon"
+          ],
+          "returnType": "list[tuple[MethodForecast, tuple[float, ...]]]",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "_apply_yahoo_user_agent",
+          "params": [
+            "ua"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "_close_from_frame",
+          "params": [
+            "data"
+          ],
+          "returnType": "pd.Series | None",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "_usable_close",
+          "params": [
+            "series"
+          ],
+          "returnType": "pd.Series | None",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_cache_path",
+          "params": [
+            "cache_dir",
+            "symbol"
+          ],
+          "returnType": "Path",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_save_cache",
+          "params": [
+            "cache_dir",
+            "symbol",
+            "series"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_read_cache",
+          "params": [
+            "cache_dir",
+            "symbol"
+          ],
+          "returnType": "pd.Series | None",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "_fetch_yahoo",
+          "params": [
+            "symbol",
+            "period",
+            "interval"
+          ],
+          "returnType": "pd.Series",
+          "exported": true,
+          "lineCount": 28
+        },
+        {
+          "name": "_fetch_stooq",
+          "params": [
+            "symbol",
+            "config"
+          ],
+          "returnType": "pd.Series",
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "load_live_history",
+          "params": [
+            "symbol",
+            "fetchers",
+            "cache_dir",
+            "period",
+            "interval"
+          ],
+          "returnType": "pd.Series",
+          "exported": true,
+          "lineCount": 36
+        },
+        {
+          "name": "default_load_history",
+          "params": [
+            "symbol"
+          ],
+          "returnType": "pd.Series",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "run_forecast",
+          "params": [
+            "question",
+            "load_history"
+          ],
+          "returnType": "ForecastResult",
+          "exported": true,
+          "lineCount": 21
+        },
+        {
+          "name": "forecast_for_tool",
+          "params": [
+            "question",
+            "load_history"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 43
+        },
+        {
+          "name": "_history_series_to_rows",
+          "params": [
+            "history"
+          ],
+          "returnType": "tuple[tuple[str, ...], tuple[float, ...]]",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "_plot_payload_from_history",
+          "params": [
+            "symbol",
+            "history",
+            "horizon_days"
+          ],
+          "returnType": "ForecastPlotPayload",
+          "exported": true,
+          "lineCount": 27
+        },
+        {
+          "name": "forecast_plot_payload_to_dict",
+          "params": [
+            "payload"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "_history_from_start",
+          "params": [
+            "history",
+            "history_start"
+          ],
+          "returnType": "pd.Series",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "forecast_plot_payload",
+          "params": [
+            "symbol",
+            "horizon_days",
+            "load_history",
+            "history_start"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 65
+        }
+      ],
+      "classes": [
+        {
+          "name": "ForecastError",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        }
+      ],
+      "imports": [
+        {
+          "source": "io",
+          "specifiers": [
+            "io"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "urllib.request",
+          "specifiers": [
+            "urllib.request"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Callable"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "yaml",
+          "specifiers": [
+            "yaml"
+          ]
+        },
+        {
+          "source": "statsmodels.tsa.ar_model",
+          "specifiers": [
+            "AutoReg",
+            "ar_select_order"
+          ]
+        },
+        {
+          "source": "statsmodels.tsa.arima.model",
+          "specifiers": [
+            "ARIMA"
+          ]
+        },
+        {
+          "source": "statsmodels.tsa.statespace.structural",
+          "specifiers": [
+            "UnobservedComponents"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.settings",
+          "specifiers": [
+            "maybe_traceable"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "ForecastPlotPayload",
+            "ForecastResult",
+            "MethodForecast",
+            "MethodPathForecast"
+          ]
+        }
+      ],
+      "exports": [
+        "ForecastError",
+        "load_forecast_config",
+        "detect_symbol",
+        "detect_horizon",
+        "_interval",
+        "_path_from_pred",
+        "_random_walk_fallback",
+        "_method_from_forecast",
+        "_fit_auto_arima",
+        "_fit_auto_arima_with_path",
+        "_fit_unobserved_components",
+        "_fit_unobserved_components_with_path",
+        "_fit_autoreg",
+        "_fit_autoreg_with_path",
+        "_fit_all_methods",
+        "_fit_all_methods_with_paths",
+        "_apply_yahoo_user_agent",
+        "_close_from_frame",
+        "_usable_close",
+        "_cache_path",
+        "_save_cache",
+        "_read_cache",
+        "_fetch_yahoo",
+        "_fetch_stooq",
+        "load_live_history",
+        "default_load_history",
+        "run_forecast",
+        "forecast_for_tool",
+        "_history_series_to_rows",
+        "_plot_payload_from_history",
+        "forecast_plot_payload_to_dict",
+        "_history_from_start",
+        "forecast_plot_payload"
+      ],
+      "totalLines": 602,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/graph.py": {
+      "filePath": "oil_gas_analyst/graph.py",
+      "contentHash": "8746c3a1571951d6fa47479a1c2865ee487761678c4495a86456ec8a245ced3e",
+      "functions": [
+        {
+          "name": "invoke_analyst",
+          "params": [
+            "question",
+            "loop"
+          ],
+          "returnType": "Reply",
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "oil_gas_analyst.eval_dialogues",
+          "specifiers": [
+            "invoke_dashboard_eval"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "AnalystLoop",
+            "Reply"
+          ]
+        }
+      ],
+      "exports": [
+        "invoke_analyst"
+      ],
+      "totalLines": 12,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/ingest.py": {
+      "filePath": "oil_gas_analyst/ingest.py",
+      "contentHash": "c151bdefb1f3c94a8be0207047698b856381a0ffa165751315fe8829081849cc",
+      "functions": [
+        {
+          "name": "load_ingest_config",
+          "params": [
+            "path"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_word_tokens",
+          "params": [
+            "text"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "e5_token_count",
+          "params": [
+            "text"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_compile_headings",
+          "params": [
+            "agency",
+            "config"
+          ],
+          "returnType": "list[re.Pattern[str]]",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_is_heading",
+          "params": [
+            "line",
+            "patterns",
+            "known"
+          ],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "_known_for",
+          "params": [
+            "agency"
+          ],
+          "returnType": "tuple[str, ...]",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_flush",
+          "params": [
+            "buf",
+            "heading",
+            "page_start",
+            "page_end",
+            "title",
+            "date",
+            "excerpt",
+            "max_tokens",
+            "overlap",
+            "token_count",
+            "agency",
+            "url"
+          ],
+          "returnType": "list[Chunk]",
+          "exported": true,
+          "lineCount": 54
+        },
+        {
+          "name": "chunk_pages",
+          "params": [
+            "pages",
+            "title",
+            "date",
+            "excerpt",
+            "agency",
+            "config",
+            "token_count",
+            "url"
+          ],
+          "returnType": "list[Chunk]",
+          "exported": true,
+          "lineCount": 57
+        },
+        {
+          "name": "chunk_pdf",
+          "params": [
+            "path",
+            "agency",
+            "excerpt",
+            "date",
+            "title",
+            "config",
+            "token_count",
+            "url"
+          ],
+          "returnType": "list[Chunk]",
+          "exported": true,
+          "lineCount": 26
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Callable",
+            "Iterable"
+          ]
+        },
+        {
+          "source": "yaml",
+          "specifiers": [
+            "yaml"
+          ]
+        },
+        {
+          "source": "pypdf",
+          "specifiers": [
+            "PdfReader"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "Chunk"
+          ]
+        }
+      ],
+      "exports": [
+        "load_ingest_config",
+        "_word_tokens",
+        "e5_token_count",
+        "_compile_headings",
+        "_is_heading",
+        "_known_for",
+        "_flush",
+        "chunk_pages",
+        "chunk_pdf"
+      ],
+      "totalLines": 237,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/ouroboros.py": {
+      "filePath": "oil_gas_analyst/ouroboros.py",
+      "contentHash": "e671222728fc97e8418aa6f135a58e59525d70d875747ff905d495f008a364a0",
+      "functions": [
+        {
+          "name": "_is_terminal",
+          "params": [
+            "result"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_answer_text",
+          "params": [
+            "result"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "_tool_ran",
+          "params": [
+            "payload",
+            "name"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_citations_from_text",
+          "params": [
+            "text"
+          ],
+          "returnType": "list",
+          "exported": true,
+          "lineCount": 13
+        }
+      ],
+      "classes": [
+        {
+          "name": "OuroborosError",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "OuroborosLoop",
+          "methods": [
+            "__init__",
+            "complete",
+            "_request"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 90
+        }
+      ],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "urllib.error",
+          "specifiers": [
+            "urllib.error"
+          ]
+        },
+        {
+          "source": "urllib.parse",
+          "specifiers": [
+            "urllib.parse"
+          ]
+        },
+        {
+          "source": "urllib.request",
+          "specifiers": [
+            "urllib.request"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.settings",
+          "specifiers": [
+            "maybe_traceable"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "LoopError",
+            "LoopResult"
+          ]
+        }
+      ],
+      "exports": [
+        "OuroborosError",
+        "OuroborosLoop",
+        "_is_terminal",
+        "_answer_text",
+        "_tool_ran",
+        "_citations_from_text"
+      ],
+      "totalLines": 162,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/rate_limit.py": {
+      "filePath": "oil_gas_analyst/rate_limit.py",
+      "contentHash": "d7880bf82cba97fad199c35df970595597c562217d0f50d40fd57a537dab573b",
+      "functions": [
+        {
+          "name": "load_rate_limit_config",
+          "params": [],
+          "returnType": "RateLimitConfig",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "client_key",
+          "params": [
+            "environ",
+            "session_id"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 13
+        }
+      ],
+      "classes": [
+        {
+          "name": "RateLimitConfig",
+          "methods": [
+            "enabled"
+          ],
+          "properties": [
+            "max_requests",
+            "window_sec"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "RateLimiter",
+          "methods": [
+            "__init__",
+            "check"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 21
+        }
+      ],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "threading",
+          "specifiers": [
+            "threading"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "collections",
+          "specifiers": [
+            "defaultdict",
+            "deque"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any"
+          ]
+        }
+      ],
+      "exports": [
+        "RateLimitConfig",
+        "load_rate_limit_config",
+        "client_key",
+        "RateLimiter"
+      ],
+      "totalLines": 64,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/render.py": {
+      "filePath": "oil_gas_analyst/render.py",
+      "contentHash": "eb6b25a2980642eaf47cb7e6345bf9a13de83859bef41721ffa5473bf344bbd8",
+      "functions": [
+        {
+          "name": "_normalize_host",
+          "params": [
+            "host"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_clean_url",
+          "params": [
+            "url"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_web_url_for_host",
+          "params": [
+            "host",
+            "hits"
+          ],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "_report_url_for_label",
+          "params": [
+            "label"
+          ],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 42
+        },
+        {
+          "name": "enrich_citations",
+          "params": [
+            "citations",
+            "hits"
+          ],
+          "returnType": "list[Citation]",
+          "exported": true,
+          "lineCount": 22
+        },
+        {
+          "name": "_fix_markdown_links",
+          "params": [
+            "text"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_dedupe_trailing_urls",
+          "params": [
+            "text"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "_strip_orphan_markdown",
+          "params": [
+            "text"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_fix_bold_markdown",
+          "params": [
+            "chunk"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_link_web_brackets",
+          "params": [
+            "text",
+            "hits"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "_link_inline_web_sources",
+          "params": [
+            "text",
+            "hits"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "_normalize_bare_web_citations",
+          "params": [
+            "text"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "_link_report_tags",
+          "params": [
+            "text"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "_split_glued_cyrillic",
+          "params": [
+            "chunk"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "_fix_prose_chunk",
+          "params": [
+            "chunk"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "_fix_prose_spacing",
+          "params": [
+            "text"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "_prepare_body",
+          "params": [
+            "text",
+            "citations",
+            "hits"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "_sources_for_footer",
+          "params": [
+            "body",
+            "citations"
+          ],
+          "returnType": "list[Citation]",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "format_reply",
+          "params": [
+            "reply",
+            "session_start_hits"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 22
+        },
+        {
+          "name": "_md_inline_html",
+          "params": [
+            "text"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 24
+        },
+        {
+          "name": "chat_html",
+          "params": [
+            "markdown"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 33
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "html",
+          "specifiers": [
+            "html_module"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Sequence"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.ingest",
+          "specifiers": [
+            "load_ingest_config"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.session_start_web",
+          "specifiers": [
+            "SessionStartRailHit"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.turn",
+          "specifiers": [
+            "apply_citation_links",
+            "footer_flags",
+            "markdown_cite"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "Citation",
+            "Reply"
+          ]
+        }
+      ],
+      "exports": [
+        "_normalize_host",
+        "_clean_url",
+        "_web_url_for_host",
+        "_report_url_for_label",
+        "enrich_citations",
+        "_fix_markdown_links",
+        "_dedupe_trailing_urls",
+        "_strip_orphan_markdown",
+        "_fix_bold_markdown",
+        "_link_web_brackets",
+        "_link_inline_web_sources",
+        "_normalize_bare_web_citations",
+        "_link_report_tags",
+        "_split_glued_cyrillic",
+        "_fix_prose_chunk",
+        "_fix_prose_spacing",
+        "_prepare_body",
+        "_sources_for_footer",
+        "format_reply",
+        "_md_inline_html",
+        "chat_html"
+      ],
+      "totalLines": 421,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/retrieve.py": {
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "contentHash": "a180a60a010176e069a0a197884e62232de57c1efc8ee520c7cbed6048396b5d",
+      "functions": [
+        {
+          "name": "_prefer_ipv4",
+          "params": [
+            "url"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "embedding_model_name",
+          "params": [],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "embedding_base_url",
+          "params": [],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "embedding_api_key",
+          "params": [],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "make_embedding_function",
+          "params": [],
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "_meta_bool",
+          "params": [
+            "value"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "drop_redundant_excerpts",
+          "params": [
+            "samples"
+          ],
+          "returnType": "list[dict]",
+          "exported": true,
+          "lineCount": 26
+        },
+        {
+          "name": "_chunk_from_meta",
+          "params": [
+            "text",
+            "meta"
+          ],
+          "returnType": "Chunk",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "_date_from_name",
+          "params": [
+            "name"
+          ],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 24
+        },
+        {
+          "name": "_agency_from_name",
+          "params": [
+            "name",
+            "default"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "_url_for_agency",
+          "params": [
+            "agency",
+            "cfg",
+            "explicit"
+          ],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "_resolve_sample_path",
+          "params": [
+            "sample",
+            "samples_dir"
+          ],
+          "returnType": "Path",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "iter_ingest_jobs",
+          "params": [
+            "samples_dir",
+            "reports_dir",
+            "cfg"
+          ],
+          "returnType": "list[dict]",
+          "exported": true,
+          "lineCount": 78
+        },
+        {
+          "name": "_job_manifest_entry",
+          "params": [
+            "job"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "build_corpus_manifest",
+          "params": [
+            "samples_dir",
+            "reports_dir",
+            "cfg"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "corpus_fingerprint_from_manifest",
+          "params": [
+            "manifest"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "corpus_fingerprint",
+          "params": [
+            "samples_dir",
+            "reports_dir"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "plan_corpus_index",
+          "params": [
+            "retriever",
+            "samples_dir",
+            "reports_dir",
+            "force"
+          ],
+          "returnType": "IndexPlan",
+          "exported": true,
+          "lineCount": 57
+        },
+        {
+          "name": "ingest_jobs",
+          "params": [
+            "retriever",
+            "jobs"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "ensure_index",
+          "params": [
+            "retriever",
+            "samples_dir",
+            "reports_dir",
+            "force"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 59
+        },
+        {
+          "name": "ingest_samples_and_reports",
+          "params": [
+            "retriever",
+            "samples_dir",
+            "reports_dir"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 22
+        },
+        {
+          "name": "_default_retriever",
+          "params": [],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "retrieve_for_tool",
+          "params": [
+            "query",
+            "retriever",
+            "k"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 21
+        }
+      ],
+      "classes": [
+        {
+          "name": "IndexPlan",
+          "methods": [],
+          "properties": [
+            "action",
+            "reason",
+            "manifest",
+            "jobs",
+            "delete_prefixes"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "OpenAICompatibleEmbeddingFunction",
+          "methods": [
+            "__init__",
+            "_request_headers",
+            "_prefixed",
+            "_embed",
+            "_embed_batch",
+            "__call__",
+            "embed_query"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 81
+        },
+        {
+          "name": "ChromaRetriever",
+          "methods": [
+            "__init__",
+            "is_empty",
+            "reset",
+            "stored_fingerprint",
+            "write_fingerprint",
+            "stored_manifest",
+            "write_manifest",
+            "delete_by_id_prefix",
+            "index_chunks",
+            "retrieve"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 136
+        }
+      ],
+      "imports": [
+        {
+          "source": "hashlib",
+          "specifiers": [
+            "hashlib"
+          ]
+        },
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "socket",
+          "specifiers": [
+            "socket"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "urllib.error",
+          "specifiers": [
+            "urllib.error"
+          ]
+        },
+        {
+          "source": "urllib.parse",
+          "specifiers": [
+            "urlparse",
+            "urlunparse"
+          ]
+        },
+        {
+          "source": "urllib.request",
+          "specifiers": [
+            "Request",
+            "urlopen"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Literal"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.ingest",
+          "specifiers": [
+            "chunk_pdf",
+            "e5_token_count",
+            "load_ingest_config"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.settings",
+          "specifiers": [
+            "maybe_traceable"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "Chunk"
+          ]
+        }
+      ],
+      "exports": [
+        "IndexPlan",
+        "_prefer_ipv4",
+        "OpenAICompatibleEmbeddingFunction",
+        "embedding_model_name",
+        "embedding_base_url",
+        "embedding_api_key",
+        "make_embedding_function",
+        "_meta_bool",
+        "drop_redundant_excerpts",
+        "_chunk_from_meta",
+        "ChromaRetriever",
+        "_date_from_name",
+        "_agency_from_name",
+        "_url_for_agency",
+        "_resolve_sample_path",
+        "iter_ingest_jobs",
+        "_job_manifest_entry",
+        "build_corpus_manifest",
+        "corpus_fingerprint_from_manifest",
+        "corpus_fingerprint",
+        "plan_corpus_index",
+        "ingest_jobs",
+        "ensure_index",
+        "ingest_samples_and_reports",
+        "_default_retriever",
+        "retrieve_for_tool"
+      ],
+      "totalLines": 760,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/routes.py": {
+      "filePath": "oil_gas_analyst/routes.py",
+      "contentHash": "3f0be117b2ffe71406e565addc4a0ca2d21349894fb80897654c6a7ad3b8c311",
+      "functions": [
+        {
+          "name": "load_route_lists",
+          "params": [
+            "path"
+          ],
+          "returnType": "RouteLists",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "_is_cyr_stem",
+          "params": [
+            "phrase"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_contains",
+          "params": [
+            "phrase",
+            "question"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "is_forecast_request",
+          "params": [
+            "question",
+            "lists"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "is_time_sensitive",
+          "params": [
+            "question",
+            "lists"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "is_out_of_scope_topic",
+          "params": [
+            "question"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 14
+        }
+      ],
+      "classes": [
+        {
+          "name": "RouteLists",
+          "methods": [],
+          "properties": [
+            "forecast_verbs",
+            "time_sensitive",
+            "time_sensitive_weak",
+            "published_outlook"
+          ],
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "imports": [
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "yaml",
+          "specifiers": [
+            "yaml"
+          ]
+        }
+      ],
+      "exports": [
+        "RouteLists",
+        "load_route_lists",
+        "_is_cyr_stem",
+        "_contains",
+        "is_forecast_request",
+        "is_time_sensitive",
+        "is_out_of_scope_topic"
+      ],
+      "totalLines": 106,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/session_start_web.py": {
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "contentHash": "ad8ff05d4b3107f46a28601cad5f826ccd85dd6854416681a44e9de2a6256a91",
+      "functions": [
+        {
+          "name": "load_rail_exclusions",
+          "params": [
+            "path"
+          ],
+          "returnType": "tuple[str, ...]",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_is_rail_hidden",
+          "params": [
+            "url",
+            "exclusions"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_today_moscow",
+          "params": [],
+          "returnType": "date",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_parse_iso_date",
+          "params": [
+            "raw"
+          ],
+          "returnType": "date | None",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "_infer_date_from_snippet",
+          "params": [
+            "snippet"
+          ],
+          "returnType": "date | None",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "_is_fresh_for_rail",
+          "params": [
+            "published",
+            "assume_today_if_unknown"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "outlet_from_url",
+          "params": [
+            "url"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_collect_yandex_top_news",
+          "params": [
+            "question"
+          ],
+          "returnType": "list[_RankedWebHit]",
+          "exported": true,
+          "lineCount": 69
+        },
+        {
+          "name": "_cache_path",
+          "params": [
+            "cache_dir"
+          ],
+          "returnType": "Path",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "_save_top_news_cache",
+          "params": [
+            "payload",
+            "cache_dir"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "_load_top_news_cache",
+          "params": [
+            "cache_dir"
+          ],
+          "returnType": "dict | None",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "_build_payload_from_ranked",
+          "params": [
+            "ranked"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "cached_top_news_hits",
+          "params": [
+            "cache_dir"
+          ],
+          "returnType": "list[SessionStartRailHit]",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "_fetch_live_top_news_payload",
+          "params": [
+            "cache_dir"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "refresh_top_news_hits",
+          "params": [
+            "cache_dir"
+          ],
+          "returnType": "list[SessionStartRailHit]",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "fetch_session_start_web",
+          "params": [
+            "searcher",
+            "cache_dir"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 26
+        },
+        {
+          "name": "visible_rail_hits",
+          "params": [
+            "payload",
+            "exclusions"
+          ],
+          "returnType": "list[SessionStartRailHit]",
+          "exported": true,
+          "lineCount": 31
+        },
+        {
+          "name": "inject_session_start_web",
+          "params": [
+            "question",
+            "hits"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "has_grounded_session_start_web",
+          "params": [
+            "reply",
+            "hits"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 18
+        }
+      ],
+      "classes": [
+        {
+          "name": "SessionStartRailHit",
+          "methods": [],
+          "properties": [
+            "title",
+            "outlet",
+            "snippet",
+            "url",
+            "citation",
+            "published"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "_RankedWebHit",
+          "methods": [],
+          "properties": [
+            "hit",
+            "published",
+            "assume_today_if_unknown"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "YandexTopNewsSearcher",
+          "methods": [
+            "search"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 14
+        }
+      ],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass"
+          ]
+        },
+        {
+          "source": "datetime",
+          "specifiers": [
+            "date",
+            "datetime",
+            "timedelta"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Sequence"
+          ]
+        },
+        {
+          "source": "urllib.parse",
+          "specifiers": [
+            "urlparse"
+          ]
+        },
+        {
+          "source": "zoneinfo",
+          "specifiers": [
+            "ZoneInfo"
+          ]
+        },
+        {
+          "source": "yaml",
+          "specifiers": [
+            "yaml"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.denylist",
+          "specifiers": [
+            "is_denied",
+            "load_denylist"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "Reply",
+            "WebHit"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.web",
+          "specifiers": [
+            "search_for_tool"
+          ]
+        }
+      ],
+      "exports": [
+        "load_rail_exclusions",
+        "_is_rail_hidden",
+        "_today_moscow",
+        "_parse_iso_date",
+        "_infer_date_from_snippet",
+        "_is_fresh_for_rail",
+        "SessionStartRailHit",
+        "_RankedWebHit",
+        "outlet_from_url",
+        "YandexTopNewsSearcher",
+        "_collect_yandex_top_news",
+        "_cache_path",
+        "_save_top_news_cache",
+        "_load_top_news_cache",
+        "_build_payload_from_ranked",
+        "cached_top_news_hits",
+        "_fetch_live_top_news_payload",
+        "refresh_top_news_hits",
+        "fetch_session_start_web",
+        "visible_rail_hits",
+        "inject_session_start_web",
+        "has_grounded_session_start_web"
+      ],
+      "totalLines": 392,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/settings.py": {
+      "filePath": "oil_gas_analyst/settings.py",
+      "contentHash": "743a139a7e8c0db65d9ec7dbc0aa1548d283d7690f7f179585db7b3e37c40156",
+      "functions": [
+        {
+          "name": "require_deepseek_key",
+          "params": [],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "require_embedding_api_key",
+          "params": [],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "require_openrouter_key",
+          "params": [],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_env",
+          "params": [
+            "name"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "maybe_traceable",
+          "params": [
+            "name",
+            "run_type"
+          ],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "normalize_chat_model",
+          "params": [
+            "model"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "resolve_model_slots",
+          "params": [],
+          "returnType": "ModelSlots",
+          "exported": true,
+          "lineCount": 26
+        },
+        {
+          "name": "running_in_docker",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "resolve_ouroboros_url",
+          "params": [],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "ouroboros_process_env",
+          "params": [],
+          "returnType": "dict[str, str]",
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [
+        {
+          "name": "ModelSlots",
+          "methods": [],
+          "properties": [
+            "main",
+            "heavy",
+            "light",
+            "eval_chat",
+            "skill_review",
+            "fallbacks"
+          ],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "urllib.parse",
+          "specifiers": [
+            "urlparse"
+          ]
+        }
+      ],
+      "exports": [
+        "ModelSlots",
+        "require_deepseek_key",
+        "require_embedding_api_key",
+        "require_openrouter_key",
+        "_env",
+        "maybe_traceable",
+        "normalize_chat_model",
+        "resolve_model_slots",
+        "running_in_docker",
+        "resolve_ouroboros_url",
+        "ouroboros_process_env"
+      ],
+      "totalLines": 176,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/turn.py": {
+      "filePath": "oil_gas_analyst/turn.py",
+      "contentHash": "c14e8cb0597279d5a1866f9a6718194562f54d26e51a87e118a987c8923495a4",
+      "functions": [
+        {
+          "name": "drop_listing",
+          "params": [
+            "chunks"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "footer_flags",
+          "params": [
+            "reply"
+          ],
+          "returnType": "list[str]",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "_agency_of",
+          "params": [
+            "chunk"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "_agency_urls",
+          "params": [],
+          "returnType": "dict[str, str]",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_report_url",
+          "params": [
+            "chunk"
+          ],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "report_citation",
+          "params": [
+            "chunk"
+          ],
+          "returnType": "Citation",
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "web_citation",
+          "params": [
+            "hit"
+          ],
+          "returnType": "Citation",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "forecast_citations",
+          "params": [
+            "result"
+          ],
+          "returnType": "list[Citation]",
+          "exported": true,
+          "lineCount": 21
+        },
+        {
+          "name": "has_grounded_report",
+          "params": [
+            "reply"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_trim_memory_content",
+          "params": [
+            "content",
+            "max_chars"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "format_chat_memory",
+          "params": [
+            "history",
+            "max_messages"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 21
+        },
+        {
+          "name": "prompt_with_chat_memory",
+          "params": [
+            "question",
+            "history",
+            "max_messages"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "build_turn_prompt",
+          "params": [
+            "question",
+            "session_start_hits",
+            "chat_history"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_safety_net",
+          "params": [
+            "question",
+            "infra_detail"
+          ],
+          "returnType": "Reply",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "run_turn",
+          "params": [
+            "question",
+            "loop",
+            "session_start_hits",
+            "chat_history"
+          ],
+          "returnType": "Reply",
+          "exported": true,
+          "lineCount": 33
+        },
+        {
+          "name": "markdown_cite",
+          "params": [
+            "citation"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "apply_citation_links",
+          "params": [
+            "text",
+            "citations"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 11
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Mapping",
+            "Sequence"
+          ]
+        },
+        {
+          "source": "urllib.parse",
+          "specifiers": [
+            "urlparse"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.ingest",
+          "specifiers": [
+            "load_ingest_config"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.routes",
+          "specifiers": [
+            "is_out_of_scope_topic"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.session_start_web",
+          "specifiers": [
+            "SessionStartRailHit",
+            "inject_session_start_web"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.settings",
+          "specifiers": [
+            "maybe_traceable"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "AnalystLoop",
+            "Chunk",
+            "Citation",
+            "ForecastResult",
+            "LoopError",
+            "Reply",
+            "WebHit"
+          ]
+        }
+      ],
+      "exports": [
+        "drop_listing",
+        "footer_flags",
+        "_agency_of",
+        "_agency_urls",
+        "_report_url",
+        "report_citation",
+        "web_citation",
+        "forecast_citations",
+        "has_grounded_report",
+        "_trim_memory_content",
+        "format_chat_memory",
+        "prompt_with_chat_memory",
+        "build_turn_prompt",
+        "_safety_net",
+        "run_turn",
+        "markdown_cite",
+        "apply_citation_links"
+      ],
+      "totalLines": 274,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/types.py": {
+      "filePath": "oil_gas_analyst/types.py",
+      "contentHash": "2fa71d1e38969f31edeb6a3a2791af43553e9d1c103ab1517144051c894e559b",
+      "functions": [],
+      "classes": [
+        {
+          "name": "Chunk",
+          "methods": [],
+          "properties": [
+            "text",
+            "title",
+            "date",
+            "page_start",
+            "page_end",
+            "heading",
+            "excerpt",
+            "agency",
+            "url"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "WebHit",
+          "methods": [],
+          "properties": [
+            "title",
+            "url",
+            "snippet"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "MethodForecast",
+          "methods": [],
+          "properties": [
+            "name",
+            "point",
+            "low",
+            "high",
+            "interpretation"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "MethodPathForecast",
+          "methods": [],
+          "properties": [
+            "name",
+            "point",
+            "low",
+            "high",
+            "path",
+            "interpretation"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "ForecastPlotPayload",
+          "methods": [],
+          "properties": [
+            "symbol",
+            "horizon_days",
+            "history_dates",
+            "history_closes",
+            "live_quote",
+            "methods",
+            "unavailable_reason"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "ForecastResult",
+          "methods": [],
+          "properties": [
+            "symbol",
+            "methods",
+            "unavailable_reason",
+            "horizon_days"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "Citation",
+          "methods": [],
+          "properties": [
+            "kind",
+            "label",
+            "url"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "LoopResult",
+          "methods": [],
+          "properties": [
+            "text",
+            "citations",
+            "retrieved",
+            "web_ran",
+            "forecast_ran",
+            "forecast_failed",
+            "web_reason"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "LoopError",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "AnalystLoop",
+          "methods": [
+            "complete"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "Reply",
+          "methods": [],
+          "properties": [
+            "text",
+            "citations",
+            "retrieved",
+            "web_ran",
+            "forecast_ran",
+            "forecast_failed",
+            "refused",
+            "steps",
+            "web_reason"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "CompetenceClassifier",
+          "methods": [
+            "classify"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "Retriever",
+          "methods": [
+            "retrieve"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "ChunkDropper",
+          "methods": [
+            "keep"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "WebSearch",
+          "methods": [
+            "search"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "ForecastModule",
+          "methods": [
+            "forecast"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "Composer",
+          "methods": [
+            "compose"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        }
+      ],
+      "imports": [
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass",
+            "field"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Literal",
+            "Protocol"
+          ]
+        }
+      ],
+      "exports": [
+        "Chunk",
+        "WebHit",
+        "MethodForecast",
+        "MethodPathForecast",
+        "ForecastPlotPayload",
+        "ForecastResult",
+        "Citation",
+        "LoopResult",
+        "LoopError",
+        "AnalystLoop",
+        "Reply",
+        "CompetenceClassifier",
+        "Retriever",
+        "ChunkDropper",
+        "WebSearch",
+        "ForecastModule",
+        "Composer"
+      ],
+      "totalLines": 131,
+      "hasStructuralAnalysis": true
+    },
+    "oil_gas_analyst/web.py": {
+      "filePath": "oil_gas_analyst/web.py",
+      "contentHash": "439f7e535200ab448f6d8edd3cf2d7011422715695d416cf1fb5f1fe088f7506",
+      "functions": [
+        {
+          "name": "extract_html_text",
+          "params": [
+            "raw"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "fetch_page_text",
+          "params": [
+            "url",
+            "timeout"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "fill_page_bodies",
+          "params": [
+            "hits",
+            "fetch_page",
+            "limit",
+            "max_chars",
+            "denied_domains"
+          ],
+          "returnType": "list[WebHit]",
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "search_for_tool",
+          "params": [
+            "query",
+            "searcher",
+            "k"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 29
+        }
+      ],
+      "classes": [
+        {
+          "name": "DuckDuckGoWeb",
+          "methods": [
+            "__init__",
+            "search"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "imports": [
+        {
+          "source": "html",
+          "specifiers": [
+            "html_lib"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "urllib.error",
+          "specifiers": [
+            "urllib.error"
+          ]
+        },
+        {
+          "source": "urllib.request",
+          "specifiers": [
+            "urllib.request"
+          ]
+        },
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Callable",
+            "Sequence"
+          ]
+        },
+        {
+          "source": "urllib.parse",
+          "specifiers": [
+            "urlparse"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "WebHit"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.settings",
+          "specifiers": [
+            "maybe_traceable"
+          ]
+        }
+      ],
+      "exports": [
+        "extract_html_text",
+        "fetch_page_text",
+        "fill_page_bodies",
+        "DuckDuckGoWeb",
+        "search_for_tool"
+      ],
+      "totalLines": 137,
+      "hasStructuralAnalysis": true
+    },
+    "pyproject.toml": {
+      "filePath": "pyproject.toml",
+      "contentHash": "7ff197c88af9e5781a47072230eff58305f71cc580a2bbee7e6e16dc594332a9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 17,
+      "hasStructuralAnalysis": true
+    },
+    "README.md": {
+      "filePath": "README.md",
+      "contentHash": "f2a0cefacf17d1c33f7c69ead4ef6cd364e92a49aadea8eba084c4bb091ef1d8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 117,
+      "hasStructuralAnalysis": true
+    },
+    "requirements-analyst.txt": {
+      "filePath": "requirements-analyst.txt",
+      "contentHash": "ee42e130401e43387227f1d869775a865aa6d3c97ee0a260fd617e5d702b9532",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 14,
+      "hasStructuralAnalysis": false
+    },
+    "requirements.txt": {
+      "filePath": "requirements.txt",
+      "contentHash": "1498af11002cc60a9d1903e6510ec50630a65daad5d1738fc2a2879bf9b514bc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": false
+    },
+    "scripts/render-timeweb-cloud-init.py": {
+      "filePath": "scripts/render-timeweb-cloud-init.py",
+      "contentHash": "fdcf03b71b2504d2ef280beaa69ca1543628ee6b9c75afea138e841d6b01372d",
+      "functions": [
+        {
+          "name": "load_env",
+          "params": [
+            "path"
+          ],
+          "returnType": "dict[str, str]",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "main",
+          "params": [],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 21
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        }
+      ],
+      "exports": [
+        "load_env",
+        "main"
+      ],
+      "totalLines": 67,
+      "hasStructuralAnalysis": true
+    },
+    "skills/oil_gas_analyst/SKILL.md": {
+      "filePath": "skills/oil_gas_analyst/SKILL.md",
+      "contentHash": "6c4212c588e3e653e19e173ef09867652991178e87f3e6ea1978a4cb651312ef",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 56,
+      "hasStructuralAnalysis": true
+    },
+    "skills/oil_gas_forecast/plugin.py": {
+      "filePath": "skills/oil_gas_forecast/plugin.py",
+      "contentHash": "7482f7e851cae8cc1874bd39241c7dbc7dd586fe51d98bc9eb5019a1f7de3516",
+      "functions": [
+        {
+          "name": "register",
+          "params": [
+            "api"
+          ],
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "register"
+      ],
+      "totalLines": 31,
+      "hasStructuralAnalysis": true
+    },
+    "skills/oil_gas_forecast/SKILL.md": {
+      "filePath": "skills/oil_gas_forecast/SKILL.md",
+      "contentHash": "41752a97df2f88bfe3e148a9a326b40a25cb79126eda6a4c3196753f8ea5ead1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 23,
+      "hasStructuralAnalysis": true
+    },
+    "skills/oil_gas_retrieve/plugin.py": {
+      "filePath": "skills/oil_gas_retrieve/plugin.py",
+      "contentHash": "0cd924912a0bc5e695f13ea90520e3c0db45e9f23c4c926fed28260c24be7b01",
+      "functions": [
+        {
+          "name": "register",
+          "params": [
+            "api"
+          ],
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "register"
+      ],
+      "totalLines": 31,
+      "hasStructuralAnalysis": true
+    },
+    "skills/oil_gas_retrieve/SKILL.md": {
+      "filePath": "skills/oil_gas_retrieve/SKILL.md",
+      "contentHash": "7b4de6c0ab100cd8239c0306c7b13d41c583cbf98fa8338aa9179af9e7f9acd7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 21,
+      "hasStructuralAnalysis": true
+    },
+    "skills/oil_gas_web/plugin.py": {
+      "filePath": "skills/oil_gas_web/plugin.py",
+      "contentHash": "5559356f430679bd1c40528675afad673f8ffa3a1d8fcc8297918673fe46ce06",
+      "functions": [
+        {
+          "name": "register",
+          "params": [
+            "api"
+          ],
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "register"
+      ],
+      "totalLines": 31,
+      "hasStructuralAnalysis": true
+    },
+    "skills/oil_gas_web/SKILL.md": {
+      "filePath": "skills/oil_gas_web/SKILL.md",
+      "contentHash": "4bbb59662b5d2ac7105eec66543024f82a2ad42d857e54fb4227fd4dfed1cc94",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 23,
+      "hasStructuralAnalysis": true
+    },
+    "task.md": {
+      "filePath": "task.md",
+      "contentHash": "f16a5cf4b9fdf0fbb25e6ddbb50f9a734c1f95fe3cd8173959c747e2e2dd1622",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 62,
+      "hasStructuralAnalysis": true
+    },
+    "tests/conftest.py": {
+      "filePath": "tests/conftest.py",
+      "contentHash": "ea4e02112e65d9f143eaff0872a23c459720dfce40231e2c0ccfbf06de2e0afd",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": true
+    },
+    "tests/test_consensus_price.py": {
+      "filePath": "tests/test_consensus_price.py",
+      "contentHash": "29dbf87b884f711389a78aae9927c2c736535bb391dde0cd2d7d22eafc001714",
+      "functions": [
+        {
+          "name": "test_extract_oil_prices_finds_dollar_and_contextual_brent",
+          "params": [],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_extract_oil_prices_ignores_out_of_range_values",
+          "params": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "test_consensus_from_texts_averages_per_source",
+          "params": [],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_report_consensus_price_uses_retrieve_then_samples",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_news_consensus_price_from_rail_hits",
+          "params": [],
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "test_dashboard_kpi_row_combines_close_and_consensus",
+          "params": [],
+          "exported": true,
+          "lineCount": 13
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "oil_gas_analyst.consensus_price",
+          "specifiers": [
+            "consensus_from_texts",
+            "dashboard_kpi_row",
+            "extract_oil_prices",
+            "news_consensus_price",
+            "report_consensus_price"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.session_start_web",
+          "specifiers": [
+            "SessionStartRailHit"
+          ]
+        }
+      ],
+      "exports": [
+        "test_extract_oil_prices_finds_dollar_and_contextual_brent",
+        "test_extract_oil_prices_ignores_out_of_range_values",
+        "test_consensus_from_texts_averages_per_source",
+        "test_report_consensus_price_uses_retrieve_then_samples",
+        "test_news_consensus_price_from_rail_hits",
+        "test_dashboard_kpi_row_combines_close_and_consensus"
+      ],
+      "totalLines": 72,
+      "hasStructuralAnalysis": true
+    },
+    "tests/test_dashboard_layout.py": {
+      "filePath": "tests/test_dashboard_layout.py",
+      "contentHash": "38fb5e9391b597c34874107d2e555a2b9853bbabb12cae370a6bf8f0dd96a8a3",
+      "functions": [
+        {
+          "name": "test_chat_turn_in_progress",
+          "params": [],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+          "params": [],
+          "exported": true,
+          "lineCount": 55
+        },
+        {
+          "name": "test_dashboard_page_config_collapses_sidebar",
+          "params": [],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_rail_exclusions_hide_wikipedia",
+          "params": [],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "_series",
+          "params": [
+            "n"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_plot_payload",
+          "params": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "test_chart_payload_disk_cache_roundtrip",
+          "params": [
+            "tmp_path",
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_chart_dataframe_has_actual_and_three_forecast_series",
+          "params": [],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+          "params": [],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_brent_chart_altair_sets_y_axis_minimum",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_chart_dataframe_none_on_unavailable",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "test_forecast_model_consensus_averages_three_model_points",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_chart_history_starts_from_configured_date",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_chart_refresh_horizon_detects_forecast_and_refresh",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_corpus_strip_lists_agencies_when_samples_exist",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 39
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "oil_gas_analyst.dashboard",
+          "specifiers": [
+            "chat_turn_in_progress"
+          ]
+        },
+        {
+          "source": "math",
+          "specifiers": [
+            "math"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.corpus_strip",
+          "specifiers": [
+            "corpus_strip_entries"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.dashboard_chart",
+          "specifiers": [
+            "CHART_DISPLAY_HISTORY_BDAYS",
+            "CHART_HISTORY_START",
+            "CHART_METHOD_LABELS",
+            "CHART_Y_AXIS_MIN",
+            "brent_chart_altair",
+            "chart_dataframe_from_payload",
+            "chart_display_dataframe",
+            "chart_refresh_horizon",
+            "forecast_model_consensus",
+            "load_brent_chart_payload",
+            "load_cached_brent_chart_payload",
+            "save_brent_chart_payload_cache"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.forecast",
+          "specifiers": [
+            "FORECAST_METHOD_ORDER"
+          ]
+        }
+      ],
+      "exports": [
+        "test_chat_turn_in_progress",
+        "test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+        "test_dashboard_page_config_collapses_sidebar",
+        "test_rail_exclusions_hide_wikipedia",
+        "_series",
+        "_plot_payload",
+        "test_chart_payload_disk_cache_roundtrip",
+        "test_chart_dataframe_has_actual_and_three_forecast_series",
+        "test_chart_display_dataframe_shows_last_month_plus_forecast",
+        "test_brent_chart_altair_sets_y_axis_minimum",
+        "test_chart_dataframe_none_on_unavailable",
+        "test_forecast_model_consensus_averages_three_model_points",
+        "test_chart_history_starts_from_configured_date",
+        "test_chart_refresh_horizon_detects_forecast_and_refresh",
+        "test_corpus_strip_lists_agencies_when_samples_exist"
+      ],
+      "totalLines": 251,
+      "hasStructuralAnalysis": true
+    },
+    "tests/test_dashboard.py": {
+      "filePath": "tests/test_dashboard.py",
+      "contentHash": "25bd51b765322af7db4e3b3556b0e2fe7f0ef294e38b2a940b5a3a88ee9db007",
+      "functions": [
+        {
+          "name": "test_handle_chat_message_forwards_chat_history_to_run_turn",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 29
+        },
+        {
+          "name": "test_handle_chat_message_uses_run_turn",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "test_handle_chat_message_rate_limit",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "test_demo_login_disabled_when_env_empty",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "test_demo_login_requires_matching_credentials",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 10
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "Reply"
+          ]
+        }
+      ],
+      "exports": [
+        "test_handle_chat_message_forwards_chat_history_to_run_turn",
+        "test_handle_chat_message_uses_run_turn",
+        "test_handle_chat_message_rate_limit",
+        "test_demo_login_disabled_when_env_empty",
+        "test_demo_login_requires_matching_credentials"
+      ],
+      "totalLines": 97,
+      "hasStructuralAnalysis": true
+    },
+    "tests/test_denylist.py": {
+      "filePath": "tests/test_denylist.py",
+      "contentHash": "15ea2cf89f54a98850bd6e0a28b80af8a942c2e6074803742c6ffeda94086039",
+      "functions": [
+        {
+          "name": "test_kp_and_subdomain_denied",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_reuters_not_denied",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "test_page_body_puts_article_figure_in_snippet",
+          "params": [],
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "test_denied_domain_stays_in_hits_for_the_model",
+          "params": [],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "test_page_fetch_keeps_ddg_snippet_on_failure",
+          "params": [],
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "test_page_fetch_stops_after_three_allowed_hits",
+          "params": [],
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "test_empty_web_search_asks_not_to_invent_news",
+          "params": [],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "test_kp_and_subdomain_denied",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_reuters_not_denied",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "oil_gas_analyst.denylist",
+          "specifiers": [
+            "is_denied",
+            "load_denylist"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "WebHit"
+          ]
+        }
+      ],
+      "exports": [
+        "test_kp_and_subdomain_denied",
+        "test_reuters_not_denied",
+        "test_page_body_puts_article_figure_in_snippet",
+        "test_denied_domain_stays_in_hits_for_the_model",
+        "test_page_fetch_keeps_ddg_snippet_on_failure",
+        "test_page_fetch_stops_after_three_allowed_hits",
+        "test_empty_web_search_asks_not_to_invent_news",
+        "test_kp_and_subdomain_denied",
+        "test_reuters_not_denied"
+      ],
+      "totalLines": 120,
+      "hasStructuralAnalysis": true
+    },
+    "tests/test_eval_dashboard.py": {
+      "filePath": "tests/test_eval_dashboard.py",
+      "contentHash": "7c2296b7cb9c598dca1ed56af0e4ad8f909ffbcd20896515d8073827224baf8a",
+      "functions": [
+        {
+          "name": "test_readme_lists_five_eval_dialogues",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_invoke_dashboard_eval_injects_session_start_hits",
+          "params": [],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "test_invoke_dashboard_eval_without_hits_skips_inject",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        }
+      ],
+      "classes": [
+        {
+          "name": "_FrozenLoop",
+          "methods": [
+            "__init__",
+            "complete"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "imports": [
+        {
+          "source": "oil_gas_analyst.eval_dialogues",
+          "specifiers": [
+            "README_EVAL_DIALOGUES",
+            "invoke_dashboard_eval"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.session_start_web",
+          "specifiers": [
+            "SESSION_START_INJECT_HEADER",
+            "SessionStartRailHit"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "LoopResult",
+            "Reply"
+          ]
+        }
+      ],
+      "exports": [
+        "_FrozenLoop",
+        "test_readme_lists_five_eval_dialogues",
+        "test_invoke_dashboard_eval_injects_session_start_hits",
+        "test_invoke_dashboard_eval_without_hits_skips_inject"
+      ],
+      "totalLines": 42,
+      "hasStructuralAnalysis": true
+    },
+    "tests/test_forecast.py": {
+      "filePath": "tests/test_forecast.py",
+      "contentHash": "d988a0ede81afda30f7a745d9c903f93fed5e87af9d0b899d2ddad2894cc5d67",
+      "functions": [
+        {
+          "name": "_series",
+          "params": [
+            "n"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_detect_urals_has_no_symbol",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_detect_horizon_closed_list",
+          "params": [],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_run_forecast_returns_two_methods_with_intervals",
+          "params": [],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "test_month_horizon_is_not_the_quarter_point",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_urals_unavailable",
+          "params": [],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_history_failure_raises",
+          "params": [],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_stooq_used_when_yahoo_empty",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "test_cache_used_when_live_sources_fail",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_no_live_history_or_cache_raises",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_forecast_for_tool_shows_two_methods_and_no_average",
+          "params": [],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "test_forecast_for_tool_defaults_to_brent_and_honors_wti",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_forecast_for_tool_urals_has_no_series_and_no_brent_proxy",
+          "params": [],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_forecast_for_tool_history_failure_is_uncertainty",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_forecast_plot_payload_includes_history_and_two_paths",
+          "params": [],
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+          "params": [],
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "test_forecast_plot_payload_urals_has_no_series",
+          "params": [],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_forecast_plot_payload_history_failure_is_uncertainty",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_forecast_for_tool_citations_still_last_horizon_scalars",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "oil_gas_analyst.forecast",
+          "specifiers": [
+            "ForecastError",
+            "detect_horizon",
+            "detect_symbol",
+            "run_forecast"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "ForecastResult"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        }
+      ],
+      "exports": [
+        "_series",
+        "test_detect_urals_has_no_symbol",
+        "test_detect_horizon_closed_list",
+        "test_run_forecast_returns_two_methods_with_intervals",
+        "test_month_horizon_is_not_the_quarter_point",
+        "test_urals_unavailable",
+        "test_history_failure_raises",
+        "test_stooq_used_when_yahoo_empty",
+        "test_cache_used_when_live_sources_fail",
+        "test_no_live_history_or_cache_raises",
+        "test_forecast_for_tool_shows_two_methods_and_no_average",
+        "test_forecast_for_tool_defaults_to_brent_and_honors_wti",
+        "test_forecast_for_tool_urals_has_no_series_and_no_brent_proxy",
+        "test_forecast_for_tool_history_failure_is_uncertainty",
+        "test_forecast_plot_payload_includes_history_and_two_paths",
+        "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+        "test_forecast_plot_payload_urals_has_no_series",
+        "test_forecast_plot_payload_history_failure_is_uncertainty",
+        "test_forecast_for_tool_citations_still_last_horizon_scalars"
+      ],
+      "totalLines": 242,
+      "hasStructuralAnalysis": true
+    },
+    "tests/test_graph.py": {
+      "filePath": "tests/test_graph.py",
+      "contentHash": "0b480ddbccb8b4fc69ae1cc5d5cf96d690712636ca9ca27e9c9aa175eea62f0c",
+      "functions": [
+        {
+          "name": "_live_flag",
+          "params": [
+            "name"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_openrouter_env_ready",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_live_eval_ready",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_live_red_team_ready",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_load_red_team_cases",
+          "params": [],
+          "returnType": "list[dict]",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_assert_no_secrets",
+          "params": [
+            "text"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "_assert_red_team_case",
+          "params": [
+            "reply",
+            "case"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_citation_blob",
+          "params": [
+            "reply"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_assert_no_denylist",
+          "params": [
+            "reply"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_red_team_pack_loads_closed_prompts",
+          "params": [],
+          "exported": true,
+          "lineCount": 12
+        }
+      ],
+      "classes": [
+        {
+          "name": "TestLiveEval",
+          "methods": [
+            "loop",
+            "session_start_hits",
+            "test_report_outlook",
+            "test_web_latest_statement",
+            "test_combined_brent_today",
+            "test_forecast_brent",
+            "test_out_of_competence_weather"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 72
+        },
+        {
+          "name": "TestLiveRedTeam",
+          "methods": [
+            "loop",
+            "test_prompt"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 13
+        }
+      ],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "yaml",
+          "specifiers": [
+            "yaml"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.graph",
+          "specifiers": [
+            "invoke_analyst"
+          ]
+        }
+      ],
+      "exports": [
+        "_live_flag",
+        "_openrouter_env_ready",
+        "_live_eval_ready",
+        "_live_red_team_ready",
+        "_load_red_team_cases",
+        "_assert_no_secrets",
+        "_assert_red_team_case",
+        "_citation_blob",
+        "_assert_no_denylist",
+        "test_red_team_pack_loads_closed_prompts",
+        "TestLiveEval",
+        "TestLiveRedTeam"
+      ],
+      "totalLines": 184,
+      "hasStructuralAnalysis": true
+    },
+    "tests/test_ingest.py": {
+      "filePath": "tests/test_ingest.py",
+      "contentHash": "9660af8ed4829c04cd869fd6530058b4a765b2b166b73cdd97d35dee1917a32e",
+      "functions": [
+        {
+          "name": "test_heading_split_assigns_world_oil_demand",
+          "params": [],
+          "exported": true,
+          "lineCount": 29
+        },
+        {
+          "name": "test_sample_momr_pdf_yields_demand_chunk",
+          "params": [],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "test_sample_cbr_pdf_keeps_oil_mention_and_bulletin_heading",
+          "params": [],
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "test_cbr_heading_split_assigns_oil_section",
+          "params": [],
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "test_drop_redundant_excerpts_skips_steo_excerpt_when_full_listed",
+          "params": [],
+          "exported": true,
+          "lineCount": 29
+        },
+        {
+          "name": "test_drop_redundant_excerpts_keeps_excerpt_without_full",
+          "params": [],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "test_corpus_fingerprint_omits_steo_excerpt_when_full_exists",
+          "params": [],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "test_ensure_index_rebuilds_stale_volume_then_skips",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 51
+        },
+        {
+          "name": "test_ensure_index_force_rebuilds_matching_fingerprint",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 47
+        },
+        {
+          "name": "test_plan_corpus_index_skips_when_fingerprint_matches",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 28
+        },
+        {
+          "name": "test_plan_corpus_index_syncs_only_new_pdf",
+          "params": [
+            "tmp_path",
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 34
+        },
+        {
+          "name": "test_e5_token_count_is_whitespace_without_transformers",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_make_embedding_function_uses_openrouter_nemotron",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "test_make_embedding_function_raises_without_key",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_missing_sample_report_breaks_ingest",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 21
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "oil_gas_analyst.ingest",
+          "specifiers": [
+            "chunk_pages",
+            "load_ingest_config"
+          ]
+        }
+      ],
+      "exports": [
+        "test_heading_split_assigns_world_oil_demand",
+        "test_sample_momr_pdf_yields_demand_chunk",
+        "test_sample_cbr_pdf_keeps_oil_mention_and_bulletin_heading",
+        "test_cbr_heading_split_assigns_oil_section",
+        "test_drop_redundant_excerpts_skips_steo_excerpt_when_full_listed",
+        "test_drop_redundant_excerpts_keeps_excerpt_without_full",
+        "test_corpus_fingerprint_omits_steo_excerpt_when_full_exists",
+        "test_ensure_index_rebuilds_stale_volume_then_skips",
+        "test_ensure_index_force_rebuilds_matching_fingerprint",
+        "test_plan_corpus_index_skips_when_fingerprint_matches",
+        "test_plan_corpus_index_syncs_only_new_pdf",
+        "test_e5_token_count_is_whitespace_without_transformers",
+        "test_make_embedding_function_uses_openrouter_nemotron",
+        "test_make_embedding_function_raises_without_key",
+        "test_missing_sample_report_breaks_ingest"
+      ],
+      "totalLines": 383,
+      "hasStructuralAnalysis": true
+    },
+    "tests/test_ouroboros.py": {
+      "filePath": "tests/test_ouroboros.py",
+      "contentHash": "371c196a0cd1cbcbe69b38fd2064ba1074b087b3735e977f04fc06ccaaa5bc10",
+      "functions": [
+        {
+          "name": "test_gateway_turn_returns_task_answer",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "test_gateway_reads_answer_from_outcome_axes",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "test_gateway_marks_retrieve_when_tool_name_is_in_the_task_record",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "test_gateway_marks_web_when_search_tool_is_in_the_task_record",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "test_gateway_marks_forecast_when_tool_is_in_the_task_record",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "test_gateway_retries_while_supervisor_is_starting",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 20
+        }
+      ],
+      "classes": [
+        {
+          "name": "_Http",
+          "methods": [
+            "__init__",
+            "__call__"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "_Resp",
+          "methods": [
+            "__init__",
+            "read",
+            "__enter__",
+            "__exit__"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 12
+        }
+      ],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "io",
+          "specifiers": [
+            "BytesIO"
+          ]
+        },
+        {
+          "source": "urllib.error",
+          "specifiers": [
+            "HTTPError"
+          ]
+        },
+        {
+          "source": "urllib.request",
+          "specifiers": [
+            "Request"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.ouroboros",
+          "specifiers": [
+            "OuroborosLoop"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.turn",
+          "specifiers": [
+            "run_turn"
+          ]
+        }
+      ],
+      "exports": [
+        "_Http",
+        "_Resp",
+        "test_gateway_turn_returns_task_answer",
+        "test_gateway_reads_answer_from_outcome_axes",
+        "test_gateway_marks_retrieve_when_tool_name_is_in_the_task_record",
+        "test_gateway_marks_web_when_search_tool_is_in_the_task_record",
+        "test_gateway_marks_forecast_when_tool_is_in_the_task_record",
+        "test_gateway_retries_while_supervisor_is_starting"
+      ],
+      "totalLines": 193,
+      "hasStructuralAnalysis": true
+    },
+    "tests/test_rate_limit.py": {
+      "filePath": "tests/test_rate_limit.py",
+      "contentHash": "be2839ea0316ed6b08b9ac470cb2cd40bb54062397034f9a5db28e9dfc9cd328",
+      "functions": [
+        {
+          "name": "test_rate_limit_disabled_when_max_zero",
+          "params": [],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_rate_limit_blocks_after_max_in_window",
+          "params": [],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "test_rate_limit_keys_are_per_client",
+          "params": [],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_client_key_prefers_forwarded_for",
+          "params": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "test_client_key_falls_back_to_session",
+          "params": [],
+          "exported": true,
+          "lineCount": 2
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "oil_gas_analyst.rate_limit",
+          "specifiers": [
+            "RateLimitConfig",
+            "RateLimiter",
+            "client_key"
+          ]
+        }
+      ],
+      "exports": [
+        "test_rate_limit_disabled_when_max_zero",
+        "test_rate_limit_blocks_after_max_in_window",
+        "test_rate_limit_keys_are_per_client",
+        "test_client_key_prefers_forwarded_for",
+        "test_client_key_falls_back_to_session"
+      ],
+      "totalLines": 38,
+      "hasStructuralAnalysis": true
+    },
+    "tests/test_routes.py": {
+      "filePath": "tests/test_routes.py",
+      "contentHash": "ab578168a629970496a46e3128f308d340efbc88cd74d21928c1ae409b3f62ec",
+      "functions": [
+        {
+          "name": "test_forecast_verb_russian_hits",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "test_forecast_verb_english_hits",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "test_horizon_without_verb_is_not_forecast_request",
+          "params": [],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_prognoz_as_request_hits_but_prognozakh_does_not",
+          "params": [],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_time_sensitive_today_hits",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_bare_demand_question_is_not_time_sensitive",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "test_now_consensus_is_published_outlook_not_web",
+          "params": [],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_weather_is_out_of_scope_even_in_inflected_russian",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "oil_gas_analyst.routes",
+          "specifiers": [
+            "is_forecast_request",
+            "is_out_of_scope_topic",
+            "is_time_sensitive",
+            "load_route_lists"
+          ]
+        }
+      ],
+      "exports": [
+        "test_forecast_verb_russian_hits",
+        "test_forecast_verb_english_hits",
+        "test_horizon_without_verb_is_not_forecast_request",
+        "test_prognoz_as_request_hits_but_prognozakh_does_not",
+        "test_time_sensitive_today_hits",
+        "test_bare_demand_question_is_not_time_sensitive",
+        "test_now_consensus_is_published_outlook_not_web",
+        "test_weather_is_out_of_scope_even_in_inflected_russian"
+      ],
+      "totalLines": 63,
+      "hasStructuralAnalysis": true
+    },
+    "tests/test_session_start_web.py": {
+      "filePath": "tests/test_session_start_web.py",
+      "contentHash": "2c4e47d274a29e7d7aa752b388129904cfc97d84047291588cc35791069e5ec8",
+      "functions": [
+        {
+          "name": "_payload",
+          "params": [
+            "kp_denied",
+            "reuters"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "test_cached_top_news_hits_reads_disk_without_network",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 24
+        },
+        {
+          "name": "test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+          "params": [
+            "tmp_path",
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 34
+        },
+        {
+          "name": "test_fetch_session_start_web_uses_canned_query",
+          "params": [],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_fetch_session_start_web_saves_cache_on_success",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 24
+        },
+        {
+          "name": "test_visible_rail_hits_hides_denied_domains",
+          "params": [],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_visible_rail_hits_skips_older_than_today",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 32
+        },
+        {
+          "name": "test_inject_session_start_web_prepends_visible_hits",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_inject_skips_when_no_visible_hits",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "test_run_turn_injects_without_web_ran_this_turn",
+          "params": [],
+          "exported": true,
+          "lineCount": 26
+        },
+        {
+          "name": "test_has_grounded_session_start_web_false_without_rail_match",
+          "params": [],
+          "exported": true,
+          "lineCount": 14
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "oil_gas_analyst.session_start_web",
+          "specifiers": [
+            "SESSION_START_INJECT_HEADER",
+            "SESSION_START_WEB_QUERY",
+            "SessionStartRailHit",
+            "cached_top_news_hits",
+            "fetch_session_start_web",
+            "has_grounded_session_start_web",
+            "inject_session_start_web",
+            "refresh_top_news_hits",
+            "visible_rail_hits"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.turn",
+          "specifiers": [
+            "run_turn"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "Citation",
+            "LoopResult",
+            "Reply"
+          ]
+        }
+      ],
+      "exports": [
+        "_payload",
+        "test_cached_top_news_hits_reads_disk_without_network",
+        "test_refresh_top_news_hits_falls_back_to_cache_when_live_empty",
+        "test_fetch_session_start_web_uses_canned_query",
+        "test_fetch_session_start_web_saves_cache_on_success",
+        "test_visible_rail_hits_hides_denied_domains",
+        "test_visible_rail_hits_skips_older_than_today",
+        "test_inject_session_start_web_prepends_visible_hits",
+        "test_inject_skips_when_no_visible_hits",
+        "test_run_turn_injects_without_web_ran_this_turn",
+        "test_has_grounded_session_start_web_false_without_rail_match"
+      ],
+      "totalLines": 238,
+      "hasStructuralAnalysis": true
+    },
+    "tests/test_settings.py": {
+      "filePath": "tests/test_settings.py",
+      "contentHash": "2c07dc2672374597dfb7fbb0290de18fe7b0fafbd31f0a243764be9618bfa37c",
+      "functions": [
+        {
+          "name": "test_missing_deepseek_key_fails_loudly",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_openrouter_key_is_not_a_silent_chat_fallback",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_missing_embedding_key_fails_loudly",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_unset_slots_use_main_deepseek_flash_with_no_vendor_fallback",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "test_normalize_chat_model_adds_openai_compatible_prefix",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "test_env_overrides_heavy_and_eval_only",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_ouroboros_process_env_pins_light_mode_and_thinking_off",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "test_local_requirements_do_not_pull_legacy_langgraph_stack",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_readme_names_ouroboros_adapter_evolve_off_and_port_8000",
+          "params": [],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "test_readme_eval_targets_streamlit_dashboard",
+          "params": [],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_compose_publishes_streamlit_only_and_pins_light_mode",
+          "params": [],
+          "exported": true,
+          "lineCount": 28
+        },
+        {
+          "name": "test_maybe_traceable_keeps_run_turn_callable",
+          "params": [],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "test_resolve_ouroboros_url_defaults_to_localhost_outside_docker",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_resolve_ouroboros_url_defaults_to_compose_service_in_docker",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_resolve_ouroboros_url_rewrites_loopback_in_docker",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_resolve_ouroboros_url_keeps_explicit_compose_url_in_docker",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 4
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.settings",
+          "specifiers": [
+            "DEEPSEEK_MODEL",
+            "DOCKER_OUROBOROS_URL",
+            "LOCAL_OUROBOROS_URL",
+            "MAIN_MODEL",
+            "normalize_chat_model",
+            "ouroboros_process_env",
+            "require_deepseek_key",
+            "require_embedding_api_key",
+            "resolve_model_slots",
+            "resolve_ouroboros_url"
+          ]
+        }
+      ],
+      "exports": [
+        "test_missing_deepseek_key_fails_loudly",
+        "test_openrouter_key_is_not_a_silent_chat_fallback",
+        "test_missing_embedding_key_fails_loudly",
+        "test_unset_slots_use_main_deepseek_flash_with_no_vendor_fallback",
+        "test_normalize_chat_model_adds_openai_compatible_prefix",
+        "test_env_overrides_heavy_and_eval_only",
+        "test_ouroboros_process_env_pins_light_mode_and_thinking_off",
+        "test_local_requirements_do_not_pull_legacy_langgraph_stack",
+        "test_readme_names_ouroboros_adapter_evolve_off_and_port_8000",
+        "test_readme_eval_targets_streamlit_dashboard",
+        "test_compose_publishes_streamlit_only_and_pins_light_mode",
+        "test_maybe_traceable_keeps_run_turn_callable",
+        "test_resolve_ouroboros_url_defaults_to_localhost_outside_docker",
+        "test_resolve_ouroboros_url_defaults_to_compose_service_in_docker",
+        "test_resolve_ouroboros_url_rewrites_loopback_in_docker",
+        "test_resolve_ouroboros_url_keeps_explicit_compose_url_in_docker"
+      ],
+      "totalLines": 199,
+      "hasStructuralAnalysis": true
+    },
+    "tests/test_turn.py": {
+      "filePath": "tests/test_turn.py",
+      "contentHash": "ed3e37f85b2a79329c20a0f776c8512392bf191b095cbae69216f56aa776cbe5",
+      "functions": [
+        {
+          "name": "test_live_reply_passes_through_without_host_report_patch",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_host_does_not_refuse_out_of_competence_question",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_reply_records_which_tools_the_loop_ran",
+          "params": [],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "test_web_citation_markdown_includes_full_url",
+          "params": [],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "test_report_citation_markdown_includes_pdf_page_url",
+          "params": [],
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "test_dropper_sees_figure_past_800_chars",
+          "params": [],
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "test_format_reply_does_not_require_langgraph_steps",
+          "params": [],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_format_reply_links_web_sources_from_session_rail",
+          "params": [],
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "test_format_reply_links_report_source_from_ingest_config",
+          "params": [],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_format_reply_normalizes_bare_web_citations",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_format_reply_dedupes_double_markdown_urls",
+          "params": [],
+          "exported": true,
+          "lineCount": 22
+        },
+        {
+          "name": "test_format_reply_fixes_spaced_markdown_urls",
+          "params": [],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_format_reply_links_inline_web_sources_from_session_rail",
+          "params": [],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "test_format_reply_fixes_glued_cyrillic_and_broken_vc_url",
+          "params": [],
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "test_format_reply_fixes_broken_bold_with_multiplication",
+          "params": [],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_format_reply_normalizes_realistic_broken_prose",
+          "params": [],
+          "exported": true,
+          "lineCount": 58
+        },
+        {
+          "name": "test_chat_html_renders_links_and_bold",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+          "params": [],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "test_report_tag_without_retrieve_this_turn_is_not_grounded",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_russian_question_can_use_english_report_chunks",
+          "params": [],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "test_live_weather_with_tools_is_not_host_blocked",
+          "params": [],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "test_infra_timeout_on_weather_uses_competence_safety_net",
+          "params": [],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_infra_timeout_on_oil_question_is_uncertainty_not_invented_figures",
+          "params": [],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_playbook_documents_prompt_failure_not_host_lock",
+          "params": [],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "test_live_denylist_citation_is_not_host_stripped",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_combined_report_and_web_tags_are_allowed",
+          "params": [],
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "test_host_does_not_refuse_forecast_without_a_verb",
+          "params": [],
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "test_live_forecast_reply_is_not_host_patched_with_tags",
+          "params": [],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_format_chat_memory_empty",
+          "params": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "test_format_chat_memory_keeps_recent_turns_only",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_prompt_with_chat_memory_prefixes_current_question",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_run_turn_includes_chat_history_in_loop_prompt",
+          "params": [],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "test_build_turn_prompt_keeps_session_start_injection_with_memory",
+          "params": [],
+          "exported": true,
+          "lineCount": 23
+        }
+      ],
+      "classes": [
+        {
+          "name": "_FrozenLoop",
+          "methods": [
+            "__init__",
+            "complete"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "imports": [
+        {
+          "source": "oil_gas_analyst.turn",
+          "specifiers": [
+            "apply_citation_links",
+            "build_turn_prompt",
+            "drop_listing",
+            "footer_flags",
+            "format_chat_memory",
+            "has_grounded_report",
+            "markdown_cite",
+            "prompt_with_chat_memory",
+            "run_turn"
+          ]
+        },
+        {
+          "source": "oil_gas_analyst.types",
+          "specifiers": [
+            "Chunk",
+            "Citation",
+            "LoopError",
+            "LoopResult",
+            "Reply"
+          ]
+        }
+      ],
+      "exports": [
+        "_FrozenLoop",
+        "test_live_reply_passes_through_without_host_report_patch",
+        "test_host_does_not_refuse_out_of_competence_question",
+        "test_reply_records_which_tools_the_loop_ran",
+        "test_web_citation_markdown_includes_full_url",
+        "test_report_citation_markdown_includes_pdf_page_url",
+        "test_dropper_sees_figure_past_800_chars",
+        "test_format_reply_does_not_require_langgraph_steps",
+        "test_format_reply_links_web_sources_from_session_rail",
+        "test_format_reply_links_report_source_from_ingest_config",
+        "test_format_reply_normalizes_bare_web_citations",
+        "test_format_reply_dedupes_double_markdown_urls",
+        "test_format_reply_fixes_spaced_markdown_urls",
+        "test_format_reply_links_inline_web_sources_from_session_rail",
+        "test_format_reply_fixes_glued_cyrillic_and_broken_vc_url",
+        "test_format_reply_fixes_broken_bold_with_multiplication",
+        "test_format_reply_normalizes_realistic_broken_prose",
+        "test_chat_html_renders_links_and_bold",
+        "test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+        "test_report_tag_without_retrieve_this_turn_is_not_grounded",
+        "test_russian_question_can_use_english_report_chunks",
+        "test_live_weather_with_tools_is_not_host_blocked",
+        "test_infra_timeout_on_weather_uses_competence_safety_net",
+        "test_infra_timeout_on_oil_question_is_uncertainty_not_invented_figures",
+        "test_playbook_documents_prompt_failure_not_host_lock",
+        "test_live_denylist_citation_is_not_host_stripped",
+        "test_combined_report_and_web_tags_are_allowed",
+        "test_host_does_not_refuse_forecast_without_a_verb",
+        "test_live_forecast_reply_is_not_host_patched_with_tags",
+        "test_format_chat_memory_empty",
+        "test_format_chat_memory_keeps_recent_turns_only",
+        "test_prompt_with_chat_memory_prefixes_current_question",
+        "test_run_turn_includes_chat_history_in_loop_prompt",
+        "test_build_turn_prompt_keeps_session_start_injection_with_memory"
+      ],
+      "totalLines": 548,
+      "hasStructuralAnalysis": true
+    }
+  }
+}

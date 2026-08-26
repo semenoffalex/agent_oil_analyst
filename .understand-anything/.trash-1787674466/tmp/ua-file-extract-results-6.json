@@ -1,0 +1,525 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 8,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": ".env.example",
+      "language": "config",
+      "fileCategory": "config",
+      "totalLines": 61,
+      "nonEmptyLines": 52,
+      "definitions": [
+        {
+          "name": "DEEPSEEK_API_KEY",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 2,
+          "endLine": 2
+        },
+        {
+          "name": "DEEPSEEK_BASE_URL",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 3,
+          "endLine": 3
+        },
+        {
+          "name": "DEEPSEEK_MODEL",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 4,
+          "endLine": 4
+        },
+        {
+          "name": "MAIN_CHAT_MODEL",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 5,
+          "endLine": 5
+        },
+        {
+          "name": "OUROBOROS_MODEL",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 6,
+          "endLine": 6
+        },
+        {
+          "name": "OUROBOROS_MODEL_HEAVY",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 8,
+          "endLine": 8
+        },
+        {
+          "name": "OUROBOROS_MODEL_LIGHT",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 9,
+          "endLine": 9
+        },
+        {
+          "name": "OUROBOROS_MODEL_FALLBACKS",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 10,
+          "endLine": 10
+        },
+        {
+          "name": "OUROBOROS_REVIEW_MODELS",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 11,
+          "endLine": 11
+        },
+        {
+          "name": "EVAL_CHAT_MODEL",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 12,
+          "endLine": 12
+        },
+        {
+          "name": "OPENROUTER_API_KEY",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 15,
+          "endLine": 15
+        },
+        {
+          "name": "OPENROUTER_BASE_URL",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 16,
+          "endLine": 16
+        },
+        {
+          "name": "OUROBOROS_TURN_TIMEOUT_SEC",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 22,
+          "endLine": 22
+        },
+        {
+          "name": "OUROBOROS_RUNTIME_MODE",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 25,
+          "endLine": 25
+        },
+        {
+          "name": "OUROBOROS_TASK_REVIEW_MODE",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 26,
+          "endLine": 26
+        },
+        {
+          "name": "OUROBOROS_POST_TASK_EVOLUTION",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 27,
+          "endLine": 27
+        },
+        {
+          "name": "OUROBOROS_EFFORT_TASK",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 28,
+          "endLine": 28
+        },
+        {
+          "name": "OUROBOROS_RETURN_REASONING",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 29,
+          "endLine": 29
+        },
+        {
+          "name": "CHAINLIT_HOST",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 32,
+          "endLine": 32
+        },
+        {
+          "name": "CHAINLIT_PORT",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 33,
+          "endLine": 33
+        },
+        {
+          "name": "DEMO_LOGIN_USER",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 36,
+          "endLine": 36
+        },
+        {
+          "name": "DEMO_LOGIN_PASSWORD",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 37,
+          "endLine": 37
+        },
+        {
+          "name": "DEMO_RATE_LIMIT_MAX",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 40,
+          "endLine": 40
+        },
+        {
+          "name": "DEMO_RATE_LIMIT_WINDOW_SEC",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 41,
+          "endLine": 41
+        },
+        {
+          "name": "CHROMA_PATH",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 44,
+          "endLine": 44
+        },
+        {
+          "name": "SAMPLES_PATH",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 45,
+          "endLine": 45
+        },
+        {
+          "name": "REPORTS_PATH",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 46,
+          "endLine": 46
+        },
+        {
+          "name": "RETRIEVE_K",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 47,
+          "endLine": 47
+        },
+        {
+          "name": "EMBEDDING_BASE_URL",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 48,
+          "endLine": 48
+        },
+        {
+          "name": "EMBEDDING_MODEL",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 49,
+          "endLine": 49
+        },
+        {
+          "name": "YFINANCE_DEFAULT_SYMBOL",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 52,
+          "endLine": 52
+        },
+        {
+          "name": "YFINANCE_WTI_SYMBOL",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 53,
+          "endLine": 53
+        },
+        {
+          "name": "LANGSMITH_TRACING",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 56,
+          "endLine": 56
+        },
+        {
+          "name": "LANGSMITH_API_KEY",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 57,
+          "endLine": 57
+        },
+        {
+          "name": "LANGSMITH_PROJECT",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 58,
+          "endLine": 58
+        },
+        {
+          "name": "LANGCHAIN_TRACING_V2",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 59,
+          "endLine": 59
+        },
+        {
+          "name": "LANGCHAIN_API_KEY",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 60,
+          "endLine": 60
+        },
+        {
+          "name": "LANGCHAIN_PROJECT",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 61,
+          "endLine": 61
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 38
+      }
+    },
+    {
+      "path": "AGENTS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 33,
+      "nonEmptyLines": 25,
+      "sections": [
+        {
+          "heading": "Agent skills",
+          "level": 2,
+          "line": 1
+        },
+        {
+          "heading": "Issue tracker",
+          "level": 3,
+          "line": 3
+        },
+        {
+          "heading": "Domain docs",
+          "level": 3,
+          "line": 7
+        },
+        {
+          "heading": "Learned User Preferences",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "Learned Workspace Facts",
+          "level": 2,
+          "line": 22
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "CONTEXT.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 105,
+      "nonEmptyLines": 78,
+      "sections": [
+        {
+          "heading": "Oil and Gas Analyst",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Language",
+          "level": 2,
+          "line": 5
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 117,
+      "nonEmptyLines": 73,
+      "sections": [
+        {
+          "heading": "Нефтегазовый аналитик",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Как запустить",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Без Docker",
+          "level": 3,
+          "line": 28
+        },
+        {
+          "heading": "Dashboard",
+          "level": 2,
+          "line": 54
+        },
+        {
+          "heading": "Как он отвечает",
+          "level": 2,
+          "line": 67
+        },
+        {
+          "heading": "Из чего собрано",
+          "level": 2,
+          "line": 91
+        },
+        {
+          "heading": "Ограничения",
+          "level": 1,
+          "line": 101
+        },
+        {
+          "heading": "Что дальше",
+          "level": 2,
+          "line": 107
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "pyproject.toml",
+      "language": "toml",
+      "fileCategory": "config",
+      "totalLines": 16,
+      "nonEmptyLines": 13,
+      "sections": [
+        {
+          "heading": "build-system",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "project",
+          "level": 1,
+          "line": 5
+        },
+        {
+          "heading": "tool.setuptools.packages.find",
+          "level": 4,
+          "line": 10
+        },
+        {
+          "heading": "tool.pytest.ini_options",
+          "level": 3,
+          "line": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    },
+    {
+      "path": "requirements-analyst.txt",
+      "language": "txt",
+      "fileCategory": "docs",
+      "totalLines": 13,
+      "nonEmptyLines": 13,
+      "metrics": {}
+    },
+    {
+      "path": "requirements.txt",
+      "language": "txt",
+      "fileCategory": "docs",
+      "totalLines": 17,
+      "nonEmptyLines": 17,
+      "metrics": {}
+    },
+    {
+      "path": "task.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 62,
+      "nonEmptyLines": 53,
+      "sections": [
+        {
+          "heading": "1. Общее описание задачи",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "2. Функциональные требования",
+          "level": 1,
+          "line": 10
+        },
+        {
+          "heading": "2.1. Роль и системный промпт агента",
+          "level": 2,
+          "line": 12
+        },
+        {
+          "heading": "2.2. RAG-модуль по отраслевым отчётам",
+          "level": 2,
+          "line": 18
+        },
+        {
+          "heading": "2.3. Интернет-поиск",
+          "level": 2,
+          "line": 25
+        },
+        {
+          "heading": "2.4. Логика приоритизации источников",
+          "level": 2,
+          "line": 28
+        },
+        {
+          "heading": "2.5. Расчётный модуль прогнозирования цен на нефть",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "3. Технические требования",
+          "level": 1,
+          "line": 43
+        },
+        {
+          "heading": "4. Что должно быть в результате",
+          "level": 1,
+          "line": 51
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    }
+  ]
+}

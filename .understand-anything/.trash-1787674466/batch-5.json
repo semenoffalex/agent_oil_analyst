@@ -1,0 +1,118 @@
+{
+  "nodes": [
+    {
+      "id": "service:.dockerignore",
+      "type": "service",
+      "name": ".dockerignore",
+      "filePath": ".dockerignore",
+      "summary": "Docker build-context ignore list that keeps git metadata, secrets, virtualenvs, local Chroma and report data, caches, tests, and scratch notes out of the analyst image.",
+      "tags": ["containerization", "infrastructure", "build-system", "security"],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:docker-compose.yml",
+      "type": "service",
+      "name": "docker-compose.yml",
+      "filePath": "docker-compose.yml",
+      "summary": "Orchestrates the Ouroboros conversation runtime on port 8765 and the Streamlit analyst dashboard on port 8000, sharing named volumes for Chroma, reports, forecast cache, and news cache.",
+      "tags": ["orchestration", "infrastructure", "containerization", "deployment"],
+      "complexity": "moderate",
+      "languageNotes": "Analyst waits on an HTTP healthcheck of Ouroboros; tini (init: true) keeps worker process custody from treating Docker PID 1 as an orphan."
+    },
+    {
+      "id": "service:docker-compose.yml:ouroboros",
+      "type": "service",
+      "name": "ouroboros",
+      "filePath": "docker-compose.yml",
+      "summary": "Compose service that builds docker/ouroboros.Dockerfile, binds DeepSeek-compatible model settings, and exposes the internal API on 8765 with persistent /data volumes.",
+      "tags": ["orchestration", "infrastructure", "conversation-runtime"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "service:docker-compose.yml:analyst",
+      "type": "service",
+      "name": "analyst",
+      "filePath": "docker-compose.yml",
+      "summary": "Compose service that builds the root Dockerfile, publishes Streamlit on 8000, bind-mounts oil_gas_analyst for live code, and starts only after Ouroboros is healthy.",
+      "tags": ["orchestration", "infrastructure", "dashboard", "deployment"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "service:Dockerfile",
+      "type": "service",
+      "name": "Dockerfile",
+      "filePath": "Dockerfile",
+      "summary": "Single-stage Python 3.11-slim image for the Streamlit dashboard adapter: installs requirements-analyst.txt, copies config, samples, and oil_gas_analyst, and runs dashboard.py on port 8000 without Torch or Hugging Face weights.",
+      "tags": ["containerization", "infrastructure", "deployment", "dashboard"],
+      "complexity": "simple",
+      "languageNotes": "Default OUROBOROS_URL points at the compose service hostname ouroboros:8765; embeddings default to OpenRouter."
+    },
+    {
+      "id": "service:Dockerfile:python",
+      "type": "service",
+      "name": "python",
+      "filePath": "Dockerfile",
+      "summary": "python:3.11-slim build stage that installs analyst dependencies, sets Chroma/samples/reports/news-cache paths, and launches Streamlit on 0.0.0.0:8000.",
+      "tags": ["containerization", "infrastructure", "python"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "service:.dockerignore",
+      "target": "service:Dockerfile",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "service:docker-compose.yml",
+      "target": "service:Dockerfile",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "service:docker-compose.yml",
+      "target": "service:docker-compose.yml:ouroboros",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "service:docker-compose.yml",
+      "target": "service:docker-compose.yml:analyst",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "service:docker-compose.yml:analyst",
+      "target": "service:docker-compose.yml:ouroboros",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "service:docker-compose.yml:analyst",
+      "target": "service:Dockerfile",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "service:Dockerfile",
+      "target": "service:Dockerfile:python",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "service:docker-compose.yml",
+      "target": "service:Dockerfile:python",
+      "type": "deploys",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

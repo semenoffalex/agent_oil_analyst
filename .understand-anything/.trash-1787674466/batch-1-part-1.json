@@ -1,0 +1,1102 @@
+{
+  "nodes": [
+    {
+      "id": "file:oil_gas_analyst/denylist.py",
+      "type": "file",
+      "name": "denylist.py",
+      "filePath": "oil_gas_analyst/denylist.py",
+      "summary": "Loads YAML-configured denied domains and checks whether a URL host matches the denylist, including subdomain suffix matches.",
+      "tags": ["utility", "validation", "security", "web-filter"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/denylist.py:is_denied",
+      "type": "function",
+      "name": "is_denied",
+      "filePath": "oil_gas_analyst/denylist.py",
+      "lineRange": [16, 24],
+      "summary": "Returns whether a URL hostname equals or is a subdomain of any denied domain after case-folding.",
+      "tags": ["validation", "url", "security"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:oil_gas_analyst/eval_dialogues.py",
+      "type": "file",
+      "name": "eval_dialogues.py",
+      "filePath": "oil_gas_analyst/eval_dialogues.py",
+      "summary": "Evaluation helper that loads session-start news-rail hits and invokes a dashboard-style turn with optional prompt injection.",
+      "tags": ["evaluation", "service", "entry-point"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/eval_dialogues.py:invoke_dashboard_eval",
+      "type": "function",
+      "name": "invoke_dashboard_eval",
+      "filePath": "oil_gas_analyst/eval_dialogues.py",
+      "lineRange": [29, 37],
+      "summary": "Runs one analyst turn for eval, injecting session-start web hits into the prompt when they are available.",
+      "tags": ["evaluation", "orchestration", "prompt"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:oil_gas_analyst/graph.py",
+      "type": "file",
+      "name": "graph.py",
+      "filePath": "oil_gas_analyst/graph.py",
+      "summary": "Thin wrapper that exposes invoke_analyst as a dashboard-eval call without extra session-start hits.",
+      "tags": ["entry-point", "barrel", "evaluation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:oil_gas_analyst/session_start_web.py",
+      "type": "file",
+      "name": "session_start_web.py",
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "summary": "Fetches, caches, and filters same-day oil-and-gas news for the Streamlit session-start rail, then injects visible hits into the first-turn prompt.",
+      "tags": ["service", "web-search", "caching", "session"],
+      "complexity": "complex",
+      "languageNotes": "Freshness uses Europe/Moscow calendar dates so the rail only shows today's items."
+    },
+    {
+      "id": "function:oil_gas_analyst/session_start_web.py:_collect_yandex_top_news",
+      "type": "function",
+      "name": "_collect_yandex_top_news",
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "lineRange": [119, 187],
+      "summary": "Collects and ranks DuckDuckGo text and news hits for the canned Yandex-style top-news query, deduplicating by URL.",
+      "tags": ["web-search", "ranking", "ingestion"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/session_start_web.py:_save_top_news_cache",
+      "type": "function",
+      "name": "_save_top_news_cache",
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "lineRange": [199, 209],
+      "summary": "Writes the ranked top-news payload to a JSON cache file with a Moscow timestamp.",
+      "tags": ["caching", "serialization", "session"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/session_start_web.py:_load_top_news_cache",
+      "type": "function",
+      "name": "_load_top_news_cache",
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "lineRange": [212, 229],
+      "summary": "Reads the on-disk top-news cache and returns an empty payload when the file is missing or invalid.",
+      "tags": ["caching", "deserialization", "session"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/session_start_web.py:_build_payload_from_ranked",
+      "type": "function",
+      "name": "_build_payload_from_ranked",
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "lineRange": [232, 256],
+      "summary": "Turns ranked web hits into a citation payload, marking denylisted domains without dropping them from the model-visible list.",
+      "tags": ["serialization", "validation", "citations"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/session_start_web.py:cached_top_news_hits",
+      "type": "function",
+      "name": "cached_top_news_hits",
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "lineRange": [259, 265],
+      "summary": "Returns visible rail hits from disk cache without contacting the network.",
+      "tags": ["caching", "session", "web-search"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/session_start_web.py:_fetch_live_top_news_payload",
+      "type": "function",
+      "name": "_fetch_live_top_news_payload",
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "lineRange": [268, 278],
+      "summary": "Collects live Yandex-style news, keeps items fresh for the rail, and builds the citation payload.",
+      "tags": ["web-search", "session", "ingestion"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/session_start_web.py:refresh_top_news_hits",
+      "type": "function",
+      "name": "refresh_top_news_hits",
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "lineRange": [281, 293],
+      "summary": "Refreshes the news rail from a live fetch, falling back to cache when live results are empty.",
+      "tags": ["caching", "web-search", "session"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/session_start_web.py:fetch_session_start_web",
+      "type": "function",
+      "name": "fetch_session_start_web",
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "lineRange": [296, 321],
+      "summary": "Loads session-start web hits via the search tool or live top-news path, persists cache, and returns visible rail hits.",
+      "tags": ["web-search", "session", "caching"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/session_start_web.py:visible_rail_hits",
+      "type": "function",
+      "name": "visible_rail_hits",
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "lineRange": [324, 354],
+      "summary": "Filters payload rows into SessionStartRailHit objects, hiding excluded domains and stale dates.",
+      "tags": ["filtering", "session", "validation"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/session_start_web.py:inject_session_start_web",
+      "type": "function",
+      "name": "inject_session_start_web",
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "lineRange": [357, 371],
+      "summary": "Prepends visible rail snippets and citations onto the user question so the first turn is grounded in session news.",
+      "tags": ["prompt", "session", "injection"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/session_start_web.py:has_grounded_session_start_web",
+      "type": "function",
+      "name": "has_grounded_session_start_web",
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "lineRange": [374, 391],
+      "summary": "Detects whether a reply cites an outlet or citation label from the session-start rail hits.",
+      "tags": ["validation", "citations", "grounding"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/session_start_web.py:SessionStartRailHit",
+      "type": "class",
+      "name": "SessionStartRailHit",
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "lineRange": [80, 86],
+      "summary": "Dataclass for a news-rail item shown at session start, including title, outlet, snippet, URL, citation, and publish date.",
+      "tags": ["data-model", "session", "web-search"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/session_start_web.py:YandexTopNewsSearcher",
+      "type": "class",
+      "name": "YandexTopNewsSearcher",
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "lineRange": [103, 116],
+      "summary": "WebSearch adapter that returns only rail-fresh hits from the Yandex-style top-news collector.",
+      "tags": ["service", "web-search", "adapter"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:oil_gas_analyst/types.py",
+      "type": "file",
+      "name": "types.py",
+      "filePath": "oil_gas_analyst/types.py",
+      "summary": "Shared dataclasses and Protocol interfaces for chunks, web hits, forecasts, citations, loop results, and pluggable analyst components.",
+      "tags": ["type-definition", "data-model", "contracts"],
+      "complexity": "moderate",
+      "languageNotes": "Uses dataclasses for payloads and Protocol classes for the analyst loop ports."
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:Chunk",
+      "type": "class",
+      "name": "Chunk",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [11, 20],
+      "summary": "Retrieved report excerpt with title, date, page range, heading, agency, and source URL.",
+      "tags": ["data-model", "rag", "citations"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:WebHit",
+      "type": "class",
+      "name": "WebHit",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [24, 27],
+      "summary": "Single web search result with title, URL, and snippet or fetched page body.",
+      "tags": ["data-model", "web-search", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:MethodForecast",
+      "type": "class",
+      "name": "MethodForecast",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [31, 36],
+      "summary": "Point forecast from one statistical method, including interval bounds and interpretation text.",
+      "tags": ["data-model", "forecast", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:MethodPathForecast",
+      "type": "class",
+      "name": "MethodPathForecast",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [40, 46],
+      "summary": "Forecast method result that also carries a time path of predicted values for charting.",
+      "tags": ["data-model", "forecast", "chart"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:ForecastPlotPayload",
+      "type": "class",
+      "name": "ForecastPlotPayload",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [50, 57],
+      "summary": "Chart payload combining live quote, history series, per-method paths, and optional unavailability reason.",
+      "tags": ["data-model", "forecast", "chart"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:ForecastResult",
+      "type": "class",
+      "name": "ForecastResult",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [61, 65],
+      "summary": "Tool-facing forecast summary with symbol, methods, horizon, and failure reason.",
+      "tags": ["data-model", "forecast", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:Citation",
+      "type": "class",
+      "name": "Citation",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [69, 72],
+      "summary": "Source citation with kind (report or web), display label, and URL.",
+      "tags": ["data-model", "citations", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:LoopResult",
+      "type": "class",
+      "name": "LoopResult",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [76, 85],
+      "summary": "Raw Ouroboros loop output including text, citations, retrieved chunks, and which tools ran.",
+      "tags": ["data-model", "orchestration", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:LoopError",
+      "type": "class",
+      "name": "LoopError",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [88, 89],
+      "summary": "Exception type raised when the analyst loop fails.",
+      "tags": ["error-handling", "orchestration", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:AnalystLoop",
+      "type": "class",
+      "name": "AnalystLoop",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [92, 93],
+      "summary": "Protocol for completing a question into a LoopResult.",
+      "tags": ["type-definition", "protocol", "orchestration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:Reply",
+      "type": "class",
+      "name": "Reply",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [97, 106],
+      "summary": "User-facing chat reply with citations, tool flags, refusal state, and optional step trace.",
+      "tags": ["data-model", "chat", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:CompetenceClassifier",
+      "type": "class",
+      "name": "CompetenceClassifier",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [109, 110],
+      "summary": "Protocol for classifying whether a question is in the analyst's competence.",
+      "tags": ["type-definition", "protocol", "classification"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:Retriever",
+      "type": "class",
+      "name": "Retriever",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [113, 114],
+      "summary": "Protocol for retrieving report chunks for a question.",
+      "tags": ["type-definition", "protocol", "rag"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:ChunkDropper",
+      "type": "class",
+      "name": "ChunkDropper",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [117, 118],
+      "summary": "Protocol for deciding whether a retrieved chunk should be kept in context.",
+      "tags": ["type-definition", "protocol", "rag"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:WebSearch",
+      "type": "class",
+      "name": "WebSearch",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [121, 122],
+      "summary": "Protocol for searching the open web and returning WebHit lists.",
+      "tags": ["type-definition", "protocol", "web-search"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:ForecastModule",
+      "type": "class",
+      "name": "ForecastModule",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [125, 126],
+      "summary": "Protocol for producing a ForecastResult for a question.",
+      "tags": ["type-definition", "protocol", "forecast"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:oil_gas_analyst/types.py:Composer",
+      "type": "class",
+      "name": "Composer",
+      "filePath": "oil_gas_analyst/types.py",
+      "lineRange": [129, 130],
+      "summary": "Protocol for composing a final Reply from loop outputs.",
+      "tags": ["type-definition", "protocol", "orchestration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:oil_gas_analyst/web.py",
+      "type": "file",
+      "name": "web.py",
+      "filePath": "oil_gas_analyst/web.py",
+      "summary": "DuckDuckGo-backed web search with HTML stripping, page-body fetch, denylist flags, and tool payload formatting for the analyst loop.",
+      "tags": ["service", "web-search", "ingestion"],
+      "complexity": "moderate",
+      "languageNotes": "Strips script/style tags with regex before decoding fetched HTML into WebHit snippets."
+    },
+    {
+      "id": "function:oil_gas_analyst/web.py:fetch_page_text",
+      "type": "function",
+      "name": "fetch_page_text",
+      "filePath": "oil_gas_analyst/web.py",
+      "lineRange": [31, 50],
+      "summary": "Downloads an HTTP(S) HTML page and returns raw text, skipping non-HTML paths and content types.",
+      "tags": ["http", "ingestion", "web-search"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/web.py:fill_page_bodies",
+      "type": "function",
+      "name": "fill_page_bodies",
+      "filePath": "oil_gas_analyst/web.py",
+      "lineRange": [53, 77],
+      "summary": "Replaces snippets on allowed hits with fetched article text, stopping after a fetch limit and keeping original snippets on failure.",
+      "tags": ["ingestion", "web-search", "validation"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/web.py:search_for_tool",
+      "type": "function",
+      "name": "search_for_tool",
+      "filePath": "oil_gas_analyst/web.py",
+      "lineRange": [108, 136],
+      "summary": "Runs web search and returns a tool payload with citations, denylist flags, and a note not to invent news when empty.",
+      "tags": ["web-search", "tool", "citations"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:oil_gas_analyst/web.py:DuckDuckGoWeb",
+      "type": "class",
+      "name": "DuckDuckGoWeb",
+      "filePath": "oil_gas_analyst/web.py",
+      "lineRange": [80, 104],
+      "summary": "WebSearch implementation using DDGS text search and optional page-body fill for returned hits.",
+      "tags": ["service", "web-search", "adapter"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:oil_gas_analyst/eval_dialogues.py",
+      "target": "file:oil_gas_analyst/session_start_web.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/eval_dialogues.py",
+      "target": "file:oil_gas_analyst/turn.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/eval_dialogues.py",
+      "target": "file:oil_gas_analyst/types.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/graph.py",
+      "target": "file:oil_gas_analyst/eval_dialogues.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/graph.py",
+      "target": "file:oil_gas_analyst/types.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "file:oil_gas_analyst/denylist.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "file:oil_gas_analyst/types.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "file:oil_gas_analyst/web.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/web.py",
+      "target": "file:oil_gas_analyst/settings.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/web.py",
+      "target": "file:oil_gas_analyst/types.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/denylist.py",
+      "target": "function:oil_gas_analyst/denylist.py:is_denied",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/eval_dialogues.py",
+      "target": "function:oil_gas_analyst/eval_dialogues.py:invoke_dashboard_eval",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:_collect_yandex_top_news",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:_save_top_news_cache",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:_load_top_news_cache",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:_build_payload_from_ranked",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:cached_top_news_hits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:_fetch_live_top_news_payload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:refresh_top_news_hits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:fetch_session_start_web",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:visible_rail_hits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:inject_session_start_web",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:has_grounded_session_start_web",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "class:oil_gas_analyst/session_start_web.py:SessionStartRailHit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "class:oil_gas_analyst/session_start_web.py:YandexTopNewsSearcher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:Chunk",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:WebHit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:MethodForecast",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:MethodPathForecast",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:ForecastPlotPayload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:ForecastResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:Citation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:LoopResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:LoopError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:AnalystLoop",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:Reply",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:CompetenceClassifier",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:Retriever",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:ChunkDropper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:WebSearch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:ForecastModule",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:Composer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/web.py",
+      "target": "function:oil_gas_analyst/web.py:fetch_page_text",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/web.py",
+      "target": "function:oil_gas_analyst/web.py:fill_page_bodies",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/web.py",
+      "target": "function:oil_gas_analyst/web.py:search_for_tool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/web.py",
+      "target": "class:oil_gas_analyst/web.py:DuckDuckGoWeb",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/denylist.py",
+      "target": "function:oil_gas_analyst/denylist.py:is_denied",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/eval_dialogues.py",
+      "target": "function:oil_gas_analyst/eval_dialogues.py:invoke_dashboard_eval",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:cached_top_news_hits",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:refresh_top_news_hits",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:fetch_session_start_web",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:visible_rail_hits",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:inject_session_start_web",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "function:oil_gas_analyst/session_start_web.py:has_grounded_session_start_web",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "class:oil_gas_analyst/session_start_web.py:SessionStartRailHit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "class:oil_gas_analyst/session_start_web.py:YandexTopNewsSearcher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:Chunk",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:WebHit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:MethodForecast",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:MethodPathForecast",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:ForecastPlotPayload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:ForecastResult",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:Citation",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:LoopResult",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:LoopError",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:AnalystLoop",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:Reply",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:CompetenceClassifier",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:Retriever",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:ChunkDropper",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:WebSearch",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:ForecastModule",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "class:oil_gas_analyst/types.py:Composer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/web.py",
+      "target": "function:oil_gas_analyst/web.py:fetch_page_text",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/web.py",
+      "target": "function:oil_gas_analyst/web.py:fill_page_bodies",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/web.py",
+      "target": "function:oil_gas_analyst/web.py:search_for_tool",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/web.py",
+      "target": "class:oil_gas_analyst/web.py:DuckDuckGoWeb",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/eval_dialogues.py:invoke_dashboard_eval",
+      "target": "function:oil_gas_analyst/turn.py:run_turn",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/session_start_web.py:_build_payload_from_ranked",
+      "target": "function:oil_gas_analyst/denylist.py:is_denied",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/session_start_web.py:_build_payload_from_ranked",
+      "target": "function:oil_gas_analyst/turn.py:web_citation",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/session_start_web.py:fetch_session_start_web",
+      "target": "function:oil_gas_analyst/web.py:search_for_tool",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/web.py:search_for_tool",
+      "target": "function:oil_gas_analyst/denylist.py:is_denied",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/web.py:search_for_tool",
+      "target": "function:oil_gas_analyst/turn.py:web_citation",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:oil_gas_analyst/web.py:DuckDuckGoWeb",
+      "target": "class:oil_gas_analyst/types.py:WebSearch",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:oil_gas_analyst/session_start_web.py:YandexTopNewsSearcher",
+      "target": "class:oil_gas_analyst/types.py:WebSearch",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:oil_gas_analyst/web.py",
+      "target": "file:oil_gas_analyst/denylist.py",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:oil_gas_analyst/denylist.py",
+      "target": "file:tests/test_denylist.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "file:tests/test_dashboard.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "file:tests/test_denylist.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "file:tests/test_eval_dashboard.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "file:tests/test_session_start_web.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/eval_dialogues.py",
+      "target": "file:tests/test_eval_dashboard.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/eval_dialogues.py",
+      "target": "file:tests/test_graph.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "file:tests/test_eval_dashboard.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "file:tests/test_session_start_web.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/graph.py",
+      "target": "file:tests/test_graph.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/web.py",
+      "target": "file:tests/test_denylist.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

@@ -1,0 +1,286 @@
+{
+  "nodes": [
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md",
+      "type": "document",
+      "name": "01-how-ouroboros-hosts-the-analyst.md",
+      "filePath": ".scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md",
+      "summary": "Resolved research ticket on how current-generation Ouroboros hosts a domain Analyst: the solve model runs the tool loop, domain tools are reviewed extensions, and graders start via docker or ouroboros server—not a pip import into LangGraph.",
+      "tags": ["documentation", "ouroboros", "architecture", "research", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md",
+      "type": "document",
+      "name": "02-stubs-versus-product-contracts.md",
+      "filePath": ".scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md",
+      "summary": "Resolved inventory classifying oil_gas_analyst hardcoded rules as stub, mixed, or product contract, covering report-tag patching, out-of-scope dictionaries, Route lists, denylist, and Forecast module constraints.",
+      "tags": ["documentation", "research", "stubs", "contracts", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md",
+      "type": "document",
+      "name": "03-what-the-agent-must-decide.md",
+      "filePath": ".scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md",
+      "summary": "Resolved grilling ticket stating the solve model decides Competence, retrieve, Drop, Web, Forecast, stop, and order each turn, while hard answer constraints (no invented prices, denylist citations, grounded Report tags) remain.",
+      "tags": ["documentation", "agent-loop", "acceptance", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md",
+      "type": "document",
+      "name": "04-where-the-reviewer-talks.md",
+      "filePath": ".scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md",
+      "summary": "Resolved ticket picking Chainlit at localhost:8000 as the reviewer surface, with the turn running in the Ouroboros loop and LangGraph no longer the conversation runtime.",
+      "tags": ["documentation", "chainlit", "ouroboros", "ui", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md",
+      "type": "document",
+      "name": "05-waterfall-inside-the-agent-loop.md",
+      "filePath": ".scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md",
+      "summary": "Resolved ticket treating the TZ Reports-then-Web waterfall as prompt policy plus Eval on grounded citations, requiring retrieve this turn for [Отчёт] tags rather than a host graph or paragraph order.",
+      "tags": ["documentation", "citations", "eval", "waterfall", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md",
+      "type": "document",
+      "name": "06-which-stubs-must-die.md",
+      "filePath": ".scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md",
+      "summary": "Resolved ticket listing live-model stubs to remove (report-tag patching, out-of-scope dictionary, restore-after-Drop, heading-rank, Route-list tool gates) while keeping denylist, Forecast methods, and infra-only safety nets.",
+      "tags": ["documentation", "stubs", "acceptance", "safety-nets", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md",
+      "type": "document",
+      "name": "07-which-trust-surfaces-the-grader-sees.md",
+      "filePath": ".scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md",
+      "summary": "Resolved ticket requiring README to name Ouroboros, reviewed skills, Chainlit adapter, and /evolve off, while keeping task-acceptance Review, P3, and /review off the Eval path.",
+      "tags": ["documentation", "readme", "trust", "eval", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md",
+      "type": "document",
+      "name": "08-which-model-fills-the-main-slot.md",
+      "filePath": ".scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md",
+      "summary": "Resolved ticket pinning Ouroboros Main to OpenRouter z-ai/glm-5.2:free with thinking off, allowing other slots via env, and forbidding silent fallback to Grok or DeepSeek.",
+      "tags": ["documentation", "llm", "openrouter", "configuration", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "type": "document",
+      "name": "09-chainlit-talks-to-ouroboros.md",
+      "filePath": ".scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "summary": "Resolved build ticket: one compose command serves Chainlit on :8000 as an adapter that POSTs to the Ouroboros gateway, with GLM Main, evolve off, and loud failure on a missing OpenRouter key.",
+      "tags": ["documentation", "chainlit", "ouroboros", "implementation", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md",
+      "type": "document",
+      "name": "10-grounded-report-retrieve.md",
+      "filePath": ".scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md",
+      "summary": "Resolved ticket for oil_gas_retrieve: corpus-covered answers must include a grounded [Отчёт] tag backed by retrieve this turn, without host-patching live replies that omit the tag.",
+      "tags": ["documentation", "rag", "retrieve", "citations", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md",
+      "type": "document",
+      "name": "11-web-sources-without-denylist-citations.md",
+      "filePath": ".scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md",
+      "summary": "Resolved ticket for search_web in oil_gas_web: the model chooses when to search DuckDuckGo, denylist domains must not be cited, and the host does not strip those URLs from raw hits.",
+      "tags": ["documentation", "web-search", "denylist", "citations", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md",
+      "type": "document",
+      "name": "12-forecast-module-in-the-loop.md",
+      "filePath": ".scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md",
+      "summary": "Resolved ticket wrapping SARIMA and Holt–Winters as run_forecast in the Ouroboros loop: Brent default, no Urals series, no silent average, and Forecast verbs as playbook hints not host detectors.",
+      "tags": ["documentation", "forecast", "time-series", "implementation", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md",
+      "type": "document",
+      "name": "13-competence-playbook-and-safety-nets.md",
+      "filePath": ".scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md",
+      "summary": "Resolved ticket placing the Analyst role on identity.md plus an instruction skill, removing live Competence stubs, and allowing timeout/500/empty safety nets without host-blocking tools.",
+      "tags": ["documentation", "competence", "playbook", "safety-nets", "issue-tracker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+      "type": "document",
+      "name": "14-five-readme-dialogues.md",
+      "filePath": ".scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+      "summary": "Open ticket to document five README demo dialogues (Report, Web, combined, Forecast, Out-of-competence) with grounded-citation pass rules, stack limits, and optional Full Report ingest.",
+      "tags": ["documentation", "readme", "eval", "demo", "issue-tracker"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md",
+      "target": "document:.scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

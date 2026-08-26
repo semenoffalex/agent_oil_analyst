@@ -1,0 +1,363 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 11,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": ".scratch/analyst-dashboard/issues/01-what-frames-the-chat.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 31,
+      "nonEmptyLines": 20,
+      "sections": [
+        {
+          "heading": "What frames the chat for a bank executive",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 22
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".scratch/analyst-dashboard/issues/02-session-start-web-fetch.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 33,
+      "nonEmptyLines": 23,
+      "sections": [
+        {
+          "heading": "Session-start Web fetch contract",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Comments",
+          "level": 2,
+          "line": 22
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    },
+    {
+      "path": ".scratch/analyst-dashboard/issues/03-streamlit-click-target.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 22,
+      "nonEmptyLines": 14,
+      "sections": [
+        {
+          "heading": "Streamlit is the click target",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 18
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 20,
+      "nonEmptyLines": 12,
+      "sections": [
+        {
+          "heading": "Dashboard versus Demo and Eval",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 18
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 21,
+      "nonEmptyLines": 12,
+      "sections": [
+        {
+          "heading": "Host Session-start Web versus the agent loop",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 17
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 17,
+      "nonEmptyLines": 10,
+      "sections": [
+        {
+          "heading": "What Forecast already plots",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 17,
+      "nonEmptyLines": 10,
+      "sections": [
+        {
+          "heading": "How Streamlit calls Ouroboros",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".scratch/analyst-dashboard/issues/08-search-web-without-a-question.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 17,
+      "nonEmptyLines": 10,
+      "sections": [
+        {
+          "heading": "search_web without a question",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 19,
+      "nonEmptyLines": 11,
+      "sections": [
+        {
+          "heading": "Exec Dashboard layout",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Comments",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 17
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    },
+    {
+      "path": ".scratch/analyst-dashboard/issues/10-history-without-forecast-request.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 31,
+      "nonEmptyLines": 20,
+      "sections": [
+        {
+          "heading": "May the Dashboard load price history without a Forecast request",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 19
+        },
+        {
+          "heading": "Comments",
+          "level": 2,
+          "line": 29
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    },
+    {
+      "path": ".scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 22,
+      "nonEmptyLines": 14,
+      "sections": [
+        {
+          "heading": "Where the Urals series comes from",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 20
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    }
+  ]
+}

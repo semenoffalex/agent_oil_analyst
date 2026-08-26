@@ -1,0 +1,124 @@
+{
+  "nodes": [
+    {
+      "id": "document:skills/oil_gas_forecast/SKILL.md",
+      "type": "document",
+      "name": "SKILL.md",
+      "filePath": "skills/oil_gas_forecast/SKILL.md",
+      "summary": "Ouroboros skill spec for the oil-price Forecast tool: when to call it, Brent vs WTI vs Urals rules, and the requirement to show all three methods without averaging.",
+      "tags": ["documentation", "skill", "forecast", "ouroboros"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:skills/oil_gas_retrieve/plugin.py",
+      "type": "file",
+      "name": "plugin.py",
+      "filePath": "skills/oil_gas_retrieve/plugin.py",
+      "summary": "Ouroboros extension that registers retrieve_reports, lazily calling retrieve_for_tool to search OPEC/EIA/CBR report chunks.",
+      "tags": ["plugin", "tool-registration", "rag", "ouroboros"],
+      "complexity": "simple",
+      "languageNotes": "Nested tool handler with a lazy import of oil_gas_analyst.retrieve so the extension loads without pulling the RAG stack at import time."
+    },
+    {
+      "id": "function:skills/oil_gas_retrieve/plugin.py:register",
+      "type": "function",
+      "name": "register",
+      "filePath": "skills/oil_gas_retrieve/plugin.py",
+      "lineRange": [6, 30],
+      "summary": "Registers the retrieve_reports tool on the Ouroboros API with query schema and a 120s timeout.",
+      "tags": ["plugin", "tool-registration", "entry-point"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:skills/oil_gas_retrieve/SKILL.md",
+      "type": "document",
+      "name": "SKILL.md",
+      "filePath": "skills/oil_gas_retrieve/SKILL.md",
+      "summary": "Skill spec for report retrieve: in-competence OPEC/EIA/CBR questions, verbatim [Отчёт …] citations, and a same-turn tool-call requirement before citing.",
+      "tags": ["documentation", "skill", "rag", "ouroboros"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:skills/oil_gas_web/plugin.py",
+      "type": "file",
+      "name": "plugin.py",
+      "filePath": "skills/oil_gas_web/plugin.py",
+      "summary": "Ouroboros extension that registers search_web, lazily calling search_for_tool for DuckDuckGo oil/gas news and live quotes.",
+      "tags": ["plugin", "tool-registration", "web-search", "ouroboros"],
+      "complexity": "simple",
+      "languageNotes": "Nested tool handler with a lazy import of oil_gas_analyst.web."
+    },
+    {
+      "id": "function:skills/oil_gas_web/plugin.py:register",
+      "type": "function",
+      "name": "register",
+      "filePath": "skills/oil_gas_web/plugin.py",
+      "lineRange": [6, 30],
+      "summary": "Registers the search_web tool on the Ouroboros API with query schema and a 60s timeout.",
+      "tags": ["plugin", "tool-registration", "entry-point"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:skills/oil_gas_web/SKILL.md",
+      "type": "document",
+      "name": "SKILL.md",
+      "filePath": "skills/oil_gas_web/SKILL.md",
+      "summary": "Skill spec for web search: freshness and live quotes, verbatim [Источник: …, web] citations, and a ban on citing denied Yellow-press hits.",
+      "tags": ["documentation", "skill", "web-search", "ouroboros"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/conftest.py",
+      "type": "file",
+      "name": "conftest.py",
+      "filePath": "tests/conftest.py",
+      "summary": "Placeholder pytest conftest that points testers to pyproject.toml for pytest configuration.",
+      "tags": ["test", "pytest", "configuration"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:skills/oil_gas_retrieve/plugin.py",
+      "target": "function:skills/oil_gas_retrieve/plugin.py:register",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:skills/oil_gas_retrieve/plugin.py",
+      "target": "function:skills/oil_gas_retrieve/plugin.py:register",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "document:skills/oil_gas_retrieve/SKILL.md",
+      "target": "file:skills/oil_gas_retrieve/plugin.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:skills/oil_gas_web/plugin.py",
+      "target": "function:skills/oil_gas_web/plugin.py:register",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:skills/oil_gas_web/plugin.py",
+      "target": "function:skills/oil_gas_web/plugin.py:register",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "document:skills/oil_gas_web/SKILL.md",
+      "target": "file:skills/oil_gas_web/plugin.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

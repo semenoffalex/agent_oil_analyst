@@ -1,0 +1,2854 @@
+{
+  "scriptCompleted": true,
+  "commonPrefix": "",
+  "directoryGroups": {
+    "tests": [
+      "file:tests/test_dashboard.py",
+      "file:tests/test_denylist.py",
+      "file:tests/test_eval_dashboard.py",
+      "file:tests/test_graph.py",
+      "file:tests/test_session_start_web.py",
+      "file:tests/test_rate_limit.py",
+      "file:tests/test_routes.py",
+      "file:tests/test_turn.py",
+      "file:tests/test_ingest.py",
+      "file:tests/test_ouroboros.py",
+      "file:tests/test_settings.py",
+      "file:tests/test_consensus_price.py",
+      "file:tests/test_dashboard_layout.py",
+      "file:tests/test_forecast.py",
+      "file:tests/conftest.py"
+    ],
+    "oil_gas_analyst": [
+      "file:oil_gas_analyst/denylist.py",
+      "file:oil_gas_analyst/eval_dialogues.py",
+      "file:oil_gas_analyst/graph.py",
+      "file:oil_gas_analyst/session_start_web.py",
+      "file:oil_gas_analyst/types.py",
+      "file:oil_gas_analyst/web.py",
+      "file:oil_gas_analyst/routes.py",
+      "file:oil_gas_analyst/turn.py",
+      "file:oil_gas_analyst/__init__.py",
+      "file:oil_gas_analyst/app.py",
+      "file:oil_gas_analyst/chat_ui.py",
+      "file:oil_gas_analyst/rate_limit.py",
+      "file:oil_gas_analyst/render.py",
+      "file:oil_gas_analyst/__main__.py",
+      "file:oil_gas_analyst/corpus_strip.py",
+      "file:oil_gas_analyst/deps.py",
+      "file:oil_gas_analyst/ingest.py",
+      "file:oil_gas_analyst/ouroboros.py",
+      "file:oil_gas_analyst/retrieve.py",
+      "file:oil_gas_analyst/settings.py",
+      "file:oil_gas_analyst/forecast.py",
+      "file:oil_gas_analyst/consensus_price.py",
+      "file:oil_gas_analyst/dashboard.py",
+      "file:oil_gas_analyst/dashboard_chart.py",
+      "file:oil_gas_analyst/demo_auth.py"
+    ],
+    "root": [
+      "service:.dockerignore",
+      "service:docker-compose.yml",
+      "service:docker-compose.yml:ouroboros",
+      "service:docker-compose.yml:analyst",
+      "service:Dockerfile",
+      "service:Dockerfile:python",
+      "config:.env.example",
+      "document:AGENTS.md",
+      "document:CONTEXT.md",
+      "document:README.md",
+      "config:pyproject.toml",
+      "document:requirements-analyst.txt",
+      "document:requirements.txt",
+      "document:task.md"
+    ],
+    ".scratch": [
+      "document:.scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md",
+      "document:.scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md",
+      "document:.scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md",
+      "document:.scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md",
+      "document:.scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md",
+      "document:.scratch/analyst-dashboard/issues/01-what-frames-the-chat.md",
+      "document:.scratch/analyst-dashboard/issues/02-session-start-web-fetch.md",
+      "document:.scratch/analyst-dashboard/issues/03-streamlit-click-target.md",
+      "document:.scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md",
+      "document:.scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md",
+      "document:.scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md",
+      "document:.scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md",
+      "document:.scratch/analyst-dashboard/issues/08-search-web-without-a-question.md",
+      "document:.scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md",
+      "document:.scratch/analyst-dashboard/issues/10-history-without-forecast-request.md",
+      "document:.scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md",
+      "document:.scratch/analyst-dashboard/research/forecast-plot-payload.md",
+      "document:.scratch/analyst-dashboard/research/session-start-search-web.md",
+      "document:.scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md",
+      "document:.scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md",
+      "document:.scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md",
+      "document:.scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md",
+      "document:.scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md",
+      "document:.scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md",
+      "document:.scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md",
+      "document:.scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md",
+      "document:.scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md",
+      "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "document:.scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md",
+      "document:.scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md",
+      "document:.scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md",
+      "document:.scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md",
+      "document:.scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+      "document:.scratch/analyst-dashboard-build/spec.md",
+      "document:.scratch/analyst-dashboard/map.md",
+      "file:.scratch/analyst-dashboard/prototype/dashboard.html",
+      "document:.scratch/analyst-dashboard/spec.md",
+      "document:.scratch/oil-gas-analyst/spec.md",
+      "document:.scratch/ouroboros-analyst/map.md",
+      "document:.scratch/ouroboros-analyst/research/ouroboros-host.md",
+      "document:.scratch/ouroboros-analyst/research/stubs-versus-contracts.md",
+      "document:.scratch/ouroboros-analyst/spec.md"
+    ],
+    "config": [
+      "config:config/forecast.yaml",
+      "config:config/ingest.yaml",
+      "config:config/red_team_pack.yaml",
+      "config:config/route_lists.yaml",
+      "config:config/session_start_rail_exclusions.yaml",
+      "config:config/yellow_press_denylist.yaml"
+    ],
+    "docs": [
+      "document:docs/adr/0001-analyst-lives-inside-ouroboros.md",
+      "document:docs/adr/0002-ouroboros-out-of-scope.md",
+      "document:docs/adr/0003-thin-or-fresh-web.md",
+      "document:docs/adr/0004-forecast-only-on-explicit-verbs.md",
+      "document:docs/adr/0005-closed-route-lists.md",
+      "document:docs/adr/0006-deepseek-chat-llm.md",
+      "document:docs/adr/0007-e5-chroma-reports.md",
+      "document:docs/adr/0008-duckduckgo-denylist.md",
+      "document:docs/adr/0009-yfinance-sarima-ets.md",
+      "document:docs/adr/0010-chainlit-ui.md",
+      "document:docs/adr/0011-sample-and-full-reports.md",
+      "document:docs/adr/0012-always-retrieve-model-drops.md",
+      "document:docs/adr/0013-web-if-dropped-and-in-competence.md",
+      "document:docs/adr/0014-competence-classify-node.md",
+      "document:docs/adr/0015-heading-chunks.md",
+      "document:docs/adr/0016-cbr-sample-report.md",
+      "document:docs/adr/0017-next-cycle-is-public-demo.md",
+      "document:docs/adr/0018-eval-chat-openrouter-free.md",
+      "document:docs/adr/0019-model-decides-the-loop.md",
+      "document:docs/adr/0020-waterfall-grounded-citations.md",
+      "document:docs/adr/0021-chainlit-adapter-ouroboros-loop.md",
+      "document:docs/adr/0022-live-stubs-die-infra-nets.md",
+      "document:docs/adr/0023-main-openrouter-glm52-free.md",
+      "document:docs/adr/0024-readme-names-ouroboros-evolve-off.md",
+      "document:docs/adr/0025-openrouter-embeddings-no-local-torch.md",
+      "document:docs/adr/0026-streamlit-dashboard-is-the-demo.md",
+      "document:docs/adr/0027-deepseek-direct-api-main.md",
+      "document:docs/agents/domain.md",
+      "document:docs/agents/issue-tracker.md"
+    ],
+    "oil_gas_analyst.egg-info": [
+      "document:oil_gas_analyst.egg-info/SOURCES.txt",
+      "document:oil_gas_analyst.egg-info/dependency_links.txt",
+      "document:oil_gas_analyst.egg-info/top_level.txt",
+      "file:oil_gas_analyst.egg-info/PKG-INFO"
+    ],
+    ".cursor": [
+      "config:.cursor/hooks/state/continual-learning-index.json"
+    ],
+    ".streamlit": [
+      "config:.streamlit/config.toml"
+    ],
+    ".understand-anything": [
+      "file:.understand-anything/.understandignore",
+      "config:.understand-anything/config.json"
+    ],
+    "data": [
+      "document:data/ouroboros/identity.md",
+      "document:data/samples/README.md"
+    ],
+    "deploy": [
+      "file:deploy/demo-nginx.conf"
+    ],
+    "docker": [
+      "config:docker/cloud-init.yaml",
+      "file:docker/ouroboros-entrypoint.sh",
+      "file:docker/ouroboros.Dockerfile"
+    ],
+    "scripts": [
+      "file:scripts/render-timeweb-cloud-init.py"
+    ],
+    "skills": [
+      "document:skills/oil_gas_analyst/SKILL.md",
+      "file:skills/oil_gas_forecast/plugin.py",
+      "document:skills/oil_gas_forecast/SKILL.md",
+      "file:skills/oil_gas_retrieve/plugin.py",
+      "document:skills/oil_gas_retrieve/SKILL.md",
+      "file:skills/oil_gas_web/plugin.py",
+      "document:skills/oil_gas_web/SKILL.md"
+    ]
+  },
+  "nodeTypeGroups": {
+    "file": [
+      "file:tests/test_dashboard.py",
+      "file:tests/test_denylist.py",
+      "file:tests/test_eval_dashboard.py",
+      "file:tests/test_graph.py",
+      "file:tests/test_session_start_web.py",
+      "file:oil_gas_analyst/denylist.py",
+      "file:oil_gas_analyst/eval_dialogues.py",
+      "file:oil_gas_analyst/graph.py",
+      "file:oil_gas_analyst/session_start_web.py",
+      "file:oil_gas_analyst/types.py",
+      "file:oil_gas_analyst/web.py",
+      "file:oil_gas_analyst/routes.py",
+      "file:oil_gas_analyst/turn.py",
+      "file:tests/test_rate_limit.py",
+      "file:tests/test_routes.py",
+      "file:tests/test_turn.py",
+      "file:oil_gas_analyst/__init__.py",
+      "file:oil_gas_analyst/app.py",
+      "file:oil_gas_analyst/chat_ui.py",
+      "file:oil_gas_analyst/rate_limit.py",
+      "file:oil_gas_analyst/render.py",
+      "file:oil_gas_analyst/__main__.py",
+      "file:oil_gas_analyst/corpus_strip.py",
+      "file:oil_gas_analyst/deps.py",
+      "file:oil_gas_analyst/ingest.py",
+      "file:oil_gas_analyst/ouroboros.py",
+      "file:oil_gas_analyst/retrieve.py",
+      "file:oil_gas_analyst/settings.py",
+      "file:tests/test_ingest.py",
+      "file:tests/test_ouroboros.py",
+      "file:tests/test_settings.py",
+      "file:oil_gas_analyst/forecast.py",
+      "file:tests/test_consensus_price.py",
+      "file:tests/test_dashboard_layout.py",
+      "file:tests/test_forecast.py",
+      "file:oil_gas_analyst/consensus_price.py",
+      "file:oil_gas_analyst/dashboard.py",
+      "file:oil_gas_analyst/dashboard_chart.py",
+      "file:oil_gas_analyst/demo_auth.py",
+      "file:.scratch/analyst-dashboard/prototype/dashboard.html",
+      "file:.understand-anything/.understandignore",
+      "file:deploy/demo-nginx.conf",
+      "file:docker/ouroboros-entrypoint.sh",
+      "file:docker/ouroboros.Dockerfile",
+      "file:oil_gas_analyst.egg-info/PKG-INFO",
+      "file:scripts/render-timeweb-cloud-init.py",
+      "file:skills/oil_gas_forecast/plugin.py",
+      "file:skills/oil_gas_retrieve/plugin.py",
+      "file:skills/oil_gas_web/plugin.py",
+      "file:tests/conftest.py"
+    ],
+    "service": [
+      "service:.dockerignore",
+      "service:docker-compose.yml",
+      "service:docker-compose.yml:ouroboros",
+      "service:docker-compose.yml:analyst",
+      "service:Dockerfile",
+      "service:Dockerfile:python"
+    ],
+    "config": [
+      "config:.env.example",
+      "config:pyproject.toml",
+      "config:config/forecast.yaml",
+      "config:config/ingest.yaml",
+      "config:config/red_team_pack.yaml",
+      "config:config/route_lists.yaml",
+      "config:config/session_start_rail_exclusions.yaml",
+      "config:config/yellow_press_denylist.yaml",
+      "config:.cursor/hooks/state/continual-learning-index.json",
+      "config:.streamlit/config.toml",
+      "config:.understand-anything/config.json",
+      "config:docker/cloud-init.yaml"
+    ],
+    "document": [
+      "document:AGENTS.md",
+      "document:CONTEXT.md",
+      "document:README.md",
+      "document:requirements-analyst.txt",
+      "document:requirements.txt",
+      "document:task.md",
+      "document:.scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md",
+      "document:.scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md",
+      "document:.scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md",
+      "document:.scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md",
+      "document:.scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md",
+      "document:.scratch/analyst-dashboard/issues/01-what-frames-the-chat.md",
+      "document:.scratch/analyst-dashboard/issues/02-session-start-web-fetch.md",
+      "document:.scratch/analyst-dashboard/issues/03-streamlit-click-target.md",
+      "document:.scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md",
+      "document:.scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md",
+      "document:.scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md",
+      "document:.scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md",
+      "document:.scratch/analyst-dashboard/issues/08-search-web-without-a-question.md",
+      "document:.scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md",
+      "document:.scratch/analyst-dashboard/issues/10-history-without-forecast-request.md",
+      "document:.scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md",
+      "document:.scratch/analyst-dashboard/research/forecast-plot-payload.md",
+      "document:.scratch/analyst-dashboard/research/session-start-search-web.md",
+      "document:.scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md",
+      "document:.scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md",
+      "document:.scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md",
+      "document:.scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md",
+      "document:.scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md",
+      "document:.scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md",
+      "document:.scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md",
+      "document:.scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md",
+      "document:.scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md",
+      "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "document:.scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md",
+      "document:.scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md",
+      "document:.scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md",
+      "document:.scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md",
+      "document:.scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+      "document:docs/adr/0001-analyst-lives-inside-ouroboros.md",
+      "document:docs/adr/0002-ouroboros-out-of-scope.md",
+      "document:docs/adr/0003-thin-or-fresh-web.md",
+      "document:docs/adr/0004-forecast-only-on-explicit-verbs.md",
+      "document:docs/adr/0005-closed-route-lists.md",
+      "document:docs/adr/0006-deepseek-chat-llm.md",
+      "document:docs/adr/0007-e5-chroma-reports.md",
+      "document:docs/adr/0008-duckduckgo-denylist.md",
+      "document:docs/adr/0009-yfinance-sarima-ets.md",
+      "document:docs/adr/0010-chainlit-ui.md",
+      "document:docs/adr/0011-sample-and-full-reports.md",
+      "document:docs/adr/0012-always-retrieve-model-drops.md",
+      "document:docs/adr/0013-web-if-dropped-and-in-competence.md",
+      "document:docs/adr/0014-competence-classify-node.md",
+      "document:docs/adr/0015-heading-chunks.md",
+      "document:docs/adr/0016-cbr-sample-report.md",
+      "document:docs/adr/0017-next-cycle-is-public-demo.md",
+      "document:docs/adr/0018-eval-chat-openrouter-free.md",
+      "document:docs/adr/0019-model-decides-the-loop.md",
+      "document:docs/adr/0020-waterfall-grounded-citations.md",
+      "document:docs/adr/0021-chainlit-adapter-ouroboros-loop.md",
+      "document:docs/adr/0022-live-stubs-die-infra-nets.md",
+      "document:docs/adr/0023-main-openrouter-glm52-free.md",
+      "document:docs/adr/0024-readme-names-ouroboros-evolve-off.md",
+      "document:docs/adr/0025-openrouter-embeddings-no-local-torch.md",
+      "document:docs/adr/0026-streamlit-dashboard-is-the-demo.md",
+      "document:docs/adr/0027-deepseek-direct-api-main.md",
+      "document:oil_gas_analyst.egg-info/SOURCES.txt",
+      "document:oil_gas_analyst.egg-info/dependency_links.txt",
+      "document:oil_gas_analyst.egg-info/top_level.txt",
+      "document:.scratch/analyst-dashboard-build/spec.md",
+      "document:.scratch/analyst-dashboard/map.md",
+      "document:.scratch/analyst-dashboard/spec.md",
+      "document:.scratch/oil-gas-analyst/spec.md",
+      "document:.scratch/ouroboros-analyst/map.md",
+      "document:.scratch/ouroboros-analyst/research/ouroboros-host.md",
+      "document:.scratch/ouroboros-analyst/research/stubs-versus-contracts.md",
+      "document:.scratch/ouroboros-analyst/spec.md",
+      "document:data/ouroboros/identity.md",
+      "document:data/samples/README.md",
+      "document:docs/agents/domain.md",
+      "document:docs/agents/issue-tracker.md",
+      "document:skills/oil_gas_analyst/SKILL.md",
+      "document:skills/oil_gas_forecast/SKILL.md",
+      "document:skills/oil_gas_retrieve/SKILL.md",
+      "document:skills/oil_gas_web/SKILL.md"
+    ]
+  },
+  "crossCategoryEdges": [
+    {
+      "fromType": "file",
+      "toType": "file",
+      "edgeType": "imports",
+      "count": 80
+    },
+    {
+      "fromType": "file",
+      "toType": "file",
+      "edgeType": "tested_by",
+      "count": 28
+    },
+    {
+      "fromType": "file",
+      "toType": "file",
+      "edgeType": "depends_on",
+      "count": 4
+    },
+    {
+      "fromType": "service",
+      "toType": "service",
+      "edgeType": "related",
+      "count": 4
+    },
+    {
+      "fromType": "service",
+      "toType": "service",
+      "edgeType": "depends_on",
+      "count": 3
+    },
+    {
+      "fromType": "service",
+      "toType": "service",
+      "edgeType": "deploys",
+      "count": 1
+    },
+    {
+      "fromType": "config",
+      "toType": "file",
+      "edgeType": "configures",
+      "count": 12
+    },
+    {
+      "fromType": "document",
+      "toType": "file",
+      "edgeType": "documents",
+      "count": 42
+    },
+    {
+      "fromType": "document",
+      "toType": "document",
+      "edgeType": "documents",
+      "count": 14
+    },
+    {
+      "fromType": "document",
+      "toType": "config",
+      "edgeType": "documents",
+      "count": 4
+    },
+    {
+      "fromType": "document",
+      "toType": "service",
+      "edgeType": "documents",
+      "count": 1
+    },
+    {
+      "fromType": "document",
+      "toType": "document",
+      "edgeType": "related",
+      "count": 78
+    },
+    {
+      "fromType": "document",
+      "toType": "config",
+      "edgeType": "related",
+      "count": 1
+    },
+    {
+      "fromType": "document",
+      "toType": "file",
+      "edgeType": "related",
+      "count": 1
+    },
+    {
+      "fromType": "file",
+      "toType": "config",
+      "edgeType": "depends_on",
+      "count": 1
+    },
+    {
+      "fromType": "file",
+      "toType": "document",
+      "edgeType": "depends_on",
+      "count": 4
+    },
+    {
+      "fromType": "file",
+      "toType": "document",
+      "edgeType": "related",
+      "count": 1
+    },
+    {
+      "fromType": "file",
+      "toType": "config",
+      "edgeType": "related",
+      "count": 1
+    }
+  ],
+  "interGroupImports": [
+    {
+      "from": "tests",
+      "to": "oil_gas_analyst",
+      "count": 26
+    }
+  ],
+  "intraGroupDensity": {
+    "tests": {
+      "internalEdges": 0,
+      "totalEdges": 26,
+      "density": 0
+    },
+    "oil_gas_analyst": {
+      "internalEdges": 54,
+      "totalEdges": 80,
+      "density": 0.675
+    },
+    "root": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    ".scratch": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    "config": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    "docs": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    "oil_gas_analyst.egg-info": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    ".cursor": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    ".streamlit": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    ".understand-anything": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    "data": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    "deploy": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    "docker": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    "scripts": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    "skills": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    }
+  },
+  "patternMatches": {
+    "tests": "test",
+    "oil_gas_analyst": "unknown",
+    "root": "root",
+    ".scratch": "unknown",
+    "config": "config",
+    "docs": "documentation",
+    "oil_gas_analyst.egg-info": "unknown",
+    ".cursor": "unknown",
+    ".streamlit": "unknown",
+    ".understand-anything": "unknown",
+    "data": "data",
+    "deploy": "infrastructure",
+    "docker": "infrastructure",
+    "scripts": "unknown",
+    "skills": "unknown"
+  },
+  "deploymentTopology": {
+    "hasDockerfile": true,
+    "hasCompose": true,
+    "hasK8s": false,
+    "hasTerraform": false,
+    "hasCI": false,
+    "infraFiles": [
+      ".dockerignore",
+      "docker-compose.yml",
+      "docker-compose.yml",
+      "docker-compose.yml",
+      "Dockerfile",
+      "Dockerfile",
+      "deploy/demo-nginx.conf",
+      "docker/cloud-init.yaml",
+      "docker/ouroboros-entrypoint.sh",
+      "docker/ouroboros.Dockerfile"
+    ]
+  },
+  "dataPipeline": {
+    "schemaFiles": [],
+    "migrationFiles": [],
+    "dataModelFiles": [],
+    "apiHandlerFiles": []
+  },
+  "docCoverage": {
+    "groupsWithDocs": 2,
+    "totalGroups": 15,
+    "coverageRatio": 0.1333,
+    "undocumentedGroups": [
+      "tests",
+      "oil_gas_analyst",
+      ".scratch",
+      "config",
+      "docs",
+      "oil_gas_analyst.egg-info",
+      ".cursor",
+      ".streamlit",
+      ".understand-anything",
+      "deploy",
+      "docker",
+      "scripts",
+      "skills"
+    ]
+  },
+  "dependencyDirection": [
+    {
+      "dependent": "tests",
+      "dependsOn": "oil_gas_analyst"
+    }
+  ],
+  "fileStats": {
+    "totalFileNodes": 153,
+    "filesPerGroup": {
+      "tests": 15,
+      "oil_gas_analyst": 25,
+      "root": 14,
+      ".scratch": 42,
+      "config": 6,
+      "docs": 29,
+      "oil_gas_analyst.egg-info": 4,
+      ".cursor": 1,
+      ".streamlit": 1,
+      ".understand-anything": 2,
+      "data": 2,
+      "deploy": 1,
+      "docker": 3,
+      "scripts": 1,
+      "skills": 7
+    },
+    "nodeTypeCounts": {
+      "file": 50,
+      "service": 6,
+      "config": 12,
+      "document": 85
+    }
+  },
+  "fileFanIn": {
+    "file:tests/test_dashboard.py": 0,
+    "file:tests/test_denylist.py": 0,
+    "file:tests/test_eval_dashboard.py": 0,
+    "file:tests/test_graph.py": 0,
+    "file:tests/test_session_start_web.py": 0,
+    "file:oil_gas_analyst/denylist.py": 2,
+    "file:oil_gas_analyst/eval_dialogues.py": 2,
+    "file:oil_gas_analyst/graph.py": 1,
+    "file:oil_gas_analyst/session_start_web.py": 8,
+    "file:oil_gas_analyst/types.py": 17,
+    "file:oil_gas_analyst/web.py": 1,
+    "file:oil_gas_analyst/routes.py": 2,
+    "file:oil_gas_analyst/turn.py": 8,
+    "file:tests/test_rate_limit.py": 0,
+    "file:tests/test_routes.py": 0,
+    "file:tests/test_turn.py": 0,
+    "file:oil_gas_analyst/__init__.py": 0,
+    "file:oil_gas_analyst/app.py": 0,
+    "file:oil_gas_analyst/chat_ui.py": 1,
+    "file:oil_gas_analyst/rate_limit.py": 3,
+    "file:oil_gas_analyst/render.py": 2,
+    "file:oil_gas_analyst/__main__.py": 0,
+    "file:oil_gas_analyst/corpus_strip.py": 2,
+    "file:oil_gas_analyst/deps.py": 3,
+    "file:oil_gas_analyst/ingest.py": 7,
+    "file:oil_gas_analyst/ouroboros.py": 2,
+    "file:oil_gas_analyst/retrieve.py": 2,
+    "file:oil_gas_analyst/settings.py": 7,
+    "file:tests/test_ingest.py": 0,
+    "file:tests/test_ouroboros.py": 0,
+    "file:tests/test_settings.py": 0,
+    "file:oil_gas_analyst/forecast.py": 4,
+    "file:tests/test_consensus_price.py": 0,
+    "file:tests/test_dashboard_layout.py": 0,
+    "file:tests/test_forecast.py": 0,
+    "file:oil_gas_analyst/consensus_price.py": 2,
+    "file:oil_gas_analyst/dashboard.py": 1,
+    "file:oil_gas_analyst/dashboard_chart.py": 2,
+    "file:oil_gas_analyst/demo_auth.py": 1,
+    "service:.dockerignore": 0,
+    "service:docker-compose.yml": 0,
+    "service:docker-compose.yml:ouroboros": 0,
+    "service:docker-compose.yml:analyst": 0,
+    "service:Dockerfile": 0,
+    "service:Dockerfile:python": 0,
+    "config:.env.example": 0,
+    "document:AGENTS.md": 0,
+    "document:CONTEXT.md": 0,
+    "document:README.md": 0,
+    "config:pyproject.toml": 0,
+    "document:requirements-analyst.txt": 0,
+    "document:requirements.txt": 0,
+    "document:task.md": 0,
+    "document:.scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md": 0,
+    "document:.scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md": 0,
+    "document:.scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md": 0,
+    "document:.scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md": 0,
+    "document:.scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md": 0,
+    "document:.scratch/analyst-dashboard/issues/01-what-frames-the-chat.md": 0,
+    "document:.scratch/analyst-dashboard/issues/02-session-start-web-fetch.md": 0,
+    "document:.scratch/analyst-dashboard/issues/03-streamlit-click-target.md": 0,
+    "document:.scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md": 0,
+    "document:.scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md": 0,
+    "document:.scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md": 0,
+    "document:.scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md": 0,
+    "document:.scratch/analyst-dashboard/issues/08-search-web-without-a-question.md": 0,
+    "document:.scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md": 0,
+    "document:.scratch/analyst-dashboard/issues/10-history-without-forecast-request.md": 0,
+    "document:.scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md": 0,
+    "document:.scratch/analyst-dashboard/research/forecast-plot-payload.md": 0,
+    "document:.scratch/analyst-dashboard/research/session-start-search-web.md": 0,
+    "document:.scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md": 0,
+    "config:config/forecast.yaml": 0,
+    "config:config/ingest.yaml": 0,
+    "config:config/red_team_pack.yaml": 0,
+    "config:config/route_lists.yaml": 0,
+    "config:config/session_start_rail_exclusions.yaml": 0,
+    "config:config/yellow_press_denylist.yaml": 0,
+    "document:docs/adr/0001-analyst-lives-inside-ouroboros.md": 0,
+    "document:docs/adr/0002-ouroboros-out-of-scope.md": 0,
+    "document:docs/adr/0003-thin-or-fresh-web.md": 0,
+    "document:docs/adr/0004-forecast-only-on-explicit-verbs.md": 0,
+    "document:docs/adr/0005-closed-route-lists.md": 0,
+    "document:docs/adr/0006-deepseek-chat-llm.md": 0,
+    "document:docs/adr/0007-e5-chroma-reports.md": 0,
+    "document:docs/adr/0008-duckduckgo-denylist.md": 0,
+    "document:docs/adr/0009-yfinance-sarima-ets.md": 0,
+    "document:docs/adr/0010-chainlit-ui.md": 0,
+    "document:docs/adr/0011-sample-and-full-reports.md": 0,
+    "document:docs/adr/0012-always-retrieve-model-drops.md": 0,
+    "document:docs/adr/0013-web-if-dropped-and-in-competence.md": 0,
+    "document:docs/adr/0014-competence-classify-node.md": 0,
+    "document:docs/adr/0015-heading-chunks.md": 0,
+    "document:docs/adr/0016-cbr-sample-report.md": 0,
+    "document:docs/adr/0017-next-cycle-is-public-demo.md": 0,
+    "document:docs/adr/0018-eval-chat-openrouter-free.md": 0,
+    "document:docs/adr/0019-model-decides-the-loop.md": 0,
+    "document:docs/adr/0020-waterfall-grounded-citations.md": 0,
+    "document:docs/adr/0021-chainlit-adapter-ouroboros-loop.md": 0,
+    "document:docs/adr/0022-live-stubs-die-infra-nets.md": 0,
+    "document:docs/adr/0023-main-openrouter-glm52-free.md": 0,
+    "document:docs/adr/0024-readme-names-ouroboros-evolve-off.md": 0,
+    "document:docs/adr/0025-openrouter-embeddings-no-local-torch.md": 0,
+    "document:docs/adr/0026-streamlit-dashboard-is-the-demo.md": 0,
+    "document:docs/adr/0027-deepseek-direct-api-main.md": 0,
+    "document:oil_gas_analyst.egg-info/SOURCES.txt": 0,
+    "document:oil_gas_analyst.egg-info/dependency_links.txt": 0,
+    "document:oil_gas_analyst.egg-info/top_level.txt": 0,
+    "config:.cursor/hooks/state/continual-learning-index.json": 0,
+    "document:.scratch/analyst-dashboard-build/spec.md": 0,
+    "document:.scratch/analyst-dashboard/map.md": 0,
+    "file:.scratch/analyst-dashboard/prototype/dashboard.html": 0,
+    "document:.scratch/analyst-dashboard/spec.md": 0,
+    "document:.scratch/oil-gas-analyst/spec.md": 0,
+    "document:.scratch/ouroboros-analyst/map.md": 0,
+    "document:.scratch/ouroboros-analyst/research/ouroboros-host.md": 0,
+    "document:.scratch/ouroboros-analyst/research/stubs-versus-contracts.md": 0,
+    "document:.scratch/ouroboros-analyst/spec.md": 0,
+    "config:.streamlit/config.toml": 0,
+    "file:.understand-anything/.understandignore": 0,
+    "config:.understand-anything/config.json": 0,
+    "document:data/ouroboros/identity.md": 0,
+    "document:data/samples/README.md": 0,
+    "file:deploy/demo-nginx.conf": 0,
+    "config:docker/cloud-init.yaml": 0,
+    "file:docker/ouroboros-entrypoint.sh": 0,
+    "file:docker/ouroboros.Dockerfile": 0,
+    "document:docs/agents/domain.md": 0,
+    "document:docs/agents/issue-tracker.md": 0,
+    "file:oil_gas_analyst.egg-info/PKG-INFO": 0,
+    "file:scripts/render-timeweb-cloud-init.py": 0,
+    "document:skills/oil_gas_analyst/SKILL.md": 0,
+    "file:skills/oil_gas_forecast/plugin.py": 0,
+    "document:skills/oil_gas_forecast/SKILL.md": 0,
+    "file:skills/oil_gas_retrieve/plugin.py": 0,
+    "document:skills/oil_gas_retrieve/SKILL.md": 0,
+    "file:skills/oil_gas_web/plugin.py": 0,
+    "document:skills/oil_gas_web/SKILL.md": 0,
+    "file:tests/conftest.py": 0
+  },
+  "fileFanOut": {
+    "file:tests/test_dashboard.py": 1,
+    "file:tests/test_denylist.py": 2,
+    "file:tests/test_eval_dashboard.py": 3,
+    "file:tests/test_graph.py": 1,
+    "file:tests/test_session_start_web.py": 3,
+    "file:oil_gas_analyst/denylist.py": 0,
+    "file:oil_gas_analyst/eval_dialogues.py": 3,
+    "file:oil_gas_analyst/graph.py": 2,
+    "file:oil_gas_analyst/session_start_web.py": 3,
+    "file:oil_gas_analyst/types.py": 0,
+    "file:oil_gas_analyst/web.py": 2,
+    "file:oil_gas_analyst/routes.py": 0,
+    "file:oil_gas_analyst/turn.py": 5,
+    "file:tests/test_rate_limit.py": 1,
+    "file:tests/test_routes.py": 1,
+    "file:tests/test_turn.py": 2,
+    "file:oil_gas_analyst/__init__.py": 1,
+    "file:oil_gas_analyst/app.py": 5,
+    "file:oil_gas_analyst/chat_ui.py": 5,
+    "file:oil_gas_analyst/rate_limit.py": 0,
+    "file:oil_gas_analyst/render.py": 4,
+    "file:oil_gas_analyst/__main__.py": 2,
+    "file:oil_gas_analyst/corpus_strip.py": 2,
+    "file:oil_gas_analyst/deps.py": 3,
+    "file:oil_gas_analyst/ingest.py": 1,
+    "file:oil_gas_analyst/ouroboros.py": 2,
+    "file:oil_gas_analyst/retrieve.py": 3,
+    "file:oil_gas_analyst/settings.py": 0,
+    "file:tests/test_ingest.py": 1,
+    "file:tests/test_ouroboros.py": 2,
+    "file:tests/test_settings.py": 1,
+    "file:oil_gas_analyst/forecast.py": 2,
+    "file:tests/test_consensus_price.py": 2,
+    "file:tests/test_dashboard_layout.py": 4,
+    "file:tests/test_forecast.py": 2,
+    "file:oil_gas_analyst/consensus_price.py": 1,
+    "file:oil_gas_analyst/dashboard.py": 7,
+    "file:oil_gas_analyst/dashboard_chart.py": 1,
+    "file:oil_gas_analyst/demo_auth.py": 0,
+    "service:.dockerignore": 0,
+    "service:docker-compose.yml": 0,
+    "service:docker-compose.yml:ouroboros": 0,
+    "service:docker-compose.yml:analyst": 0,
+    "service:Dockerfile": 0,
+    "service:Dockerfile:python": 0,
+    "config:.env.example": 0,
+    "document:AGENTS.md": 0,
+    "document:CONTEXT.md": 0,
+    "document:README.md": 0,
+    "config:pyproject.toml": 0,
+    "document:requirements-analyst.txt": 0,
+    "document:requirements.txt": 0,
+    "document:task.md": 0,
+    "document:.scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md": 0,
+    "document:.scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md": 0,
+    "document:.scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md": 0,
+    "document:.scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md": 0,
+    "document:.scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md": 0,
+    "document:.scratch/analyst-dashboard/issues/01-what-frames-the-chat.md": 0,
+    "document:.scratch/analyst-dashboard/issues/02-session-start-web-fetch.md": 0,
+    "document:.scratch/analyst-dashboard/issues/03-streamlit-click-target.md": 0,
+    "document:.scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md": 0,
+    "document:.scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md": 0,
+    "document:.scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md": 0,
+    "document:.scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md": 0,
+    "document:.scratch/analyst-dashboard/issues/08-search-web-without-a-question.md": 0,
+    "document:.scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md": 0,
+    "document:.scratch/analyst-dashboard/issues/10-history-without-forecast-request.md": 0,
+    "document:.scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md": 0,
+    "document:.scratch/analyst-dashboard/research/forecast-plot-payload.md": 0,
+    "document:.scratch/analyst-dashboard/research/session-start-search-web.md": 0,
+    "document:.scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md": 0,
+    "document:.scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md": 0,
+    "config:config/forecast.yaml": 0,
+    "config:config/ingest.yaml": 0,
+    "config:config/red_team_pack.yaml": 0,
+    "config:config/route_lists.yaml": 0,
+    "config:config/session_start_rail_exclusions.yaml": 0,
+    "config:config/yellow_press_denylist.yaml": 0,
+    "document:docs/adr/0001-analyst-lives-inside-ouroboros.md": 0,
+    "document:docs/adr/0002-ouroboros-out-of-scope.md": 0,
+    "document:docs/adr/0003-thin-or-fresh-web.md": 0,
+    "document:docs/adr/0004-forecast-only-on-explicit-verbs.md": 0,
+    "document:docs/adr/0005-closed-route-lists.md": 0,
+    "document:docs/adr/0006-deepseek-chat-llm.md": 0,
+    "document:docs/adr/0007-e5-chroma-reports.md": 0,
+    "document:docs/adr/0008-duckduckgo-denylist.md": 0,
+    "document:docs/adr/0009-yfinance-sarima-ets.md": 0,
+    "document:docs/adr/0010-chainlit-ui.md": 0,
+    "document:docs/adr/0011-sample-and-full-reports.md": 0,
+    "document:docs/adr/0012-always-retrieve-model-drops.md": 0,
+    "document:docs/adr/0013-web-if-dropped-and-in-competence.md": 0,
+    "document:docs/adr/0014-competence-classify-node.md": 0,
+    "document:docs/adr/0015-heading-chunks.md": 0,
+    "document:docs/adr/0016-cbr-sample-report.md": 0,
+    "document:docs/adr/0017-next-cycle-is-public-demo.md": 0,
+    "document:docs/adr/0018-eval-chat-openrouter-free.md": 0,
+    "document:docs/adr/0019-model-decides-the-loop.md": 0,
+    "document:docs/adr/0020-waterfall-grounded-citations.md": 0,
+    "document:docs/adr/0021-chainlit-adapter-ouroboros-loop.md": 0,
+    "document:docs/adr/0022-live-stubs-die-infra-nets.md": 0,
+    "document:docs/adr/0023-main-openrouter-glm52-free.md": 0,
+    "document:docs/adr/0024-readme-names-ouroboros-evolve-off.md": 0,
+    "document:docs/adr/0025-openrouter-embeddings-no-local-torch.md": 0,
+    "document:docs/adr/0026-streamlit-dashboard-is-the-demo.md": 0,
+    "document:docs/adr/0027-deepseek-direct-api-main.md": 0,
+    "document:oil_gas_analyst.egg-info/SOURCES.txt": 0,
+    "document:oil_gas_analyst.egg-info/dependency_links.txt": 0,
+    "document:oil_gas_analyst.egg-info/top_level.txt": 0,
+    "config:.cursor/hooks/state/continual-learning-index.json": 0,
+    "document:.scratch/analyst-dashboard-build/spec.md": 0,
+    "document:.scratch/analyst-dashboard/map.md": 0,
+    "file:.scratch/analyst-dashboard/prototype/dashboard.html": 0,
+    "document:.scratch/analyst-dashboard/spec.md": 0,
+    "document:.scratch/oil-gas-analyst/spec.md": 0,
+    "document:.scratch/ouroboros-analyst/map.md": 0,
+    "document:.scratch/ouroboros-analyst/research/ouroboros-host.md": 0,
+    "document:.scratch/ouroboros-analyst/research/stubs-versus-contracts.md": 0,
+    "document:.scratch/ouroboros-analyst/spec.md": 0,
+    "config:.streamlit/config.toml": 0,
+    "file:.understand-anything/.understandignore": 0,
+    "config:.understand-anything/config.json": 0,
+    "document:data/ouroboros/identity.md": 0,
+    "document:data/samples/README.md": 0,
+    "file:deploy/demo-nginx.conf": 0,
+    "config:docker/cloud-init.yaml": 0,
+    "file:docker/ouroboros-entrypoint.sh": 0,
+    "file:docker/ouroboros.Dockerfile": 0,
+    "document:docs/agents/domain.md": 0,
+    "document:docs/agents/issue-tracker.md": 0,
+    "file:oil_gas_analyst.egg-info/PKG-INFO": 0,
+    "file:scripts/render-timeweb-cloud-init.py": 0,
+    "document:skills/oil_gas_analyst/SKILL.md": 0,
+    "file:skills/oil_gas_forecast/plugin.py": 0,
+    "document:skills/oil_gas_forecast/SKILL.md": 0,
+    "file:skills/oil_gas_retrieve/plugin.py": 0,
+    "document:skills/oil_gas_retrieve/SKILL.md": 0,
+    "file:skills/oil_gas_web/plugin.py": 0,
+    "document:skills/oil_gas_web/SKILL.md": 0,
+    "file:tests/conftest.py": 0
+  },
+  "groupImportFrom": {
+    "tests": [
+      "oil_gas_analyst"
+    ],
+    "oil_gas_analyst": [],
+    "root": [],
+    ".scratch": [],
+    "config": [],
+    "docs": [],
+    "oil_gas_analyst.egg-info": [],
+    ".cursor": [],
+    ".streamlit": [],
+    ".understand-anything": [],
+    "data": [],
+    "deploy": [],
+    "docker": [],
+    "scripts": [],
+    "skills": []
+  },
+  "groupImportedBy": {
+    "tests": [],
+    "oil_gas_analyst": [
+      "tests"
+    ],
+    "root": [],
+    ".scratch": [],
+    "config": [],
+    "docs": [],
+    "oil_gas_analyst.egg-info": [],
+    ".cursor": [],
+    ".streamlit": [],
+    ".understand-anything": [],
+    "data": [],
+    "deploy": [],
+    "docker": [],
+    "scripts": [],
+    "skills": []
+  },
+  "filePatterns": {
+    "file:tests/test_dashboard.py": {
+      "group": "tests",
+      "type": "file",
+      "filePath": "tests/test_dashboard.py",
+      "filePattern": "test",
+      "tags": [
+        "test",
+        "chat",
+        "authentication"
+      ]
+    },
+    "file:tests/test_denylist.py": {
+      "group": "tests",
+      "type": "file",
+      "filePath": "tests/test_denylist.py",
+      "filePattern": "test",
+      "tags": [
+        "test",
+        "validation",
+        "web-search"
+      ]
+    },
+    "file:tests/test_eval_dashboard.py": {
+      "group": "tests",
+      "type": "file",
+      "filePath": "tests/test_eval_dashboard.py",
+      "filePattern": "test",
+      "tags": [
+        "test",
+        "evaluation",
+        "session"
+      ]
+    },
+    "file:tests/test_graph.py": {
+      "group": "tests",
+      "type": "file",
+      "filePath": "tests/test_graph.py",
+      "filePattern": "test",
+      "tags": [
+        "test",
+        "evaluation",
+        "security"
+      ]
+    },
+    "file:tests/test_session_start_web.py": {
+      "group": "tests",
+      "type": "file",
+      "filePath": "tests/test_session_start_web.py",
+      "filePattern": "test",
+      "tags": [
+        "test",
+        "session",
+        "web-search"
+      ]
+    },
+    "file:oil_gas_analyst/denylist.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/denylist.py",
+      "filePattern": null,
+      "tags": [
+        "utility",
+        "validation",
+        "security",
+        "web-filter",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/eval_dialogues.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/eval_dialogues.py",
+      "filePattern": null,
+      "tags": [
+        "evaluation",
+        "service",
+        "entry-point",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/graph.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/graph.py",
+      "filePattern": null,
+      "tags": [
+        "entry-point",
+        "barrel",
+        "evaluation",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/session_start_web.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/session_start_web.py",
+      "filePattern": null,
+      "tags": [
+        "service",
+        "web-search",
+        "caching",
+        "session",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/types.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/types.py",
+      "filePattern": null,
+      "tags": [
+        "type-definition",
+        "data-model",
+        "contracts",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/web.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/web.py",
+      "filePattern": null,
+      "tags": [
+        "service",
+        "web-search",
+        "ingestion",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/routes.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/routes.py",
+      "filePattern": null,
+      "tags": [
+        "validation",
+        "routing",
+        "eval-harness",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/turn.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/turn.py",
+      "filePattern": null,
+      "tags": [
+        "service",
+        "orchestration",
+        "entry-point",
+        "tested"
+      ]
+    },
+    "file:tests/test_rate_limit.py": {
+      "group": "tests",
+      "type": "file",
+      "filePath": "tests/test_rate_limit.py",
+      "filePattern": "test",
+      "tags": [
+        "test",
+        "rate-limit",
+        "unit-test"
+      ]
+    },
+    "file:tests/test_routes.py": {
+      "group": "tests",
+      "type": "file",
+      "filePath": "tests/test_routes.py",
+      "filePattern": "test",
+      "tags": [
+        "test",
+        "routing",
+        "unit-test"
+      ]
+    },
+    "file:tests/test_turn.py": {
+      "group": "tests",
+      "type": "file",
+      "filePath": "tests/test_turn.py",
+      "filePattern": "test",
+      "tags": [
+        "test",
+        "orchestration",
+        "integration-test"
+      ]
+    },
+    "file:oil_gas_analyst/__init__.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/__init__.py",
+      "filePattern": "entry",
+      "tags": [
+        "entry-point",
+        "barrel",
+        "python-package"
+      ]
+    },
+    "file:oil_gas_analyst/app.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/app.py",
+      "filePattern": null,
+      "tags": [
+        "entry-point",
+        "api-handler",
+        "chat-adapter"
+      ]
+    },
+    "file:oil_gas_analyst/chat_ui.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/chat_ui.py",
+      "filePattern": null,
+      "tags": [
+        "api-handler",
+        "chat-adapter",
+        "service"
+      ]
+    },
+    "file:oil_gas_analyst/rate_limit.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/rate_limit.py",
+      "filePattern": null,
+      "tags": [
+        "middleware",
+        "rate-limit",
+        "security",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/render.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/render.py",
+      "filePattern": null,
+      "tags": [
+        "serialization",
+        "formatting",
+        "ui-rendering",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/__main__.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/__main__.py",
+      "filePattern": "entry",
+      "tags": [
+        "entry-point",
+        "cli",
+        "ingest",
+        "chroma"
+      ]
+    },
+    "file:oil_gas_analyst/corpus_strip.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/corpus_strip.py",
+      "filePattern": null,
+      "tags": [
+        "data-model",
+        "dashboard",
+        "corpus",
+        "utility",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/deps.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/deps.py",
+      "filePattern": null,
+      "tags": [
+        "factory",
+        "dependency-injection",
+        "service",
+        "ingest"
+      ]
+    },
+    "file:oil_gas_analyst/ingest.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/ingest.py",
+      "filePattern": null,
+      "tags": [
+        "ingest",
+        "chunking",
+        "pdf",
+        "nlp",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/ouroboros.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/ouroboros.py",
+      "filePattern": null,
+      "tags": [
+        "service",
+        "http-client",
+        "ouroboros",
+        "adapter",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/retrieve.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "filePattern": null,
+      "tags": [
+        "retriever",
+        "chroma",
+        "embeddings",
+        "ingest",
+        "rag",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/settings.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/settings.py",
+      "filePattern": null,
+      "tags": [
+        "configuration",
+        "environment",
+        "ouroboros",
+        "llm",
+        "tested"
+      ]
+    },
+    "file:tests/test_ingest.py": {
+      "group": "tests",
+      "type": "file",
+      "filePath": "tests/test_ingest.py",
+      "filePattern": "test",
+      "tags": [
+        "test",
+        "ingest",
+        "chroma",
+        "embeddings"
+      ]
+    },
+    "file:tests/test_ouroboros.py": {
+      "group": "tests",
+      "type": "file",
+      "filePath": "tests/test_ouroboros.py",
+      "filePattern": "test",
+      "tags": [
+        "test",
+        "ouroboros",
+        "http-client"
+      ]
+    },
+    "file:tests/test_settings.py": {
+      "group": "tests",
+      "type": "file",
+      "filePath": "tests/test_settings.py",
+      "filePattern": "test",
+      "tags": [
+        "test",
+        "configuration",
+        "ouroboros"
+      ]
+    },
+    "file:oil_gas_analyst/forecast.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "filePattern": null,
+      "tags": [
+        "service",
+        "forecast",
+        "data-pipeline",
+        "factory",
+        "api-handler",
+        "tested"
+      ]
+    },
+    "file:tests/test_consensus_price.py": {
+      "group": "tests",
+      "type": "file",
+      "filePath": "tests/test_consensus_price.py",
+      "filePattern": "test",
+      "tags": [
+        "test",
+        "validation",
+        "parsing",
+        "dashboard"
+      ]
+    },
+    "file:tests/test_dashboard_layout.py": {
+      "group": "tests",
+      "type": "file",
+      "filePath": "tests/test_dashboard_layout.py",
+      "filePattern": "test",
+      "tags": [
+        "test",
+        "validation",
+        "visualization",
+        "dashboard",
+        "layout"
+      ]
+    },
+    "file:tests/test_forecast.py": {
+      "group": "tests",
+      "type": "file",
+      "filePath": "tests/test_forecast.py",
+      "filePattern": "test",
+      "tags": [
+        "test",
+        "validation",
+        "forecast",
+        "data-pipeline"
+      ]
+    },
+    "file:oil_gas_analyst/consensus_price.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/consensus_price.py",
+      "filePattern": null,
+      "tags": [
+        "utility",
+        "data-model",
+        "dashboard",
+        "parsing",
+        "forecast",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/dashboard.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/dashboard.py",
+      "filePattern": null,
+      "tags": [
+        "entry-point",
+        "component",
+        "event-handler",
+        "service",
+        "ui",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/dashboard_chart.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/dashboard_chart.py",
+      "filePattern": null,
+      "tags": [
+        "utility",
+        "serialization",
+        "visualization",
+        "forecast",
+        "caching",
+        "tested"
+      ]
+    },
+    "file:oil_gas_analyst/demo_auth.py": {
+      "group": "oil_gas_analyst",
+      "type": "file",
+      "filePath": "oil_gas_analyst/demo_auth.py",
+      "filePattern": null,
+      "tags": [
+        "authentication",
+        "security",
+        "config",
+        "utility"
+      ]
+    },
+    "service:.dockerignore": {
+      "group": "root",
+      "type": "service",
+      "filePath": ".dockerignore",
+      "filePattern": "infrastructure",
+      "tags": [
+        "containerization",
+        "infrastructure",
+        "build-system",
+        "security"
+      ]
+    },
+    "service:docker-compose.yml": {
+      "group": "root",
+      "type": "service",
+      "filePath": "docker-compose.yml",
+      "filePattern": "infrastructure",
+      "tags": [
+        "orchestration",
+        "infrastructure",
+        "containerization",
+        "deployment"
+      ]
+    },
+    "service:docker-compose.yml:ouroboros": {
+      "group": "root",
+      "type": "service",
+      "filePath": "docker-compose.yml",
+      "filePattern": null,
+      "tags": [
+        "orchestration",
+        "infrastructure",
+        "conversation-runtime"
+      ]
+    },
+    "service:docker-compose.yml:analyst": {
+      "group": "root",
+      "type": "service",
+      "filePath": "docker-compose.yml",
+      "filePattern": null,
+      "tags": [
+        "orchestration",
+        "infrastructure",
+        "dashboard",
+        "deployment"
+      ]
+    },
+    "service:Dockerfile": {
+      "group": "root",
+      "type": "service",
+      "filePath": "Dockerfile",
+      "filePattern": "infrastructure",
+      "tags": [
+        "containerization",
+        "infrastructure",
+        "deployment",
+        "dashboard"
+      ]
+    },
+    "service:Dockerfile:python": {
+      "group": "root",
+      "type": "service",
+      "filePath": "Dockerfile",
+      "filePattern": null,
+      "tags": [
+        "containerization",
+        "infrastructure",
+        "python"
+      ]
+    },
+    "config:.env.example": {
+      "group": "root",
+      "type": "config",
+      "filePath": ".env.example",
+      "filePattern": null,
+      "tags": [
+        "configuration",
+        "environment",
+        "secrets",
+        "runtime"
+      ]
+    },
+    "document:AGENTS.md": {
+      "group": "root",
+      "type": "document",
+      "filePath": "AGENTS.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "agent-guidance",
+        "conventions"
+      ]
+    },
+    "document:CONTEXT.md": {
+      "group": "root",
+      "type": "document",
+      "filePath": "CONTEXT.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "glossary",
+        "domain",
+        "entry-point"
+      ]
+    },
+    "document:README.md": {
+      "group": "root",
+      "type": "document",
+      "filePath": "README.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "entry-point",
+        "overview",
+        "getting-started"
+      ]
+    },
+    "config:pyproject.toml": {
+      "group": "root",
+      "type": "config",
+      "filePath": "pyproject.toml",
+      "filePattern": "config",
+      "tags": [
+        "configuration",
+        "packaging",
+        "build-system",
+        "pytest"
+      ]
+    },
+    "document:requirements-analyst.txt": {
+      "group": "root",
+      "type": "document",
+      "filePath": "requirements-analyst.txt",
+      "filePattern": null,
+      "tags": [
+        "documentation",
+        "dependencies",
+        "dashboard",
+        "streamlit"
+      ]
+    },
+    "document:requirements.txt": {
+      "group": "root",
+      "type": "document",
+      "filePath": "requirements.txt",
+      "filePattern": null,
+      "tags": [
+        "documentation",
+        "dependencies",
+        "testing",
+        "ingest"
+      ]
+    },
+    "document:task.md": {
+      "group": "root",
+      "type": "document",
+      "filePath": "task.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "requirements",
+        "specification"
+      ]
+    },
+    "document:.scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "issue-tracker",
+        "forecast",
+        "dashboard",
+        "payload"
+      ]
+    },
+    "document:.scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "issue-tracker",
+        "streamlit",
+        "chat-ui",
+        "ouroboros"
+      ]
+    },
+    "document:.scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "issue-tracker",
+        "web-search",
+        "dashboard",
+        "session"
+      ]
+    },
+    "document:.scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "issue-tracker",
+        "layout",
+        "dashboard",
+        "streamlit"
+      ]
+    },
+    "document:.scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "issue-tracker",
+        "readme",
+        "eval",
+        "streamlit"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/issues/01-what-frames-the-chat.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/issues/01-what-frames-the-chat.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "dashboard",
+        "product-decision",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/issues/02-session-start-web-fetch.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/issues/02-session-start-web-fetch.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "search-web",
+        "product-decision",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/issues/03-streamlit-click-target.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/issues/03-streamlit-click-target.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "streamlit",
+        "product-decision",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/issues/04-dashboard-versus-demo.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "dashboard",
+        "demo",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/issues/05-host-start-web-versus-loop.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "agent-loop",
+        "search-web",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/issues/06-what-forecast-already-plots.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "forecast",
+        "research",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/issues/07-how-streamlit-calls-ouroboros.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "streamlit",
+        "ouroboros",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/issues/08-search-web-without-a-question.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/issues/08-search-web-without-a-question.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "search-web",
+        "research",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/issues/09-exec-dashboard-layout.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "layout",
+        "prototype",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/issues/10-history-without-forecast-request.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/issues/10-history-without-forecast-request.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "forecast",
+        "dashboard",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/issues/11-where-urals-series-comes-from.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "forecast",
+        "urals",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/research/forecast-plot-payload.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/research/forecast-plot-payload.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "research",
+        "forecast",
+        "dashboard",
+        "api-contract"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/research/session-start-search-web.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/research/session-start-search-web.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "research",
+        "web-search",
+        "dashboard",
+        "api-contract"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "research",
+        "streamlit",
+        "ouroboros",
+        "adapter"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "ouroboros",
+        "architecture",
+        "research",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "research",
+        "stubs",
+        "contracts",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "agent-loop",
+        "acceptance",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "chainlit",
+        "ouroboros",
+        "ui",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "citations",
+        "eval",
+        "waterfall",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "stubs",
+        "acceptance",
+        "safety-nets",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "readme",
+        "trust",
+        "eval",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "llm",
+        "openrouter",
+        "configuration",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "chainlit",
+        "ouroboros",
+        "implementation",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "rag",
+        "retrieve",
+        "citations",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "web-search",
+        "denylist",
+        "citations",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "forecast",
+        "time-series",
+        "implementation",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "competence",
+        "playbook",
+        "safety-nets",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "readme",
+        "eval",
+        "demo",
+        "issue-tracker"
+      ]
+    },
+    "config:config/forecast.yaml": {
+      "group": "config",
+      "type": "config",
+      "filePath": "config/forecast.yaml",
+      "filePattern": null,
+      "tags": [
+        "configuration",
+        "forecast",
+        "time-series",
+        "arima"
+      ]
+    },
+    "config:config/ingest.yaml": {
+      "group": "config",
+      "type": "config",
+      "filePath": "config/ingest.yaml",
+      "filePattern": null,
+      "tags": [
+        "configuration",
+        "ingest",
+        "rag",
+        "embeddings"
+      ]
+    },
+    "config:config/red_team_pack.yaml": {
+      "group": "config",
+      "type": "config",
+      "filePath": "config/red_team_pack.yaml",
+      "filePattern": null,
+      "tags": [
+        "configuration",
+        "security",
+        "test",
+        "red-team"
+      ]
+    },
+    "config:config/route_lists.yaml": {
+      "group": "config",
+      "type": "config",
+      "filePath": "config/route_lists.yaml",
+      "filePattern": null,
+      "tags": [
+        "configuration",
+        "routing",
+        "eval-harness",
+        "closed-lists"
+      ]
+    },
+    "config:config/session_start_rail_exclusions.yaml": {
+      "group": "config",
+      "type": "config",
+      "filePath": "config/session_start_rail_exclusions.yaml",
+      "filePattern": null,
+      "tags": [
+        "configuration",
+        "web",
+        "denylist",
+        "session-start"
+      ]
+    },
+    "config:config/yellow_press_denylist.yaml": {
+      "group": "config",
+      "type": "config",
+      "filePath": "config/yellow_press_denylist.yaml",
+      "filePattern": null,
+      "tags": [
+        "configuration",
+        "denylist",
+        "web",
+        "security"
+      ]
+    },
+    "document:docs/adr/0001-analyst-lives-inside-ouroboros.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0001-analyst-lives-inside-ouroboros.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "ouroboros",
+        "superseded"
+      ]
+    },
+    "document:docs/adr/0002-ouroboros-out-of-scope.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0002-ouroboros-out-of-scope.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "ouroboros",
+        "scope"
+      ]
+    },
+    "document:docs/adr/0003-thin-or-fresh-web.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0003-thin-or-fresh-web.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "web-search",
+        "retrieval"
+      ]
+    },
+    "document:docs/adr/0004-forecast-only-on-explicit-verbs.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0004-forecast-only-on-explicit-verbs.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "forecast",
+        "routing"
+      ]
+    },
+    "document:docs/adr/0005-closed-route-lists.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0005-closed-route-lists.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "routing",
+        "eval"
+      ]
+    },
+    "document:docs/adr/0006-deepseek-chat-llm.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0006-deepseek-chat-llm.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "llm",
+        "deepseek"
+      ]
+    },
+    "document:docs/adr/0007-e5-chroma-reports.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0007-e5-chroma-reports.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "rag",
+        "embeddings"
+      ]
+    },
+    "document:docs/adr/0008-duckduckgo-denylist.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0008-duckduckgo-denylist.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "web-search",
+        "denylist"
+      ]
+    },
+    "document:docs/adr/0009-yfinance-sarima-ets.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0009-yfinance-sarima-ets.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "forecast",
+        "time-series"
+      ]
+    },
+    "document:docs/adr/0010-chainlit-ui.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0010-chainlit-ui.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "ui",
+        "superseded"
+      ]
+    },
+    "document:docs/adr/0011-sample-and-full-reports.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0011-sample-and-full-reports.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "corpus",
+        "ingest"
+      ]
+    },
+    "document:docs/adr/0012-always-retrieve-model-drops.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0012-always-retrieve-model-drops.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "retrieval",
+        "citations"
+      ]
+    },
+    "document:docs/adr/0013-web-if-dropped-and-in-competence.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0013-web-if-dropped-and-in-competence.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "web-search",
+        "competence"
+      ]
+    },
+    "document:docs/adr/0014-competence-classify-node.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0014-competence-classify-node.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "competence",
+        "llm"
+      ]
+    },
+    "document:docs/adr/0015-heading-chunks.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0015-heading-chunks.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "ingest",
+        "chunking"
+      ]
+    },
+    "document:docs/adr/0016-cbr-sample-report.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0016-cbr-sample-report.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "corpus",
+        "ingest"
+      ]
+    },
+    "document:docs/adr/0017-next-cycle-is-public-demo.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0017-next-cycle-is-public-demo.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "demo",
+        "eval"
+      ]
+    },
+    "document:docs/adr/0018-eval-chat-openrouter-free.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0018-eval-chat-openrouter-free.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "eval",
+        "openrouter"
+      ]
+    },
+    "document:docs/adr/0019-model-decides-the-loop.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0019-model-decides-the-loop.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "agent-loop",
+        "eval"
+      ]
+    },
+    "document:docs/adr/0020-waterfall-grounded-citations.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0020-waterfall-grounded-citations.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "citations",
+        "eval"
+      ]
+    },
+    "document:docs/adr/0021-chainlit-adapter-ouroboros-loop.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0021-chainlit-adapter-ouroboros-loop.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "chat-ui",
+        "ouroboros",
+        "adapter"
+      ]
+    },
+    "document:docs/adr/0022-live-stubs-die-infra-nets.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0022-live-stubs-die-infra-nets.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "stubs",
+        "citations",
+        "safety-net"
+      ]
+    },
+    "document:docs/adr/0023-main-openrouter-glm52-free.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0023-main-openrouter-glm52-free.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "llm",
+        "openrouter",
+        "chat"
+      ]
+    },
+    "document:docs/adr/0024-readme-names-ouroboros-evolve-off.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0024-readme-names-ouroboros-evolve-off.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "readme",
+        "ouroboros",
+        "eval"
+      ]
+    },
+    "document:docs/adr/0025-openrouter-embeddings-no-local-torch.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0025-openrouter-embeddings-no-local-torch.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "embeddings",
+        "rag",
+        "infrastructure"
+      ]
+    },
+    "document:docs/adr/0026-streamlit-dashboard-is-the-demo.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0026-streamlit-dashboard-is-the-demo.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "streamlit",
+        "dashboard",
+        "demo"
+      ]
+    },
+    "document:docs/adr/0027-deepseek-direct-api-main.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/adr/0027-deepseek-direct-api-main.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "architecture-decision",
+        "llm",
+        "deepseek",
+        "chat"
+      ]
+    },
+    "document:oil_gas_analyst.egg-info/SOURCES.txt": {
+      "group": "oil_gas_analyst.egg-info",
+      "type": "document",
+      "filePath": "oil_gas_analyst.egg-info/SOURCES.txt",
+      "filePattern": null,
+      "tags": [
+        "documentation",
+        "packaging",
+        "setuptools",
+        "manifest",
+        "metadata"
+      ]
+    },
+    "document:oil_gas_analyst.egg-info/dependency_links.txt": {
+      "group": "oil_gas_analyst.egg-info",
+      "type": "document",
+      "filePath": "oil_gas_analyst.egg-info/dependency_links.txt",
+      "filePattern": null,
+      "tags": [
+        "documentation",
+        "packaging",
+        "setuptools",
+        "metadata",
+        "dependencies"
+      ]
+    },
+    "document:oil_gas_analyst.egg-info/top_level.txt": {
+      "group": "oil_gas_analyst.egg-info",
+      "type": "document",
+      "filePath": "oil_gas_analyst.egg-info/top_level.txt",
+      "filePattern": null,
+      "tags": [
+        "documentation",
+        "packaging",
+        "setuptools",
+        "package-root",
+        "metadata"
+      ]
+    },
+    "config:.cursor/hooks/state/continual-learning-index.json": {
+      "group": ".cursor",
+      "type": "config",
+      "filePath": ".cursor/hooks/state/continual-learning-index.json",
+      "filePattern": null,
+      "tags": [
+        "configuration",
+        "cursor",
+        "hooks",
+        "indexing"
+      ]
+    },
+    "document:.scratch/analyst-dashboard-build/spec.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard-build/spec.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "specification",
+        "dashboard",
+        "issue-tracker"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/map.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/map.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "wayfinding",
+        "dashboard",
+        "planning"
+      ]
+    },
+    "file:.scratch/analyst-dashboard/prototype/dashboard.html": {
+      "group": ".scratch",
+      "type": "file",
+      "filePath": ".scratch/analyst-dashboard/prototype/dashboard.html",
+      "filePattern": null,
+      "tags": [
+        "prototype",
+        "dashboard",
+        "markup",
+        "layout"
+      ]
+    },
+    "document:.scratch/analyst-dashboard/spec.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/analyst-dashboard/spec.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "specification",
+        "dashboard",
+        "streamlit"
+      ]
+    },
+    "document:.scratch/oil-gas-analyst/spec.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/oil-gas-analyst/spec.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "specification",
+        "analyst",
+        "rag"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/map.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/map.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "wayfinding",
+        "ouroboros",
+        "planning"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/research/ouroboros-host.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/research/ouroboros-host.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "research",
+        "ouroboros",
+        "architecture"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/research/stubs-versus-contracts.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/research/stubs-versus-contracts.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "research",
+        "contracts",
+        "architecture"
+      ]
+    },
+    "document:.scratch/ouroboros-analyst/spec.md": {
+      "group": ".scratch",
+      "type": "document",
+      "filePath": ".scratch/ouroboros-analyst/spec.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "specification",
+        "ouroboros",
+        "demo"
+      ]
+    },
+    "config:.streamlit/config.toml": {
+      "group": ".streamlit",
+      "type": "config",
+      "filePath": ".streamlit/config.toml",
+      "filePattern": null,
+      "tags": [
+        "configuration",
+        "streamlit",
+        "ui",
+        "dashboard"
+      ]
+    },
+    "file:.understand-anything/.understandignore": {
+      "group": ".understand-anything",
+      "type": "file",
+      "filePath": ".understand-anything/.understandignore",
+      "filePattern": null,
+      "tags": [
+        "configuration",
+        "analysis",
+        "ignore-rules",
+        "tooling"
+      ]
+    },
+    "config:.understand-anything/config.json": {
+      "group": ".understand-anything",
+      "type": "config",
+      "filePath": ".understand-anything/config.json",
+      "filePattern": null,
+      "tags": [
+        "configuration",
+        "analysis",
+        "localization"
+      ]
+    },
+    "document:data/ouroboros/identity.md": {
+      "group": "data",
+      "type": "document",
+      "filePath": "data/ouroboros/identity.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "prompt",
+        "ouroboros",
+        "identity"
+      ]
+    },
+    "document:data/samples/README.md": {
+      "group": "data",
+      "type": "document",
+      "filePath": "data/samples/README.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "corpus",
+        "samples",
+        "rag"
+      ]
+    },
+    "file:deploy/demo-nginx.conf": {
+      "group": "deploy",
+      "type": "file",
+      "filePath": "deploy/demo-nginx.conf",
+      "filePattern": null,
+      "tags": [
+        "nginx",
+        "reverse-proxy",
+        "rate-limit",
+        "deployment"
+      ]
+    },
+    "config:docker/cloud-init.yaml": {
+      "group": "docker",
+      "type": "config",
+      "filePath": "docker/cloud-init.yaml",
+      "filePattern": null,
+      "tags": [
+        "configuration",
+        "cloud-init",
+        "deployment",
+        "infrastructure"
+      ]
+    },
+    "file:docker/ouroboros-entrypoint.sh": {
+      "group": "docker",
+      "type": "file",
+      "filePath": "docker/ouroboros-entrypoint.sh",
+      "filePattern": null,
+      "tags": [
+        "entrypoint",
+        "containerization",
+        "ouroboros",
+        "bootstrap"
+      ]
+    },
+    "file:docker/ouroboros.Dockerfile": {
+      "group": "docker",
+      "type": "file",
+      "filePath": "docker/ouroboros.Dockerfile",
+      "filePattern": null,
+      "tags": [
+        "containerization",
+        "ouroboros",
+        "deployment",
+        "docker"
+      ]
+    },
+    "document:docs/agents/domain.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/agents/domain.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "agents",
+        "domain",
+        "adr"
+      ]
+    },
+    "document:docs/agents/issue-tracker.md": {
+      "group": "docs",
+      "type": "document",
+      "filePath": "docs/agents/issue-tracker.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "agents",
+        "issue-tracker",
+        "wayfinding"
+      ]
+    },
+    "file:oil_gas_analyst.egg-info/PKG-INFO": {
+      "group": "oil_gas_analyst.egg-info",
+      "type": "file",
+      "filePath": "oil_gas_analyst.egg-info/PKG-INFO",
+      "filePattern": null,
+      "tags": [
+        "packaging",
+        "metadata",
+        "python"
+      ]
+    },
+    "file:scripts/render-timeweb-cloud-init.py": {
+      "group": "scripts",
+      "type": "file",
+      "filePath": "scripts/render-timeweb-cloud-init.py",
+      "filePattern": null,
+      "tags": [
+        "script",
+        "deployment",
+        "secrets",
+        "cloud-init"
+      ]
+    },
+    "document:skills/oil_gas_analyst/SKILL.md": {
+      "group": "skills",
+      "type": "document",
+      "filePath": "skills/oil_gas_analyst/SKILL.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "skill",
+        "ouroboros",
+        "playbook"
+      ]
+    },
+    "file:skills/oil_gas_forecast/plugin.py": {
+      "group": "skills",
+      "type": "file",
+      "filePath": "skills/oil_gas_forecast/plugin.py",
+      "filePattern": null,
+      "tags": [
+        "plugin",
+        "forecast",
+        "ouroboros",
+        "tool-registration"
+      ]
+    },
+    "document:skills/oil_gas_forecast/SKILL.md": {
+      "group": "skills",
+      "type": "document",
+      "filePath": "skills/oil_gas_forecast/SKILL.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "skill",
+        "forecast",
+        "ouroboros"
+      ]
+    },
+    "file:skills/oil_gas_retrieve/plugin.py": {
+      "group": "skills",
+      "type": "file",
+      "filePath": "skills/oil_gas_retrieve/plugin.py",
+      "filePattern": null,
+      "tags": [
+        "plugin",
+        "tool-registration",
+        "rag",
+        "ouroboros"
+      ]
+    },
+    "document:skills/oil_gas_retrieve/SKILL.md": {
+      "group": "skills",
+      "type": "document",
+      "filePath": "skills/oil_gas_retrieve/SKILL.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "skill",
+        "rag",
+        "ouroboros"
+      ]
+    },
+    "file:skills/oil_gas_web/plugin.py": {
+      "group": "skills",
+      "type": "file",
+      "filePath": "skills/oil_gas_web/plugin.py",
+      "filePattern": null,
+      "tags": [
+        "plugin",
+        "tool-registration",
+        "web-search",
+        "ouroboros"
+      ]
+    },
+    "document:skills/oil_gas_web/SKILL.md": {
+      "group": "skills",
+      "type": "document",
+      "filePath": "skills/oil_gas_web/SKILL.md",
+      "filePattern": "documentation",
+      "tags": [
+        "documentation",
+        "skill",
+        "web-search",
+        "ouroboros"
+      ]
+    },
+    "file:tests/conftest.py": {
+      "group": "tests",
+      "type": "file",
+      "filePath": "tests/conftest.py",
+      "filePattern": null,
+      "tags": [
+        "test",
+        "pytest",
+        "configuration"
+      ]
+    }
+  }
+}

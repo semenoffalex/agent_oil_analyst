@@ -1,0 +1,53 @@
+{
+  "projectRoot": "/Users/semenoffalex/Cursor/sber",
+  "batchFiles": [
+    {"path": "oil_gas_analyst/__main__.py", "language": "python", "sizeLines": 26, "fileCategory": "code"},
+    {"path": "oil_gas_analyst/corpus_strip.py", "language": "python", "sizeLines": 89, "fileCategory": "code"},
+    {"path": "oil_gas_analyst/deps.py", "language": "python", "sizeLines": 130, "fileCategory": "code"},
+    {"path": "oil_gas_analyst/ingest.py", "language": "python", "sizeLines": 236, "fileCategory": "code"},
+    {"path": "oil_gas_analyst/ouroboros.py", "language": "python", "sizeLines": 161, "fileCategory": "code"},
+    {"path": "oil_gas_analyst/retrieve.py", "language": "python", "sizeLines": 759, "fileCategory": "code"},
+    {"path": "oil_gas_analyst/settings.py", "language": "python", "sizeLines": 175, "fileCategory": "code"},
+    {"path": "tests/test_ingest.py", "language": "python", "sizeLines": 382, "fileCategory": "code"},
+    {"path": "tests/test_ouroboros.py", "language": "python", "sizeLines": 192, "fileCategory": "code"},
+    {"path": "tests/test_settings.py", "language": "python", "sizeLines": 198, "fileCategory": "code"}
+  ],
+  "batchImportData": {
+    "oil_gas_analyst/__main__.py": [
+      "oil_gas_analyst/deps.py",
+      "oil_gas_analyst/retrieve.py"
+    ],
+    "oil_gas_analyst/corpus_strip.py": [
+      "oil_gas_analyst/ingest.py",
+      "oil_gas_analyst/retrieve.py"
+    ],
+    "oil_gas_analyst/deps.py": [
+      "oil_gas_analyst/ingest.py",
+      "oil_gas_analyst/ouroboros.py",
+      "oil_gas_analyst/settings.py"
+    ],
+    "oil_gas_analyst/ingest.py": [
+      "oil_gas_analyst/types.py"
+    ],
+    "oil_gas_analyst/ouroboros.py": [
+      "oil_gas_analyst/settings.py",
+      "oil_gas_analyst/types.py"
+    ],
+    "oil_gas_analyst/retrieve.py": [
+      "oil_gas_analyst/ingest.py",
+      "oil_gas_analyst/settings.py",
+      "oil_gas_analyst/types.py"
+    ],
+    "oil_gas_analyst/settings.py": [],
+    "tests/test_ingest.py": [
+      "oil_gas_analyst/ingest.py"
+    ],
+    "tests/test_ouroboros.py": [
+      "oil_gas_analyst/ouroboros.py",
+      "oil_gas_analyst/turn.py"
+    ],
+    "tests/test_settings.py": [
+      "oil_gas_analyst/settings.py"
+    ]
+  }
+}

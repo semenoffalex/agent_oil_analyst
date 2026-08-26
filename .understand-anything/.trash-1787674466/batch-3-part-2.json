@@ -1,0 +1,2152 @@
+{
+  "nodes": [
+    {
+      "id": "file:oil_gas_analyst/retrieve.py",
+      "type": "file",
+      "name": "retrieve.py",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "summary": "Chroma report index: OpenAI-compatible embeddings, ingest job planning, fingerprint/manifest sync, and retrieve_for_tool for Ouroboros skills.",
+      "tags": [
+        "retriever",
+        "chroma",
+        "embeddings",
+        "ingest",
+        "rag"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Talks to an OpenAI-compatible embeddings HTTP API; Chroma persists locally."
+    },
+    {
+      "id": "class:oil_gas_analyst/retrieve.py:OpenAICompatibleEmbeddingFunction",
+      "type": "class",
+      "name": "OpenAICompatibleEmbeddingFunction",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        60,
+        140
+      ],
+      "summary": "Chroma embedding function that batches texts to an OpenAI-compatible /embeddings endpoint, with optional E5 prefixes and IPv4 preference.",
+      "tags": [
+        "embeddings",
+        "http-client",
+        "chroma"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:_request_headers",
+      "type": "function",
+      "name": "_request_headers",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        83,
+        95
+      ],
+      "summary": "Builds Authorization and JSON headers for the embeddings API, omitting Bearer when the key is empty.",
+      "tags": [
+        "embeddings",
+        "http-client",
+        "auth"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:_embed_batch",
+      "type": "function",
+      "name": "_embed_batch",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        109,
+        135
+      ],
+      "summary": "POSTs one embedding batch and returns vectors in input order, raising RuntimeError on HTTP or shape errors.",
+      "tags": [
+        "embeddings",
+        "http-client",
+        "batch"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:oil_gas_analyst/retrieve.py:ChromaRetriever",
+      "type": "class",
+      "name": "ChromaRetriever",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        237,
+        372
+      ],
+      "summary": "Persistent Chroma collection wrapper: fingerprint/manifest, prefix deletes, chunk indexing, and similarity retrieve mapped to Chunk.",
+      "tags": [
+        "retriever",
+        "chroma",
+        "rag"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:index_chunks",
+      "type": "function",
+      "name": "index_chunks",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        315,
+        344
+      ],
+      "summary": "Upserts Chunk texts and metadata into Chroma under a document-id prefix.",
+      "tags": [
+        "chroma",
+        "ingest",
+        "indexing"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:retrieve",
+      "type": "function",
+      "name": "retrieve",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        345,
+        372
+      ],
+      "summary": "Queries the collection for the question and reconstructs Chunk objects from stored metadata.",
+      "tags": [
+        "retriever",
+        "rag",
+        "chroma"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:_prefer_ipv4",
+      "type": "function",
+      "name": "_prefer_ipv4",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        38,
+        57
+      ],
+      "summary": "Rewrites an embeddings base URL hostname to a resolved IPv4 address to avoid IPv6 connection issues.",
+      "tags": [
+        "networking",
+        "embeddings",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:make_embedding_function",
+      "type": "function",
+      "name": "make_embedding_function",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        162,
+        184
+      ],
+      "summary": "Reads embedding env vars and returns OpenAICompatibleEmbeddingFunction, failing loudly when no API key is set.",
+      "tags": [
+        "factory",
+        "embeddings",
+        "config"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:drop_redundant_excerpts",
+      "type": "function",
+      "name": "drop_redundant_excerpts",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        193,
+        218
+      ],
+      "summary": "Drops sample excerpt PDFs when a full report for the same agency is already listed in ingest config.",
+      "tags": [
+        "ingest",
+        "corpus",
+        "deduplication"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:_chunk_from_meta",
+      "type": "function",
+      "name": "_chunk_from_meta",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        221,
+        234
+      ],
+      "summary": "Rebuilds a Chunk dataclass from Chroma document text and metadata fields.",
+      "tags": [
+        "data-model",
+        "retriever",
+        "deserialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:_date_from_name",
+      "type": "function",
+      "name": "_date_from_name",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        375,
+        398
+      ],
+      "summary": "Parses a report date from a PDF filename using ISO-like and month-name patterns.",
+      "tags": [
+        "parsing",
+        "ingest",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:_url_for_agency",
+      "type": "function",
+      "name": "_url_for_agency",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        412,
+        421
+      ],
+      "summary": "Resolves a canonical agency URL from explicit metadata or ingest-config agency_urls.",
+      "tags": [
+        "ingest",
+        "citations",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:iter_ingest_jobs",
+      "type": "function",
+      "name": "iter_ingest_jobs",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        431,
+        508
+      ],
+      "summary": "Yields ingest jobs for sample and full-report PDFs, resolving paths, agencies, dates, and skipping redundant excerpts.",
+      "tags": [
+        "ingest",
+        "corpus",
+        "generator"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:corpus_fingerprint",
+      "type": "function",
+      "name": "corpus_fingerprint",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        536,
+        551
+      ],
+      "summary": "Hashes the corpus manifest (paths, sizes, embedding model) so ensure_index can skip unchanged indexes.",
+      "tags": [
+        "ingest",
+        "cache",
+        "fingerprint"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:plan_corpus_index",
+      "type": "function",
+      "name": "plan_corpus_index",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        554,
+        610
+      ],
+      "summary": "Compares stored vs current corpus fingerprint/manifest and returns an IndexPlan (skip, sync new PDFs, or full rebuild).",
+      "tags": [
+        "ingest",
+        "planning",
+        "chroma"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:ingest_jobs",
+      "type": "function",
+      "name": "ingest_jobs",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        613,
+        632
+      ],
+      "summary": "Chunks each job PDF and indexes the resulting Chunks on the retriever, returning total chunk count.",
+      "tags": [
+        "ingest",
+        "chunking",
+        "indexing"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:ensure_index",
+      "type": "function",
+      "name": "ensure_index",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        635,
+        693
+      ],
+      "summary": "Plans corpus indexing, optionally resets/deletes prefixes, runs ingest_jobs, and writes the new fingerprint and manifest.",
+      "tags": [
+        "ingest",
+        "chroma",
+        "entry-point"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:ingest_samples_and_reports",
+      "type": "function",
+      "name": "ingest_samples_and_reports",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        696,
+        717
+      ],
+      "summary": "Always rebuilds the index from current ingest jobs (used when force or empty collection requires a full pass).",
+      "tags": [
+        "ingest",
+        "chroma",
+        "indexing"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:_default_retriever",
+      "type": "function",
+      "name": "_default_retriever",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        723,
+        735
+      ],
+      "summary": "Builds a default ChromaRetriever from env paths and runs ensure_index for retrieve_for_tool.",
+      "tags": [
+        "factory",
+        "retriever",
+        "ingest"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/retrieve.py:retrieve_for_tool",
+      "type": "function",
+      "name": "retrieve_for_tool",
+      "filePath": "oil_gas_analyst/retrieve.py",
+      "lineRange": [
+        739,
+        759
+      ],
+      "summary": "Ouroboros retrieve skill: searches the report index and formats hits with report_citation markdown.",
+      "tags": [
+        "rag",
+        "tool",
+        "ouroboros"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:oil_gas_analyst/settings.py",
+      "type": "file",
+      "name": "settings.py",
+      "filePath": "oil_gas_analyst/settings.py",
+      "summary": "Environment-driven model slots, API-key gates, LangSmith maybe_traceable wrapper, and Ouroboros URL/process env for Docker vs local.",
+      "tags": [
+        "configuration",
+        "environment",
+        "ouroboros",
+        "llm"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/settings.py:require_deepseek_key",
+      "type": "function",
+      "name": "require_deepseek_key",
+      "filePath": "oil_gas_analyst/settings.py",
+      "lineRange": [
+        25,
+        37
+      ],
+      "summary": "Returns the DeepSeek/OpenAI-compatible API key or raises RuntimeError if unset (OpenRouter is not a silent fallback).",
+      "tags": [
+        "validation",
+        "auth",
+        "configuration"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/settings.py:require_embedding_api_key",
+      "type": "function",
+      "name": "require_embedding_api_key",
+      "filePath": "oil_gas_analyst/settings.py",
+      "lineRange": [
+        40,
+        52
+      ],
+      "summary": "Requires EMBEDDING_API_KEY or OPENROUTER_API_KEY for the embeddings HTTP API.",
+      "tags": [
+        "validation",
+        "auth",
+        "embeddings"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/settings.py:maybe_traceable",
+      "type": "function",
+      "name": "maybe_traceable",
+      "filePath": "oil_gas_analyst/settings.py",
+      "lineRange": [
+        65,
+        79
+      ],
+      "summary": "Returns langsmith.traceable when tracing is configured, otherwise a no-op decorator so run_turn stays callable.",
+      "tags": [
+        "observability",
+        "decorator",
+        "langsmith"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/settings.py:normalize_chat_model",
+      "type": "function",
+      "name": "normalize_chat_model",
+      "filePath": "oil_gas_analyst/settings.py",
+      "lineRange": [
+        82,
+        95
+      ],
+      "summary": "Normalizes chat model ids to OpenAI-compatible prefixes expected by the Ouroboros/DeepSeek stack.",
+      "tags": [
+        "llm",
+        "configuration",
+        "normalization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/settings.py:resolve_model_slots",
+      "type": "function",
+      "name": "resolve_model_slots",
+      "filePath": "oil_gas_analyst/settings.py",
+      "lineRange": [
+        98,
+        123
+      ],
+      "summary": "Builds ModelSlots from env (main/heavy/light/eval/skill_review) with DeepSeek-flash defaults and no vendor fallback list.",
+      "tags": [
+        "llm",
+        "configuration",
+        "factory"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/settings.py:resolve_ouroboros_url",
+      "type": "function",
+      "name": "resolve_ouroboros_url",
+      "filePath": "oil_gas_analyst/settings.py",
+      "lineRange": [
+        135,
+        148
+      ],
+      "summary": "Resolves OUROBOROS_URL for host vs Docker (localhost vs compose service, rewriting loopback inside containers).",
+      "tags": [
+        "ouroboros",
+        "docker",
+        "configuration"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/settings.py:ouroboros_process_env",
+      "type": "function",
+      "name": "ouroboros_process_env",
+      "filePath": "oil_gas_analyst/settings.py",
+      "lineRange": [
+        151,
+        175
+      ],
+      "summary": "Environment mapping for the Ouroboros subprocess: API base, model slots, light mode, and thinking-off flags.",
+      "tags": [
+        "ouroboros",
+        "configuration",
+        "process"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/test_ingest.py",
+      "type": "file",
+      "name": "test_ingest.py",
+      "filePath": "tests/test_ingest.py",
+      "summary": "Pytest coverage for heading chunking, sample PDFs, excerpt dropping, corpus fingerprints, ensure_index planning, and embedding factory.",
+      "tags": [
+        "test",
+        "ingest",
+        "chroma",
+        "embeddings"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:tests/test_ingest.py:test_heading_split_assigns_world_oil_demand",
+      "type": "function",
+      "name": "test_heading_split_assigns_world_oil_demand",
+      "filePath": "tests/test_ingest.py",
+      "lineRange": [
+        4,
+        32
+      ],
+      "summary": "Checks MOMR-style heading splits assign World oil demand chunks from synthetic pages.",
+      "tags": [
+        "test",
+        "ingest",
+        "chunking"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_ingest.py:test_sample_momr_pdf_yields_demand_chunk",
+      "type": "function",
+      "name": "test_sample_momr_pdf_yields_demand_chunk",
+      "filePath": "tests/test_ingest.py",
+      "lineRange": [
+        35,
+        46
+      ],
+      "summary": "Chunks the sample MOMR PDF and asserts a demand-related heading chunk exists.",
+      "tags": [
+        "test",
+        "ingest",
+        "chunking"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_ingest.py:test_sample_cbr_pdf_keeps_oil_mention_and_bulletin_heading",
+      "type": "function",
+      "name": "test_sample_cbr_pdf_keeps_oil_mention_and_bulletin_heading",
+      "filePath": "tests/test_ingest.py",
+      "lineRange": [
+        49,
+        67
+      ],
+      "summary": "Chunks the CBR sample PDF and keeps oil mentions under bulletin headings.",
+      "tags": [
+        "test",
+        "ingest",
+        "chunking"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_ingest.py:test_cbr_heading_split_assigns_oil_section",
+      "type": "function",
+      "name": "test_cbr_heading_split_assigns_oil_section",
+      "filePath": "tests/test_ingest.py",
+      "lineRange": [
+        70,
+        89
+      ],
+      "summary": "Synthetic CBR pages split so the oil section is assigned to the correct heading.",
+      "tags": [
+        "test",
+        "ingest",
+        "chunking"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_ingest.py:test_drop_redundant_excerpts_skips_steo_excerpt_when_full_listed",
+      "type": "function",
+      "name": "test_drop_redundant_excerpts_skips_steo_excerpt_when_full_listed",
+      "filePath": "tests/test_ingest.py",
+      "lineRange": [
+        92,
+        120
+      ],
+      "summary": "Asserts STEO excerpt samples are dropped when a full STEO report is listed.",
+      "tags": [
+        "test",
+        "ingest",
+        "chunking"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_ingest.py:test_drop_redundant_excerpts_keeps_excerpt_without_full",
+      "type": "function",
+      "name": "test_drop_redundant_excerpts_keeps_excerpt_without_full",
+      "filePath": "tests/test_ingest.py",
+      "lineRange": [
+        123,
+        137
+      ],
+      "summary": "Keeps an excerpt sample when no matching full report is configured.",
+      "tags": [
+        "test",
+        "ingest",
+        "chunking"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_ingest.py:test_corpus_fingerprint_omits_steo_excerpt_when_full_exists",
+      "type": "function",
+      "name": "test_corpus_fingerprint_omits_steo_excerpt_when_full_exists",
+      "filePath": "tests/test_ingest.py",
+      "lineRange": [
+        140,
+        152
+      ],
+      "summary": "Fingerprint/job listing omits the STEO excerpt when the full PDF exists.",
+      "tags": [
+        "test",
+        "ingest",
+        "chunking"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_ingest.py:test_ensure_index_rebuilds_stale_volume_then_skips",
+      "type": "function",
+      "name": "test_ensure_index_rebuilds_stale_volume_then_skips",
+      "filePath": "tests/test_ingest.py",
+      "lineRange": [
+        155,
+        205
+      ],
+      "summary": "Fake retriever: stale fingerprint triggers ingest, a matching fingerprint then skips.",
+      "tags": [
+        "test",
+        "ingest",
+        "chunking"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_ingest.py:test_ensure_index_force_rebuilds_matching_fingerprint",
+      "type": "function",
+      "name": "test_ensure_index_force_rebuilds_matching_fingerprint",
+      "filePath": "tests/test_ingest.py",
+      "lineRange": [
+        208,
+        254
+      ],
+      "summary": "force=True rebuilds even when the stored fingerprint already matches.",
+      "tags": [
+        "test",
+        "ingest",
+        "chunking"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_ingest.py:test_plan_corpus_index_skips_when_fingerprint_matches",
+      "type": "function",
+      "name": "test_plan_corpus_index_skips_when_fingerprint_matches",
+      "filePath": "tests/test_ingest.py",
+      "lineRange": [
+        257,
+        284
+      ],
+      "summary": "plan_corpus_index returns skip when on-disk fingerprint matches the corpus.",
+      "tags": [
+        "test",
+        "ingest",
+        "chunking"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_ingest.py:test_plan_corpus_index_syncs_only_new_pdf",
+      "type": "function",
+      "name": "test_plan_corpus_index_syncs_only_new_pdf",
+      "filePath": "tests/test_ingest.py",
+      "lineRange": [
+        287,
+        320
+      ],
+      "summary": "Adding a new PDF yields a sync plan for only that file.",
+      "tags": [
+        "test",
+        "ingest",
+        "chunking"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_ingest.py:test_make_embedding_function_uses_openrouter_nemotron",
+      "type": "function",
+      "name": "test_make_embedding_function_uses_openrouter_nemotron",
+      "filePath": "tests/test_ingest.py",
+      "lineRange": [
+        329,
+        346
+      ],
+      "summary": "With OpenRouter key set, make_embedding_function uses the Nemotron embedding model.",
+      "tags": [
+        "test",
+        "ingest",
+        "chunking"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_ingest.py:test_make_embedding_function_raises_without_key",
+      "type": "function",
+      "name": "test_make_embedding_function_raises_without_key",
+      "filePath": "tests/test_ingest.py",
+      "lineRange": [
+        349,
+        359
+      ],
+      "summary": "make_embedding_function raises when embedding and OpenRouter keys are unset.",
+      "tags": [
+        "test",
+        "ingest",
+        "chunking"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_ingest.py:test_missing_sample_report_breaks_ingest",
+      "type": "function",
+      "name": "test_missing_sample_report_breaks_ingest",
+      "filePath": "tests/test_ingest.py",
+      "lineRange": [
+        362,
+        382
+      ],
+      "summary": "iter_ingest_jobs raises when a configured sample PDF path is missing.",
+      "tags": [
+        "test",
+        "ingest",
+        "chunking"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/test_ouroboros.py",
+      "type": "file",
+      "name": "test_ouroboros.py",
+      "filePath": "tests/test_ouroboros.py",
+      "summary": "Gateway tests with scripted urllib stubs: answer extraction, retrieve/web/forecast tool flags, and supervisor-start retries.",
+      "tags": [
+        "test",
+        "ouroboros",
+        "http-client"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/test_ouroboros.py:_Http",
+      "type": "class",
+      "name": "_Http",
+      "filePath": "tests/test_ouroboros.py",
+      "lineRange": [
+        12,
+        28
+      ],
+      "summary": "Callable urllib stub that scripts JSON HTTP responses (and optional HTTPError) for OuroborosLoop._request.",
+      "tags": [
+        "test",
+        "stub",
+        "http-client"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/test_ouroboros.py:_Resp",
+      "type": "class",
+      "name": "_Resp",
+      "filePath": "tests/test_ouroboros.py",
+      "lineRange": [
+        31,
+        42
+      ],
+      "summary": "Context-manager response stub exposing read() for urlopen patches.",
+      "tags": [
+        "test",
+        "stub",
+        "http-client"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_ouroboros.py:test_gateway_turn_returns_task_answer",
+      "type": "function",
+      "name": "test_gateway_turn_returns_task_answer",
+      "filePath": "tests/test_ouroboros.py",
+      "lineRange": [
+        45,
+        69
+      ],
+      "summary": "Stubbed HTTP gateway: run_turn returns the task answer text from OuroborosLoop.",
+      "tags": [
+        "test",
+        "ouroboros",
+        "gateway"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_ouroboros.py:test_gateway_reads_answer_from_outcome_axes",
+      "type": "function",
+      "name": "test_gateway_reads_answer_from_outcome_axes",
+      "filePath": "tests/test_ouroboros.py",
+      "lineRange": [
+        72,
+        89
+      ],
+      "summary": "Answer is read from nested outcome axes when the top-level text is absent.",
+      "tags": [
+        "test",
+        "ouroboros",
+        "gateway"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_ouroboros.py:test_gateway_marks_retrieve_when_tool_name_is_in_the_task_record",
+      "type": "function",
+      "name": "test_gateway_marks_retrieve_when_tool_name_is_in_the_task_record",
+      "filePath": "tests/test_ouroboros.py",
+      "lineRange": [
+        92,
+        116
+      ],
+      "summary": "Retrieve tool in the task record sets grounded-report flags on the reply.",
+      "tags": [
+        "test",
+        "ouroboros",
+        "gateway"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_ouroboros.py:test_gateway_marks_web_when_search_tool_is_in_the_task_record",
+      "type": "function",
+      "name": "test_gateway_marks_web_when_search_tool_is_in_the_task_record",
+      "filePath": "tests/test_ouroboros.py",
+      "lineRange": [
+        119,
+        143
+      ],
+      "summary": "Web search tool in the task record is reflected in the reply text/flags.",
+      "tags": [
+        "test",
+        "ouroboros",
+        "gateway"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_ouroboros.py:test_gateway_marks_forecast_when_tool_is_in_the_task_record",
+      "type": "function",
+      "name": "test_gateway_marks_forecast_when_tool_is_in_the_task_record",
+      "filePath": "tests/test_ouroboros.py",
+      "lineRange": [
+        146,
+        170
+      ],
+      "summary": "Forecast tool in the task record is marked on the LoopResult/reply.",
+      "tags": [
+        "test",
+        "ouroboros",
+        "gateway"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_ouroboros.py:test_gateway_retries_while_supervisor_is_starting",
+      "type": "function",
+      "name": "test_gateway_retries_while_supervisor_is_starting",
+      "filePath": "tests/test_ouroboros.py",
+      "lineRange": [
+        173,
+        192
+      ],
+      "summary": "Gateway retries while the supervisor returns startup/503 responses.",
+      "tags": [
+        "test",
+        "ouroboros",
+        "gateway"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/test_settings.py",
+      "type": "file",
+      "name": "test_settings.py",
+      "filePath": "tests/test_settings.py",
+      "summary": "Tests API-key gates, model-slot defaults, Ouroboros URL in/out of Docker, process env, and README/compose contracts.",
+      "tags": [
+        "test",
+        "configuration",
+        "ouroboros"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/test_settings.py:test_unset_slots_use_main_deepseek_flash_with_no_vendor_fallback",
+      "type": "function",
+      "name": "test_unset_slots_use_main_deepseek_flash_with_no_vendor_fallback",
+      "filePath": "tests/test_settings.py",
+      "lineRange": [
+        42,
+        60
+      ],
+      "summary": "Unset slot env vars default to DeepSeek-flash-style main with empty vendor fallbacks.",
+      "tags": [
+        "test",
+        "configuration",
+        "settings"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_settings.py:test_env_overrides_heavy_and_eval_only",
+      "type": "function",
+      "name": "test_env_overrides_heavy_and_eval_only",
+      "filePath": "tests/test_settings.py",
+      "lineRange": [
+        68,
+        77
+      ],
+      "summary": "HEAVY and EVAL env vars override only those ModelSlots without changing others.",
+      "tags": [
+        "test",
+        "configuration",
+        "settings"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_settings.py:test_ouroboros_process_env_pins_light_mode_and_thinking_off",
+      "type": "function",
+      "name": "test_ouroboros_process_env_pins_light_mode_and_thinking_off",
+      "filePath": "tests/test_settings.py",
+      "lineRange": [
+        80,
+        95
+      ],
+      "summary": "ouroboros_process_env pins light mode and disables thinking flags.",
+      "tags": [
+        "test",
+        "configuration",
+        "settings"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_settings.py:test_local_requirements_do_not_pull_legacy_langgraph_stack",
+      "type": "function",
+      "name": "test_local_requirements_do_not_pull_legacy_langgraph_stack",
+      "filePath": "tests/test_settings.py",
+      "lineRange": [
+        98,
+        108
+      ],
+      "summary": "requirements.txt does not pull the legacy LangGraph stack.",
+      "tags": [
+        "test",
+        "configuration",
+        "settings"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_settings.py:test_readme_names_ouroboros_adapter_evolve_off_and_port_8000",
+      "type": "function",
+      "name": "test_readme_names_ouroboros_adapter_evolve_off_and_port_8000",
+      "filePath": "tests/test_settings.py",
+      "lineRange": [
+        111,
+        123
+      ],
+      "summary": "README names the Ouroboros adapter, evolve-off, and Streamlit port 8000.",
+      "tags": [
+        "test",
+        "configuration",
+        "settings"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/test_settings.py:test_compose_publishes_streamlit_only_and_pins_light_mode",
+      "type": "function",
+      "name": "test_compose_publishes_streamlit_only_and_pins_light_mode",
+      "filePath": "tests/test_settings.py",
+      "lineRange": [
+        137,
+        164
+      ],
+      "summary": "Compose/Dockerfile pin Streamlit publish and Ouroboros light mode.",
+      "tags": [
+        "test",
+        "configuration",
+        "settings"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "file:oil_gas_analyst/ingest.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "file:oil_gas_analyst/settings.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "file:oil_gas_analyst/types.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "file:oil_gas_analyst/ingest.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "file:oil_gas_analyst/ouroboros.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "file:oil_gas_analyst/turn.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_settings.py",
+      "target": "file:oil_gas_analyst/settings.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "class:oil_gas_analyst/retrieve.py:OpenAICompatibleEmbeddingFunction",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "class:oil_gas_analyst/retrieve.py:OpenAICompatibleEmbeddingFunction",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:_request_headers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:_embed_batch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "class:oil_gas_analyst/retrieve.py:ChromaRetriever",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "class:oil_gas_analyst/retrieve.py:ChromaRetriever",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:index_chunks",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:retrieve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:_prefer_ipv4",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:_prefer_ipv4",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:make_embedding_function",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:make_embedding_function",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:drop_redundant_excerpts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:drop_redundant_excerpts",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:_chunk_from_meta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:_chunk_from_meta",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:_date_from_name",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:_date_from_name",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:_url_for_agency",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:_url_for_agency",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:iter_ingest_jobs",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:iter_ingest_jobs",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:corpus_fingerprint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:corpus_fingerprint",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:plan_corpus_index",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:plan_corpus_index",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:ingest_jobs",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:ingest_jobs",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:ensure_index",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:ensure_index",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:ingest_samples_and_reports",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:ingest_samples_and_reports",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:_default_retriever",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:_default_retriever",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:retrieve_for_tool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/retrieve.py",
+      "target": "function:oil_gas_analyst/retrieve.py:retrieve_for_tool",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/settings.py",
+      "target": "function:oil_gas_analyst/settings.py:require_deepseek_key",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/settings.py",
+      "target": "function:oil_gas_analyst/settings.py:require_deepseek_key",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/settings.py",
+      "target": "function:oil_gas_analyst/settings.py:require_embedding_api_key",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/settings.py",
+      "target": "function:oil_gas_analyst/settings.py:require_embedding_api_key",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/settings.py",
+      "target": "function:oil_gas_analyst/settings.py:maybe_traceable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/settings.py",
+      "target": "function:oil_gas_analyst/settings.py:maybe_traceable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/settings.py",
+      "target": "function:oil_gas_analyst/settings.py:normalize_chat_model",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/settings.py",
+      "target": "function:oil_gas_analyst/settings.py:normalize_chat_model",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/settings.py",
+      "target": "function:oil_gas_analyst/settings.py:resolve_model_slots",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/settings.py",
+      "target": "function:oil_gas_analyst/settings.py:resolve_model_slots",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/settings.py",
+      "target": "function:oil_gas_analyst/settings.py:resolve_ouroboros_url",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/settings.py",
+      "target": "function:oil_gas_analyst/settings.py:resolve_ouroboros_url",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/settings.py",
+      "target": "function:oil_gas_analyst/settings.py:ouroboros_process_env",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/settings.py",
+      "target": "function:oil_gas_analyst/settings.py:ouroboros_process_env",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:oil_gas_analyst/retrieve.py:OpenAICompatibleEmbeddingFunction",
+      "target": "function:oil_gas_analyst/retrieve.py:_request_headers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:oil_gas_analyst/retrieve.py:OpenAICompatibleEmbeddingFunction",
+      "target": "function:oil_gas_analyst/retrieve.py:_embed_batch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:oil_gas_analyst/retrieve.py:ChromaRetriever",
+      "target": "function:oil_gas_analyst/retrieve.py:index_chunks",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:oil_gas_analyst/retrieve.py:ChromaRetriever",
+      "target": "function:oil_gas_analyst/retrieve.py:retrieve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_heading_split_assigns_world_oil_demand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_heading_split_assigns_world_oil_demand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_sample_momr_pdf_yields_demand_chunk",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_sample_momr_pdf_yields_demand_chunk",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_sample_cbr_pdf_keeps_oil_mention_and_bulletin_heading",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_sample_cbr_pdf_keeps_oil_mention_and_bulletin_heading",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_cbr_heading_split_assigns_oil_section",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_cbr_heading_split_assigns_oil_section",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_drop_redundant_excerpts_skips_steo_excerpt_when_full_listed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_drop_redundant_excerpts_skips_steo_excerpt_when_full_listed",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_drop_redundant_excerpts_keeps_excerpt_without_full",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_drop_redundant_excerpts_keeps_excerpt_without_full",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_corpus_fingerprint_omits_steo_excerpt_when_full_exists",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_corpus_fingerprint_omits_steo_excerpt_when_full_exists",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_ensure_index_rebuilds_stale_volume_then_skips",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_ensure_index_rebuilds_stale_volume_then_skips",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_ensure_index_force_rebuilds_matching_fingerprint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_ensure_index_force_rebuilds_matching_fingerprint",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_plan_corpus_index_skips_when_fingerprint_matches",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_plan_corpus_index_skips_when_fingerprint_matches",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_plan_corpus_index_syncs_only_new_pdf",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_plan_corpus_index_syncs_only_new_pdf",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_make_embedding_function_uses_openrouter_nemotron",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_make_embedding_function_uses_openrouter_nemotron",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_make_embedding_function_raises_without_key",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_make_embedding_function_raises_without_key",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_missing_sample_report_breaks_ingest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "function:tests/test_ingest.py:test_missing_sample_report_breaks_ingest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "class:tests/test_ouroboros.py:_Http",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "class:tests/test_ouroboros.py:_Http",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "class:tests/test_ouroboros.py:_Resp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "class:tests/test_ouroboros.py:_Resp",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "function:tests/test_ouroboros.py:test_gateway_turn_returns_task_answer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "function:tests/test_ouroboros.py:test_gateway_turn_returns_task_answer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "function:tests/test_ouroboros.py:test_gateway_reads_answer_from_outcome_axes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "function:tests/test_ouroboros.py:test_gateway_reads_answer_from_outcome_axes",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "function:tests/test_ouroboros.py:test_gateway_marks_retrieve_when_tool_name_is_in_the_task_record",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "function:tests/test_ouroboros.py:test_gateway_marks_retrieve_when_tool_name_is_in_the_task_record",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "function:tests/test_ouroboros.py:test_gateway_marks_web_when_search_tool_is_in_the_task_record",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "function:tests/test_ouroboros.py:test_gateway_marks_web_when_search_tool_is_in_the_task_record",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "function:tests/test_ouroboros.py:test_gateway_marks_forecast_when_tool_is_in_the_task_record",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "function:tests/test_ouroboros.py:test_gateway_marks_forecast_when_tool_is_in_the_task_record",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "function:tests/test_ouroboros.py:test_gateway_retries_while_supervisor_is_starting",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "function:tests/test_ouroboros.py:test_gateway_retries_while_supervisor_is_starting",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_settings.py",
+      "target": "function:tests/test_settings.py:test_unset_slots_use_main_deepseek_flash_with_no_vendor_fallback",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_settings.py",
+      "target": "function:tests/test_settings.py:test_unset_slots_use_main_deepseek_flash_with_no_vendor_fallback",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_settings.py",
+      "target": "function:tests/test_settings.py:test_env_overrides_heavy_and_eval_only",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_settings.py",
+      "target": "function:tests/test_settings.py:test_env_overrides_heavy_and_eval_only",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_settings.py",
+      "target": "function:tests/test_settings.py:test_ouroboros_process_env_pins_light_mode_and_thinking_off",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_settings.py",
+      "target": "function:tests/test_settings.py:test_ouroboros_process_env_pins_light_mode_and_thinking_off",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_settings.py",
+      "target": "function:tests/test_settings.py:test_local_requirements_do_not_pull_legacy_langgraph_stack",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_settings.py",
+      "target": "function:tests/test_settings.py:test_local_requirements_do_not_pull_legacy_langgraph_stack",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_settings.py",
+      "target": "function:tests/test_settings.py:test_readme_names_ouroboros_adapter_evolve_off_and_port_8000",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_settings.py",
+      "target": "function:tests/test_settings.py:test_readme_names_ouroboros_adapter_evolve_off_and_port_8000",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_settings.py",
+      "target": "function:tests/test_settings.py:test_compose_publishes_streamlit_only_and_pins_light_mode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_settings.py",
+      "target": "function:tests/test_settings.py:test_compose_publishes_streamlit_only_and_pins_light_mode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:make_embedding_function",
+      "target": "class:oil_gas_analyst/retrieve.py:OpenAICompatibleEmbeddingFunction",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:_chunk_from_meta",
+      "target": "class:oil_gas_analyst/types.py:Chunk",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:iter_ingest_jobs",
+      "target": "function:oil_gas_analyst/retrieve.py:drop_redundant_excerpts",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:iter_ingest_jobs",
+      "target": "function:oil_gas_analyst/retrieve.py:_date_from_name",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:iter_ingest_jobs",
+      "target": "function:oil_gas_analyst/retrieve.py:_url_for_agency",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:plan_corpus_index",
+      "target": "function:oil_gas_analyst/retrieve.py:corpus_fingerprint",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:ensure_index",
+      "target": "function:oil_gas_analyst/retrieve.py:plan_corpus_index",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:ensure_index",
+      "target": "function:oil_gas_analyst/retrieve.py:ingest_jobs",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:ensure_index",
+      "target": "function:oil_gas_analyst/retrieve.py:ingest_samples_and_reports",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:_default_retriever",
+      "target": "function:oil_gas_analyst/retrieve.py:make_embedding_function",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:_default_retriever",
+      "target": "class:oil_gas_analyst/retrieve.py:ChromaRetriever",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:_default_retriever",
+      "target": "function:oil_gas_analyst/retrieve.py:ensure_index",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:retrieve_for_tool",
+      "target": "function:oil_gas_analyst/retrieve.py:_default_retriever",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:retrieve_for_tool",
+      "target": "function:oil_gas_analyst/turn.py:report_citation",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/settings.py:resolve_model_slots",
+      "target": "function:oil_gas_analyst/settings.py:normalize_chat_model",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/settings.py:ouroboros_process_env",
+      "target": "function:oil_gas_analyst/settings.py:require_deepseek_key",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/settings.py:ouroboros_process_env",
+      "target": "function:oil_gas_analyst/settings.py:resolve_model_slots",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ingest.py:test_drop_redundant_excerpts_skips_steo_excerpt_when_full_listed",
+      "target": "function:oil_gas_analyst/retrieve.py:drop_redundant_excerpts",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ingest.py:test_drop_redundant_excerpts_keeps_excerpt_without_full",
+      "target": "function:oil_gas_analyst/retrieve.py:drop_redundant_excerpts",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ingest.py:test_corpus_fingerprint_omits_steo_excerpt_when_full_exists",
+      "target": "function:oil_gas_analyst/retrieve.py:corpus_fingerprint",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ingest.py:test_corpus_fingerprint_omits_steo_excerpt_when_full_exists",
+      "target": "function:oil_gas_analyst/retrieve.py:iter_ingest_jobs",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ingest.py:test_ensure_index_rebuilds_stale_volume_then_skips",
+      "target": "function:oil_gas_analyst/retrieve.py:ensure_index",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ingest.py:test_ensure_index_force_rebuilds_matching_fingerprint",
+      "target": "function:oil_gas_analyst/retrieve.py:ensure_index",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ingest.py:test_plan_corpus_index_skips_when_fingerprint_matches",
+      "target": "function:oil_gas_analyst/retrieve.py:plan_corpus_index",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ingest.py:test_plan_corpus_index_syncs_only_new_pdf",
+      "target": "function:oil_gas_analyst/retrieve.py:plan_corpus_index",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ingest.py:test_make_embedding_function_uses_openrouter_nemotron",
+      "target": "function:oil_gas_analyst/retrieve.py:make_embedding_function",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ingest.py:test_make_embedding_function_raises_without_key",
+      "target": "function:oil_gas_analyst/retrieve.py:make_embedding_function",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ingest.py:test_missing_sample_report_breaks_ingest",
+      "target": "function:oil_gas_analyst/retrieve.py:iter_ingest_jobs",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ouroboros.py:test_gateway_turn_returns_task_answer",
+      "target": "function:oil_gas_analyst/turn.py:run_turn",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ouroboros.py:test_gateway_reads_answer_from_outcome_axes",
+      "target": "function:oil_gas_analyst/turn.py:run_turn",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ouroboros.py:test_gateway_marks_retrieve_when_tool_name_is_in_the_task_record",
+      "target": "function:oil_gas_analyst/turn.py:run_turn",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ouroboros.py:test_gateway_marks_retrieve_when_tool_name_is_in_the_task_record",
+      "target": "function:oil_gas_analyst/turn.py:has_grounded_report",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ouroboros.py:test_gateway_marks_web_when_search_tool_is_in_the_task_record",
+      "target": "function:oil_gas_analyst/turn.py:run_turn",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ouroboros.py:test_gateway_marks_forecast_when_tool_is_in_the_task_record",
+      "target": "function:oil_gas_analyst/turn.py:run_turn",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_ouroboros.py:test_gateway_retries_while_supervisor_is_starting",
+      "target": "function:oil_gas_analyst/turn.py:run_turn",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_settings.py:test_unset_slots_use_main_deepseek_flash_with_no_vendor_fallback",
+      "target": "function:oil_gas_analyst/settings.py:resolve_model_slots",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_settings.py:test_env_overrides_heavy_and_eval_only",
+      "target": "function:oil_gas_analyst/settings.py:resolve_model_slots",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_settings.py:test_ouroboros_process_env_pins_light_mode_and_thinking_off",
+      "target": "function:oil_gas_analyst/settings.py:ouroboros_process_env",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "file:oil_gas_analyst/ingest.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:tests/test_ingest.py",
+      "target": "file:oil_gas_analyst/retrieve.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:tests/test_ouroboros.py",
+      "target": "file:oil_gas_analyst/ouroboros.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:tests/test_settings.py",
+      "target": "file:oil_gas_analyst/settings.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "class:oil_gas_analyst/retrieve.py:ChromaRetriever",
+      "target": "class:oil_gas_analyst/types.py:Retriever",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:oil_gas_analyst/retrieve.py:OpenAICompatibleEmbeddingFunction",
+      "target": "function:oil_gas_analyst/retrieve.py:_prefer_ipv4",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:_embed_batch",
+      "target": "function:oil_gas_analyst/retrieve.py:_request_headers",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/retrieve.py:retrieve",
+      "target": "function:oil_gas_analyst/retrieve.py:_chunk_from_meta",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "projectRoot": "/Users/semenoffalex/Cursor/sber",
+  "batchFiles": [
+    {"path": "skills/oil_gas_forecast/SKILL.md", "language": "markdown", "sizeLines": 22, "fileCategory": "docs"},
+    {"path": "skills/oil_gas_retrieve/plugin.py", "language": "python", "sizeLines": 30, "fileCategory": "code"},
+    {"path": "skills/oil_gas_retrieve/SKILL.md", "language": "markdown", "sizeLines": 20, "fileCategory": "docs"},
+    {"path": "skills/oil_gas_web/plugin.py", "language": "python", "sizeLines": 30, "fileCategory": "code"},
+    {"path": "skills/oil_gas_web/SKILL.md", "language": "markdown", "sizeLines": 22, "fileCategory": "docs"},
+    {"path": "tests/conftest.py", "language": "python", "sizeLines": 1, "fileCategory": "code"}
+  ],
+  "batchImportData": {
+    "skills/oil_gas_forecast/SKILL.md": [],
+    "skills/oil_gas_retrieve/plugin.py": [],
+    "skills/oil_gas_retrieve/SKILL.md": [],
+    "skills/oil_gas_web/plugin.py": [],
+    "skills/oil_gas_web/SKILL.md": [],
+    "tests/conftest.py": []
+  }
+}

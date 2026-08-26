@@ -1,0 +1,105 @@
+{
+  "projectRoot": "/Users/semenoffalex/Cursor/sber",
+  "batchFiles": [
+    {
+      "path": ".scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md",
+      "language": "markdown",
+      "sizeLines": 34,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md",
+      "language": "markdown",
+      "sizeLines": 52,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md",
+      "language": "markdown",
+      "sizeLines": 45,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md",
+      "language": "markdown",
+      "sizeLines": 32,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md",
+      "language": "markdown",
+      "sizeLines": 34,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md",
+      "language": "markdown",
+      "sizeLines": 29,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md",
+      "language": "markdown",
+      "sizeLines": 36,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md",
+      "language": "markdown",
+      "sizeLines": 22,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "language": "markdown",
+      "sizeLines": 18,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md",
+      "language": "markdown",
+      "sizeLines": 17,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md",
+      "language": "markdown",
+      "sizeLines": 16,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md",
+      "language": "markdown",
+      "sizeLines": 17,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md",
+      "language": "markdown",
+      "sizeLines": 17,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+      "language": "markdown",
+      "sizeLines": 13,
+      "fileCategory": "docs"
+    }
+  ],
+  "batchImportData": {
+    ".scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md": [],
+    ".scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md": [],
+    ".scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md": [],
+    ".scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md": [],
+    ".scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md": [],
+    ".scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md": [],
+    ".scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md": [],
+    ".scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md": [],
+    ".scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md": [],
+    ".scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md": [],
+    ".scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md": [],
+    ".scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md": [],
+    ".scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md": [],
+    ".scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md": []
+  }
+}

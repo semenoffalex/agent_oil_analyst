@@ -1,0 +1,178 @@
+{
+  "oil_gas_analyst/consensus_price.py": [
+    {
+      "path": "oil_gas_analyst/ingest.py",
+      "batchIndex": 3,
+      "symbols": [
+        "load_ingest_config",
+        "_word_tokens",
+        "e5_token_count",
+        "_compile_headings",
+        "_is_heading",
+        "_known_for",
+        "_flush",
+        "chunk_pages",
+        "chunk_pdf"
+      ]
+    }
+  ],
+  "oil_gas_analyst/dashboard.py": [
+    {
+      "path": "oil_gas_analyst/chat_ui.py",
+      "batchIndex": 2,
+      "symbols": [
+        "_warm",
+        "wait_loop",
+        "rate_limit_key",
+        "handle_chat_message"
+      ]
+    },
+    {
+      "path": "oil_gas_analyst/corpus_strip.py",
+      "batchIndex": 3,
+      "symbols": [
+        "CorpusStripEntry",
+        "_samples_dir",
+        "_resolve_path",
+        "corpus_strip_entries"
+      ]
+    },
+    {
+      "path": "oil_gas_analyst/session_start_web.py",
+      "batchIndex": 1,
+      "symbols": [
+        "load_rail_exclusions",
+        "_is_rail_hidden",
+        "_today_moscow",
+        "_parse_iso_date",
+        "_infer_date_from_snippet",
+        "_is_fresh_for_rail",
+        "SessionStartRailHit",
+        "_RankedWebHit",
+        "outlet_from_url",
+        "YandexTopNewsSearcher",
+        "_collect_yandex_top_news",
+        "_cache_path",
+        "_save_top_news_cache",
+        "_load_top_news_cache",
+        "_build_payload_from_ranked",
+        "cached_top_news_hits",
+        "_fetch_live_top_news_payload",
+        "refresh_top_news_hits",
+        "fetch_session_start_web",
+        "visible_rail_hits",
+        "inject_session_start_web",
+        "has_grounded_session_start_web"
+      ]
+    }
+  ],
+  "oil_gas_analyst/forecast.py": [
+    {
+      "path": "oil_gas_analyst/settings.py",
+      "batchIndex": 3,
+      "symbols": [
+        "ModelSlots",
+        "require_deepseek_key",
+        "require_embedding_api_key",
+        "require_openrouter_key",
+        "_env",
+        "maybe_traceable",
+        "normalize_chat_model",
+        "resolve_model_slots",
+        "running_in_docker",
+        "resolve_ouroboros_url",
+        "ouroboros_process_env"
+      ]
+    },
+    {
+      "path": "oil_gas_analyst/types.py",
+      "batchIndex": 1,
+      "symbols": [
+        "Chunk",
+        "WebHit",
+        "MethodForecast",
+        "MethodPathForecast",
+        "ForecastPlotPayload",
+        "ForecastResult",
+        "Citation",
+        "LoopResult",
+        "LoopError",
+        "AnalystLoop",
+        "Reply",
+        "CompetenceClassifier",
+        "Retriever",
+        "ChunkDropper",
+        "WebSearch",
+        "ForecastModule",
+        "Composer"
+      ]
+    }
+  ],
+  "tests/test_consensus_price.py": [
+    {
+      "path": "oil_gas_analyst/session_start_web.py",
+      "batchIndex": 1,
+      "symbols": [
+        "load_rail_exclusions",
+        "_is_rail_hidden",
+        "_today_moscow",
+        "_parse_iso_date",
+        "_infer_date_from_snippet",
+        "_is_fresh_for_rail",
+        "SessionStartRailHit",
+        "_RankedWebHit",
+        "outlet_from_url",
+        "YandexTopNewsSearcher",
+        "_collect_yandex_top_news",
+        "_cache_path",
+        "_save_top_news_cache",
+        "_load_top_news_cache",
+        "_build_payload_from_ranked",
+        "cached_top_news_hits",
+        "_fetch_live_top_news_payload",
+        "refresh_top_news_hits",
+        "fetch_session_start_web",
+        "visible_rail_hits",
+        "inject_session_start_web",
+        "has_grounded_session_start_web"
+      ]
+    }
+  ],
+  "tests/test_dashboard_layout.py": [
+    {
+      "path": "oil_gas_analyst/corpus_strip.py",
+      "batchIndex": 3,
+      "symbols": [
+        "CorpusStripEntry",
+        "_samples_dir",
+        "_resolve_path",
+        "corpus_strip_entries"
+      ]
+    }
+  ],
+  "tests/test_forecast.py": [
+    {
+      "path": "oil_gas_analyst/types.py",
+      "batchIndex": 1,
+      "symbols": [
+        "Chunk",
+        "WebHit",
+        "MethodForecast",
+        "MethodPathForecast",
+        "ForecastPlotPayload",
+        "ForecastResult",
+        "Citation",
+        "LoopResult",
+        "LoopError",
+        "AnalystLoop",
+        "Reply",
+        "CompetenceClassifier",
+        "Retriever",
+        "ChunkDropper",
+        "WebSearch",
+        "ForecastModule",
+        "Composer"
+      ]
+    }
+  ]
+}

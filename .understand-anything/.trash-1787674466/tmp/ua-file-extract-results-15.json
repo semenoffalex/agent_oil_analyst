@@ -1,0 +1,1051 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": ".cursor/hooks/state/continual-learning-index.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 40,
+      "nonEmptyLines": 40,
+      "sections": [
+        {
+          "heading": "version",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "transcripts",
+          "level": 1,
+          "line": 3
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": ".scratch/analyst-dashboard-build/spec.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 5,
+      "nonEmptyLines": 3,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 0
+      }
+    },
+    {
+      "path": ".scratch/analyst-dashboard/map.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 45,
+      "nonEmptyLines": 33,
+      "sections": [
+        {
+          "heading": "Map: Analyst Dashboard",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Destination",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "Notes",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "Decisions so far",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "Not yet specified",
+          "level": 2,
+          "line": 34
+        },
+        {
+          "heading": "Out of scope",
+          "level": 2,
+          "line": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 6
+      }
+    },
+    {
+      "path": ".scratch/analyst-dashboard/prototype/dashboard.html",
+      "language": "html",
+      "fileCategory": "markup",
+      "totalLines": 246,
+      "nonEmptyLines": 233,
+      "metrics": {}
+    },
+    {
+      "path": ".scratch/analyst-dashboard/spec.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 60,
+      "nonEmptyLines": 46,
+      "sections": [
+        {
+          "heading": "Spec: Analyst Dashboard (Streamlit Demo)",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "Problem Statement",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Solution",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "User Stories",
+          "level": 2,
+          "line": 15
+        },
+        {
+          "heading": "Implementation Decisions",
+          "level": 2,
+          "line": 37
+        },
+        {
+          "heading": "Testing Decisions",
+          "level": 2,
+          "line": 45
+        },
+        {
+          "heading": "Out of Scope",
+          "level": 2,
+          "line": 52
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": ".scratch/oil-gas-analyst/spec.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 120,
+      "nonEmptyLines": 102,
+      "sections": [
+        {
+          "heading": "Spec: Oil and Gas Analyst",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "Problem Statement",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "Solution",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "User Stories",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Implementation Decisions",
+          "level": 2,
+          "line": 68
+        },
+        {
+          "heading": "Testing Decisions",
+          "level": 2,
+          "line": 82
+        },
+        {
+          "heading": "Out of Scope",
+          "level": 2,
+          "line": 100
+        },
+        {
+          "heading": "Further Notes",
+          "level": 2,
+          "line": 114
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/map.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 46,
+      "nonEmptyLines": 34,
+      "sections": [
+        {
+          "heading": "Map: Ouroboros Analyst",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Destination",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "Notes",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "Decisions so far",
+          "level": 2,
+          "line": 18
+        },
+        {
+          "heading": "Not yet specified",
+          "level": 2,
+          "line": 34
+        },
+        {
+          "heading": "Out of scope",
+          "level": 2,
+          "line": 41
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 6
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/research/ouroboros-host.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 230,
+      "nonEmptyLines": 149,
+      "sections": [
+        {
+          "heading": "How current-generation Ouroboros can host a domain Analyst",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "What Ouroboros is (and is not)",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "The model-driven loop (tool choice and stop)",
+          "level": 2,
+          "line": 26
+        },
+        {
+          "heading": "Reviewer-facing conversation surfaces",
+          "level": 2,
+          "line": 40
+        },
+        {
+          "heading": "Skills vs built-in tools vs MCP",
+          "level": 2,
+          "line": 56
+        },
+        {
+          "heading": "Built-in tools (ToolRegistry)",
+          "level": 3,
+          "line": 58
+        },
+        {
+          "heading": "Skills (three types)",
+          "level": 3,
+          "line": 62
+        },
+        {
+          "heading": "MCP",
+          "level": 3,
+          "line": 78
+        },
+        {
+          "heading": "Web search: three paths (do not conflate)",
+          "level": 2,
+          "line": 91
+        },
+        {
+          "heading": "Role / system prompt: where a senior oil-and-gas Analyst attaches",
+          "level": 2,
+          "line": 107
+        },
+        {
+          "heading": "Review and `/evolve` on a demo path",
+          "level": 2,
+          "line": 126
+        },
+        {
+          "heading": "Grader-friendly start",
+          "level": 2,
+          "line": 144
+        },
+        {
+          "heading": "Runtime mode vs product sandbox",
+          "level": 2,
+          "line": 182
+        },
+        {
+          "heading": "Mapping domain tools (facts for later tickets)",
+          "level": 2,
+          "line": 190
+        },
+        {
+          "heading": "What is not supported",
+          "level": 2,
+          "line": 209
+        },
+        {
+          "heading": "Source pins",
+          "level": 2,
+          "line": 226
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 16
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/research/stubs-versus-contracts.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 184,
+      "nonEmptyLines": 128,
+      "sections": [
+        {
+          "heading": "Stubs versus product contracts",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Customer-named examples",
+          "level": 2,
+          "line": 15
+        },
+        {
+          "heading": "`_ensure_report_tags` — **stub**",
+          "level": 3,
+          "line": 17
+        },
+        {
+          "heading": "`_OUT_OF_SCOPE` / `is_out_of_scope_topic` — **stub**",
+          "level": 3,
+          "line": 24
+        },
+        {
+          "heading": "Requested inventory",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "`_keep_or_restore` / `_REPORT_HEADING_MARKERS` / `_REPORT_TEXT_MARKERS` — **stub**",
+          "level": 3,
+          "line": 37
+        },
+        {
+          "heading": "Closed Route lists (Forecast verbs, Time-sensitive markers, weak/outlook extras) — **mixed**",
+          "level": 3,
+          "line": 44
+        },
+        {
+          "heading": "Fixed LangGraph node order — **mixed**",
+          "level": 3,
+          "line": 51
+        },
+        {
+          "heading": "`REFUSAL_TEXT` — **mixed**",
+          "level": 3,
+          "line": 58
+        },
+        {
+          "heading": "Retrieve `k=10` — **contract**; heading-rank — **stub**",
+          "level": 3,
+          "line": 65
+        },
+        {
+          "heading": "Yellow-press denylist — **contract**",
+          "level": 3,
+          "line": 81
+        },
+        {
+          "heading": "Other paths in the current tree",
+          "level": 2,
+          "line": 89
+        },
+        {
+          "heading": "Forecast-verb override of classify `out` — **stub**",
+          "level": 3,
+          "line": 91
+        },
+        {
+          "heading": "Dropper fail-open (keep all on exception) — **stub**",
+          "level": 3,
+          "line": 97
+        },
+        {
+          "heading": "`FORECAST_UNAVAILABLE` and empty-web notices appended after compose — **mixed**",
+          "level": 3,
+          "line": 103
+        },
+        {
+          "heading": "Mechanical web triggers (`want_web`) — **mixed**",
+          "level": 3,
+          "line": 110
+        },
+        {
+          "heading": "Citation label builders and Markdown linking — **contract**",
+          "level": 3,
+          "line": 116
+        },
+        {
+          "heading": "Forecast module (two methods, symbols, Urals, no CSV) — **contract**",
+          "level": 3,
+          "line": 122
+        },
+        {
+          "heading": "Ingest: heading regexes, 512-token cap, Sample Reports, e5 prefixes — **contract**",
+          "level": 3,
+          "line": 128
+        },
+        {
+          "heading": "`drop_redundant_excerpts` — **contract**",
+          "level": 3,
+          "line": 133
+        },
+        {
+          "heading": "Competence classify node and Dropper/Composer LLM calls — **contract** (the model path)",
+          "level": 3,
+          "line": 139
+        },
+        {
+          "heading": "Composer exception fallback sentence — **mixed**",
+          "level": 3,
+          "line": 144
+        },
+        {
+          "heading": "Contradictions with named ADRs (inventory only)",
+          "level": 2,
+          "line": 152
+        },
+        {
+          "heading": "Compact tagged list",
+          "level": 2,
+          "line": 161
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 24
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/spec.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 140,
+      "nonEmptyLines": 121,
+      "sections": [
+        {
+          "heading": "Spec: Ouroboros Analyst",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "Problem Statement",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "Solution",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "User Stories",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Implementation Decisions",
+          "level": 2,
+          "line": 89
+        },
+        {
+          "heading": "Testing Decisions",
+          "level": 2,
+          "line": 102
+        },
+        {
+          "heading": "Out of Scope",
+          "level": 2,
+          "line": 118
+        },
+        {
+          "heading": "Further Notes",
+          "level": 2,
+          "line": 132
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": ".streamlit/config.toml",
+      "language": "toml",
+      "fileCategory": "config",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "sections": [
+        {
+          "heading": "server",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "browser",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "client",
+          "level": 1,
+          "line": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".understand-anything/.understandignore",
+      "language": "unknown",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 52,
+      "metrics": {}
+    },
+    {
+      "path": ".understand-anything/config.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 3,
+      "nonEmptyLines": 3,
+      "sections": [
+        {
+          "heading": "outputLanguage",
+          "level": 1,
+          "line": 2
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "data/ouroboros/identity.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 7,
+      "nonEmptyLines": 4,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 0
+      }
+    },
+    {
+      "path": "data/samples/README.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 0
+      }
+    },
+    {
+      "path": "deploy/demo-nginx.conf",
+      "language": "conf",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 17,
+      "metrics": {}
+    },
+    {
+      "path": "docker/cloud-init.yaml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 156,
+      "nonEmptyLines": 134,
+      "sections": [
+        {
+          "heading": "timezone",
+          "level": 1,
+          "line": 17
+        },
+        {
+          "heading": "package_update",
+          "level": 1,
+          "line": 19
+        },
+        {
+          "heading": "package_upgrade",
+          "level": 1,
+          "line": 20
+        },
+        {
+          "heading": "packages",
+          "level": 1,
+          "line": 22
+        },
+        {
+          "heading": "write_files",
+          "level": 1,
+          "line": 28
+        },
+        {
+          "heading": "runcmd",
+          "level": 1,
+          "line": 149
+        },
+        {
+          "heading": "final_message",
+          "level": 1,
+          "line": 153
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": "docker/ouroboros-entrypoint.sh",
+      "language": "shell",
+      "fileCategory": "script",
+      "totalLines": 33,
+      "nonEmptyLines": 28,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "docker/ouroboros.Dockerfile",
+      "language": "dockerfile",
+      "fileCategory": "code",
+      "totalLines": 71,
+      "nonEmptyLines": 59,
+      "metrics": {}
+    },
+    {
+      "path": "docs/agents/domain.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 53,
+      "nonEmptyLines": 37,
+      "sections": [
+        {
+          "heading": "Domain Docs",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Before exploring, read these",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "File structure",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Use the glossary's vocabulary",
+          "level": 2,
+          "line": 43
+        },
+        {
+          "heading": "Flag ADR conflicts",
+          "level": 2,
+          "line": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "docs/agents/issue-tracker.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 30,
+      "nonEmptyLines": 20,
+      "sections": [
+        {
+          "heading": "Issue tracker: Local Markdown",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Conventions",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "When a skill says \"publish to the issue tracker\"",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "When a skill says \"fetch the relevant ticket\"",
+          "level": 2,
+          "line": 17
+        },
+        {
+          "heading": "Wayfinding operations",
+          "level": 2,
+          "line": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "oil_gas_analyst.egg-info/PKG-INFO",
+      "language": "unknown",
+      "fileCategory": "code",
+      "totalLines": 4,
+      "nonEmptyLines": 4,
+      "metrics": {}
+    },
+    {
+      "path": "scripts/render-timeweb-cloud-init.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 66,
+      "nonEmptyLines": 51,
+      "functions": [
+        {
+          "name": "load_env",
+          "startLine": 29,
+          "endLine": 39,
+          "params": [
+            "path"
+          ]
+        },
+        {
+          "name": "main",
+          "startLine": 42,
+          "endLine": 62,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "load_env",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "main",
+          "line": 42,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "load_env",
+          "callee": "path.is_file",
+          "lineNumber": 31
+        },
+        {
+          "caller": "load_env",
+          "callee": "path.read_text(encoding=\"utf-8\").splitlines",
+          "lineNumber": 33
+        },
+        {
+          "caller": "load_env",
+          "callee": "path.read_text",
+          "lineNumber": 33
+        },
+        {
+          "caller": "load_env",
+          "callee": "line.strip",
+          "lineNumber": 34
+        },
+        {
+          "caller": "load_env",
+          "callee": "line.startswith",
+          "lineNumber": 35
+        },
+        {
+          "caller": "load_env",
+          "callee": "line.partition",
+          "lineNumber": 37
+        },
+        {
+          "caller": "load_env",
+          "callee": "key.strip",
+          "lineNumber": 38
+        },
+        {
+          "caller": "load_env",
+          "callee": "val.strip().strip('\"').strip",
+          "lineNumber": 38
+        },
+        {
+          "caller": "load_env",
+          "callee": "val.strip().strip",
+          "lineNumber": 38
+        },
+        {
+          "caller": "load_env",
+          "callee": "val.strip",
+          "lineNumber": 38
+        },
+        {
+          "caller": "main",
+          "callee": "Path",
+          "lineNumber": 43
+        },
+        {
+          "caller": "main",
+          "callee": "len",
+          "lineNumber": 43
+        },
+        {
+          "caller": "main",
+          "callee": "load_env",
+          "lineNumber": 44
+        },
+        {
+          "caller": "main",
+          "callee": "TEMPLATE.read_text",
+          "lineNumber": 45
+        },
+        {
+          "caller": "main",
+          "callee": "env.get(ENV_MAP[name], \"\").strip",
+          "lineNumber": 47
+        },
+        {
+          "caller": "main",
+          "callee": "env.get",
+          "lineNumber": 47
+        },
+        {
+          "caller": "main",
+          "callee": "print",
+          "lineNumber": 49
+        },
+        {
+          "caller": "main",
+          "callee": "\", \".join",
+          "lineNumber": 49
+        },
+        {
+          "caller": "main",
+          "callee": "ENV_MAP.items",
+          "lineNumber": 52
+        },
+        {
+          "caller": "main",
+          "callee": "text.replace",
+          "lineNumber": 53
+        },
+        {
+          "caller": "main",
+          "callee": "re.search",
+          "lineNumber": 55
+        },
+        {
+          "caller": "main",
+          "callee": "print",
+          "lineNumber": 56
+        },
+        {
+          "caller": "main",
+          "callee": "out.parent.mkdir",
+          "lineNumber": 59
+        },
+        {
+          "caller": "main",
+          "callee": "out.write_text",
+          "lineNumber": 60
+        },
+        {
+          "caller": "main",
+          "callee": "print",
+          "lineNumber": 61
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "skills/oil_gas_analyst/SKILL.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 55,
+      "nonEmptyLines": 40,
+      "sections": [
+        {
+          "heading": "Oil and gas Analyst playbook",
+          "level": 1,
+          "line": 11
+        },
+        {
+          "heading": "Competence",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "Tools",
+          "level": 2,
+          "line": 26
+        },
+        {
+          "heading": "Citations",
+          "level": 2,
+          "line": 43
+        },
+        {
+          "heading": "Route-list hints (not gates)",
+          "level": 2,
+          "line": 51
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "skills/oil_gas_forecast/plugin.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 25,
+      "functions": [
+        {
+          "name": "register",
+          "startLine": 6,
+          "endLine": 30,
+          "params": [
+            "api"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "register",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "run_forecast",
+          "callee": "forecast_for_tool",
+          "lineNumber": 10
+        },
+        {
+          "caller": "register",
+          "callee": "api.register_tool",
+          "lineNumber": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

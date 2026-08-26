@@ -1,0 +1,436 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 14,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": ".scratch/ouroboros-analyst/issues/01-how-ouroboros-hosts-the-analyst.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 34,
+      "nonEmptyLines": 22,
+      "sections": [
+        {
+          "heading": "How Ouroboros can host the Analyst",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 6
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/02-stubs-versus-product-contracts.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 52,
+      "nonEmptyLines": 36,
+      "sections": [
+        {
+          "heading": "Inventory of stubs versus product contracts",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 6
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/03-what-the-agent-must-decide.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 45,
+      "nonEmptyLines": 30,
+      "sections": [
+        {
+          "heading": "What the agent must decide each turn",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 6
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 24
+        },
+        {
+          "heading": "Comments",
+          "level": 2,
+          "line": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/04-where-the-reviewer-talks.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 32,
+      "nonEmptyLines": 20,
+      "sections": [
+        {
+          "heading": "Where the reviewer talks to the Analyst",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 22
+        },
+        {
+          "heading": "Comments",
+          "level": 2,
+          "line": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/05-waterfall-inside-the-agent-loop.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 34,
+      "nonEmptyLines": 21,
+      "sections": [
+        {
+          "heading": "How the TZ waterfall lives inside an agent loop",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 6
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "Comments",
+          "level": 2,
+          "line": 29
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/06-which-stubs-must-die.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 29,
+      "nonEmptyLines": 18,
+      "sections": [
+        {
+          "heading": "Which stubs must die for acceptance",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Comments",
+          "level": 2,
+          "line": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/07-which-trust-surfaces-the-grader-sees.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 36,
+      "nonEmptyLines": 22,
+      "sections": [
+        {
+          "heading": "Which trust surfaces the grader sees",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 25
+        },
+        {
+          "heading": "Comments",
+          "level": 2,
+          "line": 33
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/08-which-model-fills-the-main-slot.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 22,
+      "nonEmptyLines": 13,
+      "sections": [
+        {
+          "heading": "Which model fills the Main slot",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Question",
+          "level": 2,
+          "line": 6
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 12
+        },
+        {
+          "heading": "Comments",
+          "level": 2,
+          "line": 18
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/09-chainlit-talks-to-ouroboros.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 18,
+      "nonEmptyLines": 12,
+      "sections": [
+        {
+          "heading": "09 — Chainlit talks to Ouroboros",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 16
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/10-grounded-report-retrieve.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 17,
+      "nonEmptyLines": 11,
+      "sections": [
+        {
+          "heading": "10 — Grounded Report retrieve",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/11-web-sources-without-denylist-citations.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 16,
+      "nonEmptyLines": 10,
+      "sections": [
+        {
+          "heading": "11 — Web sources without denylist citations",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/12-forecast-module-in-the-loop.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 17,
+      "nonEmptyLines": 11,
+      "sections": [
+        {
+          "heading": "12 — Forecast module in the loop",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/13-competence-playbook-and-safety-nets.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 17,
+      "nonEmptyLines": 11,
+      "sections": [
+        {
+          "heading": "13 — Competence playbook and Safety nets",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Answer",
+          "level": 2,
+          "line": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": ".scratch/ouroboros-analyst/issues/14-five-readme-dialogues.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 13,
+      "nonEmptyLines": 9,
+      "sections": [
+        {
+          "heading": "14 — Five README dialogues",
+          "level": 1,
+          "line": 1
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    }
+  ]
+}

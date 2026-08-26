@@ -1,0 +1,4003 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 10,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "oil_gas_analyst/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 3,
+      "nonEmptyLines": 2,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "oil_gas_analyst/app.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 87,
+      "nonEmptyLines": 71,
+      "functions": [
+        {
+          "name": "_warm",
+          "startLine": 31,
+          "endLine": 38,
+          "params": []
+        },
+        {
+          "name": "_wait_loop",
+          "startLine": 44,
+          "endLine": 51,
+          "params": []
+        },
+        {
+          "name": "start",
+          "startLine": 55,
+          "endLine": 67,
+          "params": []
+        },
+        {
+          "name": "on_message",
+          "startLine": 71,
+          "endLine": 87,
+          "params": [
+            "message"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "_warm",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "_wait_loop",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "start",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "on_message",
+          "line": 70,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_warm",
+          "callee": "build_loop",
+          "lineNumber": 34
+        },
+        {
+          "caller": "_warm",
+          "callee": "_READY.set",
+          "lineNumber": 38
+        },
+        {
+          "caller": "_wait_loop",
+          "callee": "_READY.wait",
+          "lineNumber": 45
+        },
+        {
+          "caller": "_wait_loop",
+          "callee": "TimeoutError",
+          "lineNumber": 46
+        },
+        {
+          "caller": "_wait_loop",
+          "callee": "RuntimeError",
+          "lineNumber": 50
+        },
+        {
+          "caller": "start",
+          "callee": "cl.Message",
+          "lineNumber": 56
+        },
+        {
+          "caller": "start",
+          "callee": "msg.send",
+          "lineNumber": 57
+        },
+        {
+          "caller": "start",
+          "callee": "asyncio.to_thread",
+          "lineNumber": 59
+        },
+        {
+          "caller": "start",
+          "callee": "msg.update",
+          "lineNumber": 64
+        },
+        {
+          "caller": "start",
+          "callee": "msg.update",
+          "lineNumber": 67
+        },
+        {
+          "caller": "on_message",
+          "callee": "load_rate_limit_config",
+          "lineNumber": 72
+        },
+        {
+          "caller": "on_message",
+          "callee": "client_key",
+          "lineNumber": 75
+        },
+        {
+          "caller": "on_message",
+          "callee": "getattr",
+          "lineNumber": 75
+        },
+        {
+          "caller": "on_message",
+          "callee": "_RATE_LIMITER.check",
+          "lineNumber": 76
+        },
+        {
+          "caller": "on_message",
+          "callee": "cl.Message(content=_RATE_LIMIT_MSG.format(retry_after=retry_after)).send",
+          "lineNumber": 78
+        },
+        {
+          "caller": "on_message",
+          "callee": "cl.Message",
+          "lineNumber": 78
+        },
+        {
+          "caller": "on_message",
+          "callee": "_RATE_LIMIT_MSG.format",
+          "lineNumber": 78
+        },
+        {
+          "caller": "on_message",
+          "callee": "asyncio.to_thread",
+          "lineNumber": 81
+        },
+        {
+          "caller": "on_message",
+          "callee": "asyncio.to_thread",
+          "lineNumber": 82
+        },
+        {
+          "caller": "on_message",
+          "callee": "cl.Message(content=format_reply(reply)).send",
+          "lineNumber": 83
+        },
+        {
+          "caller": "on_message",
+          "callee": "cl.Message",
+          "lineNumber": 83
+        },
+        {
+          "caller": "on_message",
+          "callee": "format_reply",
+          "lineNumber": 83
+        },
+        {
+          "caller": "on_message",
+          "callee": "cl.Message(\n            content=f\"I hit an infrastructure error and will not invent figures. ({exc})\"\n        ).send",
+          "lineNumber": 85
+        },
+        {
+          "caller": "on_message",
+          "callee": "cl.Message",
+          "lineNumber": 85
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "oil_gas_analyst/chat_ui.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 77,
+      "nonEmptyLines": 64,
+      "functions": [
+        {
+          "name": "_warm",
+          "startLine": 24,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "wait_loop",
+          "startLine": 37,
+          "endLine": 44,
+          "params": []
+        },
+        {
+          "name": "rate_limit_key",
+          "startLine": 47,
+          "endLine": 48,
+          "params": [
+            "session_id"
+          ]
+        },
+        {
+          "name": "handle_chat_message",
+          "startLine": 51,
+          "endLine": 77,
+          "params": [
+            "content",
+            "session_id",
+            "session_start_hits",
+            "chat_history",
+            "rate_limiter",
+            "turn_runner"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "_warm",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "wait_loop",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "rate_limit_key",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "handle_chat_message",
+          "line": 51,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_warm",
+          "callee": "build_loop",
+          "lineNumber": 27
+        },
+        {
+          "caller": "_warm",
+          "callee": "_READY.set",
+          "lineNumber": 31
+        },
+        {
+          "caller": "wait_loop",
+          "callee": "_READY.wait",
+          "lineNumber": 38
+        },
+        {
+          "caller": "wait_loop",
+          "callee": "TimeoutError",
+          "lineNumber": 39
+        },
+        {
+          "caller": "wait_loop",
+          "callee": "RuntimeError",
+          "lineNumber": 43
+        },
+        {
+          "caller": "rate_limit_key",
+          "callee": "client_key",
+          "lineNumber": 48
+        },
+        {
+          "caller": "handle_chat_message",
+          "callee": "load_rate_limit_config",
+          "lineNumber": 61
+        },
+        {
+          "caller": "handle_chat_message",
+          "callee": "limiter.check",
+          "lineNumber": 64
+        },
+        {
+          "caller": "handle_chat_message",
+          "callee": "rate_limit_key",
+          "lineNumber": 64
+        },
+        {
+          "caller": "handle_chat_message",
+          "callee": "_RATE_LIMIT_MSG.format",
+          "lineNumber": 66
+        },
+        {
+          "caller": "handle_chat_message",
+          "callee": "wait_loop",
+          "lineNumber": 67
+        },
+        {
+          "caller": "handle_chat_message",
+          "callee": "turn_runner",
+          "lineNumber": 69
+        },
+        {
+          "caller": "handle_chat_message",
+          "callee": "run_turn",
+          "lineNumber": 71
+        },
+        {
+          "caller": "handle_chat_message",
+          "callee": "format_reply",
+          "lineNumber": 77
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "oil_gas_analyst/rate_limit.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 63,
+      "nonEmptyLines": 51,
+      "functions": [
+        {
+          "name": "load_rate_limit_config",
+          "startLine": 21,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "client_key",
+          "startLine": 28,
+          "endLine": 40,
+          "params": [
+            "environ",
+            "session_id"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "RateLimitConfig",
+          "startLine": 12,
+          "endLine": 18,
+          "methods": [
+            "enabled"
+          ],
+          "properties": [
+            "max_requests",
+            "window_sec"
+          ]
+        },
+        {
+          "name": "RateLimiter",
+          "startLine": 43,
+          "endLine": 63,
+          "methods": [
+            "__init__",
+            "check"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RateLimitConfig",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "load_rate_limit_config",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "client_key",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "RateLimiter",
+          "line": 43,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "load_rate_limit_config",
+          "callee": "int",
+          "lineNumber": 23
+        },
+        {
+          "caller": "load_rate_limit_config",
+          "callee": "os.environ.get",
+          "lineNumber": 23
+        },
+        {
+          "caller": "load_rate_limit_config",
+          "callee": "int",
+          "lineNumber": 24
+        },
+        {
+          "caller": "load_rate_limit_config",
+          "callee": "os.environ.get",
+          "lineNumber": 24
+        },
+        {
+          "caller": "load_rate_limit_config",
+          "callee": "RateLimitConfig",
+          "lineNumber": 25
+        },
+        {
+          "caller": "client_key",
+          "callee": "environ.get",
+          "lineNumber": 31
+        },
+        {
+          "caller": "client_key",
+          "callee": "environ.get",
+          "lineNumber": 31
+        },
+        {
+          "caller": "client_key",
+          "callee": "str(forwarded).split(\",\")[0].strip",
+          "lineNumber": 33
+        },
+        {
+          "caller": "client_key",
+          "callee": "str(forwarded).split",
+          "lineNumber": 33
+        },
+        {
+          "caller": "client_key",
+          "callee": "str",
+          "lineNumber": 33
+        },
+        {
+          "caller": "client_key",
+          "callee": "environ.get",
+          "lineNumber": 37
+        },
+        {
+          "caller": "__init__",
+          "callee": "threading.Lock",
+          "lineNumber": 47
+        },
+        {
+          "caller": "__init__",
+          "callee": "defaultdict",
+          "lineNumber": 48
+        },
+        {
+          "caller": "check",
+          "callee": "time.monotonic",
+          "lineNumber": 54
+        },
+        {
+          "caller": "check",
+          "callee": "hits.popleft",
+          "lineNumber": 58
+        },
+        {
+          "caller": "check",
+          "callee": "len",
+          "lineNumber": 59
+        },
+        {
+          "caller": "check",
+          "callee": "int",
+          "lineNumber": 60
+        },
+        {
+          "caller": "check",
+          "callee": "max",
+          "lineNumber": 61
+        },
+        {
+          "caller": "check",
+          "callee": "hits.append",
+          "lineNumber": 62
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 2,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "oil_gas_analyst/render.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 420,
+      "nonEmptyLines": 360,
+      "functions": [
+        {
+          "name": "_normalize_host",
+          "startLine": 87,
+          "endLine": 89,
+          "params": [
+            "host"
+          ]
+        },
+        {
+          "name": "_clean_url",
+          "startLine": 92,
+          "endLine": 96,
+          "params": [
+            "url"
+          ]
+        },
+        {
+          "name": "_web_url_for_host",
+          "startLine": 99,
+          "endLine": 105,
+          "params": [
+            "host",
+            "hits"
+          ]
+        },
+        {
+          "name": "_report_url_for_label",
+          "startLine": 108,
+          "endLine": 149,
+          "params": [
+            "label"
+          ]
+        },
+        {
+          "name": "enrich_citations",
+          "startLine": 152,
+          "endLine": 173,
+          "params": [
+            "citations",
+            "hits"
+          ]
+        },
+        {
+          "name": "_fix_markdown_links",
+          "startLine": 176,
+          "endLine": 180,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "_dedupe_trailing_urls",
+          "startLine": 183,
+          "endLine": 199,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "_strip_orphan_markdown",
+          "startLine": 202,
+          "endLine": 205,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "_fix_bold_markdown",
+          "startLine": 208,
+          "endLine": 212,
+          "params": [
+            "chunk"
+          ]
+        },
+        {
+          "name": "_link_web_brackets",
+          "startLine": 215,
+          "endLine": 223,
+          "params": [
+            "text",
+            "hits"
+          ]
+        },
+        {
+          "name": "_link_inline_web_sources",
+          "startLine": 226,
+          "endLine": 234,
+          "params": [
+            "text",
+            "hits"
+          ]
+        },
+        {
+          "name": "_normalize_bare_web_citations",
+          "startLine": 237,
+          "endLine": 243,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "_link_report_tags",
+          "startLine": 246,
+          "endLine": 254,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "_split_glued_cyrillic",
+          "startLine": 257,
+          "endLine": 271,
+          "params": [
+            "chunk"
+          ]
+        },
+        {
+          "name": "_fix_prose_chunk",
+          "startLine": 274,
+          "endLine": 288,
+          "params": [
+            "chunk"
+          ]
+        },
+        {
+          "name": "_fix_prose_spacing",
+          "startLine": 291,
+          "endLine": 299,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "_prepare_body",
+          "startLine": 302,
+          "endLine": 318,
+          "params": [
+            "text",
+            "citations",
+            "hits"
+          ]
+        },
+        {
+          "name": "_sources_for_footer",
+          "startLine": 321,
+          "endLine": 335,
+          "params": [
+            "body",
+            "citations"
+          ]
+        },
+        {
+          "name": "format_reply",
+          "startLine": 338,
+          "endLine": 359,
+          "params": [
+            "reply",
+            "session_start_hits"
+          ]
+        },
+        {
+          "name": "_md_inline_html",
+          "startLine": 362,
+          "endLine": 385,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "chat_html",
+          "startLine": 388,
+          "endLine": 420,
+          "params": [
+            "markdown"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "_normalize_host",
+          "line": 87,
+          "isDefault": false
+        },
+        {
+          "name": "_clean_url",
+          "line": 92,
+          "isDefault": false
+        },
+        {
+          "name": "_web_url_for_host",
+          "line": 99,
+          "isDefault": false
+        },
+        {
+          "name": "_report_url_for_label",
+          "line": 108,
+          "isDefault": false
+        },
+        {
+          "name": "enrich_citations",
+          "line": 152,
+          "isDefault": false
+        },
+        {
+          "name": "_fix_markdown_links",
+          "line": 176,
+          "isDefault": false
+        },
+        {
+          "name": "_dedupe_trailing_urls",
+          "line": 183,
+          "isDefault": false
+        },
+        {
+          "name": "_strip_orphan_markdown",
+          "line": 202,
+          "isDefault": false
+        },
+        {
+          "name": "_fix_bold_markdown",
+          "line": 208,
+          "isDefault": false
+        },
+        {
+          "name": "_link_web_brackets",
+          "line": 215,
+          "isDefault": false
+        },
+        {
+          "name": "_link_inline_web_sources",
+          "line": 226,
+          "isDefault": false
+        },
+        {
+          "name": "_normalize_bare_web_citations",
+          "line": 237,
+          "isDefault": false
+        },
+        {
+          "name": "_link_report_tags",
+          "line": 246,
+          "isDefault": false
+        },
+        {
+          "name": "_split_glued_cyrillic",
+          "line": 257,
+          "isDefault": false
+        },
+        {
+          "name": "_fix_prose_chunk",
+          "line": 274,
+          "isDefault": false
+        },
+        {
+          "name": "_fix_prose_spacing",
+          "line": 291,
+          "isDefault": false
+        },
+        {
+          "name": "_prepare_body",
+          "line": 302,
+          "isDefault": false
+        },
+        {
+          "name": "_sources_for_footer",
+          "line": 321,
+          "isDefault": false
+        },
+        {
+          "name": "format_reply",
+          "line": 338,
+          "isDefault": false
+        },
+        {
+          "name": "_md_inline_html",
+          "line": 362,
+          "isDefault": false
+        },
+        {
+          "name": "chat_html",
+          "line": 388,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "_normalize_host",
+          "callee": "host.strip().lower",
+          "lineNumber": 88
+        },
+        {
+          "caller": "_normalize_host",
+          "callee": "host.strip",
+          "lineNumber": 88
+        },
+        {
+          "caller": "_normalize_host",
+          "callee": "value.startswith",
+          "lineNumber": 89
+        },
+        {
+          "caller": "_clean_url",
+          "callee": "url.strip().replace(\"—\", \"-\").replace",
+          "lineNumber": 93
+        },
+        {
+          "caller": "_clean_url",
+          "callee": "url.strip().replace",
+          "lineNumber": 93
+        },
+        {
+          "caller": "_clean_url",
+          "callee": "url.strip",
+          "lineNumber": 93
+        },
+        {
+          "caller": "_clean_url",
+          "callee": "re.sub",
+          "lineNumber": 94
+        },
+        {
+          "caller": "_clean_url",
+          "callee": "re.sub",
+          "lineNumber": 95
+        },
+        {
+          "caller": "_web_url_for_host",
+          "callee": "_normalize_host",
+          "lineNumber": 100
+        },
+        {
+          "caller": "_web_url_for_host",
+          "callee": "_normalize_host",
+          "lineNumber": 102
+        },
+        {
+          "caller": "_web_url_for_host",
+          "callee": "_normalize_host",
+          "lineNumber": 103
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "label.strip",
+          "lineNumber": 109
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "inner.startswith",
+          "lineNumber": 110
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "inner.endswith",
+          "lineNumber": 110
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "inner.startswith",
+          "lineNumber": 112
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "inner.removeprefix(\"Отчёт \").strip",
+          "lineNumber": 115
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "inner.removeprefix",
+          "lineNumber": 115
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "_REPORT_PAGE.search",
+          "lineNumber": 116
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "page_match.group",
+          "lineNumber": 117
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "load_ingest_config",
+          "lineNumber": 119
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "str",
+          "lineNumber": 121
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "str",
+          "lineNumber": 121
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "(cfg.get(\"agency_urls\") or {}).items",
+          "lineNumber": 122
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "cfg.get",
+          "lineNumber": 122
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "cfg.get",
+          "lineNumber": 128
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "str",
+          "lineNumber": 129
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "sample.get",
+          "lineNumber": 129
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "len",
+          "lineNumber": 130
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "str(sample.get(\"url\") or \"\").strip",
+          "lineNumber": 131
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "str",
+          "lineNumber": 131
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "sample.get",
+          "lineNumber": 131
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "agency_urls.get",
+          "lineNumber": 131
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "str",
+          "lineNumber": 132
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "sample.get",
+          "lineNumber": 132
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "len",
+          "lineNumber": 136
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "body.upper",
+          "lineNumber": 139
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "agency_urls.items",
+          "lineNumber": 140
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "best_url.lower().endswith",
+          "lineNumber": 147
+        },
+        {
+          "caller": "_report_url_for_label",
+          "callee": "best_url.lower",
+          "lineNumber": 147
+        },
+        {
+          "caller": "enrich_citations",
+          "callee": "enriched.append",
+          "lineNumber": 162
+        },
+        {
+          "caller": "enrich_citations",
+          "callee": "_WEB_BRACKET.fullmatch",
+          "lineNumber": 165
+        },
+        {
+          "caller": "enrich_citations",
+          "callee": "citation.label.strip",
+          "lineNumber": 165
+        },
+        {
+          "caller": "enrich_citations",
+          "callee": "_web_url_for_host",
+          "lineNumber": 167
+        },
+        {
+          "caller": "enrich_citations",
+          "callee": "web_match.group",
+          "lineNumber": 167
+        },
+        {
+          "caller": "enrich_citations",
+          "callee": "citation.label.startswith",
+          "lineNumber": 168
+        },
+        {
+          "caller": "enrich_citations",
+          "callee": "_report_url_for_label",
+          "lineNumber": 169
+        },
+        {
+          "caller": "enrich_citations",
+          "callee": "enriched.append",
+          "lineNumber": 170
+        },
+        {
+          "caller": "enrich_citations",
+          "callee": "Citation",
+          "lineNumber": 171
+        },
+        {
+          "caller": "repl",
+          "callee": "match.group(1).strip",
+          "lineNumber": 178
+        },
+        {
+          "caller": "repl",
+          "callee": "match.group",
+          "lineNumber": 178
+        },
+        {
+          "caller": "repl",
+          "callee": "_clean_url",
+          "lineNumber": 178
+        },
+        {
+          "caller": "repl",
+          "callee": "match.group",
+          "lineNumber": 178
+        },
+        {
+          "caller": "_fix_markdown_links",
+          "callee": "_MD_LINK.sub",
+          "lineNumber": 180
+        },
+        {
+          "caller": "_dedupe_trailing_urls",
+          "callee": "re.sub",
+          "lineNumber": 186
+        },
+        {
+          "caller": "_dedupe_trailing_urls",
+          "callee": "re.sub",
+          "lineNumber": 192
+        },
+        {
+          "caller": "_strip_orphan_markdown",
+          "callee": "re.sub",
+          "lineNumber": 203
+        },
+        {
+          "caller": "_strip_orphan_markdown",
+          "callee": "re.sub",
+          "lineNumber": 204
+        },
+        {
+          "caller": "_fix_bold_markdown",
+          "callee": "re.sub",
+          "lineNumber": 209
+        },
+        {
+          "caller": "_fix_bold_markdown",
+          "callee": "re.sub",
+          "lineNumber": 210
+        },
+        {
+          "caller": "_fix_bold_markdown",
+          "callee": "re.sub",
+          "lineNumber": 211
+        },
+        {
+          "caller": "repl",
+          "callee": "match.group(1).strip",
+          "lineNumber": 217
+        },
+        {
+          "caller": "repl",
+          "callee": "match.group",
+          "lineNumber": 217
+        },
+        {
+          "caller": "repl",
+          "callee": "_web_url_for_host",
+          "lineNumber": 218
+        },
+        {
+          "caller": "_link_web_brackets",
+          "callee": "_WEB_BRACKET.sub",
+          "lineNumber": 223
+        },
+        {
+          "caller": "repl",
+          "callee": "match.group(1).strip",
+          "lineNumber": 228
+        },
+        {
+          "caller": "repl",
+          "callee": "match.group",
+          "lineNumber": 228
+        },
+        {
+          "caller": "repl",
+          "callee": "_web_url_for_host",
+          "lineNumber": 229
+        },
+        {
+          "caller": "repl",
+          "callee": "match.group",
+          "lineNumber": 231
+        },
+        {
+          "caller": "_link_inline_web_sources",
+          "callee": "_WEB_INLINE.sub",
+          "lineNumber": 234
+        },
+        {
+          "caller": "repl",
+          "callee": "match.group(1).strip",
+          "lineNumber": 239
+        },
+        {
+          "caller": "repl",
+          "callee": "match.group",
+          "lineNumber": 239
+        },
+        {
+          "caller": "repl",
+          "callee": "_clean_url",
+          "lineNumber": 240
+        },
+        {
+          "caller": "repl",
+          "callee": "match.group",
+          "lineNumber": 240
+        },
+        {
+          "caller": "_normalize_bare_web_citations",
+          "callee": "_WEB_BARE.sub",
+          "lineNumber": 243
+        },
+        {
+          "caller": "repl",
+          "callee": "match.group",
+          "lineNumber": 248
+        },
+        {
+          "caller": "repl",
+          "callee": "_report_url_for_label",
+          "lineNumber": 249
+        },
+        {
+          "caller": "repl",
+          "callee": "markdown_cite",
+          "lineNumber": 252
+        },
+        {
+          "caller": "repl",
+          "callee": "Citation",
+          "lineNumber": 252
+        },
+        {
+          "caller": "_link_report_tags",
+          "callee": "_REPORT_TAG.sub",
+          "lineNumber": 254
+        },
+        {
+          "caller": "_split_glued_cyrillic",
+          "callee": "sorted",
+          "lineNumber": 258
+        },
+        {
+          "caller": "_split_glued_cyrillic",
+          "callee": "re.sub",
+          "lineNumber": 259
+        },
+        {
+          "caller": "_split_glued_cyrillic",
+          "callee": "re.escape",
+          "lineNumber": 259
+        },
+        {
+          "caller": "_split_glued_cyrillic",
+          "callee": "re.sub",
+          "lineNumber": 260
+        },
+        {
+          "caller": "_split_glued_cyrillic",
+          "callee": "re.sub",
+          "lineNumber": 261
+        },
+        {
+          "caller": "_split_glued_cyrillic",
+          "callee": "re.sub",
+          "lineNumber": 262
+        },
+        {
+          "caller": "_split_glued_cyrillic",
+          "callee": "re.sub",
+          "lineNumber": 263
+        },
+        {
+          "caller": "_split_glued_cyrillic",
+          "callee": "re.sub",
+          "lineNumber": 264
+        },
+        {
+          "caller": "_split_glued_cyrillic",
+          "callee": "re.sub",
+          "lineNumber": 265
+        },
+        {
+          "caller": "_split_glued_cyrillic",
+          "callee": "re.sub",
+          "lineNumber": 266
+        },
+        {
+          "caller": "_split_glued_cyrillic",
+          "callee": "re.sub",
+          "lineNumber": 267
+        },
+        {
+          "caller": "_split_glued_cyrillic",
+          "callee": "re.sub",
+          "lineNumber": 268
+        },
+        {
+          "caller": "_split_glued_cyrillic",
+          "callee": "re.sub",
+          "lineNumber": 270
+        },
+        {
+          "caller": "_fix_prose_chunk",
+          "callee": "re.sub",
+          "lineNumber": 275
+        },
+        {
+          "caller": "_fix_prose_chunk",
+          "callee": "re.sub",
+          "lineNumber": 276
+        },
+        {
+          "caller": "_fix_prose_chunk",
+          "callee": "re.sub",
+          "lineNumber": 277
+        },
+        {
+          "caller": "_fix_prose_chunk",
+          "callee": "re.sub",
+          "lineNumber": 278
+        },
+        {
+          "caller": "_fix_prose_chunk",
+          "callee": "_fix_bold_markdown",
+          "lineNumber": 279
+        },
+        {
+          "caller": "_fix_prose_chunk",
+          "callee": "re.sub",
+          "lineNumber": 280
+        },
+        {
+          "caller": "_fix_prose_chunk",
+          "callee": "re.sub",
+          "lineNumber": 281
+        },
+        {
+          "caller": "_fix_prose_chunk",
+          "callee": "re.sub",
+          "lineNumber": 282
+        },
+        {
+          "caller": "_fix_prose_chunk",
+          "callee": "re.sub",
+          "lineNumber": 283
+        },
+        {
+          "caller": "_fix_prose_chunk",
+          "callee": "re.sub",
+          "lineNumber": 284
+        },
+        {
+          "caller": "_fix_prose_chunk",
+          "callee": "re.sub",
+          "lineNumber": 285
+        },
+        {
+          "caller": "_fix_prose_chunk",
+          "callee": "_split_glued_cyrillic",
+          "lineNumber": 286
+        },
+        {
+          "caller": "_fix_prose_chunk",
+          "callee": "re.sub",
+          "lineNumber": 287
+        },
+        {
+          "caller": "_fix_prose_spacing",
+          "callee": "_PROTECTED.finditer",
+          "lineNumber": 294
+        },
+        {
+          "caller": "_fix_prose_spacing",
+          "callee": "parts.append",
+          "lineNumber": 295
+        },
+        {
+          "caller": "_fix_prose_spacing",
+          "callee": "_fix_prose_chunk",
+          "lineNumber": 295
+        },
+        {
+          "caller": "_fix_prose_spacing",
+          "callee": "match.start",
+          "lineNumber": 295
+        },
+        {
+          "caller": "_fix_prose_spacing",
+          "callee": "parts.append",
+          "lineNumber": 296
+        },
+        {
+          "caller": "_fix_prose_spacing",
+          "callee": "match.group",
+          "lineNumber": 296
+        },
+        {
+          "caller": "_fix_prose_spacing",
+          "callee": "match.end",
+          "lineNumber": 297
+        },
+        {
+          "caller": "_fix_prose_spacing",
+          "callee": "parts.append",
+          "lineNumber": 298
+        },
+        {
+          "caller": "_fix_prose_spacing",
+          "callee": "_fix_prose_chunk",
+          "lineNumber": 298
+        },
+        {
+          "caller": "_fix_prose_spacing",
+          "callee": "\"\".join",
+          "lineNumber": 299
+        },
+        {
+          "caller": "_prepare_body",
+          "callee": "text.strip",
+          "lineNumber": 308
+        },
+        {
+          "caller": "_prepare_body",
+          "callee": "_normalize_bare_web_citations",
+          "lineNumber": 309
+        },
+        {
+          "caller": "_prepare_body",
+          "callee": "_fix_markdown_links",
+          "lineNumber": 310
+        },
+        {
+          "caller": "_prepare_body",
+          "callee": "apply_citation_links",
+          "lineNumber": 311
+        },
+        {
+          "caller": "_prepare_body",
+          "callee": "_link_web_brackets",
+          "lineNumber": 312
+        },
+        {
+          "caller": "_prepare_body",
+          "callee": "_link_inline_web_sources",
+          "lineNumber": 313
+        },
+        {
+          "caller": "_prepare_body",
+          "callee": "_link_report_tags",
+          "lineNumber": 314
+        },
+        {
+          "caller": "_prepare_body",
+          "callee": "_dedupe_trailing_urls",
+          "lineNumber": 315
+        },
+        {
+          "caller": "_prepare_body",
+          "callee": "_strip_orphan_markdown",
+          "lineNumber": 316
+        },
+        {
+          "caller": "_prepare_body",
+          "callee": "_fix_prose_spacing",
+          "lineNumber": 317
+        },
+        {
+          "caller": "_sources_for_footer",
+          "callee": "set",
+          "lineNumber": 322
+        },
+        {
+          "caller": "_sources_for_footer",
+          "callee": "seen.add",
+          "lineNumber": 333
+        },
+        {
+          "caller": "_sources_for_footer",
+          "callee": "footer.append",
+          "lineNumber": 334
+        },
+        {
+          "caller": "format_reply",
+          "callee": "enrich_citations",
+          "lineNumber": 345
+        },
+        {
+          "caller": "format_reply",
+          "callee": "list",
+          "lineNumber": 345
+        },
+        {
+          "caller": "format_reply",
+          "callee": "_prepare_body",
+          "lineNumber": 346
+        },
+        {
+          "caller": "format_reply",
+          "callee": "_sources_for_footer",
+          "lineNumber": 349
+        },
+        {
+          "caller": "format_reply",
+          "callee": "parts.append",
+          "lineNumber": 351
+        },
+        {
+          "caller": "format_reply",
+          "callee": "parts.append",
+          "lineNumber": 352
+        },
+        {
+          "caller": "format_reply",
+          "callee": "parts.extend",
+          "lineNumber": 353
+        },
+        {
+          "caller": "format_reply",
+          "callee": "markdown_cite",
+          "lineNumber": 353
+        },
+        {
+          "caller": "format_reply",
+          "callee": "footer_flags",
+          "lineNumber": 355
+        },
+        {
+          "caller": "format_reply",
+          "callee": "parts.append",
+          "lineNumber": 357
+        },
+        {
+          "caller": "format_reply",
+          "callee": "parts.append",
+          "lineNumber": 358
+        },
+        {
+          "caller": "format_reply",
+          "callee": "\" · \".join",
+          "lineNumber": 358
+        },
+        {
+          "caller": "format_reply",
+          "callee": "\"\\n\".join",
+          "lineNumber": 359
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "re.compile",
+          "lineNumber": 365
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "pattern.finditer",
+          "lineNumber": 368
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "match.start",
+          "lineNumber": 369
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "parts.append",
+          "lineNumber": 370
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "html_module.escape",
+          "lineNumber": 370
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "match.start",
+          "lineNumber": 370
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "match.group",
+          "lineNumber": 371
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "html_module.escape",
+          "lineNumber": 372
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "match.group(1).strip",
+          "lineNumber": 372
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "match.group",
+          "lineNumber": 372
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "html_module.escape",
+          "lineNumber": 373
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "_clean_url",
+          "lineNumber": 373
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "match.group",
+          "lineNumber": 373
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "parts.append",
+          "lineNumber": 374
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "match.group",
+          "lineNumber": 377
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "parts.append",
+          "lineNumber": 378
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "html_module.escape",
+          "lineNumber": 378
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "match.group",
+          "lineNumber": 378
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "match.group",
+          "lineNumber": 379
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "parts.append",
+          "lineNumber": 380
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "html_module.escape",
+          "lineNumber": 380
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "match.group",
+          "lineNumber": 380
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "match.group",
+          "lineNumber": 381
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "parts.append",
+          "lineNumber": 382
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "html_module.escape",
+          "lineNumber": 382
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "match.group",
+          "lineNumber": 382
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "match.end",
+          "lineNumber": 383
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "parts.append",
+          "lineNumber": 384
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "html_module.escape",
+          "lineNumber": 384
+        },
+        {
+          "caller": "_md_inline_html",
+          "callee": "\"\".join",
+          "lineNumber": 385
+        },
+        {
+          "caller": "chat_html",
+          "callee": "markdown.split",
+          "lineNumber": 392
+        },
+        {
+          "caller": "chat_html",
+          "callee": "block.strip",
+          "lineNumber": 393
+        },
+        {
+          "caller": "chat_html",
+          "callee": "block.startswith",
+          "lineNumber": 396
+        },
+        {
+          "caller": "chat_html",
+          "callee": "block.split",
+          "lineNumber": 397
+        },
+        {
+          "caller": "chat_html",
+          "callee": "lines[0].removeprefix(\"**\").removesuffix",
+          "lineNumber": 398
+        },
+        {
+          "caller": "chat_html",
+          "callee": "lines[0].removeprefix",
+          "lineNumber": 398
+        },
+        {
+          "caller": "chat_html",
+          "callee": "\"\".join",
+          "lineNumber": 399
+        },
+        {
+          "caller": "chat_html",
+          "callee": "_md_inline_html",
+          "lineNumber": 400
+        },
+        {
+          "caller": "chat_html",
+          "callee": "line[2:].strip",
+          "lineNumber": 400
+        },
+        {
+          "caller": "chat_html",
+          "callee": "line.startswith",
+          "lineNumber": 402
+        },
+        {
+          "caller": "chat_html",
+          "callee": "blocks.append",
+          "lineNumber": 404
+        },
+        {
+          "caller": "chat_html",
+          "callee": "html_module.escape",
+          "lineNumber": 404
+        },
+        {
+          "caller": "chat_html",
+          "callee": "block.startswith",
+          "lineNumber": 406
+        },
+        {
+          "caller": "chat_html",
+          "callee": "block.endswith",
+          "lineNumber": 406
+        },
+        {
+          "caller": "chat_html",
+          "callee": "blocks.append",
+          "lineNumber": 408
+        },
+        {
+          "caller": "chat_html",
+          "callee": "_md_inline_html",
+          "lineNumber": 408
+        },
+        {
+          "caller": "chat_html",
+          "callee": "block.startswith",
+          "lineNumber": 410
+        },
+        {
+          "caller": "chat_html",
+          "callee": "\"\".join",
+          "lineNumber": 411
+        },
+        {
+          "caller": "chat_html",
+          "callee": "_md_inline_html",
+          "lineNumber": 412
+        },
+        {
+          "caller": "chat_html",
+          "callee": "line[2:].strip",
+          "lineNumber": 412
+        },
+        {
+          "caller": "chat_html",
+          "callee": "block.split",
+          "lineNumber": 413
+        },
+        {
+          "caller": "chat_html",
+          "callee": "line.startswith",
+          "lineNumber": 414
+        },
+        {
+          "caller": "chat_html",
+          "callee": "blocks.append",
+          "lineNumber": 416
+        },
+        {
+          "caller": "chat_html",
+          "callee": "\"<br>\".join",
+          "lineNumber": 418
+        },
+        {
+          "caller": "chat_html",
+          "callee": "_md_inline_html",
+          "lineNumber": 418
+        },
+        {
+          "caller": "chat_html",
+          "callee": "block.split",
+          "lineNumber": 418
+        },
+        {
+          "caller": "chat_html",
+          "callee": "blocks.append",
+          "lineNumber": 419
+        },
+        {
+          "caller": "chat_html",
+          "callee": "\"\\n\".join",
+          "lineNumber": 420
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 21,
+        "functionCount": 21,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "oil_gas_analyst/routes.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 105,
+      "nonEmptyLines": 81,
+      "functions": [
+        {
+          "name": "load_route_lists",
+          "startLine": 29,
+          "endLine": 37,
+          "params": [
+            "path"
+          ]
+        },
+        {
+          "name": "_is_cyr_stem",
+          "startLine": 43,
+          "endLine": 45,
+          "params": [
+            "phrase"
+          ]
+        },
+        {
+          "name": "_contains",
+          "startLine": 48,
+          "endLine": 59,
+          "params": [
+            "phrase",
+            "question"
+          ]
+        },
+        {
+          "name": "is_forecast_request",
+          "startLine": 62,
+          "endLine": 64,
+          "params": [
+            "question",
+            "lists"
+          ]
+        },
+        {
+          "name": "is_time_sensitive",
+          "startLine": 67,
+          "endLine": 75,
+          "params": [
+            "question",
+            "lists"
+          ]
+        },
+        {
+          "name": "is_out_of_scope_topic",
+          "startLine": 92,
+          "endLine": 105,
+          "params": [
+            "question"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "RouteLists",
+          "startLine": 22,
+          "endLine": 26,
+          "methods": [],
+          "properties": [
+            "forecast_verbs",
+            "time_sensitive",
+            "time_sensitive_weak",
+            "published_outlook"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "RouteLists",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "load_route_lists",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "_is_cyr_stem",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "_contains",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "is_forecast_request",
+          "line": 62,
+          "isDefault": false
+        },
+        {
+          "name": "is_time_sensitive",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "is_out_of_scope_topic",
+          "line": 92,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "load_route_lists",
+          "callee": "yaml.safe_load",
+          "lineNumber": 31
+        },
+        {
+          "caller": "load_route_lists",
+          "callee": "(path or _CONFIG).read_text",
+          "lineNumber": 31
+        },
+        {
+          "caller": "load_route_lists",
+          "callee": "RouteLists",
+          "lineNumber": 32
+        },
+        {
+          "caller": "load_route_lists",
+          "callee": "tuple",
+          "lineNumber": 33
+        },
+        {
+          "caller": "load_route_lists",
+          "callee": "tuple",
+          "lineNumber": 34
+        },
+        {
+          "caller": "load_route_lists",
+          "callee": "tuple",
+          "lineNumber": 35
+        },
+        {
+          "caller": "load_route_lists",
+          "callee": "data.get",
+          "lineNumber": 35
+        },
+        {
+          "caller": "load_route_lists",
+          "callee": "tuple",
+          "lineNumber": 36
+        },
+        {
+          "caller": "load_route_lists",
+          "callee": "data.get",
+          "lineNumber": 36
+        },
+        {
+          "caller": "_is_cyr_stem",
+          "callee": "phrase.endswith",
+          "lineNumber": 45
+        },
+        {
+          "caller": "_contains",
+          "callee": "question.casefold",
+          "lineNumber": 49
+        },
+        {
+          "caller": "_contains",
+          "callee": "phrase.casefold().strip",
+          "lineNumber": 50
+        },
+        {
+          "caller": "_contains",
+          "callee": "phrase.casefold",
+          "lineNumber": 50
+        },
+        {
+          "caller": "_contains",
+          "callee": "_CYR.search",
+          "lineNumber": 53
+        },
+        {
+          "caller": "_contains",
+          "callee": "_is_cyr_stem",
+          "lineNumber": 54
+        },
+        {
+          "caller": "_contains",
+          "callee": "re.search",
+          "lineNumber": 55
+        },
+        {
+          "caller": "_contains",
+          "callee": "re.escape",
+          "lineNumber": 55
+        },
+        {
+          "caller": "_contains",
+          "callee": "re.search",
+          "lineNumber": 56
+        },
+        {
+          "caller": "_contains",
+          "callee": "re.escape",
+          "lineNumber": 56
+        },
+        {
+          "caller": "_contains",
+          "callee": "re.search",
+          "lineNumber": 59
+        },
+        {
+          "caller": "_contains",
+          "callee": "re.escape",
+          "lineNumber": 59
+        },
+        {
+          "caller": "is_forecast_request",
+          "callee": "any",
+          "lineNumber": 64
+        },
+        {
+          "caller": "is_forecast_request",
+          "callee": "_contains",
+          "lineNumber": 64
+        },
+        {
+          "caller": "is_time_sensitive",
+          "callee": "_contains",
+          "lineNumber": 69
+        },
+        {
+          "caller": "is_time_sensitive",
+          "callee": "any",
+          "lineNumber": 72
+        },
+        {
+          "caller": "is_time_sensitive",
+          "callee": "_contains",
+          "lineNumber": 72
+        },
+        {
+          "caller": "is_time_sensitive",
+          "callee": "p.casefold",
+          "lineNumber": 74
+        },
+        {
+          "caller": "is_time_sensitive",
+          "callee": "any",
+          "lineNumber": 75
+        },
+        {
+          "caller": "is_time_sensitive",
+          "callee": "p.casefold",
+          "lineNumber": 75
+        },
+        {
+          "caller": "is_out_of_scope_topic",
+          "callee": "question.casefold",
+          "lineNumber": 94
+        },
+        {
+          "caller": "is_out_of_scope_topic",
+          "callee": "phrase.casefold().strip",
+          "lineNumber": 96
+        },
+        {
+          "caller": "is_out_of_scope_topic",
+          "callee": "phrase.casefold",
+          "lineNumber": 96
+        },
+        {
+          "caller": "is_out_of_scope_topic",
+          "callee": "_CYR.search",
+          "lineNumber": 99
+        },
+        {
+          "caller": "is_out_of_scope_topic",
+          "callee": "re.search",
+          "lineNumber": 100
+        },
+        {
+          "caller": "is_out_of_scope_topic",
+          "callee": "re.escape",
+          "lineNumber": 100
+        },
+        {
+          "caller": "is_out_of_scope_topic",
+          "callee": "_contains",
+          "lineNumber": 103
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "oil_gas_analyst/turn.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 273,
+      "nonEmptyLines": 223,
+      "functions": [
+        {
+          "name": "drop_listing",
+          "startLine": 40,
+          "endLine": 49,
+          "params": [
+            "chunks"
+          ]
+        },
+        {
+          "name": "footer_flags",
+          "startLine": 52,
+          "endLine": 64,
+          "params": [
+            "reply"
+          ]
+        },
+        {
+          "name": "_agency_of",
+          "startLine": 67,
+          "endLine": 78,
+          "params": [
+            "chunk"
+          ]
+        },
+        {
+          "name": "_agency_urls",
+          "startLine": 81,
+          "endLine": 84,
+          "params": []
+        },
+        {
+          "name": "_report_url",
+          "startLine": 87,
+          "endLine": 94,
+          "params": [
+            "chunk"
+          ]
+        },
+        {
+          "name": "report_citation",
+          "startLine": 97,
+          "endLine": 112,
+          "params": [
+            "chunk"
+          ]
+        },
+        {
+          "name": "web_citation",
+          "startLine": 115,
+          "endLine": 119,
+          "params": [
+            "hit"
+          ]
+        },
+        {
+          "name": "forecast_citations",
+          "startLine": 122,
+          "endLine": 142,
+          "params": [
+            "result"
+          ]
+        },
+        {
+          "name": "has_grounded_report",
+          "startLine": 145,
+          "endLine": 148,
+          "params": [
+            "reply"
+          ]
+        },
+        {
+          "name": "_trim_memory_content",
+          "startLine": 151,
+          "endLine": 155,
+          "params": [
+            "content",
+            "max_chars"
+          ]
+        },
+        {
+          "name": "format_chat_memory",
+          "startLine": 158,
+          "endLine": 178,
+          "params": [
+            "history",
+            "max_messages"
+          ]
+        },
+        {
+          "name": "prompt_with_chat_memory",
+          "startLine": 181,
+          "endLine": 190,
+          "params": [
+            "question",
+            "history",
+            "max_messages"
+          ]
+        },
+        {
+          "name": "build_turn_prompt",
+          "startLine": 193,
+          "endLine": 200,
+          "params": [
+            "question",
+            "session_start_hits",
+            "chat_history"
+          ]
+        },
+        {
+          "name": "_safety_net",
+          "startLine": 203,
+          "endLine": 214,
+          "params": [
+            "question",
+            "infra_detail"
+          ]
+        },
+        {
+          "name": "run_turn",
+          "startLine": 218,
+          "endLine": 250,
+          "params": [
+            "question",
+            "loop",
+            "session_start_hits",
+            "chat_history"
+          ]
+        },
+        {
+          "name": "markdown_cite",
+          "startLine": 253,
+          "endLine": 260,
+          "params": [
+            "citation"
+          ]
+        },
+        {
+          "name": "apply_citation_links",
+          "startLine": 263,
+          "endLine": 273,
+          "params": [
+            "text",
+            "citations"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "drop_listing",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "footer_flags",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "_agency_of",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "_agency_urls",
+          "line": 81,
+          "isDefault": false
+        },
+        {
+          "name": "_report_url",
+          "line": 87,
+          "isDefault": false
+        },
+        {
+          "name": "report_citation",
+          "line": 97,
+          "isDefault": false
+        },
+        {
+          "name": "web_citation",
+          "line": 115,
+          "isDefault": false
+        },
+        {
+          "name": "forecast_citations",
+          "line": 122,
+          "isDefault": false
+        },
+        {
+          "name": "has_grounded_report",
+          "line": 145,
+          "isDefault": false
+        },
+        {
+          "name": "_trim_memory_content",
+          "line": 151,
+          "isDefault": false
+        },
+        {
+          "name": "format_chat_memory",
+          "line": 158,
+          "isDefault": false
+        },
+        {
+          "name": "prompt_with_chat_memory",
+          "line": 181,
+          "isDefault": false
+        },
+        {
+          "name": "build_turn_prompt",
+          "line": 193,
+          "isDefault": false
+        },
+        {
+          "name": "_safety_net",
+          "line": 203,
+          "isDefault": false
+        },
+        {
+          "name": "run_turn",
+          "line": 217,
+          "isDefault": false
+        },
+        {
+          "name": "markdown_cite",
+          "line": 253,
+          "isDefault": false
+        },
+        {
+          "name": "apply_citation_links",
+          "line": 263,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "drop_listing",
+          "callee": "\"\\n\".join",
+          "lineNumber": 49
+        },
+        {
+          "caller": "drop_listing",
+          "callee": "enumerate",
+          "lineNumber": 49
+        },
+        {
+          "caller": "footer_flags",
+          "callee": "flags.append",
+          "lineNumber": 57
+        },
+        {
+          "caller": "footer_flags",
+          "callee": "flags.append",
+          "lineNumber": 59
+        },
+        {
+          "caller": "footer_flags",
+          "callee": "flags.append",
+          "lineNumber": 61
+        },
+        {
+          "caller": "footer_flags",
+          "callee": "flags.append",
+          "lineNumber": 63
+        },
+        {
+          "caller": "_agency_of",
+          "callee": "blob.upper",
+          "lineNumber": 71
+        },
+        {
+          "caller": "_agency_urls",
+          "callee": "load_ingest_config",
+          "lineNumber": 82
+        },
+        {
+          "caller": "_agency_urls",
+          "callee": "cfg.get",
+          "lineNumber": 83
+        },
+        {
+          "caller": "_agency_urls",
+          "callee": "str",
+          "lineNumber": 84
+        },
+        {
+          "caller": "_agency_urls",
+          "callee": "str",
+          "lineNumber": 84
+        },
+        {
+          "caller": "_agency_urls",
+          "callee": "raw.items",
+          "lineNumber": 84
+        },
+        {
+          "caller": "_report_url",
+          "callee": "(chunk.url or \"\").strip",
+          "lineNumber": 88
+        },
+        {
+          "caller": "_report_url",
+          "callee": "_agency_urls().get",
+          "lineNumber": 88
+        },
+        {
+          "caller": "_report_url",
+          "callee": "_agency_urls",
+          "lineNumber": 88
+        },
+        {
+          "caller": "_report_url",
+          "callee": "_agency_of",
+          "lineNumber": 88
+        },
+        {
+          "caller": "_report_url",
+          "callee": "urlparse(base).path.lower",
+          "lineNumber": 91
+        },
+        {
+          "caller": "_report_url",
+          "callee": "urlparse",
+          "lineNumber": 91
+        },
+        {
+          "caller": "_report_url",
+          "callee": "path.endswith",
+          "lineNumber": 92
+        },
+        {
+          "caller": "report_citation",
+          "callee": "Citation",
+          "lineNumber": 108
+        },
+        {
+          "caller": "report_citation",
+          "callee": "_report_url",
+          "lineNumber": 111
+        },
+        {
+          "caller": "web_citation",
+          "callee": "urlparse",
+          "lineNumber": 116
+        },
+        {
+          "caller": "web_citation",
+          "callee": "host.startswith",
+          "lineNumber": 117
+        },
+        {
+          "caller": "web_citation",
+          "callee": "Citation",
+          "lineNumber": 119
+        },
+        {
+          "caller": "forecast_citations",
+          "callee": "Citation",
+          "lineNumber": 125
+        },
+        {
+          "caller": "forecast_citations",
+          "callee": "out.append",
+          "lineNumber": 133
+        },
+        {
+          "caller": "forecast_citations",
+          "callee": "Citation",
+          "lineNumber": 134
+        },
+        {
+          "caller": "_trim_memory_content",
+          "callee": "content.strip",
+          "lineNumber": 152
+        },
+        {
+          "caller": "_trim_memory_content",
+          "callee": "len",
+          "lineNumber": 153
+        },
+        {
+          "caller": "format_chat_memory",
+          "callee": "list",
+          "lineNumber": 166
+        },
+        {
+          "caller": "format_chat_memory",
+          "callee": "str(msg.get(\"role\") or \"\").strip",
+          "lineNumber": 169
+        },
+        {
+          "caller": "format_chat_memory",
+          "callee": "str",
+          "lineNumber": 169
+        },
+        {
+          "caller": "format_chat_memory",
+          "callee": "msg.get",
+          "lineNumber": 169
+        },
+        {
+          "caller": "format_chat_memory",
+          "callee": "_trim_memory_content",
+          "lineNumber": 170
+        },
+        {
+          "caller": "format_chat_memory",
+          "callee": "str",
+          "lineNumber": 170
+        },
+        {
+          "caller": "format_chat_memory",
+          "callee": "msg.get",
+          "lineNumber": 170
+        },
+        {
+          "caller": "format_chat_memory",
+          "callee": "lines.append",
+          "lineNumber": 174
+        },
+        {
+          "caller": "format_chat_memory",
+          "callee": "len",
+          "lineNumber": 175
+        },
+        {
+          "caller": "format_chat_memory",
+          "callee": "lines.append",
+          "lineNumber": 177
+        },
+        {
+          "caller": "format_chat_memory",
+          "callee": "\"\\n\".join",
+          "lineNumber": 178
+        },
+        {
+          "caller": "prompt_with_chat_memory",
+          "callee": "format_chat_memory",
+          "lineNumber": 187
+        },
+        {
+          "caller": "build_turn_prompt",
+          "callee": "prompt_with_chat_memory",
+          "lineNumber": 199
+        },
+        {
+          "caller": "build_turn_prompt",
+          "callee": "inject_session_start_web",
+          "lineNumber": 200
+        },
+        {
+          "caller": "_safety_net",
+          "callee": "is_out_of_scope_topic",
+          "lineNumber": 209
+        },
+        {
+          "caller": "_safety_net",
+          "callee": "Reply",
+          "lineNumber": 210
+        },
+        {
+          "caller": "_safety_net",
+          "callee": "Reply",
+          "lineNumber": 214
+        },
+        {
+          "caller": "run_turn",
+          "callee": "build_turn_prompt",
+          "lineNumber": 231
+        },
+        {
+          "caller": "run_turn",
+          "callee": "loop.complete",
+          "lineNumber": 237
+        },
+        {
+          "caller": "run_turn",
+          "callee": "_safety_net",
+          "lineNumber": 239
+        },
+        {
+          "caller": "run_turn",
+          "callee": "str",
+          "lineNumber": 239
+        },
+        {
+          "caller": "run_turn",
+          "callee": "Reply",
+          "lineNumber": 240
+        },
+        {
+          "caller": "run_turn",
+          "callee": "list",
+          "lineNumber": 242
+        },
+        {
+          "caller": "markdown_cite",
+          "callee": "citation.label.startswith",
+          "lineNumber": 258
+        },
+        {
+          "caller": "markdown_cite",
+          "callee": "citation.label.endswith",
+          "lineNumber": 258
+        },
+        {
+          "caller": "apply_citation_links",
+          "callee": "sorted",
+          "lineNumber": 267
+        },
+        {
+          "caller": "apply_citation_links",
+          "callee": "len",
+          "lineNumber": 267
+        },
+        {
+          "caller": "apply_citation_links",
+          "callee": "markdown_cite",
+          "lineNumber": 270
+        },
+        {
+          "caller": "apply_citation_links",
+          "callee": "re.escape",
+          "lineNumber": 271
+        },
+        {
+          "caller": "apply_citation_links",
+          "callee": "re.sub",
+          "lineNumber": 272
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 17,
+        "functionCount": 17,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "tests/test_rate_limit.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "test_rate_limit_disabled_when_max_zero",
+          "startLine": 6,
+          "endLine": 11,
+          "params": []
+        },
+        {
+          "name": "test_rate_limit_blocks_after_max_in_window",
+          "startLine": 14,
+          "endLine": 21,
+          "params": []
+        },
+        {
+          "name": "test_rate_limit_keys_are_per_client",
+          "startLine": 24,
+          "endLine": 29,
+          "params": []
+        },
+        {
+          "name": "test_client_key_prefers_forwarded_for",
+          "startLine": 32,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "test_client_key_falls_back_to_session",
+          "startLine": 36,
+          "endLine": 37,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "test_rate_limit_disabled_when_max_zero",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "test_rate_limit_blocks_after_max_in_window",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "test_rate_limit_keys_are_per_client",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "test_client_key_prefers_forwarded_for",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "test_client_key_falls_back_to_session",
+          "line": 36,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_rate_limit_disabled_when_max_zero",
+          "callee": "RateLimiter",
+          "lineNumber": 7
+        },
+        {
+          "caller": "test_rate_limit_disabled_when_max_zero",
+          "callee": "RateLimitConfig",
+          "lineNumber": 8
+        },
+        {
+          "caller": "test_rate_limit_disabled_when_max_zero",
+          "callee": "limiter.check",
+          "lineNumber": 9
+        },
+        {
+          "caller": "test_rate_limit_blocks_after_max_in_window",
+          "callee": "RateLimiter",
+          "lineNumber": 15
+        },
+        {
+          "caller": "test_rate_limit_blocks_after_max_in_window",
+          "callee": "RateLimitConfig",
+          "lineNumber": 16
+        },
+        {
+          "caller": "test_rate_limit_blocks_after_max_in_window",
+          "callee": "limiter.check",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_rate_limit_blocks_after_max_in_window",
+          "callee": "limiter.check",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_rate_limit_blocks_after_max_in_window",
+          "callee": "limiter.check",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_rate_limit_keys_are_per_client",
+          "callee": "RateLimiter",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_rate_limit_keys_are_per_client",
+          "callee": "RateLimitConfig",
+          "lineNumber": 26
+        },
+        {
+          "caller": "test_rate_limit_keys_are_per_client",
+          "callee": "limiter.check",
+          "lineNumber": 27
+        },
+        {
+          "caller": "test_rate_limit_keys_are_per_client",
+          "callee": "limiter.check",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_rate_limit_keys_are_per_client",
+          "callee": "limiter.check",
+          "lineNumber": 29
+        },
+        {
+          "caller": "test_client_key_prefers_forwarded_for",
+          "callee": "client_key",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_client_key_falls_back_to_session",
+          "callee": "client_key",
+          "lineNumber": 37
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 5,
+        "functionCount": 5,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "tests/test_routes.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 62,
+      "nonEmptyLines": 45,
+      "functions": [
+        {
+          "name": "test_forecast_verb_russian_hits",
+          "startLine": 11,
+          "endLine": 13,
+          "params": []
+        },
+        {
+          "name": "test_forecast_verb_english_hits",
+          "startLine": 16,
+          "endLine": 18,
+          "params": []
+        },
+        {
+          "name": "test_horizon_without_verb_is_not_forecast_request",
+          "startLine": 21,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "test_prognoz_as_request_hits_but_prognozakh_does_not",
+          "startLine": 28,
+          "endLine": 37,
+          "params": []
+        },
+        {
+          "name": "test_time_sensitive_today_hits",
+          "startLine": 40,
+          "endLine": 43,
+          "params": []
+        },
+        {
+          "name": "test_bare_demand_question_is_not_time_sensitive",
+          "startLine": 46,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "test_now_consensus_is_published_outlook_not_web",
+          "startLine": 51,
+          "endLine": 56,
+          "params": []
+        },
+        {
+          "name": "test_weather_is_out_of_scope_even_in_inflected_russian",
+          "startLine": 59,
+          "endLine": 62,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "test_forecast_verb_russian_hits",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "test_forecast_verb_english_hits",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "test_horizon_without_verb_is_not_forecast_request",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "test_prognoz_as_request_hits_but_prognozakh_does_not",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "test_time_sensitive_today_hits",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "test_bare_demand_question_is_not_time_sensitive",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "test_now_consensus_is_published_outlook_not_web",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "test_weather_is_out_of_scope_even_in_inflected_russian",
+          "line": 59,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_forecast_verb_russian_hits",
+          "callee": "load_route_lists",
+          "lineNumber": 12
+        },
+        {
+          "caller": "test_forecast_verb_russian_hits",
+          "callee": "is_forecast_request",
+          "lineNumber": 13
+        },
+        {
+          "caller": "test_forecast_verb_english_hits",
+          "callee": "load_route_lists",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_forecast_verb_english_hits",
+          "callee": "is_forecast_request",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_horizon_without_verb_is_not_forecast_request",
+          "callee": "load_route_lists",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_horizon_without_verb_is_not_forecast_request",
+          "callee": "is_forecast_request",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_horizon_without_verb_is_not_forecast_request",
+          "callee": "is_forecast_request",
+          "lineNumber": 24
+        },
+        {
+          "caller": "test_horizon_without_verb_is_not_forecast_request",
+          "callee": "is_forecast_request",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_prognoz_as_request_hits_but_prognozakh_does_not",
+          "callee": "load_route_lists",
+          "lineNumber": 29
+        },
+        {
+          "caller": "test_prognoz_as_request_hits_but_prognozakh_does_not",
+          "callee": "is_forecast_request",
+          "lineNumber": 30
+        },
+        {
+          "caller": "test_prognoz_as_request_hits_but_prognozakh_does_not",
+          "callee": "is_forecast_request",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_prognoz_as_request_hits_but_prognozakh_does_not",
+          "callee": "is_forecast_request",
+          "lineNumber": 33
+        },
+        {
+          "caller": "test_time_sensitive_today_hits",
+          "callee": "load_route_lists",
+          "lineNumber": 41
+        },
+        {
+          "caller": "test_time_sensitive_today_hits",
+          "callee": "is_time_sensitive",
+          "lineNumber": 42
+        },
+        {
+          "caller": "test_time_sensitive_today_hits",
+          "callee": "is_time_sensitive",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_bare_demand_question_is_not_time_sensitive",
+          "callee": "load_route_lists",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_bare_demand_question_is_not_time_sensitive",
+          "callee": "is_time_sensitive",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_now_consensus_is_published_outlook_not_web",
+          "callee": "load_route_lists",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_now_consensus_is_published_outlook_not_web",
+          "callee": "is_time_sensitive",
+          "lineNumber": 53
+        },
+        {
+          "caller": "test_now_consensus_is_published_outlook_not_web",
+          "callee": "is_time_sensitive",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_now_consensus_is_published_outlook_not_web",
+          "callee": "is_time_sensitive",
+          "lineNumber": 55
+        },
+        {
+          "caller": "test_now_consensus_is_published_outlook_not_web",
+          "callee": "is_time_sensitive",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_weather_is_out_of_scope_even_in_inflected_russian",
+          "callee": "is_out_of_scope_topic",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_weather_is_out_of_scope_even_in_inflected_russian",
+          "callee": "is_out_of_scope_topic",
+          "lineNumber": 61
+        },
+        {
+          "caller": "test_weather_is_out_of_scope_even_in_inflected_russian",
+          "callee": "is_out_of_scope_topic",
+          "lineNumber": 62
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 8,
+        "functionCount": 8,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "tests/test_turn.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 547,
+      "nonEmptyLines": 455,
+      "functions": [
+        {
+          "name": "test_live_reply_passes_through_without_host_report_patch",
+          "startLine": 27,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "test_host_does_not_refuse_out_of_competence_question",
+          "startLine": 36,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "test_reply_records_which_tools_the_loop_ran",
+          "startLine": 45,
+          "endLine": 56,
+          "params": []
+        },
+        {
+          "name": "test_web_citation_markdown_includes_full_url",
+          "startLine": 59,
+          "endLine": 70,
+          "params": []
+        },
+        {
+          "name": "test_report_citation_markdown_includes_pdf_page_url",
+          "startLine": 73,
+          "endLine": 91,
+          "params": []
+        },
+        {
+          "name": "test_dropper_sees_figure_past_800_chars",
+          "startLine": 94,
+          "endLine": 107,
+          "params": []
+        },
+        {
+          "name": "test_format_reply_does_not_require_langgraph_steps",
+          "startLine": 110,
+          "endLine": 115,
+          "params": []
+        },
+        {
+          "name": "test_format_reply_links_web_sources_from_session_rail",
+          "startLine": 118,
+          "endLine": 136,
+          "params": []
+        },
+        {
+          "name": "test_format_reply_links_report_source_from_ingest_config",
+          "startLine": 139,
+          "endLine": 147,
+          "params": []
+        },
+        {
+          "name": "test_format_reply_normalizes_bare_web_citations",
+          "startLine": 150,
+          "endLine": 160,
+          "params": []
+        },
+        {
+          "name": "test_format_reply_dedupes_double_markdown_urls",
+          "startLine": 163,
+          "endLine": 184,
+          "params": []
+        },
+        {
+          "name": "test_format_reply_fixes_spaced_markdown_urls",
+          "startLine": 187,
+          "endLine": 196,
+          "params": []
+        },
+        {
+          "name": "test_format_reply_links_inline_web_sources_from_session_rail",
+          "startLine": 199,
+          "endLine": 213,
+          "params": []
+        },
+        {
+          "name": "test_format_reply_fixes_glued_cyrillic_and_broken_vc_url",
+          "startLine": 216,
+          "endLine": 234,
+          "params": []
+        },
+        {
+          "name": "test_format_reply_fixes_broken_bold_with_multiplication",
+          "startLine": 237,
+          "endLine": 242,
+          "params": []
+        },
+        {
+          "name": "test_format_reply_normalizes_realistic_broken_prose",
+          "startLine": 245,
+          "endLine": 302,
+          "params": []
+        },
+        {
+          "name": "test_chat_html_renders_links_and_bold",
+          "startLine": 305,
+          "endLine": 315,
+          "params": []
+        },
+        {
+          "name": "test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+          "startLine": 330,
+          "endLine": 344,
+          "params": []
+        },
+        {
+          "name": "test_report_tag_without_retrieve_this_turn_is_not_grounded",
+          "startLine": 347,
+          "endLine": 357,
+          "params": []
+        },
+        {
+          "name": "test_russian_question_can_use_english_report_chunks",
+          "startLine": 360,
+          "endLine": 371,
+          "params": []
+        },
+        {
+          "name": "test_live_weather_with_tools_is_not_host_blocked",
+          "startLine": 374,
+          "endLine": 381,
+          "params": []
+        },
+        {
+          "name": "test_infra_timeout_on_weather_uses_competence_safety_net",
+          "startLine": 384,
+          "endLine": 393,
+          "params": []
+        },
+        {
+          "name": "test_infra_timeout_on_oil_question_is_uncertainty_not_invented_figures",
+          "startLine": 396,
+          "endLine": 404,
+          "params": []
+        },
+        {
+          "name": "test_playbook_documents_prompt_failure_not_host_lock",
+          "startLine": 407,
+          "endLine": 421,
+          "params": []
+        },
+        {
+          "name": "test_live_denylist_citation_is_not_host_stripped",
+          "startLine": 424,
+          "endLine": 434,
+          "params": []
+        },
+        {
+          "name": "test_combined_report_and_web_tags_are_allowed",
+          "startLine": 437,
+          "endLine": 452,
+          "params": []
+        },
+        {
+          "name": "test_host_does_not_refuse_forecast_without_a_verb",
+          "startLine": 455,
+          "endLine": 470,
+          "params": []
+        },
+        {
+          "name": "test_live_forecast_reply_is_not_host_patched_with_tags",
+          "startLine": 473,
+          "endLine": 477,
+          "params": []
+        },
+        {
+          "name": "test_format_chat_memory_empty",
+          "startLine": 480,
+          "endLine": 481,
+          "params": []
+        },
+        {
+          "name": "test_format_chat_memory_keeps_recent_turns_only",
+          "startLine": 484,
+          "endLine": 494,
+          "params": []
+        },
+        {
+          "name": "test_prompt_with_chat_memory_prefixes_current_question",
+          "startLine": 497,
+          "endLine": 507,
+          "params": []
+        },
+        {
+          "name": "test_run_turn_includes_chat_history_in_loop_prompt",
+          "startLine": 510,
+          "endLine": 522,
+          "params": []
+        },
+        {
+          "name": "test_build_turn_prompt_keeps_session_start_injection_with_memory",
+          "startLine": 525,
+          "endLine": 547,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "_FrozenLoop",
+          "startLine": 17,
+          "endLine": 24,
+          "methods": [
+            "__init__",
+            "complete"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "_FrozenLoop",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "test_live_reply_passes_through_without_host_report_patch",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "test_host_does_not_refuse_out_of_competence_question",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "test_reply_records_which_tools_the_loop_ran",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "test_web_citation_markdown_includes_full_url",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "test_report_citation_markdown_includes_pdf_page_url",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "test_dropper_sees_figure_past_800_chars",
+          "line": 94,
+          "isDefault": false
+        },
+        {
+          "name": "test_format_reply_does_not_require_langgraph_steps",
+          "line": 110,
+          "isDefault": false
+        },
+        {
+          "name": "test_format_reply_links_web_sources_from_session_rail",
+          "line": 118,
+          "isDefault": false
+        },
+        {
+          "name": "test_format_reply_links_report_source_from_ingest_config",
+          "line": 139,
+          "isDefault": false
+        },
+        {
+          "name": "test_format_reply_normalizes_bare_web_citations",
+          "line": 150,
+          "isDefault": false
+        },
+        {
+          "name": "test_format_reply_dedupes_double_markdown_urls",
+          "line": 163,
+          "isDefault": false
+        },
+        {
+          "name": "test_format_reply_fixes_spaced_markdown_urls",
+          "line": 187,
+          "isDefault": false
+        },
+        {
+          "name": "test_format_reply_links_inline_web_sources_from_session_rail",
+          "line": 199,
+          "isDefault": false
+        },
+        {
+          "name": "test_format_reply_fixes_glued_cyrillic_and_broken_vc_url",
+          "line": 216,
+          "isDefault": false
+        },
+        {
+          "name": "test_format_reply_fixes_broken_bold_with_multiplication",
+          "line": 237,
+          "isDefault": false
+        },
+        {
+          "name": "test_format_reply_normalizes_realistic_broken_prose",
+          "line": 245,
+          "isDefault": false
+        },
+        {
+          "name": "test_chat_html_renders_links_and_bold",
+          "line": 305,
+          "isDefault": false
+        },
+        {
+          "name": "test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+          "line": 330,
+          "isDefault": false
+        },
+        {
+          "name": "test_report_tag_without_retrieve_this_turn_is_not_grounded",
+          "line": 347,
+          "isDefault": false
+        },
+        {
+          "name": "test_russian_question_can_use_english_report_chunks",
+          "line": 360,
+          "isDefault": false
+        },
+        {
+          "name": "test_live_weather_with_tools_is_not_host_blocked",
+          "line": 374,
+          "isDefault": false
+        },
+        {
+          "name": "test_infra_timeout_on_weather_uses_competence_safety_net",
+          "line": 384,
+          "isDefault": false
+        },
+        {
+          "name": "test_infra_timeout_on_oil_question_is_uncertainty_not_invented_figures",
+          "line": 396,
+          "isDefault": false
+        },
+        {
+          "name": "test_playbook_documents_prompt_failure_not_host_lock",
+          "line": 407,
+          "isDefault": false
+        },
+        {
+          "name": "test_live_denylist_citation_is_not_host_stripped",
+          "line": 424,
+          "isDefault": false
+        },
+        {
+          "name": "test_combined_report_and_web_tags_are_allowed",
+          "line": 437,
+          "isDefault": false
+        },
+        {
+          "name": "test_host_does_not_refuse_forecast_without_a_verb",
+          "line": 455,
+          "isDefault": false
+        },
+        {
+          "name": "test_live_forecast_reply_is_not_host_patched_with_tags",
+          "line": 473,
+          "isDefault": false
+        },
+        {
+          "name": "test_format_chat_memory_empty",
+          "line": 480,
+          "isDefault": false
+        },
+        {
+          "name": "test_format_chat_memory_keeps_recent_turns_only",
+          "line": 484,
+          "isDefault": false
+        },
+        {
+          "name": "test_prompt_with_chat_memory_prefixes_current_question",
+          "line": 497,
+          "isDefault": false
+        },
+        {
+          "name": "test_run_turn_includes_chat_history_in_loop_prompt",
+          "line": 510,
+          "isDefault": false
+        },
+        {
+          "name": "test_build_turn_prompt_keeps_session_start_injection_with_memory",
+          "line": 525,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "complete",
+          "callee": "self.questions.append",
+          "lineNumber": 23
+        },
+        {
+          "caller": "test_live_reply_passes_through_without_host_report_patch",
+          "callee": "_FrozenLoop",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_live_reply_passes_through_without_host_report_patch",
+          "callee": "LoopResult",
+          "lineNumber": 28
+        },
+        {
+          "caller": "test_live_reply_passes_through_without_host_report_patch",
+          "callee": "run_turn",
+          "lineNumber": 29
+        },
+        {
+          "caller": "test_host_does_not_refuse_out_of_competence_question",
+          "callee": "_FrozenLoop",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_host_does_not_refuse_out_of_competence_question",
+          "callee": "LoopResult",
+          "lineNumber": 37
+        },
+        {
+          "caller": "test_host_does_not_refuse_out_of_competence_question",
+          "callee": "run_turn",
+          "lineNumber": 38
+        },
+        {
+          "caller": "test_reply_records_which_tools_the_loop_ran",
+          "callee": "_FrozenLoop",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_reply_records_which_tools_the_loop_ran",
+          "callee": "LoopResult",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_reply_records_which_tools_the_loop_ran",
+          "callee": "run_turn",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_reply_records_which_tools_the_loop_ran",
+          "callee": "footer_flags",
+          "lineNumber": 53
+        },
+        {
+          "caller": "test_reply_records_which_tools_the_loop_ran",
+          "callee": "footer_flags",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_reply_records_which_tools_the_loop_ran",
+          "callee": "footer_flags",
+          "lineNumber": 55
+        },
+        {
+          "caller": "test_reply_records_which_tools_the_loop_ran",
+          "callee": "any",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_reply_records_which_tools_the_loop_ran",
+          "callee": "footer_flags",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_web_citation_markdown_includes_full_url",
+          "callee": "Citation",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_web_citation_markdown_includes_full_url",
+          "callee": "markdown_cite",
+          "lineNumber": 65
+        },
+        {
+          "caller": "test_web_citation_markdown_includes_full_url",
+          "callee": "apply_citation_links",
+          "lineNumber": 68
+        },
+        {
+          "caller": "test_report_citation_markdown_includes_pdf_page_url",
+          "callee": "Chunk",
+          "lineNumber": 76
+        },
+        {
+          "caller": "test_report_citation_markdown_includes_pdf_page_url",
+          "callee": "report_citation",
+          "lineNumber": 86
+        },
+        {
+          "caller": "test_report_citation_markdown_includes_pdf_page_url",
+          "callee": "markdown_cite",
+          "lineNumber": 88
+        },
+        {
+          "caller": "test_report_citation_markdown_includes_pdf_page_url",
+          "callee": "linked.startswith",
+          "lineNumber": 89
+        },
+        {
+          "caller": "test_report_citation_markdown_includes_pdf_page_url",
+          "callee": "linked.endswith",
+          "lineNumber": 90
+        },
+        {
+          "caller": "test_report_citation_markdown_includes_pdf_page_url",
+          "callee": "report.label.lower",
+          "lineNumber": 91
+        },
+        {
+          "caller": "test_dropper_sees_figure_past_800_chars",
+          "callee": "Chunk",
+          "lineNumber": 96
+        },
+        {
+          "caller": "test_dropper_sees_figure_past_800_chars",
+          "callee": "drop_listing",
+          "lineNumber": 105
+        },
+        {
+          "caller": "test_format_reply_does_not_require_langgraph_steps",
+          "callee": "format_reply",
+          "lineNumber": 113
+        },
+        {
+          "caller": "test_format_reply_does_not_require_langgraph_steps",
+          "callee": "Reply",
+          "lineNumber": 113
+        },
+        {
+          "caller": "test_format_reply_links_web_sources_from_session_rail",
+          "callee": "SessionStartRailHit",
+          "lineNumber": 123
+        },
+        {
+          "caller": "test_format_reply_links_web_sources_from_session_rail",
+          "callee": "format_reply",
+          "lineNumber": 130
+        },
+        {
+          "caller": "test_format_reply_links_web_sources_from_session_rail",
+          "callee": "Reply",
+          "lineNumber": 131
+        },
+        {
+          "caller": "test_format_reply_links_web_sources_from_session_rail",
+          "callee": "Citation",
+          "lineNumber": 131
+        },
+        {
+          "caller": "test_format_reply_links_report_source_from_ingest_config",
+          "callee": "format_reply",
+          "lineNumber": 143
+        },
+        {
+          "caller": "test_format_reply_links_report_source_from_ingest_config",
+          "callee": "Reply",
+          "lineNumber": 144
+        },
+        {
+          "caller": "test_format_reply_links_report_source_from_ingest_config",
+          "callee": "Citation",
+          "lineNumber": 144
+        },
+        {
+          "caller": "test_format_reply_normalizes_bare_web_citations",
+          "callee": "format_reply",
+          "lineNumber": 157
+        },
+        {
+          "caller": "test_format_reply_normalizes_bare_web_citations",
+          "callee": "Reply",
+          "lineNumber": 157
+        },
+        {
+          "caller": "test_format_reply_dedupes_double_markdown_urls",
+          "callee": "SessionStartRailHit",
+          "lineNumber": 168
+        },
+        {
+          "caller": "test_format_reply_dedupes_double_markdown_urls",
+          "callee": "format_reply",
+          "lineNumber": 179
+        },
+        {
+          "caller": "test_format_reply_dedupes_double_markdown_urls",
+          "callee": "Reply",
+          "lineNumber": 180
+        },
+        {
+          "caller": "test_format_reply_dedupes_double_markdown_urls",
+          "callee": "Citation",
+          "lineNumber": 180
+        },
+        {
+          "caller": "test_format_reply_dedupes_double_markdown_urls",
+          "callee": "text.count",
+          "lineNumber": 184
+        },
+        {
+          "caller": "test_format_reply_fixes_spaced_markdown_urls",
+          "callee": "format_reply",
+          "lineNumber": 194
+        },
+        {
+          "caller": "test_format_reply_fixes_spaced_markdown_urls",
+          "callee": "Reply",
+          "lineNumber": 194
+        },
+        {
+          "caller": "test_format_reply_links_inline_web_sources_from_session_rail",
+          "callee": "SessionStartRailHit",
+          "lineNumber": 203
+        },
+        {
+          "caller": "test_format_reply_links_inline_web_sources_from_session_rail",
+          "callee": "format_reply",
+          "lineNumber": 211
+        },
+        {
+          "caller": "test_format_reply_links_inline_web_sources_from_session_rail",
+          "callee": "Reply",
+          "lineNumber": 211
+        },
+        {
+          "caller": "test_format_reply_fixes_glued_cyrillic_and_broken_vc_url",
+          "callee": "SessionStartRailHit",
+          "lineNumber": 220
+        },
+        {
+          "caller": "test_format_reply_fixes_glued_cyrillic_and_broken_vc_url",
+          "callee": "format_reply",
+          "lineNumber": 231
+        },
+        {
+          "caller": "test_format_reply_fixes_glued_cyrillic_and_broken_vc_url",
+          "callee": "Reply",
+          "lineNumber": 231
+        },
+        {
+          "caller": "test_format_reply_fixes_glued_cyrillic_and_broken_vc_url",
+          "callee": "text.split",
+          "lineNumber": 234
+        },
+        {
+          "caller": "test_format_reply_fixes_broken_bold_with_multiplication",
+          "callee": "format_reply",
+          "lineNumber": 241
+        },
+        {
+          "caller": "test_format_reply_fixes_broken_bold_with_multiplication",
+          "callee": "Reply",
+          "lineNumber": 241
+        },
+        {
+          "caller": "test_format_reply_normalizes_realistic_broken_prose",
+          "callee": "SessionStartRailHit",
+          "lineNumber": 250
+        },
+        {
+          "caller": "test_format_reply_normalizes_realistic_broken_prose",
+          "callee": "SessionStartRailHit",
+          "lineNumber": 257
+        },
+        {
+          "caller": "test_format_reply_normalizes_realistic_broken_prose",
+          "callee": "SessionStartRailHit",
+          "lineNumber": 264
+        },
+        {
+          "caller": "test_format_reply_normalizes_realistic_broken_prose",
+          "callee": "SessionStartRailHit",
+          "lineNumber": 271
+        },
+        {
+          "caller": "test_format_reply_normalizes_realistic_broken_prose",
+          "callee": "format_reply",
+          "lineNumber": 291
+        },
+        {
+          "caller": "test_format_reply_normalizes_realistic_broken_prose",
+          "callee": "Reply",
+          "lineNumber": 291
+        },
+        {
+          "caller": "test_format_reply_normalizes_realistic_broken_prose",
+          "callee": "chat_html",
+          "lineNumber": 292
+        },
+        {
+          "caller": "test_chat_html_renders_links_and_bold",
+          "callee": "chat_html",
+          "lineNumber": 308
+        },
+        {
+          "caller": "test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+          "callee": "report_citation",
+          "lineNumber": 333
+        },
+        {
+          "caller": "test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+          "callee": "_FrozenLoop",
+          "lineNumber": 334
+        },
+        {
+          "caller": "test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+          "callee": "LoopResult",
+          "lineNumber": 335
+        },
+        {
+          "caller": "test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+          "callee": "run_turn",
+          "lineNumber": 341
+        },
+        {
+          "caller": "test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+          "callee": "has_grounded_report",
+          "lineNumber": 342
+        },
+        {
+          "caller": "test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+          "callee": "\" \".join(c.label for c in reply.citations).lower",
+          "lineNumber": 343
+        },
+        {
+          "caller": "test_corpus_covered_outlook_is_grounded_when_retrieve_ran_this_turn",
+          "callee": "\" \".join",
+          "lineNumber": 343
+        },
+        {
+          "caller": "test_report_tag_without_retrieve_this_turn_is_not_grounded",
+          "callee": "_FrozenLoop",
+          "lineNumber": 348
+        },
+        {
+          "caller": "test_report_tag_without_retrieve_this_turn_is_not_grounded",
+          "callee": "LoopResult",
+          "lineNumber": 349
+        },
+        {
+          "caller": "test_report_tag_without_retrieve_this_turn_is_not_grounded",
+          "callee": "run_turn",
+          "lineNumber": 354
+        },
+        {
+          "caller": "test_report_tag_without_retrieve_this_turn_is_not_grounded",
+          "callee": "has_grounded_report",
+          "lineNumber": 357
+        },
+        {
+          "caller": "retrieve",
+          "callee": "question.casefold",
+          "lineNumber": 365
+        },
+        {
+          "caller": "test_russian_question_can_use_english_report_chunks",
+          "callee": "retrieve_for_tool",
+          "lineNumber": 368
+        },
+        {
+          "caller": "test_russian_question_can_use_english_report_chunks",
+          "callee": "_Retr",
+          "lineNumber": 368
+        },
+        {
+          "caller": "test_russian_question_can_use_english_report_chunks",
+          "callee": "payload[\"chunks\"][0][\"citation\"].lower",
+          "lineNumber": 371
+        },
+        {
+          "caller": "test_live_weather_with_tools_is_not_host_blocked",
+          "callee": "_FrozenLoop",
+          "lineNumber": 375
+        },
+        {
+          "caller": "test_live_weather_with_tools_is_not_host_blocked",
+          "callee": "LoopResult",
+          "lineNumber": 376
+        },
+        {
+          "caller": "test_live_weather_with_tools_is_not_host_blocked",
+          "callee": "run_turn",
+          "lineNumber": 378
+        },
+        {
+          "caller": "complete",
+          "callee": "LoopError",
+          "lineNumber": 387
+        },
+        {
+          "caller": "test_infra_timeout_on_weather_uses_competence_safety_net",
+          "callee": "run_turn",
+          "lineNumber": 389
+        },
+        {
+          "caller": "test_infra_timeout_on_weather_uses_competence_safety_net",
+          "callee": "_Boom",
+          "lineNumber": 389
+        },
+        {
+          "caller": "test_infra_timeout_on_weather_uses_competence_safety_net",
+          "callee": "reply.text.lower",
+          "lineNumber": 391
+        },
+        {
+          "caller": "test_infra_timeout_on_weather_uses_competence_safety_net",
+          "callee": "reply.text.casefold",
+          "lineNumber": 391
+        },
+        {
+          "caller": "complete",
+          "callee": "LoopError",
+          "lineNumber": 399
+        },
+        {
+          "caller": "test_infra_timeout_on_oil_question_is_uncertainty_not_invented_figures",
+          "callee": "run_turn",
+          "lineNumber": 401
+        },
+        {
+          "caller": "test_infra_timeout_on_oil_question_is_uncertainty_not_invented_figures",
+          "callee": "_Boom",
+          "lineNumber": 401
+        },
+        {
+          "caller": "test_infra_timeout_on_oil_question_is_uncertainty_not_invented_figures",
+          "callee": "reply.text.lower",
+          "lineNumber": 404
+        },
+        {
+          "caller": "test_infra_timeout_on_oil_question_is_uncertainty_not_invented_figures",
+          "callee": "reply.text.lower",
+          "lineNumber": 404
+        },
+        {
+          "caller": "test_playbook_documents_prompt_failure_not_host_lock",
+          "callee": "Path(\"skills/oil_gas_analyst/SKILL.md\").read_text",
+          "lineNumber": 410
+        },
+        {
+          "caller": "test_playbook_documents_prompt_failure_not_host_lock",
+          "callee": "Path",
+          "lineNumber": 410
+        },
+        {
+          "caller": "test_playbook_documents_prompt_failure_not_host_lock",
+          "callee": "text.lower",
+          "lineNumber": 411
+        },
+        {
+          "caller": "test_live_denylist_citation_is_not_host_stripped",
+          "callee": "_FrozenLoop",
+          "lineNumber": 425
+        },
+        {
+          "caller": "test_live_denylist_citation_is_not_host_stripped",
+          "callee": "LoopResult",
+          "lineNumber": 426
+        },
+        {
+          "caller": "test_live_denylist_citation_is_not_host_stripped",
+          "callee": "run_turn",
+          "lineNumber": 431
+        },
+        {
+          "caller": "test_combined_report_and_web_tags_are_allowed",
+          "callee": "_FrozenLoop",
+          "lineNumber": 438
+        },
+        {
+          "caller": "test_combined_report_and_web_tags_are_allowed",
+          "callee": "LoopResult",
+          "lineNumber": 439
+        },
+        {
+          "caller": "test_combined_report_and_web_tags_are_allowed",
+          "callee": "run_turn",
+          "lineNumber": 449
+        },
+        {
+          "caller": "test_combined_report_and_web_tags_are_allowed",
+          "callee": "has_grounded_report",
+          "lineNumber": 450
+        },
+        {
+          "caller": "test_host_does_not_refuse_forecast_without_a_verb",
+          "callee": "_FrozenLoop",
+          "lineNumber": 456
+        },
+        {
+          "caller": "test_host_does_not_refuse_forecast_without_a_verb",
+          "callee": "LoopResult",
+          "lineNumber": 457
+        },
+        {
+          "caller": "test_host_does_not_refuse_forecast_without_a_verb",
+          "callee": "run_turn",
+          "lineNumber": 467
+        },
+        {
+          "caller": "test_live_forecast_reply_is_not_host_patched_with_tags",
+          "callee": "_FrozenLoop",
+          "lineNumber": 474
+        },
+        {
+          "caller": "test_live_forecast_reply_is_not_host_patched_with_tags",
+          "callee": "LoopResult",
+          "lineNumber": 474
+        },
+        {
+          "caller": "test_live_forecast_reply_is_not_host_patched_with_tags",
+          "callee": "run_turn",
+          "lineNumber": 475
+        },
+        {
+          "caller": "test_format_chat_memory_empty",
+          "callee": "format_chat_memory",
+          "lineNumber": 481
+        },
+        {
+          "caller": "test_format_chat_memory_keeps_recent_turns_only",
+          "callee": "format_chat_memory",
+          "lineNumber": 491
+        },
+        {
+          "caller": "test_prompt_with_chat_memory_prefixes_current_question",
+          "callee": "prompt_with_chat_memory",
+          "lineNumber": 498
+        },
+        {
+          "caller": "test_run_turn_includes_chat_history_in_loop_prompt",
+          "callee": "_FrozenLoop",
+          "lineNumber": 511
+        },
+        {
+          "caller": "test_run_turn_includes_chat_history_in_loop_prompt",
+          "callee": "LoopResult",
+          "lineNumber": 511
+        },
+        {
+          "caller": "test_run_turn_includes_chat_history_in_loop_prompt",
+          "callee": "run_turn",
+          "lineNumber": 512
+        },
+        {
+          "caller": "test_build_turn_prompt_keeps_session_start_injection_with_memory",
+          "callee": "build_turn_prompt",
+          "lineNumber": 540
+        },
+        {
+          "caller": "test_build_turn_prompt_keeps_session_start_injection_with_memory",
+          "callee": "visible_rail_hits",
+          "lineNumber": 542
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 34,
+        "functionCount": 33,
+        "classCount": 1
+      }
+    }
+  ]
+}

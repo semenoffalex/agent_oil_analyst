@@ -1,0 +1,120 @@
+[
+  {
+    "order": 1,
+    "title": "Project Overview",
+    "description": "Start with README.md to learn what this product is: a senior oil-and-gas market analyst chat for OPEC demand, live quotes, and Brent forecasts, grounded in reports, the open web, or a calculation rather than invented numbers. The README states the architectural story the rest of the tour follows: Ouroboros drives the conversation (not LangGraph), the Streamlit Dashboard on port 8000 is the Chat UI and adapter, and retrieve/web/forecast are reviewed skills with /evolve disabled in light runtime mode. Use it as the map for how Docker Compose, the dashboard layout, citation labels, and eval dialogues fit together.",
+    "nodeIds": ["document:README.md"]
+  },
+  {
+    "order": 2,
+    "title": "Dashboard Entry Point",
+    "description": "After the README's product pitch, oil_gas_analyst/dashboard.py is the Streamlit process you actually run: demo login, async chat through Ouroboros, the Brent chart panel, the news rail, and the KPI/corpus strips on port 8000. This file is the adapter, not a second agent—it frames the page and delegates each user turn into the analyst runtime. High fan-out here is a signal that the dashboard is the hub that wires UI, chart, and chat together.",
+    "nodeIds": ["file:oil_gas_analyst/dashboard.py", "file:oil_gas_analyst/demo_auth.py"],
+    "languageLesson": "A Streamlit app is a Python script executed top-to-bottom on each rerun. Session state (st.session_state) holds chat history across reruns; widgets like checkboxes and chat_input trigger a full script rerun rather than a traditional request handler."
+  },
+  {
+    "order": 3,
+    "title": "Chat, Chart, and KPIs",
+    "description": "Building on the dashboard shell, chat_ui.py runs one analyst turn with rate limiting, session-rail hits, and history, while dashboard_chart.py caches Brent payloads and draws Altair series (AutoARIMA, UnobservedComponents, AutoReg) with a fixed Y-axis floor. render.py turns Reply objects into linked Markdown/HTML so citations from later skills become clickable in the left-hand chat. consensus_price.py and corpus_strip.py feed the top KPI row: report/news price consensus and OPEC/EIA/CBR corpus links, kept as separate sources rather than blended into one number.",
+    "nodeIds": [
+      "file:oil_gas_analyst/chat_ui.py",
+      "file:oil_gas_analyst/dashboard_chart.py",
+      "file:oil_gas_analyst/render.py",
+      "file:oil_gas_analyst/consensus_price.py",
+      "file:oil_gas_analyst/corpus_strip.py"
+    ],
+    "languageLesson": "Altair charts are declarative Vega-Lite specs built from pandas DataFrames. Streamlit's st.altair_chart renders that spec; caching the payload avoids refitting forecast models on every widget rerun."
+  },
+  {
+    "order": 4,
+    "title": "Session-Start News Rail",
+    "description": "The README's TOP-news strip is implemented in session_start_web.py: same-day oil-and-gas headlines are fetched, cached, and filtered, then injected into the first-turn prompt so the model can quote them without calling search_web on that turn. This is why the dashboard can show a live news rail at session start while still treating later web search as an explicit skill. High fan-in on this module reflects both the UI and the turn loop depending on the same rail.",
+    "nodeIds": ["file:oil_gas_analyst/session_start_web.py"]
+  },
+  {
+    "order": 5,
+    "title": "One Analyst Turn",
+    "description": "The dashboard is only the adapter: turn.py orchestrates a single analyst turn—prompt with memory and session web, Ouroboros completion, citations, and infra safety nets. ouroboros.py is the HTTP client that creates a task, polls until a terminal state, and extracts the answer, tool flags, and citations from the gateway. graph.py is a thin invoke_analyst wrapper used by dashboard eval so tests reuse the same seam as the UI without extra session-start hits.",
+    "nodeIds": [
+      "file:oil_gas_analyst/turn.py",
+      "file:oil_gas_analyst/ouroboros.py",
+      "file:oil_gas_analyst/graph.py"
+    ],
+    "languageLesson": "The adapter uses a poll loop over HTTP rather than embedding the model graph in-process. Each turn is a task with a terminal state; tool calls happen inside Ouroboros, and this package only interprets the completed payload."
+  },
+  {
+    "order": 6,
+    "title": "Shared Types and Settings",
+    "description": "types.py is the highest fan-in file in the graph: dataclasses and Protocol interfaces for chunks, web hits, forecasts, citations, loop results, and pluggable components—the vocabulary every later skill returns. settings.py loads environment-driven model slots, API-key gates, optional LangSmith tracing, and Ouroboros URLs for Docker versus local. deps.py wires the loop, the embedding-backed Chroma retriever, and full-report downloads so Streamlit chat and the ingest CLI share one composition root.",
+    "nodeIds": [
+      "file:oil_gas_analyst/types.py",
+      "file:oil_gas_analyst/settings.py",
+      "file:oil_gas_analyst/deps.py"
+    ],
+    "languageLesson": "Python Protocols (typing.Protocol) describe structural interfaces without inheritance. Dataclasses give typed records for tool payloads; environment-driven settings keep model IDs and URLs out of code so Docker and local runs share the same modules."
+  },
+  {
+    "order": 7,
+    "title": "Report Corpus and Retrieve",
+    "description": "Honest [Report …] citations start with a Chroma index of OPEC/EIA/CBR chunks: retrieve.py talks to OpenAI-compatible embeddings, plans ingest jobs, and exposes retrieve_for_tool for Ouroboros. ingest.py splits PDFs with heading-aware chunks, token budgets, and YAML ingest config. python -m oil_gas_analyst (__main__.py) downloads full agency reports and rebuilds that index—the CLI counterpart to the samples the README says you need before search works.",
+    "nodeIds": [
+      "file:oil_gas_analyst/retrieve.py",
+      "file:oil_gas_analyst/ingest.py",
+      "file:oil_gas_analyst/__main__.py",
+      "config:config/ingest.yaml"
+    ]
+  },
+  {
+    "order": 8,
+    "title": "Web Search and Denylist",
+    "description": "When the model needs freshness or live quotes, web.py runs DuckDuckGo search, strips HTML, fetches page bodies, and formats tool payloads—matching the README's web path and [Source: …, web] labels. denylist.py loads YAML-denied hosts (including subdomain suffixes) so yellow-press domains can appear in raw results but must not be cited. The static list in yellow_press_denylist.yaml is the closed policy the skill and safety nets share.",
+    "nodeIds": [
+      "file:oil_gas_analyst/web.py",
+      "file:oil_gas_analyst/denylist.py",
+      "config:config/yellow_press_denylist.yaml"
+    ],
+    "languageLesson": "A YAML denylist is data, not code: hosts are loaded at runtime and matched with suffix rules so news.example.com is blocked if example.com is listed. Keeping policy in config lets reviews change domains without touching the search client."
+  },
+  {
+    "order": 9,
+    "title": "Brent Forecast Skill",
+    "description": "The README's three-method Brent forecast lives in forecast.py: AutoARIMA, UnobservedComponents, and AutoReg on Yahoo (then Stooq) history with disk cache, returning both tool text and plot payloads the chart panel already consumes. forecast.yaml constrains methods, tickers, and horizons. skills/oil_gas_forecast/plugin.py registers run_forecast on the Ouroboros side so the model calls this module instead of inventing a single averaged price.",
+    "nodeIds": [
+      "file:oil_gas_analyst/forecast.py",
+      "config:config/forecast.yaml",
+      "file:skills/oil_gas_forecast/plugin.py"
+    ]
+  },
+  {
+    "order": 10,
+    "title": "Reviewed Ouroboros Skills",
+    "description": "Retrieve, web, and forecast are not hidden helpers: they are reviewed Ouroboros skills. The three plugin.py files register retrieve_reports, search_web, and run_forecast; the matching SKILL.md files state when to call each tool, citation labels, and rules such as same-turn retrieve before citing a report. This is the README claim that the model decides what to invoke and when to stop, with /evolve off so the agent cannot rewrite itself mid-demo.",
+    "nodeIds": [
+      "file:skills/oil_gas_retrieve/plugin.py",
+      "file:skills/oil_gas_web/plugin.py",
+      "document:skills/oil_gas_retrieve/SKILL.md",
+      "document:skills/oil_gas_web/SKILL.md",
+      "document:skills/oil_gas_forecast/SKILL.md"
+    ]
+  },
+  {
+    "order": 11,
+    "title": "Docker Compose Runtime",
+    "description": "The preferred README start path is Docker: docker-compose.yml orchestrates Ouroboros on 8765 (internal) and the Streamlit analyst on 8000, sharing volumes for Chroma and reports. The root Dockerfile is a Python 3.11-slim image that installs analyst deps and launches Streamlit. .env.example documents DeepSeek chat, OpenRouter embeddings, demo login, rate limits, and light runtime so compose matches the documented demo rather than a second UI on :8765.",
+    "nodeIds": [
+      "service:docker-compose.yml",
+      "service:Dockerfile",
+      "config:.env.example"
+    ],
+    "languageLesson": "Compose services isolate processes on a private network: the dashboard publishes 8000 to the host, while Ouroboros stays internal on 8765. depends_on plus shared named volumes let the adapter talk to the gateway and reuse the report index across restarts."
+  },
+  {
+    "order": 12,
+    "title": "Glossary and Demo Decision",
+    "description": "CONTEXT.md is the canonical glossary (Analyst, Demo, Chat UI, Dashboard, Session-start Web, forecast modules) so README terms map onto the modules you just walked. ADR 0026 records the decision that Streamlit on :8000 is the demo: session-start rail, Brent chart, and corpus strip around chat, with Streamlit calling Ouroboros run_turn. Together they close the tour: the product story in the README is the same structure as dashboard, turn loop, skills, and compose.",
+    "nodeIds": [
+      "document:CONTEXT.md",
+      "document:docs/adr/0026-streamlit-dashboard-is-the-demo.md"
+    ]
+  }
+]

@@ -1,0 +1,1395 @@
+{
+  "nodes": [
+    {
+      "id": "file:oil_gas_analyst/forecast.py",
+      "type": "file",
+      "name": "forecast.py",
+      "summary": "Fits AutoARIMA, UnobservedComponents, and AutoReg on live Brent/WTI history (Yahoo then Stooq with disk cache) and returns tool plus plot payloads.",
+      "tags": [
+        "service",
+        "forecast",
+        "data-pipeline",
+        "factory",
+        "api-handler"
+      ],
+      "complexity": "complex",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "languageNotes": "Three statsmodels methods with a random-walk fallback; @maybe_traceable wraps tool entry points for LangSmith."
+    },
+    {
+      "id": "file:tests/test_consensus_price.py",
+      "type": "file",
+      "name": "test_consensus_price.py",
+      "summary": "Unit tests for oil-price regex extraction, per-source consensus averaging, retrieve-then-sample report fallback, and dashboard KPI assembly.",
+      "tags": [
+        "test",
+        "validation",
+        "parsing",
+        "dashboard"
+      ],
+      "complexity": "moderate",
+      "filePath": "tests/test_consensus_price.py"
+    },
+    {
+      "id": "file:tests/test_dashboard_layout.py",
+      "type": "file",
+      "name": "test_dashboard_layout.py",
+      "summary": "Layout and chart tests: Streamlit column order, page config, news-rail exclusions, Brent series shape, Y-axis minimum, and corpus-strip agencies.",
+      "tags": [
+        "test",
+        "validation",
+        "visualization",
+        "dashboard",
+        "layout"
+      ],
+      "complexity": "complex",
+      "filePath": "tests/test_dashboard_layout.py"
+    },
+    {
+      "id": "file:tests/test_forecast.py",
+      "type": "file",
+      "name": "test_forecast.py",
+      "summary": "Forecast tests covering symbol/horizon detection, three-method intervals, Yahoo/Stooq/cache fallbacks, tool payloads, and Urals unavailability.",
+      "tags": [
+        "test",
+        "validation",
+        "forecast",
+        "data-pipeline"
+      ],
+      "complexity": "moderate",
+      "filePath": "tests/test_forecast.py"
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:detect_horizon",
+      "type": "function",
+      "name": "detect_horizon",
+      "summary": "Maps question phrases to a closed list of forecast horizons from forecast.yaml.",
+      "tags": [
+        "parsing",
+        "config",
+        "forecast"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        45,
+        59
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:_random_walk_fallback",
+      "type": "function",
+      "name": "_random_walk_fallback",
+      "summary": "Builds a MethodForecast from drift and residual std when a statsmodels fit fails.",
+      "tags": [
+        "fallback",
+        "forecast",
+        "utility"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        72,
+        92
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:_method_from_forecast",
+      "type": "function",
+      "name": "_method_from_forecast",
+      "summary": "Wraps a fitted model's get_forecast into MethodForecast with path and confidence interval.",
+      "tags": [
+        "factory",
+        "forecast",
+        "serialization"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        95,
+        119
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:_fit_auto_arima_with_path",
+      "type": "function",
+      "name": "_fit_auto_arima_with_path",
+      "summary": "Grid-searches ARIMA orders, fits the best, and returns a path forecast or random-walk fallback.",
+      "tags": [
+        "forecast",
+        "time-series",
+        "arima"
+      ],
+      "complexity": "moderate",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        127,
+        156
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:_fit_unobserved_components_with_path",
+      "type": "function",
+      "name": "_fit_unobserved_components_with_path",
+      "summary": "Fits a local-linear-trend UnobservedComponents model and returns a path forecast.",
+      "tags": [
+        "forecast",
+        "time-series",
+        "ucm"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        164,
+        182
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:_fit_autoreg_with_path",
+      "type": "function",
+      "name": "_fit_autoreg_with_path",
+      "summary": "Selects AutoReg lags, fits, and returns a path forecast or random-walk fallback.",
+      "tags": [
+        "forecast",
+        "time-series",
+        "autoreg"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        190,
+        204
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:_apply_yahoo_user_agent",
+      "type": "function",
+      "name": "_apply_yahoo_user_agent",
+      "summary": "Sets yfinance session headers so Yahoo Finance requests are not blocked as a default client.",
+      "tags": [
+        "http",
+        "integration",
+        "workaround"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        229,
+        238
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:_close_from_frame",
+      "type": "function",
+      "name": "_close_from_frame",
+      "summary": "Extracts a sorted numeric close series from a yfinance DataFrame with MultiIndex fallbacks.",
+      "tags": [
+        "pandas",
+        "utility",
+        "ingest"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        241,
+        258
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:_read_cache",
+      "type": "function",
+      "name": "_read_cache",
+      "summary": "Loads a per-symbol CSV close series from the forecast cache directory.",
+      "tags": [
+        "caching",
+        "pandas",
+        "ingest"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        283,
+        295
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:_fetch_yahoo",
+      "type": "function",
+      "name": "_fetch_yahoo",
+      "summary": "Downloads history via yfinance Ticker/download and raises ForecastError on empty closes.",
+      "tags": [
+        "integration",
+        "ingest",
+        "http"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        298,
+        325
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:_fetch_stooq",
+      "type": "function",
+      "name": "_fetch_stooq",
+      "summary": "Fetches daily closes from Stooq CSV as a Yahoo fallback using configured symbol maps.",
+      "tags": [
+        "integration",
+        "ingest",
+        "http"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        328,
+        352
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:load_live_history",
+      "type": "function",
+      "name": "load_live_history",
+      "summary": "Tries Yahoo then Stooq, then disk cache, persisting a usable close series of sufficient length.",
+      "tags": [
+        "service",
+        "ingest",
+        "caching"
+      ],
+      "complexity": "moderate",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        355,
+        390
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:run_forecast",
+      "type": "function",
+      "name": "run_forecast",
+      "summary": "Detects symbol and horizon, loads history, fits three methods, and refuses Urals as unavailable.",
+      "tags": [
+        "service",
+        "forecast",
+        "orchestration"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        397,
+        417
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:forecast_for_tool",
+      "type": "function",
+      "name": "forecast_for_tool",
+      "summary": "Ouroboros tool wrapper: runs forecast, formats citations, and never invents a CSV average.",
+      "tags": [
+        "api-handler",
+        "forecast",
+        "tool"
+      ],
+      "complexity": "moderate",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        421,
+        463
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:_plot_payload_from_history",
+      "type": "function",
+      "name": "_plot_payload_from_history",
+      "summary": "Fits path methods on history and packs ForecastPlotPayload with dates, closes, and three paths.",
+      "tags": [
+        "factory",
+        "forecast",
+        "serialization"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        475,
+        501
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:forecast_plot_payload_to_dict",
+      "type": "function",
+      "name": "forecast_plot_payload_to_dict",
+      "summary": "Serializes ForecastPlotPayload to a JSON-friendly dict including method path lists.",
+      "tags": [
+        "serialization",
+        "forecast",
+        "utility"
+      ],
+      "complexity": "simple",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        504,
+        523
+      ]
+    },
+    {
+      "id": "function:oil_gas_analyst/forecast.py:forecast_plot_payload",
+      "type": "function",
+      "name": "forecast_plot_payload",
+      "summary": "Loads Brent/WTI history (optional start date), fits path models, and returns a plot dict or uncertainty note.",
+      "tags": [
+        "service",
+        "forecast",
+        "orchestration"
+      ],
+      "complexity": "moderate",
+      "filePath": "oil_gas_analyst/forecast.py",
+      "lineRange": [
+        537,
+        601
+      ]
+    },
+    {
+      "id": "function:tests/test_consensus_price.py:test_news_consensus_price_from_rail_hits",
+      "type": "function",
+      "name": "test_news_consensus_price_from_rail_hits",
+      "summary": "Builds SessionStartRailHit snippets and asserts news_consensus_price averages extracted figures.",
+      "tags": [
+        "test",
+        "news",
+        "consensus"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_consensus_price.py",
+      "lineRange": [
+        39,
+        56
+      ]
+    },
+    {
+      "id": "function:tests/test_consensus_price.py:test_dashboard_kpi_row_combines_close_and_consensus",
+      "type": "function",
+      "name": "test_dashboard_kpi_row_combines_close_and_consensus",
+      "summary": "Asserts KPI row last close and report/news consensus keys from a chart payload and texts.",
+      "tags": [
+        "test",
+        "dashboard",
+        "kpi"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_consensus_price.py",
+      "lineRange": [
+        59,
+        71
+      ]
+    },
+    {
+      "id": "function:tests/test_dashboard_layout.py:test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+      "type": "function",
+      "name": "test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+      "summary": "Source-order test that news pills render before chat/chart columns and chat is the left column.",
+      "tags": [
+        "test",
+        "layout",
+        "dashboard"
+      ],
+      "complexity": "moderate",
+      "filePath": "tests/test_dashboard_layout.py",
+      "lineRange": [
+        17,
+        71
+      ]
+    },
+    {
+      "id": "function:tests/test_dashboard_layout.py:test_rail_exclusions_hide_wikipedia",
+      "type": "function",
+      "name": "test_rail_exclusions_hide_wikipedia",
+      "summary": "Asserts visible_rail_hits drops Wikipedia and other excluded outlets from the news rail.",
+      "tags": [
+        "test",
+        "news",
+        "filtering"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_dashboard_layout.py",
+      "lineRange": [
+        81,
+        105
+      ]
+    },
+    {
+      "id": "function:tests/test_dashboard_layout.py:test_chart_dataframe_has_actual_and_three_forecast_series",
+      "type": "function",
+      "name": "test_chart_dataframe_has_actual_and_three_forecast_series",
+      "summary": "Checks the chart frame has actuals plus AutoARIMA, UCM, and AutoReg path columns.",
+      "tags": [
+        "test",
+        "forecast",
+        "pandas"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_dashboard_layout.py",
+      "lineRange": [
+        153,
+        162
+      ]
+    },
+    {
+      "id": "function:tests/test_dashboard_layout.py:test_chart_display_dataframe_shows_last_month_plus_forecast",
+      "type": "function",
+      "name": "test_chart_display_dataframe_shows_last_month_plus_forecast",
+      "summary": "Asserts display window keeps ~22 actuals plus the forecast-horizon rows.",
+      "tags": [
+        "test",
+        "visualization",
+        "forecast"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_dashboard_layout.py",
+      "lineRange": [
+        165,
+        174
+      ]
+    },
+    {
+      "id": "function:tests/test_dashboard_layout.py:test_corpus_strip_lists_agencies_when_samples_exist",
+      "type": "function",
+      "name": "test_corpus_strip_lists_agencies_when_samples_exist",
+      "summary": "Temp-dir test that corpus_strip_entries lists agency labels and markdown links for sample PDFs.",
+      "tags": [
+        "test",
+        "corpus",
+        "ui"
+      ],
+      "complexity": "moderate",
+      "filePath": "tests/test_dashboard_layout.py",
+      "lineRange": [
+        212,
+        250
+      ]
+    },
+    {
+      "id": "function:tests/test_forecast.py:test_run_forecast_returns_two_methods_with_intervals",
+      "type": "function",
+      "name": "test_run_forecast_returns_two_methods_with_intervals",
+      "summary": "Stub history loader: run_forecast returns three methods each with low/point/high intervals.",
+      "tags": [
+        "test",
+        "forecast",
+        "intervals"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_forecast.py",
+      "lineRange": [
+        28,
+        40
+      ]
+    },
+    {
+      "id": "function:tests/test_forecast.py:test_month_horizon_is_not_the_quarter_point",
+      "type": "function",
+      "name": "test_month_horizon_is_not_the_quarter_point",
+      "summary": "Ensures a month-horizon question does not pick the quarter horizon point forecast.",
+      "tags": [
+        "test",
+        "horizon",
+        "forecast"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_forecast.py",
+      "lineRange": [
+        43,
+        53
+      ]
+    },
+    {
+      "id": "function:tests/test_forecast.py:test_stooq_used_when_yahoo_empty",
+      "type": "function",
+      "name": "test_stooq_used_when_yahoo_empty",
+      "summary": "When Yahoo returns empty, load_live_history uses the Stooq fetcher and caches the series.",
+      "tags": [
+        "test",
+        "ingest",
+        "fallback"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_forecast.py",
+      "lineRange": [
+        74,
+        92
+      ]
+    },
+    {
+      "id": "function:tests/test_forecast.py:test_cache_used_when_live_sources_fail",
+      "type": "function",
+      "name": "test_cache_used_when_live_sources_fail",
+      "summary": "Both live fetchers fail: load_live_history returns the on-disk cached close series.",
+      "tags": [
+        "test",
+        "caching",
+        "fallback"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_forecast.py",
+      "lineRange": [
+        95,
+        104
+      ]
+    },
+    {
+      "id": "function:tests/test_forecast.py:test_no_live_history_or_cache_raises",
+      "type": "function",
+      "name": "test_no_live_history_or_cache_raises",
+      "summary": "Empty fetchers and no cache raise ForecastError from load_live_history.",
+      "tags": [
+        "test",
+        "error-handling",
+        "ingest"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_forecast.py",
+      "lineRange": [
+        107,
+        117
+      ]
+    },
+    {
+      "id": "function:tests/test_forecast.py:test_forecast_for_tool_shows_two_methods_and_no_average",
+      "type": "function",
+      "name": "test_forecast_for_tool_shows_two_methods_and_no_average",
+      "summary": "Tool payload lists three methods and citations without an ensemble average line.",
+      "tags": [
+        "test",
+        "tool",
+        "forecast"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_forecast.py",
+      "lineRange": [
+        120,
+        134
+      ]
+    },
+    {
+      "id": "function:tests/test_forecast.py:test_forecast_for_tool_history_failure_is_uncertainty",
+      "type": "function",
+      "name": "test_forecast_for_tool_history_failure_is_uncertainty",
+      "summary": "History loader exceptions become an uncertainty note rather than invented prices.",
+      "tags": [
+        "test",
+        "error-handling",
+        "tool"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_forecast.py",
+      "lineRange": [
+        157,
+        167
+      ]
+    },
+    {
+      "id": "function:tests/test_forecast.py:test_forecast_plot_payload_includes_history_and_two_paths",
+      "type": "function",
+      "name": "test_forecast_plot_payload_includes_history_and_two_paths",
+      "summary": "Plot payload includes history dates/closes and three method forecast paths.",
+      "tags": [
+        "test",
+        "plot",
+        "forecast"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_forecast.py",
+      "lineRange": [
+        170,
+        185
+      ]
+    },
+    {
+      "id": "function:tests/test_forecast.py:test_forecast_plot_payload_history_start_handles_tz_aware_index",
+      "type": "function",
+      "name": "test_forecast_plot_payload_history_start_handles_tz_aware_index",
+      "summary": "history_start still slices a timezone-aware DatetimeIndex without dropping the series.",
+      "tags": [
+        "test",
+        "timezone",
+        "pandas"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_forecast.py",
+      "lineRange": [
+        188,
+        204
+      ]
+    },
+    {
+      "id": "function:tests/test_forecast.py:test_forecast_plot_payload_history_failure_is_uncertainty",
+      "type": "function",
+      "name": "test_forecast_plot_payload_history_failure_is_uncertainty",
+      "summary": "Plot payload records uncertainty when history loading fails.",
+      "tags": [
+        "test",
+        "error-handling",
+        "plot"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_forecast.py",
+      "lineRange": [
+        218,
+        228
+      ]
+    },
+    {
+      "id": "function:tests/test_forecast.py:test_forecast_for_tool_citations_still_last_horizon_scalars",
+      "type": "function",
+      "name": "test_forecast_for_tool_citations_still_last_horizon_scalars",
+      "summary": "Tool citations remain last-horizon scalars even when plot paths are longer series.",
+      "tags": [
+        "test",
+        "citations",
+        "forecast"
+      ],
+      "complexity": "simple",
+      "filePath": "tests/test_forecast.py",
+      "lineRange": [
+        231,
+        241
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:detect_horizon",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:detect_horizon",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_random_walk_fallback",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_random_walk_fallback",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_method_from_forecast",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_method_from_forecast",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_fit_auto_arima_with_path",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_fit_auto_arima_with_path",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_fit_unobserved_components_with_path",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_fit_unobserved_components_with_path",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_fit_autoreg_with_path",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_fit_autoreg_with_path",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_apply_yahoo_user_agent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_apply_yahoo_user_agent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_close_from_frame",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_close_from_frame",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_read_cache",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_read_cache",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_fetch_yahoo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_fetch_yahoo",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_fetch_stooq",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_fetch_stooq",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:load_live_history",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:load_live_history",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:run_forecast",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:run_forecast",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:forecast_for_tool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:forecast_for_tool",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_plot_payload_from_history",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:_plot_payload_from_history",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:forecast_plot_payload_to_dict",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:forecast_plot_payload_to_dict",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:forecast_plot_payload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "function:oil_gas_analyst/forecast.py:forecast_plot_payload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_consensus_price.py",
+      "target": "function:tests/test_consensus_price.py:test_news_consensus_price_from_rail_hits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_consensus_price.py",
+      "target": "function:tests/test_consensus_price.py:test_news_consensus_price_from_rail_hits",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_consensus_price.py",
+      "target": "function:tests/test_consensus_price.py:test_dashboard_kpi_row_combines_close_and_consensus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_consensus_price.py",
+      "target": "function:tests/test_consensus_price.py:test_dashboard_kpi_row_combines_close_and_consensus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_dashboard_layout.py",
+      "target": "function:tests/test_dashboard_layout.py:test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_dashboard_layout.py",
+      "target": "function:tests/test_dashboard_layout.py:test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_dashboard_layout.py",
+      "target": "function:tests/test_dashboard_layout.py:test_rail_exclusions_hide_wikipedia",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_dashboard_layout.py",
+      "target": "function:tests/test_dashboard_layout.py:test_rail_exclusions_hide_wikipedia",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_dashboard_layout.py",
+      "target": "function:tests/test_dashboard_layout.py:test_chart_dataframe_has_actual_and_three_forecast_series",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_dashboard_layout.py",
+      "target": "function:tests/test_dashboard_layout.py:test_chart_dataframe_has_actual_and_three_forecast_series",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_dashboard_layout.py",
+      "target": "function:tests/test_dashboard_layout.py:test_chart_display_dataframe_shows_last_month_plus_forecast",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_dashboard_layout.py",
+      "target": "function:tests/test_dashboard_layout.py:test_chart_display_dataframe_shows_last_month_plus_forecast",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_dashboard_layout.py",
+      "target": "function:tests/test_dashboard_layout.py:test_corpus_strip_lists_agencies_when_samples_exist",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_dashboard_layout.py",
+      "target": "function:tests/test_dashboard_layout.py:test_corpus_strip_lists_agencies_when_samples_exist",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_run_forecast_returns_two_methods_with_intervals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_run_forecast_returns_two_methods_with_intervals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_month_horizon_is_not_the_quarter_point",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_month_horizon_is_not_the_quarter_point",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_stooq_used_when_yahoo_empty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_stooq_used_when_yahoo_empty",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_cache_used_when_live_sources_fail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_cache_used_when_live_sources_fail",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_no_live_history_or_cache_raises",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_no_live_history_or_cache_raises",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_forecast_for_tool_shows_two_methods_and_no_average",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_forecast_for_tool_shows_two_methods_and_no_average",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_forecast_for_tool_history_failure_is_uncertainty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_forecast_for_tool_history_failure_is_uncertainty",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_forecast_plot_payload_includes_history_and_two_paths",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_forecast_plot_payload_includes_history_and_two_paths",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_forecast_plot_payload_history_start_handles_tz_aware_index",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_forecast_plot_payload_history_start_handles_tz_aware_index",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_forecast_plot_payload_history_failure_is_uncertainty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_forecast_plot_payload_history_failure_is_uncertainty",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_forecast_for_tool_citations_still_last_horizon_scalars",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "function:tests/test_forecast.py:test_forecast_for_tool_citations_still_last_horizon_scalars",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "file:oil_gas_analyst/settings.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "file:oil_gas_analyst/types.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_consensus_price.py",
+      "target": "file:oil_gas_analyst/consensus_price.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_consensus_price.py",
+      "target": "file:oil_gas_analyst/session_start_web.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_dashboard_layout.py",
+      "target": "file:oil_gas_analyst/corpus_strip.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_dashboard_layout.py",
+      "target": "file:oil_gas_analyst/dashboard_chart.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_dashboard_layout.py",
+      "target": "file:oil_gas_analyst/dashboard.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_dashboard_layout.py",
+      "target": "file:oil_gas_analyst/forecast.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "file:oil_gas_analyst/forecast.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/test_forecast.py",
+      "target": "file:oil_gas_analyst/types.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:oil_gas_analyst/forecast.py:forecast_for_tool",
+      "target": "function:oil_gas_analyst/settings.py:maybe_traceable",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/forecast.py:forecast_plot_payload",
+      "target": "function:oil_gas_analyst/settings.py:maybe_traceable",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_consensus_price.py:test_dashboard_kpi_row_combines_close_and_consensus",
+      "target": "function:oil_gas_analyst/consensus_price.py:dashboard_kpi_row",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_dashboard_layout.py:test_rail_exclusions_hide_wikipedia",
+      "target": "function:oil_gas_analyst/session_start_web.py:visible_rail_hits",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_dashboard_layout.py:test_chart_dataframe_has_actual_and_three_forecast_series",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:chart_dataframe_from_payload",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_dashboard_layout.py:test_chart_display_dataframe_shows_last_month_plus_forecast",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:chart_display_dataframe",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_dashboard_layout.py:test_corpus_strip_lists_agencies_when_samples_exist",
+      "target": "function:oil_gas_analyst/corpus_strip.py:corpus_strip_entries",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_forecast.py:test_run_forecast_returns_two_methods_with_intervals",
+      "target": "function:oil_gas_analyst/forecast.py:run_forecast",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_forecast.py:test_month_horizon_is_not_the_quarter_point",
+      "target": "function:oil_gas_analyst/forecast.py:run_forecast",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_forecast.py:test_stooq_used_when_yahoo_empty",
+      "target": "function:oil_gas_analyst/forecast.py:load_live_history",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_forecast.py:test_cache_used_when_live_sources_fail",
+      "target": "function:oil_gas_analyst/forecast.py:load_live_history",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_forecast.py:test_no_live_history_or_cache_raises",
+      "target": "function:oil_gas_analyst/forecast.py:load_live_history",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_forecast.py:test_forecast_for_tool_shows_two_methods_and_no_average",
+      "target": "function:oil_gas_analyst/forecast.py:forecast_for_tool",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_forecast.py:test_forecast_for_tool_history_failure_is_uncertainty",
+      "target": "function:oil_gas_analyst/forecast.py:forecast_for_tool",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_forecast.py:test_forecast_plot_payload_includes_history_and_two_paths",
+      "target": "function:oil_gas_analyst/forecast.py:forecast_plot_payload",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_forecast.py:test_forecast_plot_payload_history_start_handles_tz_aware_index",
+      "target": "function:oil_gas_analyst/forecast.py:forecast_plot_payload",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_forecast.py:test_forecast_plot_payload_history_failure_is_uncertainty",
+      "target": "function:oil_gas_analyst/forecast.py:forecast_plot_payload",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_forecast.py:test_forecast_for_tool_citations_still_last_horizon_scalars",
+      "target": "function:oil_gas_analyst/forecast.py:forecast_for_tool",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "file:tests/test_dashboard_layout.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/forecast.py",
+      "target": "file:tests/test_forecast.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:tests/test_forecast.py:test_forecast_for_tool_citations_still_last_horizon_scalars",
+      "target": "function:oil_gas_analyst/forecast.py:forecast_plot_payload",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:tests/test_dashboard_layout.py:test_chart_display_dataframe_shows_last_month_plus_forecast",
+      "target": "function:oil_gas_analyst/dashboard_chart.py:chart_dataframe_from_payload",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/session_start_web.py",
+      "target": "file:tests/test_consensus_price.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/corpus_strip.py",
+      "target": "file:tests/test_dashboard_layout.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:oil_gas_analyst/types.py",
+      "target": "file:tests/test_forecast.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

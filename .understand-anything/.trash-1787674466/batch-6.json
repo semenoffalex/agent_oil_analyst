@@ -1,0 +1,199 @@
+{
+  "nodes": [
+    {
+      "id": "config:.env.example",
+      "type": "config",
+      "name": ".env.example",
+      "filePath": ".env.example",
+      "summary": "Template of runtime environment variables for chat models, OpenRouter embeddings, Ouroboros timeouts and review modes, demo login and rate limits, RAG paths, and LangSmith tracing.",
+      "tags": ["configuration", "environment", "secrets", "runtime"],
+      "complexity": "moderate",
+      "languageNotes": "dotenv-style KEY=VALUE template; copy to .env. Do not emit schema nodes for env definitions."
+    },
+    {
+      "id": "document:AGENTS.md",
+      "type": "document",
+      "name": "AGENTS.md",
+      "filePath": "AGENTS.md",
+      "summary": "Workspace guidance for coding agents: issue-tracker and domain-doc locations, learned user preferences (Russian chat, English tickets, Docker-first README), and operational facts about the Streamlit demo and production host.",
+      "tags": ["documentation", "agent-guidance", "conventions"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:CONTEXT.md",
+      "type": "document",
+      "name": "CONTEXT.md",
+      "filePath": "CONTEXT.md",
+      "summary": "Canonical glossary for the Oil and Gas Analyst product: Analyst, Demo, Eval, Chat UI, Dashboard, Session-start Web, forecast modules, and related avoid-lists, with pointers to ADRs.",
+      "tags": ["documentation", "glossary", "domain", "entry-point"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": "Human-facing Russian getting-started guide for the Streamlit Dashboard demo: Docker and local install, KPI/chat/chart layout, RAG-then-web answering, eval commands, and product limitations.",
+      "tags": ["documentation", "entry-point", "overview", "getting-started"],
+      "complexity": "moderate",
+      "languageNotes": "Primary user README is written in Russian; technical identifiers stay in English."
+    },
+    {
+      "id": "config:pyproject.toml",
+      "type": "config",
+      "name": "pyproject.toml",
+      "filePath": "pyproject.toml",
+      "summary": "setuptools packaging for the oil-gas-analyst project (Python 3.11+), package discovery under oil_gas_analyst*, and pytest pythonpath/testpaths.",
+      "tags": ["configuration", "packaging", "build-system", "pytest"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:requirements-analyst.txt",
+      "type": "document",
+      "name": "requirements-analyst.txt",
+      "filePath": "requirements-analyst.txt",
+      "summary": "Pinned pip dependencies for the Streamlit Dashboard adapter image: Streamlit, pydantic-settings, RAG/PDF, statsmodels/yfinance, and LangSmith — not the full Ouroboros skills stack.",
+      "tags": ["documentation", "dependencies", "dashboard", "streamlit"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:requirements.txt",
+      "type": "document",
+      "name": "requirements.txt",
+      "filePath": "requirements.txt",
+      "summary": "Local pip requirements for pytest, ingest CLI, and the Ouroboros skill process, including Streamlit, Chroma, Chainlit leftover, yfinance, and LangSmith.",
+      "tags": ["documentation", "dependencies", "testing", "ingest"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:task.md",
+      "type": "document",
+      "name": "task.md",
+      "filePath": "task.md",
+      "summary": "Original Russian product brief for the oil-and-gas analyst agent: role, RAG over industry reports, web search, source priority, and a computational oil-price forecast module, plus technical and deliverable requirements.",
+      "tags": ["documentation", "requirements", "specification"],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "config:.env.example",
+      "target": "file:oil_gas_analyst/dashboard.py",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:.env.example",
+      "target": "file:oil_gas_analyst/app.py",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:pyproject.toml",
+      "target": "file:oil_gas_analyst/__init__.py",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "document:README.md",
+      "target": "file:oil_gas_analyst/dashboard.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:README.md",
+      "target": "document:CONTEXT.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:README.md",
+      "target": "config:.env.example",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:README.md",
+      "target": "service:docker-compose.yml",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:AGENTS.md",
+      "target": "document:CONTEXT.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:AGENTS.md",
+      "target": "document:docs/agents/issue-tracker.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:AGENTS.md",
+      "target": "document:docs/agents/domain.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:AGENTS.md",
+      "target": "file:oil_gas_analyst/dashboard_chart.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:CONTEXT.md",
+      "target": "file:oil_gas_analyst/dashboard.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:CONTEXT.md",
+      "target": "document:docs/adr/0026-streamlit-dashboard-is-the-demo.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:requirements.txt",
+      "target": "config:pyproject.toml",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:requirements-analyst.txt",
+      "target": "file:oil_gas_analyst/dashboard.py",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:task.md",
+      "target": "document:CONTEXT.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:task.md",
+      "target": "file:oil_gas_analyst/app.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "projectRoot": "/Users/semenoffalex/Cursor/sber",
+  "batchFiles": [
+    {
+      "path": ".scratch/analyst-dashboard/research/forecast-plot-payload.md",
+      "language": "markdown",
+      "sizeLines": 141,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".scratch/analyst-dashboard/research/session-start-search-web.md",
+      "language": "markdown",
+      "sizeLines": 194,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md",
+      "language": "markdown",
+      "sizeLines": 192,
+      "fileCategory": "docs"
+    }
+  ],
+  "batchImportData": {
+    ".scratch/analyst-dashboard/research/forecast-plot-payload.md": [],
+    ".scratch/analyst-dashboard/research/session-start-search-web.md": [],
+    ".scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md": []
+  }
+}

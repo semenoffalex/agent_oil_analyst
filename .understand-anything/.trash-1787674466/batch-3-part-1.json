@@ -1,0 +1,752 @@
+{
+  "nodes": [
+    {
+      "id": "file:oil_gas_analyst/__main__.py",
+      "type": "file",
+      "name": "__main__.py",
+      "filePath": "oil_gas_analyst/__main__.py",
+      "summary": "CLI entry point for python -m oil_gas_analyst: downloads full agency reports and force-rebuilds the Chroma report index.",
+      "tags": [
+        "entry-point",
+        "cli",
+        "ingest",
+        "chroma"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Package __main__ module; run as python -m oil_gas_analyst."
+    },
+    {
+      "id": "function:oil_gas_analyst/__main__.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "oil_gas_analyst/__main__.py",
+      "lineRange": [
+        10,
+        22
+      ],
+      "summary": "Downloads full reports, builds index deps without auto-ingest, then force-runs ensure_index and prints the chunk count.",
+      "tags": [
+        "entry-point",
+        "cli",
+        "ingest"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:oil_gas_analyst/corpus_strip.py",
+      "type": "file",
+      "name": "corpus_strip.py",
+      "filePath": "oil_gas_analyst/corpus_strip.py",
+      "summary": "Builds dashboard corpus-strip entries (agency, title, date, excerpt, URL) from ingest sample config, preferring full-report links over redundant excerpts.",
+      "tags": [
+        "data-model",
+        "dashboard",
+        "corpus",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:oil_gas_analyst/corpus_strip.py:CorpusStripEntry",
+      "type": "class",
+      "name": "CorpusStripEntry",
+      "filePath": "oil_gas_analyst/corpus_strip.py",
+      "lineRange": [
+        14,
+        39
+      ],
+      "summary": "Frozen dataclass for one corpus-strip pill, with markdown and HTML link helpers for the Streamlit dashboard.",
+      "tags": [
+        "data-model",
+        "dashboard",
+        "serialization"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Frozen dataclass with computed label and escaped HTML links."
+    },
+    {
+      "id": "function:oil_gas_analyst/corpus_strip.py:corpus_strip_entries",
+      "type": "function",
+      "name": "corpus_strip_entries",
+      "filePath": "oil_gas_analyst/corpus_strip.py",
+      "lineRange": [
+        57,
+        89
+      ],
+      "summary": "Loads ingest config, drops redundant excerpts, and returns one CorpusStripEntry per agency sample with a resolvable PDF path.",
+      "tags": [
+        "factory",
+        "corpus",
+        "dashboard"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:oil_gas_analyst/deps.py",
+      "type": "file",
+      "name": "deps.py",
+      "filePath": "oil_gas_analyst/deps.py",
+      "summary": "Wires Ouroboros loop, embedding-backed Chroma retriever, and full-report downloads for CLI ingest and Streamlit chat.",
+      "tags": [
+        "factory",
+        "dependency-injection",
+        "service",
+        "ingest"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/deps.py:build_loop",
+      "type": "function",
+      "name": "build_loop",
+      "filePath": "oil_gas_analyst/deps.py",
+      "lineRange": [
+        22,
+        30
+      ],
+      "summary": "Requires API keys, resolves the Ouroboros URL, enables domain skills, and returns a configured OuroborosLoop.",
+      "tags": [
+        "factory",
+        "ouroboros",
+        "entry-point"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/deps.py:enable_domain_skills",
+      "type": "function",
+      "name": "enable_domain_skills",
+      "filePath": "oil_gas_analyst/deps.py",
+      "lineRange": [
+        33,
+        67
+      ],
+      "summary": "POSTs owner attest-review and skill toggle for playbook, retrieve, web, and forecast skills on the Ouroboros gateway.",
+      "tags": [
+        "ouroboros",
+        "service",
+        "http-client"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/deps.py:build_deps",
+      "type": "function",
+      "name": "build_deps",
+      "filePath": "oil_gas_analyst/deps.py",
+      "lineRange": [
+        70,
+        92
+      ],
+      "summary": "Constructs a ChromaRetriever with the embedding API, optionally running ensure_index when the corpus fingerprint is stale.",
+      "tags": [
+        "factory",
+        "retriever",
+        "chroma",
+        "ingest"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/deps.py:download_full_reports",
+      "type": "function",
+      "name": "download_full_reports",
+      "filePath": "oil_gas_analyst/deps.py",
+      "lineRange": [
+        106,
+        130
+      ],
+      "summary": "Downloads configured full-report PDFs into REPORTS_PATH using ingest config URLs and optional HTTP headers.",
+      "tags": [
+        "ingest",
+        "http-client",
+        "corpus"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:oil_gas_analyst/ingest.py",
+      "type": "file",
+      "name": "ingest.py",
+      "filePath": "oil_gas_analyst/ingest.py",
+      "summary": "PDF and page chunking for agency reports: heading-aware splits, token budgets, overlap, and YAML ingest-config loading.",
+      "tags": [
+        "ingest",
+        "chunking",
+        "pdf",
+        "nlp"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:oil_gas_analyst/ingest.py:_is_heading",
+      "type": "function",
+      "name": "_is_heading",
+      "filePath": "oil_gas_analyst/ingest.py",
+      "lineRange": [
+        36,
+        46
+      ],
+      "summary": "Detects section headings via compiled agency regexes or known heading-name prefixes.",
+      "tags": [
+        "chunking",
+        "parsing",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:oil_gas_analyst/ingest.py:_flush",
+      "type": "function",
+      "name": "_flush",
+      "filePath": "oil_gas_analyst/ingest.py",
+      "lineRange": [
+        96,
+        149
+      ],
+      "summary": "Emits Chunk objects from a buffered heading section, splitting on token limits with overlap and attaching agency metadata.",
+      "tags": [
+        "chunking",
+        "data-model",
+        "ingest"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/ingest.py:chunk_pages",
+      "type": "function",
+      "name": "chunk_pages",
+      "filePath": "oil_gas_analyst/ingest.py",
+      "lineRange": [
+        152,
+        208
+      ],
+      "summary": "Walks extracted PDF page texts, splits on headings, and flushes heading-bounded Chunks using ingest-config token limits.",
+      "tags": [
+        "chunking",
+        "ingest",
+        "pdf"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/ingest.py:chunk_pdf",
+      "type": "function",
+      "name": "chunk_pdf",
+      "filePath": "oil_gas_analyst/ingest.py",
+      "lineRange": [
+        211,
+        236
+      ],
+      "summary": "Extracts text from a PDF via pypdf and delegates to chunk_pages with optional ingest config and token counter.",
+      "tags": [
+        "chunking",
+        "pdf",
+        "ingest"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:oil_gas_analyst/ouroboros.py",
+      "type": "file",
+      "name": "ouroboros.py",
+      "filePath": "oil_gas_analyst/ouroboros.py",
+      "summary": "HTTP client for the Ouroboros gateway: creates a task, polls until terminal, extracts the answer, tool flags, and citations.",
+      "tags": [
+        "service",
+        "http-client",
+        "ouroboros",
+        "adapter"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Polls JSON task status over urllib with retry on supervisor startup."
+    },
+    {
+      "id": "class:oil_gas_analyst/ouroboros.py:OuroborosLoop",
+      "type": "class",
+      "name": "OuroborosLoop",
+      "filePath": "oil_gas_analyst/ouroboros.py",
+      "lineRange": [
+        26,
+        115
+      ],
+      "summary": "AnalystLoop implementation that drives one Ouroboros task to completion and maps the payload to LoopResult.",
+      "tags": [
+        "service",
+        "adapter",
+        "ouroboros"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Satisfies AnalystLoop via complete(); uses urllib rather than a third-party HTTP client."
+    },
+    {
+      "id": "function:oil_gas_analyst/ouroboros.py:complete",
+      "type": "function",
+      "name": "complete",
+      "filePath": "oil_gas_analyst/ouroboros.py",
+      "lineRange": [
+        45,
+        78
+      ],
+      "summary": "POSTs a task, polls GET until terminal or timeout, and returns LoopResult with answer text, tool flags, and citations.",
+      "tags": [
+        "ouroboros",
+        "api-handler",
+        "polling"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/ouroboros.py:_request",
+      "type": "function",
+      "name": "_request",
+      "filePath": "oil_gas_analyst/ouroboros.py",
+      "lineRange": [
+        79,
+        115
+      ],
+      "summary": "JSON HTTP helper with timeout remaining, 503 retry while the supervisor starts, and LoopError on bad payloads.",
+      "tags": [
+        "http-client",
+        "retry",
+        "ouroboros"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/ouroboros.py:_answer_text",
+      "type": "function",
+      "name": "_answer_text",
+      "filePath": "oil_gas_analyst/ouroboros.py",
+      "lineRange": [
+        122,
+        141
+      ],
+      "summary": "Pulls the user-facing answer from nested Ouroboros result shapes (string, outcome axes, or dict text fields).",
+      "tags": [
+        "parsing",
+        "ouroboros",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:oil_gas_analyst/ouroboros.py:_citations_from_text",
+      "type": "function",
+      "name": "_citations_from_text",
+      "filePath": "oil_gas_analyst/ouroboros.py",
+      "lineRange": [
+        149,
+        161
+      ],
+      "summary": "Regex-extracts report tags, markdown links, and bracketed web hosts into Citation objects.",
+      "tags": [
+        "parsing",
+        "citations",
+        "regex"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:oil_gas_analyst/__main__.py",
+      "target": "file:oil_gas_analyst/deps.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/__main__.py",
+      "target": "file:oil_gas_analyst/retrieve.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/corpus_strip.py",
+      "target": "file:oil_gas_analyst/ingest.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/corpus_strip.py",
+      "target": "file:oil_gas_analyst/retrieve.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/deps.py",
+      "target": "file:oil_gas_analyst/ingest.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/deps.py",
+      "target": "file:oil_gas_analyst/ouroboros.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/deps.py",
+      "target": "file:oil_gas_analyst/settings.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/ingest.py",
+      "target": "file:oil_gas_analyst/types.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/ouroboros.py",
+      "target": "file:oil_gas_analyst/settings.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/ouroboros.py",
+      "target": "file:oil_gas_analyst/types.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:oil_gas_analyst/__main__.py",
+      "target": "function:oil_gas_analyst/__main__.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/__main__.py",
+      "target": "function:oil_gas_analyst/__main__.py:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/corpus_strip.py",
+      "target": "class:oil_gas_analyst/corpus_strip.py:CorpusStripEntry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/corpus_strip.py",
+      "target": "class:oil_gas_analyst/corpus_strip.py:CorpusStripEntry",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/corpus_strip.py",
+      "target": "function:oil_gas_analyst/corpus_strip.py:corpus_strip_entries",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/corpus_strip.py",
+      "target": "function:oil_gas_analyst/corpus_strip.py:corpus_strip_entries",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/deps.py",
+      "target": "function:oil_gas_analyst/deps.py:build_loop",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/deps.py",
+      "target": "function:oil_gas_analyst/deps.py:build_loop",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/deps.py",
+      "target": "function:oil_gas_analyst/deps.py:enable_domain_skills",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/deps.py",
+      "target": "function:oil_gas_analyst/deps.py:enable_domain_skills",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/deps.py",
+      "target": "function:oil_gas_analyst/deps.py:build_deps",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/deps.py",
+      "target": "function:oil_gas_analyst/deps.py:build_deps",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/deps.py",
+      "target": "function:oil_gas_analyst/deps.py:download_full_reports",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/deps.py",
+      "target": "function:oil_gas_analyst/deps.py:download_full_reports",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/ingest.py",
+      "target": "function:oil_gas_analyst/ingest.py:_is_heading",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/ingest.py",
+      "target": "function:oil_gas_analyst/ingest.py:_is_heading",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/ingest.py",
+      "target": "function:oil_gas_analyst/ingest.py:_flush",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/ingest.py",
+      "target": "function:oil_gas_analyst/ingest.py:_flush",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/ingest.py",
+      "target": "function:oil_gas_analyst/ingest.py:chunk_pages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/ingest.py",
+      "target": "function:oil_gas_analyst/ingest.py:chunk_pages",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/ingest.py",
+      "target": "function:oil_gas_analyst/ingest.py:chunk_pdf",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/ingest.py",
+      "target": "function:oil_gas_analyst/ingest.py:chunk_pdf",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/ouroboros.py",
+      "target": "class:oil_gas_analyst/ouroboros.py:OuroborosLoop",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/ouroboros.py",
+      "target": "class:oil_gas_analyst/ouroboros.py:OuroborosLoop",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/ouroboros.py",
+      "target": "function:oil_gas_analyst/ouroboros.py:complete",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/ouroboros.py",
+      "target": "function:oil_gas_analyst/ouroboros.py:_request",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/ouroboros.py",
+      "target": "function:oil_gas_analyst/ouroboros.py:_answer_text",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/ouroboros.py",
+      "target": "function:oil_gas_analyst/ouroboros.py:_answer_text",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:oil_gas_analyst/ouroboros.py",
+      "target": "function:oil_gas_analyst/ouroboros.py:_citations_from_text",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:oil_gas_analyst/ouroboros.py",
+      "target": "function:oil_gas_analyst/ouroboros.py:_citations_from_text",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:oil_gas_analyst/ouroboros.py:OuroborosLoop",
+      "target": "function:oil_gas_analyst/ouroboros.py:complete",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:oil_gas_analyst/ouroboros.py:OuroborosLoop",
+      "target": "function:oil_gas_analyst/ouroboros.py:_request",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:oil_gas_analyst/__main__.py:main",
+      "target": "function:oil_gas_analyst/deps.py:download_full_reports",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/__main__.py:main",
+      "target": "function:oil_gas_analyst/deps.py:build_deps",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/deps.py:build_loop",
+      "target": "function:oil_gas_analyst/deps.py:enable_domain_skills",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/deps.py:build_loop",
+      "target": "class:oil_gas_analyst/ouroboros.py:OuroborosLoop",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/ingest.py:chunk_pages",
+      "target": "function:oil_gas_analyst/ingest.py:_is_heading",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/ingest.py:chunk_pages",
+      "target": "function:oil_gas_analyst/ingest.py:_flush",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/ingest.py:chunk_pdf",
+      "target": "function:oil_gas_analyst/ingest.py:chunk_pages",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/ingest.py:_flush",
+      "target": "class:oil_gas_analyst/types.py:Chunk",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/ouroboros.py:complete",
+      "target": "function:oil_gas_analyst/ouroboros.py:_request",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/ouroboros.py:complete",
+      "target": "function:oil_gas_analyst/ouroboros.py:_answer_text",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/ouroboros.py:complete",
+      "target": "function:oil_gas_analyst/ouroboros.py:_citations_from_text",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/ouroboros.py:complete",
+      "target": "class:oil_gas_analyst/types.py:LoopResult",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/ouroboros.py:complete",
+      "target": "class:oil_gas_analyst/types.py:LoopError",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:oil_gas_analyst/ouroboros.py:_citations_from_text",
+      "target": "class:oil_gas_analyst/types.py:Citation",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:oil_gas_analyst/ouroboros.py:OuroborosLoop",
+      "target": "class:oil_gas_analyst/types.py:AnalystLoop",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    }
+  ]
+}

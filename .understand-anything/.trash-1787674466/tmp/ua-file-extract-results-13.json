@@ -1,0 +1,294 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 7,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "docs/adr/0021-chainlit-adapter-ouroboros-loop.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 25,
+      "nonEmptyLines": 14,
+      "sections": [
+        {
+          "heading": "0021. Reviewer opens Chainlit; Ouroboros is the loop",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Status",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "Context",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Decision",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Consequences",
+          "level": 2,
+          "line": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "docs/adr/0022-live-stubs-die-infra-nets.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 30,
+      "nonEmptyLines": 19,
+      "sections": [
+        {
+          "heading": "0022. Live-model stubs die; infra safety nets may stay",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Status",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "Context",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Decision",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "Consequences",
+          "level": 2,
+          "line": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "docs/adr/0023-main-openrouter-glm52-free.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 24,
+      "nonEmptyLines": 14,
+      "sections": [
+        {
+          "heading": "0023. Main chat is OpenRouter GLM 5.2 free, thinking off",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Status",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "Context",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Decision",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Consequences",
+          "level": 2,
+          "line": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "docs/adr/0024-readme-names-ouroboros-evolve-off.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 26,
+      "nonEmptyLines": 16,
+      "sections": [
+        {
+          "heading": "0024. README names Ouroboros; evolve stays off Eval",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Status",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "Context",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Decision",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "Consequences",
+          "level": 2,
+          "line": 22
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "docs/adr/0025-openrouter-embeddings-no-local-torch.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 28,
+      "nonEmptyLines": 16,
+      "sections": [
+        {
+          "heading": "0025. Report embeddings via remote API; no local Torch",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Status",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "Context",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Decision",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Consequences",
+          "level": 2,
+          "line": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "docs/adr/0026-streamlit-dashboard-is-the-demo.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 28,
+      "nonEmptyLines": 17,
+      "sections": [
+        {
+          "heading": "0026. Streamlit Dashboard is the Demo Chat UI",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Status",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "Context",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Decision",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "Consequences",
+          "level": 2,
+          "line": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "docs/adr/0027-deepseek-direct-api-main.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 28,
+      "nonEmptyLines": 16,
+      "sections": [
+        {
+          "heading": "0027. Main chat is DeepSeek V4 Flash via DeepSeek API, thinking off",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Status",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "Context",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Decision",
+          "level": 2,
+          "line": 15
+        },
+        {
+          "heading": "Consequences",
+          "level": 2,
+          "line": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    }
+  ]
+}

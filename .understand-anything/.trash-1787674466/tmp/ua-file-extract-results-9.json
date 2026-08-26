@@ -1,0 +1,310 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": ".scratch/analyst-dashboard/research/forecast-plot-payload.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 141,
+      "nonEmptyLines": 85,
+      "sections": [
+        {
+          "heading": "What Forecast already returns for a Dashboard chart",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Verdict",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "`ForecastResult` and `MethodForecast`",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "`forecast_for_tool` JSON (what the skill / Dashboard host sees)",
+          "level": 2,
+          "line": 33
+        },
+        {
+          "heading": "`[Forecast …]` tags (`forecast_citations`)",
+          "level": 3,
+          "line": 48
+        },
+        {
+          "heading": "Daily history: returned to the tool?",
+          "level": 2,
+          "line": 60
+        },
+        {
+          "heading": "SARIMA / Holt–Winters: full horizon path or last point + interval?",
+          "level": 2,
+          "line": 72
+        },
+        {
+          "heading": "Urals and Yahoo-fail / history-fail paths",
+          "level": 2,
+          "line": 86
+        },
+        {
+          "heading": "Urals",
+          "level": 3,
+          "line": 88
+        },
+        {
+          "heading": "Live history failure (Yahoo / Stooq / thin series)",
+          "level": 3,
+          "line": 97
+        },
+        {
+          "heading": "What a Dashboard chart can draw today vs what it must add",
+          "level": 2,
+          "line": 110
+        },
+        {
+          "heading": "Drawable from existing Forecast / tool payload (no new return fields)",
+          "level": 3,
+          "line": 112
+        },
+        {
+          "heading": "Stays inside `run_forecast` / loaders and never reaches tool or tags",
+          "level": 3,
+          "line": 120
+        },
+        {
+          "heading": "What a chart would still have to add (without inventing new methods/series)",
+          "level": 3,
+          "line": 125
+        },
+        {
+          "heading": "Skill / product constraints that affect plotting",
+          "level": 2,
+          "line": 137
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 15
+      }
+    },
+    {
+      "path": ".scratch/analyst-dashboard/research/session-start-search-web.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 194,
+      "nonEmptyLines": 132,
+      "sections": [
+        {
+          "heading": "Session-start `search_for_tool` / `oil_gas_web` (ticket 08)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Can the host call it at session start (no Ouroboros task)?",
+          "level": 2,
+          "line": 12
+        },
+        {
+          "heading": "Function signatures",
+          "level": 2,
+          "line": 24
+        },
+        {
+          "heading": "`search_for_tool`",
+          "level": 3,
+          "line": 26
+        },
+        {
+          "heading": "Skill handler",
+          "level": 3,
+          "line": 40
+        },
+        {
+          "heading": "Lower-level helpers (relevant failure modes)",
+          "level": 3,
+          "line": 51
+        },
+        {
+          "heading": "Return dict shape",
+          "level": 2,
+          "line": 63
+        },
+        {
+          "heading": "`note` variants",
+          "level": 3,
+          "line": 85
+        },
+        {
+          "heading": "Citation labels `[Источник: …, web]`",
+          "level": 2,
+          "line": 96
+        },
+        {
+          "heading": "Is a query string required? Empty query?",
+          "level": 2,
+          "line": 107
+        },
+        {
+          "heading": "Empty list vs exception",
+          "level": 2,
+          "line": 125
+        },
+        {
+          "heading": "Timeouts",
+          "level": 2,
+          "line": 155
+        },
+        {
+          "heading": "DuckDuckGo-in-Docker failure modes (already documented / encoded)",
+          "level": 2,
+          "line": 167
+        },
+        {
+          "heading": "Summary for Dashboard session-start design",
+          "level": 2,
+          "line": 185
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 14
+      }
+    },
+    {
+      "path": ".scratch/analyst-dashboard/research/streamlit-ouroboros-adapter.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 192,
+      "nonEmptyLines": 127,
+      "sections": [
+        {
+          "heading": "Streamlit as thin adapter over the same Analyst turn",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Verdict",
+          "level": 2,
+          "line": 6
+        },
+        {
+          "heading": "Exact Chainlit warm / attest / toggle path",
+          "level": 2,
+          "line": 12
+        },
+        {
+          "heading": "Process start (warm)",
+          "level": 3,
+          "line": 14
+        },
+        {
+          "heading": "`build_loop()` (attest + toggle + client)",
+          "level": 3,
+          "line": 23
+        },
+        {
+          "heading": "Skill attest / toggle (exact HTTP)",
+          "level": 3,
+          "line": 32
+        },
+        {
+          "heading": "Per-message Analyst turn",
+          "level": 3,
+          "line": 50
+        },
+        {
+          "heading": "Turn → gateway (the only agent loop)",
+          "level": 3,
+          "line": 59
+        },
+        {
+          "heading": "What Streamlit should call (same Python vs HTTP-only)",
+          "level": 2,
+          "line": 77
+        },
+        {
+          "heading": "Recommended: same Python functions (thin adapter)",
+          "level": 3,
+          "line": 79
+        },
+        {
+          "heading": "HTTP-only alternative (worse for this repo)",
+          "level": 3,
+          "line": 90
+        },
+        {
+          "heading": "Metadata label",
+          "level": 3,
+          "line": 94
+        },
+        {
+          "heading": "Session, timeout, and rate-limit hooks",
+          "level": 2,
+          "line": 100
+        },
+        {
+          "heading": "Session",
+          "level": 3,
+          "line": 102
+        },
+        {
+          "heading": "Timeout",
+          "level": 3,
+          "line": 113
+        },
+        {
+          "heading": "Rate limit (Demo)",
+          "level": 3,
+          "line": 125
+        },
+        {
+          "heading": "Compose CMD / port 8000 if Streamlit replaces Chainlit",
+          "level": 2,
+          "line": 137
+        },
+        {
+          "heading": "Current shape",
+          "level": 3,
+          "line": 139
+        },
+        {
+          "heading": "Implications of replace",
+          "level": 3,
+          "line": 145
+        },
+        {
+          "heading": "Risks of two UIs in one image",
+          "level": 2,
+          "line": 159
+        },
+        {
+          "heading": "Glossary (how this ticket maps)",
+          "level": 2,
+          "line": 176
+        },
+        {
+          "heading": "Out of scope for this research",
+          "level": 2,
+          "line": 188
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 22
+      }
+    }
+  ]
+}

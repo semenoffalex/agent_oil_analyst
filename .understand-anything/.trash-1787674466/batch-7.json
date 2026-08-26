@@ -1,0 +1,149 @@
+{
+  "nodes": [
+    {
+      "id": "document:.scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md",
+      "type": "document",
+      "name": "01-forecast-plot-payload.md",
+      "filePath": ".scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md",
+      "summary": "Done issue specifying the Forecast plot payload: Brent daily history plus separate SARIMA and Holt–Winters 21-day paths, no averaged series, no Urals proxy, and loader failure as uncertainty rather than invented prices.",
+      "tags": ["documentation", "issue-tracker", "forecast", "dashboard", "payload"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md",
+      "type": "document",
+      "name": "02-streamlit-is-the-chat-ui.md",
+      "filePath": ".scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md",
+      "summary": "Done issue requiring Streamlit on port 8000 as the Demo chat UI after one compose command, with the same Ouroboros Analyst turn, demo rate limit, and safety nets; Chainlit is not the click target.",
+      "tags": ["documentation", "issue-tracker", "streamlit", "chat-ui", "ouroboros"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md",
+      "type": "document",
+      "name": "03-session-start-web-on-the-rail.md",
+      "filePath": ".scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md",
+      "summary": "Done issue for a single host Web fetch at Streamlit session start using a canned Brent/OPEC+ query, showing denylist-filtered hits on the rail and injecting them into later turns without inventing headlines.",
+      "tags": ["documentation", "issue-tracker", "web-search", "dashboard", "session"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md",
+      "type": "document",
+      "name": "04-layout-c-around-chat.md",
+      "filePath": ".scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md",
+      "summary": "Done issue locking Demo layout variant C: KPI row on top, Session-start Web on the left, Forecast chart stacked over chat on the right, with Brent actuals plus two method paths and refresh-on-request only.",
+      "tags": ["documentation", "issue-tracker", "layout", "dashboard", "streamlit"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md",
+      "type": "document",
+      "name": "05-readme-and-eval-on-streamlit.md",
+      "filePath": ".scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md",
+      "summary": "Done issue requiring the README to name Streamlit as Chat UI and Ouroboros as the loop, and to run the five README dialogues as live Eval on the Dashboard at port 8000 rather than Chainlit.",
+      "tags": ["documentation", "issue-tracker", "readme", "eval", "streamlit"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:.scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md",
+      "target": "file:oil_gas_analyst/dashboard_chart.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md",
+      "target": "file:oil_gas_analyst/dashboard.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md",
+      "target": "file:oil_gas_analyst/chat_ui.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md",
+      "target": "file:oil_gas_analyst/dashboard.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md",
+      "target": "document:.scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md",
+      "target": "file:oil_gas_analyst/dashboard.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md",
+      "target": "file:oil_gas_analyst/dashboard_chart.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md",
+      "target": "document:.scratch/analyst-dashboard-build/issues/01-forecast-plot-payload.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md",
+      "target": "document:.scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md",
+      "target": "document:.scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md",
+      "target": "document:README.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md",
+      "target": "document:.scratch/analyst-dashboard-build/issues/02-streamlit-is-the-chat-ui.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md",
+      "target": "document:.scratch/analyst-dashboard-build/issues/03-session-start-web-on-the-rail.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.scratch/analyst-dashboard-build/issues/05-readme-and-eval-on-streamlit.md",
+      "target": "document:.scratch/analyst-dashboard-build/issues/04-layout-c-around-chat.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

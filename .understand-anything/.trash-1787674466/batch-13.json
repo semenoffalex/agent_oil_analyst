@@ -1,0 +1,125 @@
+{
+  "nodes": [
+    {
+      "id": "document:docs/adr/0021-chainlit-adapter-ouroboros-loop.md",
+      "type": "document",
+      "name": "0021-chainlit-adapter-ouroboros-loop.md",
+      "filePath": "docs/adr/0021-chainlit-adapter-ouroboros-loop.md",
+      "summary": "ADR that made Chainlit on port 8000 an adapter over the Ouroboros agent loop (not LangGraph), with :8765 remaining an internal gateway. Status is superseded for the click target by ADR 0026 (Streamlit Dashboard).",
+      "tags": ["documentation", "architecture-decision", "chat-ui", "ouroboros", "adapter"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0022-live-stubs-die-infra-nets.md",
+      "type": "document",
+      "name": "0022-live-stubs-die-infra-nets.md",
+      "filePath": "docs/adr/0022-live-stubs-die-infra-nets.md",
+      "summary": "Accepted ADR forbidding host patches of live model output (fake citations, out-of-scope dictionaries, chunk restore/re-rank, route lists as routers) while allowing infra safety nets on timeout, HTTP 500, or empty completions.",
+      "tags": ["documentation", "architecture-decision", "stubs", "citations", "safety-net"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0023-main-openrouter-glm52-free.md",
+      "type": "document",
+      "name": "0023-main-openrouter-glm52-free.md",
+      "filePath": "docs/adr/0023-main-openrouter-glm52-free.md",
+      "summary": "ADR that pinned Main chat to OpenRouter z-ai/glm-5.2:free with thinking off and loud failure on missing keys or dead :free ids. Status is superseded for chat by ADR 0027 (DeepSeek direct API).",
+      "tags": ["documentation", "architecture-decision", "llm", "openrouter", "chat"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0024-readme-names-ouroboros-evolve-off.md",
+      "type": "document",
+      "name": "0024-readme-names-ouroboros-evolve-off.md",
+      "filePath": "docs/adr/0024-readme-names-ouroboros-evolve-off.md",
+      "summary": "Accepted ADR requiring the README to name Ouroboros as the conversation runtime, domain tools as reviewed skills, and /evolve off (runtime_mode=light) so graders do not mistake the demo for LangGraph.",
+      "tags": ["documentation", "architecture-decision", "readme", "ouroboros", "eval"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0025-openrouter-embeddings-no-local-torch.md",
+      "type": "document",
+      "name": "0025-openrouter-embeddings-no-local-torch.md",
+      "filePath": "docs/adr/0025-openrouter-embeddings-no-local-torch.md",
+      "summary": "Accepted ADR that retrieve/ingest must call a remote OpenAI-compatible embeddings API (default LAN LM Studio e5) with no local Torch, SentenceTransformer, or baked Hugging Face weights; Chroma still stores vectors in-process.",
+      "tags": ["documentation", "architecture-decision", "embeddings", "rag", "infrastructure"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0026-streamlit-dashboard-is-the-demo.md",
+      "type": "document",
+      "name": "0026-streamlit-dashboard-is-the-demo.md",
+      "filePath": "docs/adr/0026-streamlit-dashboard-is-the-demo.md",
+      "summary": "Accepted ADR making the Streamlit Dashboard at :8000 the demo chat UI: session-start web rail, Brent forecast chart, and report corpus strip around chat, with Streamlit calling Ouroboros run_turn and Chainlit removed from the demo image.",
+      "tags": ["documentation", "architecture-decision", "streamlit", "dashboard", "demo"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/adr/0027-deepseek-direct-api-main.md",
+      "type": "document",
+      "name": "0027-deepseek-direct-api-main.md",
+      "filePath": "docs/adr/0027-deepseek-direct-api-main.md",
+      "summary": "Accepted ADR pinning Main chat to deepseek-v4-flash via DeepSeek API on the openai-compatible Ouroboros lane, thinking off, with compose splitting DEEPSEEK_API_KEY to ouroboros and OPENROUTER_API_KEY to analyst embeddings.",
+      "tags": ["documentation", "architecture-decision", "llm", "deepseek", "chat"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:docs/adr/0021-chainlit-adapter-ouroboros-loop.md",
+      "target": "document:docs/adr/0026-streamlit-dashboard-is-the-demo.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0023-main-openrouter-glm52-free.md",
+      "target": "document:docs/adr/0027-deepseek-direct-api-main.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0024-readme-names-ouroboros-evolve-off.md",
+      "target": "document:docs/adr/0021-chainlit-adapter-ouroboros-loop.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0025-openrouter-embeddings-no-local-torch.md",
+      "target": "document:docs/adr/0023-main-openrouter-glm52-free.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0026-streamlit-dashboard-is-the-demo.md",
+      "target": "document:docs/adr/0021-chainlit-adapter-ouroboros-loop.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0026-streamlit-dashboard-is-the-demo.md",
+      "target": "document:docs/adr/0024-readme-names-ouroboros-evolve-off.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0027-deepseek-direct-api-main.md",
+      "target": "document:docs/adr/0023-main-openrouter-glm52-free.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/adr/0027-deepseek-direct-api-main.md",
+      "target": "document:docs/adr/0025-openrouter-embeddings-no-local-torch.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}
