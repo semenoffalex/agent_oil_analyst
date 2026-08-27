@@ -8,6 +8,7 @@ data/reports/
 data/chroma/
 data/forecast_cache/
 data/top_news_cache/
+data/topics_cache/
 *.pyc
 .DS_Store
 .pytest_cache/
@@ -21,6 +22,7 @@ data/reports/
 data/chroma/
 data/forecast_cache/
 data/top_news_cache/
+data/topics_cache/
 *.pyc
 .DS_Store
 task.md

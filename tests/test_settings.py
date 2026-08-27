@@ -149,6 +149,13 @@ def test_compose_publishes_streamlit_only_and_pins_light_mode():
     assert "statsmodels" in analyst_req
     assert "yfinance" in analyst_req
     assert "ddgs" in analyst_req
+    assert "hdbscan" in analyst_req
+    assert "umap-learn" in analyst_req
+    assert "torch" not in analyst_req
+    assert "bertopic" not in analyst_req
+    assert "sentence-transformers" not in analyst_req
+    assert "topics_cache" in text
+    assert "oil_gas_topics" in Path("docker/ouroboros-entrypoint.sh").read_text(encoding="utf-8")
     assert "OUROBOROS_RUNTIME_MODE: light" in text
     assert "OUROBOROS_TASK_REVIEW_MODE: off" in text
     assert "OUROBOROS_EFFORT_TASK: none" in text

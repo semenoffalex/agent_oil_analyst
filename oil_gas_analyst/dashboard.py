@@ -33,12 +33,23 @@ from oil_gas_analyst.session_start_web import (
     refresh_top_news_hits,
     visible_rail_hits,
 )
+from oil_gas_analyst.topic_dynamics import (
+    TOPIC_CHART_EMPTY_COPY,
+    TOPIC_PANEL_TITLE,
+    TOPIC_REFRESH_COPY,
+    load_cached_topic_payload,
+    posts_for_topic,
+    refresh_topic_dynamics_payload,
+    topic_chart_dataframe,
+    topic_payload_is_fresh,
+    topic_streamgraph_altair,
+)
 
 _INFRA_MSG = "I hit an infrastructure error and will not invent figures. ({exc})"
 _DEFAULT_HORIZON = 21
 _CHAT_HINT = "Спросите о цене Brent, решениях ОПЕК+, прогнозе или заголовках из ленты выше."
 _CHAT_INPUT_PLACEHOLDER = "Например: как изменилась цена Brent за последнюю неделю?"
-_CHAT_EXECUTOR = concurrent.futures.ThreadPoolExecutor(max_workers=3, thread_name_prefix="analyst-chat")
+_CHAT_EXECUTOR = concurrent.futures.ThreadPoolExecutor(max_workers=4, thread_name_prefix="analyst-chat")
 _CHART_LOADING_COPY = "Загрузка графика Brent…"
 _CHAT_LOADING_COPY = "Подключение чата…"
 _THINKING_COPY = "Аналитик готовит ответ… Обычно это занимает 30–60 секунд."
@@ -52,6 +63,7 @@ _WORKSPACE_RESIZE_HTML = """
   const root = doc.documentElement;
   const chartChrome = 76;
   const bottomGap = 8;
+  const topicsReserve = 340;
 
   function workspaceRow() {
     return doc.querySelector(
@@ -63,7 +75,7 @@ _WORKSPACE_RESIZE_HTML = """
     const row = workspaceRow();
     if (!row) return;
     const top = row.getBoundingClientRect().top;
-    const height = Math.max(220, Math.floor(host.innerHeight - top - bottomGap));
+    const height = Math.max(220, Math.floor(host.innerHeight - top - bottomGap - topicsReserve));
     root.style.setProperty("--workspace-height", height + "px");
     root.style.setProperty(
       "--chart-plot-height",
@@ -104,17 +116,19 @@ _DASHBOARD_CSS = """
     header[data-testid="stHeader"] {background: transparent;}
     .stApp {overflow-x: hidden;}
     footer, [data-testid="stFooter"] {visibility: hidden; height: 0;}
-    [data-testid="stVerticalBlock"]:has(iframe[title="streamlit_components_v1"]) {
+    iframe[title="streamlit_components_v1"] {
+        display: block;
+        height: 0 !important;
+        border: 0;
+    }
+    /* Only collapse the html() shim, not every ancestor that contains it. */
+    [data-testid="stElementContainer"]:has(> iframe[title="streamlit_components_v1"]),
+    [data-testid="element-container"]:has(> iframe[title="streamlit_components_v1"]) {
         height: 0 !important;
         min-height: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
         overflow: hidden !important;
-    }
-    iframe[title="streamlit_components_v1"] {
-        display: block;
-        height: 0 !important;
-        border: 0;
     }
     [data-testid="stAppViewContainer"] {padding-bottom: 0;}
     .block-container, [data-testid="stMainBlockContainer"] {
@@ -282,6 +296,18 @@ _DASHBOARD_CSS = """
     .kpi-corpus-line a:hover {
         text-decoration: underline;
     }
+    .topic-post {
+        font-size: 0.85rem;
+        line-height: 1.35;
+        margin-bottom: 0.35rem;
+    }
+    .topic-post a {
+        color: rgba(96, 165, 250, 0.95);
+        text-decoration: none;
+    }
+    .topic-post a:hover {
+        text-decoration: underline;
+    }
     @keyframes analyst-avatar-pulse {
         0%, 100% { opacity: 1; transform: scale(1); }
         50% { opacity: 0.62; transform: scale(0.94); }
@@ -351,6 +377,9 @@ def _logout_demo_session() -> None:
         "_ouroboros_ready",
         "_ouroboros_error",
         "_dashboard_refresh_started",
+        "topic_payload",
+        "_topics_hydrated",
+        "_topics_refresh_future",
     ):
         st.session_state.pop(key, None)
 
@@ -367,6 +396,16 @@ def _hydrate_news_from_disk() -> list[SessionStartRailHit]:
     return hits
 
 
+def _hydrate_topics_from_disk() -> dict | None:
+    if st.session_state.get("_topics_hydrated"):
+        return st.session_state.get("topic_payload")
+    cached = load_cached_topic_payload()
+    if cached is not None:
+        st.session_state.topic_payload = cached
+    st.session_state._topics_hydrated = True
+    return st.session_state.get("topic_payload")
+
+
 def _hydrate_from_disk_caches() -> None:
     _hydrate_news_from_disk()
     if "brent_chart_payload" not in st.session_state:
@@ -374,6 +413,7 @@ def _hydrate_from_disk_caches() -> None:
         if cached is not None:
             st.session_state.brent_chart_payload = cached
             st.session_state.brent_chart_horizon = int(cached.get("horizon_days") or _DEFAULT_HORIZON)
+    _hydrate_topics_from_disk()
 
 
 def _chart_refresh_in_progress() -> bool:
@@ -383,6 +423,11 @@ def _chart_refresh_in_progress() -> bool:
 
 def _news_refresh_in_progress() -> bool:
     future = st.session_state.get("_news_refresh_future")
+    return isinstance(future, concurrent.futures.Future) and not future.done()
+
+
+def _topics_refresh_in_progress() -> bool:
+    future = st.session_state.get("_topics_refresh_future")
     return isinstance(future, concurrent.futures.Future) and not future.done()
 
 
@@ -398,6 +443,12 @@ def _start_background_refreshes() -> None:
         )
     if not _news_refresh_in_progress():
         st.session_state._news_refresh_future = _CHAT_EXECUTOR.submit(refresh_top_news_hits)
+    if not _topics_refresh_in_progress() and not topic_payload_is_fresh(
+        st.session_state.get("topic_payload")
+    ):
+        st.session_state._topics_refresh_future = _CHAT_EXECUTOR.submit(
+            refresh_topic_dynamics_payload
+        )
     if not st.session_state.get("_ouroboros_ready") and "_ouroboros_future" not in st.session_state:
         st.session_state._ouroboros_future = _CHAT_EXECUTOR.submit(wait_loop)
 
@@ -426,6 +477,15 @@ def _collect_background_refreshes() -> bool:
         except Exception:
             pass
         st.session_state.pop("_news_refresh_future", None)
+        updated = True
+
+    topics_future = st.session_state.get("_topics_refresh_future")
+    if isinstance(topics_future, concurrent.futures.Future) and topics_future.done():
+        try:
+            st.session_state.topic_payload = topics_future.result()
+        except Exception:
+            pass
+        st.session_state.pop("_topics_refresh_future", None)
         updated = True
 
     ouroboros_future = st.session_state.get("_ouroboros_future")
@@ -748,6 +808,76 @@ def _render_chart_panel(payload: dict | None, *, refreshing: bool = False) -> No
         st.altair_chart(brent_chart_altair(display_frame, height=280), use_container_width=True)
 
 
+def _render_topic_panel(payload: dict | None, *, refreshing: bool = False) -> None:
+    title_col, btn_col = st.columns([8, 1])
+    with title_col:
+        st.subheader(TOPIC_PANEL_TITLE)
+        if refreshing or _topics_refresh_in_progress():
+            st.caption(TOPIC_REFRESH_COPY)
+    with btn_col:
+        if st.button(
+            "Обновить темы",
+            key="topics_refresh",
+            use_container_width=True,
+            disabled=refreshing or _topics_refresh_in_progress(),
+        ):
+            st.session_state._topics_refresh_future = _CHAT_EXECUTOR.submit(
+                lambda: refresh_topic_dynamics_payload(force=True)
+            )
+            st.rerun()
+
+    if payload is None:
+        if refreshing or _topics_refresh_in_progress():
+            with st.spinner(TOPIC_REFRESH_COPY):
+                st.caption("Кластеризуем посты Reddit…")
+            return
+        st.caption(TOPIC_CHART_EMPTY_COPY)
+        return
+
+    frame = topic_chart_dataframe(payload)
+    if frame is None:
+        st.caption(TOPIC_CHART_EMPTY_COPY)
+        if payload.get("unavailable_reason"):
+            st.caption(str(payload["unavailable_reason"]))
+        return
+
+    chart = topic_streamgraph_altair(frame, height=280)
+    st.altair_chart(chart, use_container_width=True)
+    topics = payload.get("topics") or []
+    if not topics:
+        return
+    labels = [str(row.get("label") or row.get("key")) for row in topics]
+    try:
+        picked = st.pills("Тема", labels, key="topic_drill_label")
+    except Exception:
+        picked = st.radio("Тема", labels, index=None, horizontal=True, key="topic_drill_label")
+    if not picked:
+        st.caption("Выберите тему, чтобы увидеть посты за 30 дней.")
+        return
+    topic_key = next(
+        (str(row["key"]) for row in topics if str(row.get("label")) == str(picked)),
+        None,
+    )
+    if not topic_key:
+        return
+    label = next(
+        (str(row["label"]) for row in (payload.get("topics") or []) if row.get("key") == topic_key),
+        topic_key,
+    )
+    rows = posts_for_topic(payload, topic_key)
+    st.caption(f"{label} · до {len(rows)} постов за окно")
+    for row in rows:
+        title = html.escape(str(row.get("title") or "")[:140])
+        url = html.escape(str(row.get("url") or ""), quote=True)
+        sub = html.escape(str(row.get("subreddit") or ""))
+        n = int(row.get("num_comments") or 0)
+        st.markdown(
+            f'<div class="topic-post"><a href="{url}" target="_blank" rel="noopener">{title}</a>'
+            f" · r/{sub} · {n} комм.</div>",
+            unsafe_allow_html=True,
+        )
+
+
 def _render_header(*, show_logout: bool) -> bool:
     """Title row. Returns True when the user clicked logout."""
     title_col, logout_col = st.columns([8, 1])
@@ -857,8 +987,10 @@ def main() -> None:
 
     chart_payload = _ensure_chart_payload()
     news_hits = _ensure_session_start_web()
+    topic_payload = st.session_state.get("topic_payload")
     chart_refreshing = _chart_refresh_in_progress()
     news_refreshing = _news_refresh_in_progress()
+    topics_refreshing = _topics_refresh_in_progress()
 
     _render_kpi_corpus_row(chart_payload, news_hits)
     _render_news_pills(news_hits, max_cards=5, refreshing=news_refreshing)
@@ -868,6 +1000,7 @@ def main() -> None:
         _render_chat_panel(busy=_chat_turn_pending())
     with chart_col:
         _render_chart_panel(chart_payload, refreshing=chart_refreshing)
+    _render_topic_panel(topic_payload, refreshing=topics_refreshing)
 
 
 if __name__ == "__main__":

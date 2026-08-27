@@ -30,6 +30,7 @@ services:
       SAMPLES_PATH: /opt/analyst/data/samples
       REPORTS_PATH: /data/reports
       FORECAST_CACHE_PATH: /data/forecast_cache
+      TOPICS_CACHE_PATH: /data/topics_cache
       EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-https://openrouter.ai/api/v1}
       EMBEDDING_MODEL: ${EMBEDDING_MODEL:-nvidia/nemotron-3-embed-1b:free}
       EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-${OPENROUTER_API_KEY}}
@@ -49,6 +50,7 @@ services:
       - chroma_data:/data/chroma
       - reports_data:/data/reports
       - forecast_cache:/data/forecast_cache
+      - topics_cache:/data/topics_cache
     expose:
       - "8765"
     healthcheck:
@@ -81,6 +83,7 @@ services:
       REPORTS_PATH: /app/data/reports
       FORECAST_CACHE_PATH: /app/data/forecast_cache
       TOP_NEWS_CACHE_PATH: /app/data/top_news_cache
+      TOPICS_CACHE_PATH: /app/data/topics_cache
       EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-https://openrouter.ai/api/v1}
       EMBEDDING_MODEL: ${EMBEDDING_MODEL:-nvidia/nemotron-3-embed-1b:free}
       EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-${OPENROUTER_API_KEY}}
@@ -102,6 +105,7 @@ services:
       - reports_data:/app/data/reports
       - forecast_cache:/app/data/forecast_cache
       - top_news_cache:/app/data/top_news_cache
+      - topics_cache:/app/data/topics_cache
     depends_on:
       ouroboros:
         condition: service_healthy
@@ -113,3 +117,4 @@ volumes:
   reports_data:
   forecast_cache:
   top_news_cache:
+  topics_cache:

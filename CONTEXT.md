@@ -29,7 +29,7 @@ The Streamlit **Dashboard** window on port 8000. An adapter over the Ouroboros l
 _Avoid_: Chainlit as the live window, Gradio, FastAPI front, Ouroboros `:8765` as the click target for acceptance
 
 **Dashboard**:
-The Demo page: chat in the centre, framed by Session-start Web, a Brent chart of **actuals + 21-day Forecast**, and Report corpus dates. For a senior bank executive; it is the expanded Demo, not a second product ([0026](docs/adr/0026-streamlit-dashboard-is-the-demo.md)).
+The Demo page: chat in the centre, framed by Session-start Web, a Brent chart of **actuals + 21-day Forecast**, a **ThemeRiver of oil Reddit topics** (30 Moscow days, comment volume), and Report corpus dates. For a senior bank executive; it is the expanded Demo, not a second product ([0026](docs/adr/0026-streamlit-dashboard-is-the-demo.md), [0028](docs/adr/0028-reddit-oil-topic-themeriver.md)).
 _Avoid_: terminal, Bloomberg clone, second Analyst, P&L, averaging the two Forecast methods, Urals on the chart without a series
 
 **Session-start Web**:

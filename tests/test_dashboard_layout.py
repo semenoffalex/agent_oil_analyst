@@ -23,7 +23,14 @@ def test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top():
     rail_pos = main_block.index("_render_news_pills(")
     chat_pos = main_block.index("_render_chat_panel(")
     chart_pos = main_block.index("_render_chart_panel(")
-    assert kpi_pos < rail_pos < chat_pos < chart_pos
+    topics_pos = main_block.index("_render_topic_panel(")
+    assert kpi_pos < rail_pos < chat_pos < chart_pos < topics_pos
+    assert "chat_col, chart_col = st.columns" in main_block
+    assert "_render_topic_panel" in text
+    assert "topicsReserve" in text
+    assert "topic_streamgraph_altair" in text
+    assert "st.pills" in text
+    assert "Обновить темы" in text
     assert "chat_col, chart_col = st.columns" in main_block
     assert "--workspace-height" in text
     assert "_WORKSPACE_RESIZE_HTML" in text

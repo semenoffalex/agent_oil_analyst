@@ -5,6 +5,10 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY requirements-analyst.txt .
 RUN pip install --no-cache-dir --default-timeout=300 --retries 5 -r requirements-analyst.txt
 
@@ -21,6 +25,7 @@ ENV CHROMA_PATH=/app/data/chroma
 ENV SAMPLES_PATH=/app/data/samples
 ENV REPORTS_PATH=/app/data/reports
 ENV TOP_NEWS_CACHE_PATH=/app/data/top_news_cache
+ENV TOPICS_CACHE_PATH=/app/data/topics_cache
 ENV OUROBOROS_URL=http://ouroboros:8765
 ENV EMBEDDING_BASE_URL=https://openrouter.ai/api/v1
 ENV EMBEDDING_MODEL=nvidia/nemotron-3-embed-1b:free

@@ -31,7 +31,7 @@ def build_loop() -> OuroborosLoop:
 
 
 def enable_domain_skills(base_url: str) -> None:
-    """Owner-attest and enable playbook, retrieve, Web, and Forecast skills.
+    """Owner-attest and enable playbook, retrieve, Web, Forecast, and topics skills.
 
     Failures are logged; a missing enable is a broken Demo, not a silent LangGraph fallback.
     """
@@ -41,7 +41,13 @@ def enable_domain_skills(base_url: str) -> None:
     import urllib.request
 
     root = base_url.rstrip("/")
-    for name in ("oil_gas_analyst", "oil_gas_retrieve", "oil_gas_web", "oil_gas_forecast"):
+    for name in (
+        "oil_gas_analyst",
+        "oil_gas_retrieve",
+        "oil_gas_web",
+        "oil_gas_forecast",
+        "oil_gas_topics",
+    ):
         for path, body in (
             (f"/api/owner/skills/{name}/attest-review", {}),
             (f"/api/skills/{name}/toggle", {"enabled": True}),

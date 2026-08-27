@@ -26,6 +26,7 @@ Single-context: root `CONTEXT.md` and `docs/adr/`. See `docs/agents/domain.md`.
 - Local dev: `docker compose up --build` serves Streamlit on `http://localhost:8000`; rebuild the `analyst` image when code changes are not reflected.
 - Demo UI is Streamlit (not Chainlit); Ouroboros runs internally on `:8765`.
 - Brent chart (`oil_gas_analyst/dashboard_chart.py`): `chart_display_dataframe` shows ~22 trading days of actuals plus the forecast window; AutoARIMA, UnobservedComponents, and AutoReg lines toggle via checkboxes in `dashboard.py`; Y-axis minimum is `CHART_Y_AXIS_MIN` via Altair `brent_chart_altair`.
+- Topic ThemeRiver (`oil_gas_analyst/topic_dynamics.py`): 30 Moscow days of Arctic Shift Reddit posts (`r/oil`, `r/energy`, `r/CrudeOil`, `r/commodities`), keyword filter, UMAP/HDBSCAN on Nemotron embeddings, DeepSeek Russian labels, JSON cache `TOPICS_CACHE_PATH`, skill `oil_gas_topics`. Width is comment counts, not shares. No Torch/BERTopic package.
 - After cloning `agent_oil_analyst` from GitHub, check out `dev` (`origin/dev` is not necessarily the default clone branch).
 - Embeddings go through the local API at `192.168.0.55:1234`. `MAIN_CHAT_MODEL`, `OUROBOROS_MODEL`, and `EVAL_CHAT_MODEL` are separate env vars (OpenRouter ids; `:free` slugs rotate).
 - LangSmith traces use project `pr-drab-realization-91`.

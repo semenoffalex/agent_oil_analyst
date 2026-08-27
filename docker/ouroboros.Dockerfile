@@ -39,6 +39,7 @@ COPY skills/oil_gas_analyst /seed/skills/oil_gas_analyst
 COPY skills/oil_gas_retrieve /seed/skills/oil_gas_retrieve
 COPY skills/oil_gas_web /seed/skills/oil_gas_web
 COPY skills/oil_gas_forecast /seed/skills/oil_gas_forecast
+COPY skills/oil_gas_topics /seed/skills/oil_gas_topics
 COPY oil_gas_analyst /opt/analyst/oil_gas_analyst
 COPY config /opt/analyst/config
 COPY data/samples /opt/analyst/data/samples
@@ -63,6 +64,7 @@ ENV OUROBOROS_SERVER_HOST=0.0.0.0 \
     SAMPLES_PATH=/opt/analyst/data/samples \
     REPORTS_PATH=/data/reports \
     FORECAST_CACHE_PATH=/data/forecast_cache \
+    TOPICS_CACHE_PATH=/data/topics_cache \
     EMBEDDING_BASE_URL=https://openrouter.ai/api/v1 \
     EMBEDDING_MODEL=nvidia/nemotron-3-embed-1b:free
 

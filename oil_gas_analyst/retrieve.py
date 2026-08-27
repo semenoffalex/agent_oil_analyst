@@ -36,10 +36,12 @@ class IndexPlan:
 
 
 def _prefer_ipv4(url: str) -> str:
-    """Resolve host.docker.internal (and similar) to IPv4 so urllib does not hang on IPv6."""
+    """Rewrite Docker DNS names to IPv4. Do not rewrite public HTTPS hosts (breaks TLS)."""
     parsed = urlparse(url)
     host = parsed.hostname
     if not host:
+        return url
+    if host not in {"host.docker.internal", "localhost"} and not host.endswith(".internal"):
         return url
     try:
         ipv4 = socket.getaddrinfo(host, parsed.port or 80, socket.AF_INET)[0][4][0]
@@ -84,6 +86,7 @@ class OpenAICompatibleEmbeddingFunction:
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self._api_key}",
+            "User-Agent": "oil-gas-analyst/0.1",
         }
         if "openrouter.ai" in self._url:
             headers["HTTP-Referer"] = os.environ.get(

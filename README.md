@@ -4,9 +4,9 @@
 
 Под капотом разговор ведёт **Ouroboros** (вместо LangGraph): модель сама решает, что вызвать и когда остановиться. 
 
-**Streamlit Dashboard** на порту **8000** — Chat UI и адаптер, не второй агент. После `docker compose up` откройте [http://localhost:8000](http://localhost:8000): сверху — KPI (котировка Brent, консенсус по отчётам и новостям, средний прогноз трёх моделей, корпус OPEC/EIA/ЦБ), лента ТОП новостей, слева чат, справа график Brent с прогнозом. Ouroboros SPA на `:8765` для приёмки не нужен — цикл доказывается в этом репозитории (adapter, skills, compose). 
+**Streamlit Dashboard** на порту **8000** — Chat UI и адаптер, не второй агент. После `docker compose up` откройте [http://localhost:8000](http://localhost:8000): сверху — KPI (котировка Brent, консенсус по отчётам и новостям, средний прогноз трёх моделей, корпус OPEC/EIA/ЦБ), лента ТОП новостей, слева чат, справа график Brent с прогнозом, ниже — ThemeRiver ключевых нефтяных тем Reddit за 30 дней. Ouroboros SPA на `:8765` для приёмки не нужен — цикл доказывается в этом репозитории (adapter, skills, compose). 
 
-Поиск по отчётам, веб (с denylist) и прогноз — **reviewed skills** в этом репозитории. Команда `/evolve` **выключена** (`runtime_mode=light`), чтобы агент не переписывал сам себя посреди демо.
+Поиск по отчётам, веб (с denylist), прогноз и обзор Reddit-тем — **reviewed skills** в этом репозитории. Команда `/evolve` **выключена** (`runtime_mode=light`), чтобы агент не переписывал сам себя посреди демо.
 
 Словарь терминов: `[CONTEXT.md](CONTEXT.md)`. Решения — в `[docs/adr/](docs/adr/)`.
 
@@ -109,8 +109,8 @@ Denylist неполный: таблоид не из списка может пр
 Цель цикла — публичный **Demo** по URL, без клонирования репозитория ([ADR 0017](docs/adr/0017-next-cycle-is-public-demo.md)). 
 
 - [x] Цикл Ouroboros за Streamlit Dashboard `:8000` ([0026](docs/adr/0026-streamlit-dashboard-is-the-demo.md))
-- [x] Report, Web и Forecast как reviewed skills
-- [x] Dashboard layout C: KPI, новости, чат, график Brent
+- [x] Report, Web, Forecast и Reddit-темы как reviewed skills
+- [x] Dashboard layout C: KPI, новости, чат, график Brent, ThemeRiver тем
 - [x] Базовая память чата в рамках Streamlit-сессии
 - [ ] Скиллы на скачивание свежих отчётов
 - [ ] Долговременная память (Postgres / Route-list)
