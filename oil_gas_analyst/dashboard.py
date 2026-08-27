@@ -34,6 +34,8 @@ from oil_gas_analyst.session_start_web import (
     visible_rail_hits,
 )
 from oil_gas_analyst.topic_dynamics import (
+    OTHER_KEY,
+    OTHER_LABEL,
     TOPIC_CHART_EMPTY_COPY,
     TOPIC_PANEL_TITLE,
     TOPIC_REFRESH_COPY,
@@ -844,6 +846,12 @@ def _render_topic_panel(payload: dict | None, *, refreshing: bool = False) -> No
     chart = topic_streamgraph_altair(frame, height=280)
     st.altair_chart(chart, use_container_width=True)
     topics = payload.get("topics") or []
+    other = next((row for row in topics if row.get("key") == OTHER_KEY), None)
+    if other and int(other.get("size") or 0) > 0:
+        st.caption(
+            f"Река — топ-темы по комментариям. «{OTHER_LABEL}»: "
+            f"{int(other['size'])} постов вне кластеров, на графике скрыты."
+        )
     if not topics:
         return
     labels = [str(row.get("label") or row.get("key")) for row in topics]

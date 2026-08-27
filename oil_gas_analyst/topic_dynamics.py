@@ -28,16 +28,30 @@ _MOSCOW = ZoneInfo("Europe/Moscow")
 
 WINDOW_DAYS = 30
 CACHE_TTL_SEC = 6 * 3600
+TOPIC_SIM_MAX = 0.58
 TOP_TOPIC_COUNT = 6
 DRILL_IN_LIMIT = 20
-MAX_POSTS_PER_SUB = 150
+MAX_POSTS_PER_SUB = 800
+# r/energy is huge; ``query=oil`` keeps August coverage without paging the whole sub.
+MAX_POSTS_BY_SUB = {
+    "oil": 1000,
+    "crudeoil": 600,
+    "peakoil": 400,
+    "oilandgas": 600,
+    "energy": 400,
+    "commodities": 400,
+}
+SUBREDDIT_QUERY = {
+    "energy": "oil",
+    "commodities": "oil",
+}
 OTHER_KEY = "other"
 OTHER_LABEL = "Прочее"
 OUTLIER_TOPIC_ID = -1
 
-SUBREDDITS = ("oil", "energy", "CrudeOil", "commodities")
-# r/oil and r/CrudeOil are already oil-scoped; keywords would drop EIA/SPR posts.
-SUBREDDITS_ALWAYS_KEEP = frozenset({"oil", "crudeoil"})
+SUBREDDITS = ("oil", "CrudeOil", "peakoil", "oilandgas", "energy", "commodities")
+# Already oil-scoped; keywords would drop EIA/SPR and field-work posts.
+SUBREDDITS_ALWAYS_KEEP = frozenset({"oil", "crudeoil", "peakoil", "oilandgas"})
 ARCTIC_SHIFT_URL = "https://arctic-shift.photon-reddit.com/api/posts/search"
 PAGE_LIMIT = 20
 # permalink/stickied/removed_by_category are not valid `fields` (HTTP 400).
@@ -52,6 +66,17 @@ _HEADERS = {
 KEYWORD_PATTERN = re.compile(
     r"(?i)\b(?:oil|crude|brent|wti|opec|urals|gasoline|diesel|tanker|"
     r"refinery|petroleum|barrel|нефть|брент|уралс|опек)\w*"
+)
+# One kept cluster per storyline so the river is not six Hormuz variants.
+_THEME_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    ("daily_price", re.compile(r"daily oil price|price opinions", re.I)),
+    ("hormuz", re.compile(r"hormuz|strait of|kharg|blockade", re.I)),
+    ("iran", re.compile(r"\biran\b|tehran", re.I)),
+    ("eia_spr", re.compile(r"\beia\b|\bspr\b|inventory|strategic reserve", re.I)),
+    ("opec", re.compile(r"\bopec\b", re.I)),
+    ("china", re.compile(r"\bchina\b|chinese", re.I)),
+    ("tanker", re.compile(r"\btanker\b|vessel.{0,20}sunk", re.I)),
+    ("jobs", re.compile(r"wireline|coiled tubing|odessa|midland|hiring", re.I)),
 )
 
 TOPIC_CHART_EMPTY_COPY = (
@@ -247,26 +272,34 @@ def _arctic_shift_page(
     return []
 
 
+def _max_posts_for(sub: str) -> int:
+    return int(MAX_POSTS_BY_SUB.get(sub.casefold(), MAX_POSTS_PER_SUB))
+
+
 def fetch_subreddit_since(
     sub: str,
     since_ts: int,
     *,
     get_page: PageFn | None = None,
-    throttle: float = 2.0,
-    max_posts: int = MAX_POSTS_PER_SUB,
+    throttle: float = 0.35,
+    max_posts: int | None = None,
 ) -> list[dict[str, Any]]:
     """Newest-first Arctic Shift pages until ``created_utc`` falls before ``since_ts``."""
 
     page_fn = get_page or _arctic_shift_page
+    cap = _max_posts_for(sub) if max_posts is None else max_posts
+    query = SUBREDDIT_QUERY.get(sub.casefold())
     posts: list[dict[str, Any]] = []
     seen: set[str] = set()
     before_ts: int | None = None
-    while len(posts) < max_posts:
+    while len(posts) < cap:
         params: dict[str, Any] = {
             "subreddit": sub,
-            "limit": min(PAGE_LIMIT, max_posts - len(posts)),
+            "limit": min(PAGE_LIMIT, cap - len(posts)),
             "fields": ARCTIC_FIELDS,
         }
+        if query:
+            params["query"] = query
         if before_ts is not None:
             params["before"] = before_ts
         data = page_fn(params)
@@ -303,7 +336,7 @@ def fetch_oil_reddit_posts(
     *,
     today: date | None = None,
     get_page: PageFn | None = None,
-    throttle: float = 2.0,
+    throttle: float = 0.35,
     subreddits: tuple[str, ...] = SUBREDDITS,
 ) -> list[RedditOilPost]:
     start, _end = window_dates(today=today)
@@ -327,11 +360,79 @@ def fetch_oil_reddit_posts(
     return list(collected.values())
 
 
+def _hdbscan_min_size(n_docs: int) -> int:
+    """Tiny corpora keep size 2; a month of posts needs larger clusters than micro-topics."""
+    if n_docs < 24:
+        return 2
+    return max(10, min(n_docs // 50, 25))
+
+
+def _assign_outliers_to_nearest(topic_ids: list[int], space) -> list[int]:
+    """Attach leftover points only when they sit inside a cluster's radius."""
+    import numpy as np
+
+    ids = np.asarray(topic_ids, dtype=int)
+    clustered = ids >= 0
+    if not clustered.any() or clustered.all():
+        return topic_ids
+    centroid_ids: list[int] = []
+    centroids: list = []
+    radii: list[float] = []
+    for tid in sorted(set(ids[clustered].tolist())):
+        pts = space[ids == tid]
+        center = pts.mean(axis=0)
+        centroid_ids.append(tid)
+        centroids.append(center)
+        radii.append(float(np.median(np.linalg.norm(pts - center, axis=1))) + 1e-6)
+    mat = np.stack(centroids)
+    rad = np.asarray(radii, dtype=np.float64)
+    for i in np.where(~clustered)[0]:
+        dist = np.linalg.norm(mat - space[i], axis=1)
+        nearest = int(dist.argmin())
+        if dist[nearest] <= 2.0 * rad[nearest]:
+            ids[i] = centroid_ids[nearest]
+    return [int(v) for v in ids]
+
+
+def _cluster_residual_outliers(topic_ids: list[int], space) -> list[int]:
+    """Second HDBSCAN pass on leftovers so EIA/jobs/China can become real topics."""
+    import numpy as np
+    from hdbscan import HDBSCAN  # type: ignore[import-untyped]
+
+    ids = np.asarray(topic_ids, dtype=int)
+    residual = np.where(ids < 0)[0]
+    if residual.size < 24:
+        return topic_ids
+    sub_n = int(residual.size)
+    sub_size = max(8, min(sub_n // 40, 15))
+    sub_labels = HDBSCAN(
+        min_cluster_size=sub_size,
+        min_samples=1,
+        metric="euclidean",
+        cluster_selection_method="eom",
+    ).fit_predict(space[residual])
+    clustered = ids[ids >= 0]
+    offset = int(clustered.max() + 1) if clustered.size else 0
+    for local, doc_i in enumerate(residual):
+        sub_id = int(sub_labels[local])
+        if sub_id >= 0:
+            ids[doc_i] = offset + sub_id
+    return [int(v) for v in ids]
+
+
+def cluster_theme(texts: list[str]) -> str | None:
+    blob = " ".join(texts)
+    for name, pattern in _THEME_PATTERNS:
+        if pattern.search(blob):
+            return name
+    return None
+
+
 def cluster_documents(
     docs: list[str],
     embeddings: list[list[float]],
     *,
-    min_cluster_size: int = 2,
+    min_cluster_size: int | None = None,
 ) -> ClusterResult:
     """UMAP+HDBSCAN on precomputed vectors (reddit-llm ``cluster_documents`` without BERTopic)."""
 
@@ -349,7 +450,11 @@ def cluster_documents(
 
     emb = np.asarray(embeddings, dtype=np.float32)
     n_docs = len(docs)
-    size = min(min_cluster_size, max(2, n_docs))
+    size = (
+        min(min_cluster_size, max(2, n_docs))
+        if min_cluster_size is not None
+        else _hdbscan_min_size(n_docs)
+    )
     hdbscan_model = HDBSCAN(
         min_cluster_size=size,
         min_samples=1,
@@ -362,7 +467,7 @@ def cluster_documents(
         from umap import UMAP  # type: ignore[import-untyped]
 
         space = UMAP(
-            n_neighbors=min(15, n_docs - 1),
+            n_neighbors=min(30, n_docs - 1),
             n_components=5,
             min_dist=0.0,
             metric="cosine",
@@ -370,10 +475,20 @@ def cluster_documents(
         ).fit_transform(emb)
 
     labels = hdbscan_model.fit_predict(space)
+    if float(np.mean(labels == OUTLIER_TOPIC_ID)) > 0.5 and size > 8:
+        hdbscan_model = HDBSCAN(
+            min_cluster_size=max(8, size // 2),
+            min_samples=1,
+            metric="euclidean",
+            cluster_selection_method="eom",
+            prediction_data=True,
+        )
+        labels = hdbscan_model.fit_predict(space)
+    topic_ids = _assign_outliers_to_nearest([int(t) for t in labels], space)
+    topic_ids = _cluster_residual_outliers(topic_ids, space)
     raw_probs = getattr(hdbscan_model, "probabilities_", None)
     if raw_probs is None:
         raw_probs = [0.0] * n_docs
-    topic_ids = [int(t) for t in labels]
     probabilities = [
         0.0 if tid == OUTLIER_TOPIC_ID else float(p)
         for tid, p in zip(topic_ids, raw_probs)
@@ -383,6 +498,85 @@ def cluster_documents(
         probabilities=probabilities,
         representative_docs=_representative_docs(docs, topic_ids, probabilities),
     )
+
+
+def _l2_normalize(vec) -> "list[float]":
+    import numpy as np
+
+    arr = np.asarray(vec, dtype=np.float64).reshape(-1)
+    n = float(np.linalg.norm(arr))
+    if n <= 0:
+        return arr.tolist()
+    return (arr / n).tolist()
+
+
+def _cluster_mean_vectors(
+    groups: dict[int, list[int]],
+    embeddings: list[list[float]],
+) -> dict[int, list[float]]:
+    import numpy as np
+
+    emb = np.asarray(embeddings, dtype=np.float64)
+    out: dict[int, list[float]] = {}
+    for tid, idxs in groups.items():
+        if tid == OUTLIER_TOPIC_ID or not idxs:
+            continue
+        out[tid] = _l2_normalize(emb[idxs].mean(axis=0))
+    return out
+
+
+def select_diverse_topic_ids(
+    ranked_ids: list[int],
+    vectors: dict[int, list[float]],
+    *,
+    k: int = TOP_TOPIC_COUNT,
+    max_sim: float = TOPIC_SIM_MAX,
+    themes: dict[int, str | None] | None = None,
+) -> list[int]:
+    """Keep loud clusters first, skip the same storyline (Hormuz/Iran clones)."""
+    import numpy as np
+
+    keep: list[int] = []
+    used_themes: set[str] = set()
+    theme_map = themes or {}
+    usable = [tid for tid in ranked_ids if tid in vectors] or list(ranked_ids)
+    identical = False
+    if len(usable) >= 2 and all(tid in vectors for tid in usable):
+        first = np.asarray(vectors[usable[0]], dtype=np.float64)
+        sims = [
+            abs(float(np.dot(first, np.asarray(vectors[tid], dtype=np.float64))))
+            for tid in usable[1:]
+        ]
+        identical = bool(sims) and min(sims) > 0.99
+
+    def _too_close(tid: int, limit: float) -> bool:
+        if identical or tid not in vectors:
+            return False
+        v = np.asarray(vectors[tid], dtype=np.float64)
+        return any(
+            float(np.dot(v, np.asarray(vectors[other], dtype=np.float64))) >= limit
+            for other in keep
+            if other in vectors
+        )
+
+    def _try_add(tid: int, limit: float) -> None:
+        if len(keep) >= k or tid in keep:
+            return
+        theme = theme_map.get(tid)
+        if theme and theme in used_themes:
+            return
+        if _too_close(tid, limit):
+            return
+        keep.append(tid)
+        if theme:
+            used_themes.add(theme)
+
+    for tid in usable:
+        _try_add(tid, max_sim)
+    if len(keep) < k:
+        for tid in usable:
+            _try_add(tid, min(0.85, max_sim + 0.2))
+    return keep
 
 
 def _representative_docs(
@@ -473,6 +667,7 @@ def label_topics(
             "content": (
                 "Ты подписываешь кластеры Reddit-постов про нефть. "
                 "Короткие русские лейблы (2–5 слов), без кавычек. "
+                "Каждый лейбл про разный сюжет: не повторяй Ормуз/Иран/цены разными словами. "
                 'Верни только JSON: {"labels": {"<topic_id>": "<лейбл>"}}.'
             ),
         },
@@ -508,6 +703,7 @@ def _tfidf_embeddings(docs: list[str]) -> list[list[float]]:
         max_features=2048,
         ngram_range=(1, 2),
         min_df=1,
+        max_df=0.6,
     ).fit_transform(docs)
     n_components = int(min(32, matrix.shape[0] - 1, matrix.shape[1] - 1))
     if n_components < 2:
@@ -585,7 +781,6 @@ def build_topic_payload(
     docs = [p.chunk_text for p in in_window]
     embeddings = (embed_fn or _embed_docs)(docs)
     cluster = (cluster_fn or cluster_documents)(docs, embeddings)
-    labels = (label_fn or label_topics)(cluster.representative_docs)
 
     groups: dict[int, list[int]] = defaultdict(list)
     for i, tid in enumerate(cluster.topic_ids):
@@ -593,10 +788,27 @@ def build_topic_payload(
 
     ranked_ids = sorted(
         (tid for tid in groups if tid != OUTLIER_TOPIC_ID),
-        key=lambda tid: len(groups[tid]),
+        key=lambda tid: (
+            sum(in_window[i].num_comments for i in groups[tid]),
+            len(groups[tid]),
+        ),
         reverse=True,
     )
-    keep = set(ranked_ids[:TOP_TOPIC_COUNT])
+    vectors = _cluster_mean_vectors(groups, embeddings)
+    themes = {
+        tid: cluster_theme([in_window[i].chunk_text for i in groups[tid]])
+        for tid in ranked_ids
+    }
+    keep_ids = select_diverse_topic_ids(
+        ranked_ids, vectors, k=TOP_TOPIC_COUNT, themes=themes
+    )
+    keep = set(keep_ids)
+    reps = {
+        tid: docs_for_tid
+        for tid, docs_for_tid in cluster.representative_docs.items()
+        if tid in keep or tid == OUTLIER_TOPIC_ID
+    }
+    labels = (label_fn or label_topics)(reps)
     display_key: dict[int, str] = {}
     topic_meta: dict[str, dict] = {}
     for tid in ranked_ids:
@@ -751,7 +963,7 @@ def refresh_topic_dynamics_payload(
     embed_fn: EmbedFn | None = None,
     cluster_fn: ClusterFn | None = None,
     label_fn: LabelFn | None = None,
-    throttle: float = 2.0,
+    throttle: float = 0.35,
 ) -> dict:
     cached = load_cached_topic_payload(cache_dir=cache_dir)
     if not force and topic_payload_is_fresh(cached) and cached is not None:
@@ -791,9 +1003,21 @@ def topic_chart_dataframe(payload: dict):
     rows = payload.get("series") or []
     if not rows:
         return None
-    frame = pd.DataFrame(rows)
+    named = [row for row in rows if row.get("topic_key") != OTHER_KEY]
+    frame = pd.DataFrame(named or rows)
     frame["date"] = pd.to_datetime(frame["date"])
     return frame
+
+
+_NAMED_TOPIC_COLORS = (
+    "#5B8FF9",
+    "#F6BD16",
+    "#E8684A",
+    "#5AD8A6",
+    "#9270CA",
+    "#FF9D4D",
+)
+_OTHER_TOPIC_COLOR = "#64748B"
 
 
 def topic_streamgraph_altair(frame, *, height: int = 280):
@@ -801,8 +1025,11 @@ def topic_streamgraph_altair(frame, *, height: int = 280):
     import altair as alt
 
     labels = list(dict.fromkeys(frame.sort_values("date")["label"].tolist()))
-    if OTHER_LABEL in labels:
-        labels = [name for name in labels if name != OTHER_LABEL] + [OTHER_LABEL]
+    named = [name for name in labels if name != OTHER_LABEL]
+    domain = named + ([OTHER_LABEL] if OTHER_LABEL in labels else [])
+    palette = [_NAMED_TOPIC_COLORS[i % len(_NAMED_TOPIC_COLORS)] for i in range(len(named))]
+    if OTHER_LABEL in domain:
+        palette.append(_OTHER_TOPIC_COLOR)
     return (
         alt.Chart(frame)
         .mark_area(interpolate="monotone")
@@ -812,7 +1039,7 @@ def topic_streamgraph_altair(frame, *, height: int = 280):
             color=alt.Color(
                 "label:N",
                 title=None,
-                scale=alt.Scale(domain=labels),
+                scale=alt.Scale(domain=domain, range=palette),
                 legend=alt.Legend(orient="bottom"),
             ),
             tooltip=[

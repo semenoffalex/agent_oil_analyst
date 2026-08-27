@@ -21,6 +21,7 @@ from oil_gas_analyst.topic_dynamics import (
     reddit_post_to_record,
     refresh_topic_dynamics_payload,
     save_topic_payload_cache,
+    select_diverse_topic_ids,
     selected_topic_key,
     topic_chart_dataframe,
     topic_payload_is_fresh,
@@ -135,6 +136,7 @@ def test_fetch_pages_until_before_window(monkeypatch):
     def get_page(params):
         assert params["subreddit"] == "oil"
         assert "after" not in params
+        assert "query" not in params
         return pages.pop(0)
 
     posts = fetch_subreddit_since("oil", since_ts=1000, get_page=get_page, throttle=0.0)
@@ -142,6 +144,35 @@ def test_fetch_pages_until_before_window(monkeypatch):
     assert ids == ["new", "mid"]
     assert "old" not in ids
     assert pages == []
+
+
+def test_energy_pages_request_oil_query():
+    seen: dict = {}
+
+    def get_page(params):
+        seen.update(params)
+        return [{"id": "e1", "created_utc": 1500}]
+
+    posts = fetch_subreddit_since(
+        "energy", since_ts=1000, get_page=get_page, throttle=0.0, max_posts=20
+    )
+    assert seen["query"] == "oil"
+    assert "after" not in seen
+    assert posts[0]["id"] == "e1"
+
+
+def test_oilandgas_keeps_posts_without_oil_keyword():
+    raw = {
+        "id": "og1",
+        "title": "Looking to connect with people in the industry",
+        "selftext": "",
+        "subreddit": "oilandgas",
+        "created_utc": 1_700_000_000,
+        "num_comments": 2,
+        "over_18": False,
+        "stickied": False,
+    }
+    assert reddit_post_to_record(raw) is not None
 
 
 def test_arctic_shift_retries_incomplete_read(monkeypatch):
@@ -284,6 +315,9 @@ def test_streamgraph_uses_centered_stack():
     spec = chart.to_dict()
     y = spec["encoding"]["y"]
     assert y["stack"] == "center"
+    color = spec["encoding"]["color"]["scale"]
+    assert "ОПЕК" in color["domain"]
+    assert OTHER_LABEL not in color["domain"]
 
 
 def test_selected_topic_key_reads_vega_and_streamlit_shapes():
@@ -325,6 +359,44 @@ def test_parse_labels_json_fenced():
     assert parse_labels_json('```json\n{"labels": {"0": "ОПЕК+"}}\n```') == {0: "ОПЕК+"}
 
 
+def test_select_diverse_topics_skips_near_duplicates():
+    vectors = {
+        0: [1.0, 0.0, 0.0],
+        1: [0.995, 0.1, 0.0],
+        2: [0.0, 1.0, 0.0],
+        3: [0.0, 0.0, 1.0],
+    }
+    import numpy as np
+
+    normed = {
+        tid: (np.asarray(vec) / np.linalg.norm(vec)).tolist() for tid, vec in vectors.items()
+    }
+    keep = select_diverse_topic_ids([0, 1, 2, 3], normed, k=3)
+    assert keep[0] == 0
+    assert 1 not in keep
+    assert set(keep) == {0, 2, 3}
+
+
+def test_select_diverse_topics_one_cluster_per_storyline():
+    vectors = {
+        0: [1.0, 0.0, 0.0],
+        1: [0.0, 1.0, 0.0],
+        2: [0.0, 0.0, 1.0],
+    }
+    import numpy as np
+
+    normed = {
+        tid: (np.asarray(vec) / np.linalg.norm(vec)).tolist() for tid, vec in vectors.items()
+    }
+    keep = select_diverse_topic_ids(
+        [0, 1, 2],
+        normed,
+        k=3,
+        themes={0: "hormuz", 1: "hormuz", 2: "eia_spr"},
+    )
+    assert keep == [0, 2]
+
+
 def test_cluster_documents_splits_two_blobs():
     docs = ["a", "b", "c", "d"]
     embeddings = [
@@ -336,3 +408,19 @@ def test_cluster_documents_splits_two_blobs():
     result = cluster_documents(docs, embeddings, min_cluster_size=2)
     assert set(result.topic_ids) != {OUTLIER_TOPIC_ID}
     assert len(result.topic_ids) == 4
+
+
+def test_hdbscan_min_size_grows_with_corpus():
+    from oil_gas_analyst.topic_dynamics import _hdbscan_min_size
+
+    assert _hdbscan_min_size(10) == 2
+    assert 10 <= _hdbscan_min_size(1105) <= 25
+
+
+def test_assign_outliers_joins_nearest_blob():
+    import numpy as np
+    from oil_gas_analyst.topic_dynamics import _assign_outliers_to_nearest
+
+    space = np.array([[0.0, 0.0], [0.1, 0.0], [10.0, 0.0], [0.05, 0.0]])
+    out = _assign_outliers_to_nearest([0, 0, 1, -1], space)
+    assert out[3] == 0
