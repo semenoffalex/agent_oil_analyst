@@ -35,10 +35,22 @@ def test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top():
     assert "st-key-brent_chart_panel" in text
     assert "st-key-chat_panel" in text
     assert "topic_streamgraph_altair" in text
+    assert "topic_payload_needs_relabel" in text
+    assert 'key="topic_ridges"' in text
+    assert "topic_ridgeline_charts" in text
+    assert 'width="stretch"' in text
+    assert "theme=None" in text
+    assert "TOPIC_CHART_RIDGES" in text
+    assert "topic_chart_mode" in text
     assert "st.pills" in text
     assert "Обновить темы" in text
     assert "--workspace-height" in text
-    assert "--chat-height" in text
+    assert "--chat-messages-height" in text
+    assert 'key="chat_messages"' in text
+    assert "max-height: 22rem" not in text
+    assert "overflow-y: auto !important" in text
+    assert "position: sticky" in text
+    assert "section.main > div.block-container {padding-bottom: 0;}" not in text
     assert "st.iframe" in text
     assert "_WORKSPACE_RESIZE_HTML" not in text
     assert "_render_workspace_resize" not in text

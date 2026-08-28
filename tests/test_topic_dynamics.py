@@ -14,17 +14,21 @@ from oil_gas_analyst.topic_dynamics import (
     cluster_documents,
     fetch_subreddit_since,
     is_dropped_reddit_post,
+    label_topics,
     load_cached_topic_payload,
     matches_oil_keywords,
     parse_labels_json,
     posts_for_topic,
     reddit_post_to_record,
     refresh_topic_dynamics_payload,
+    relabel_topic_payload,
     save_topic_payload_cache,
     select_diverse_topic_ids,
     selected_topic_key,
     topic_chart_dataframe,
     topic_payload_is_fresh,
+    topic_payload_needs_relabel,
+    topic_ridgeline_charts,
     topic_streamgraph_altair,
     topics_for_tool,
     window_dates,
@@ -320,6 +324,28 @@ def test_streamgraph_uses_centered_stack():
     assert OTHER_LABEL not in color["domain"]
 
 
+def test_ridgeline_puts_each_topic_on_its_own_row():
+    payload = {
+        "series": [
+            {"date": "2026-08-01", "topic_key": "0", "label": "ОПЕК", "comments": 4},
+            {"date": "2026-08-01", "topic_key": "1", "label": "СПГ", "comments": 2},
+            {"date": "2026-08-02", "topic_key": "0", "label": "ОПЕК", "comments": 1},
+            {"date": "2026-08-02", "topic_key": "1", "label": "СПГ", "comments": 3},
+        ]
+    }
+    frame = topic_chart_dataframe(payload)
+    assert frame is not None
+    charts = topic_ridgeline_charts(frame, label_order=["СПГ", "ОПЕК"])
+    names = [name for name, _chart in charts]
+    assert names == ["СПГ", "ОПЕК"]
+    for _name, chart in charts:
+        spec = chart.to_dict()
+        assert spec.get("width") == "container"
+        assert spec.get("facet") is None
+        assert spec["encoding"]["y"].get("stack") in (None, False)
+        assert not spec.get("title")
+
+
 def test_selected_topic_key_reads_vega_and_streamlit_shapes():
     assert selected_topic_key({"topic_pick": [{"topic_key": "other"}]}) == "other"
     assert selected_topic_key({"selection": {"topic_pick": [{"topic_key": "0"}]}}) == "0"
@@ -357,6 +383,48 @@ def test_topics_for_tool_reads_cache(tmp_path):
 
 def test_parse_labels_json_fenced():
     assert parse_labels_json('```json\n{"labels": {"0": "ОПЕК+"}}\n```') == {0: "ОПЕК+"}
+
+
+def test_parse_labels_json_strips_prose():
+    assert parse_labels_json('Sure.\n{"labels": {"2": "СПГ"}}\n') == {2: "СПГ"}
+
+
+def test_label_topics_uses_headlines_when_chat_fails():
+    def boom(*_args, **_kwargs):
+        raise RuntimeError("HTTP 402")
+
+    labels = label_topics(
+        {15: ["OPEC+ agrees to raise output", "Saudi quota unchanged"]},
+        chat_fn=boom,
+    )
+    assert labels[15] == "ОПЕК+"
+    assert not labels[15].startswith("Тема ")
+
+
+def test_relabel_payload_replaces_generic_titles():
+    payload = {
+        "topics": [
+            {"key": "15", "label": "Тема 15", "raw_id": 15, "size": 1},
+            {"key": "other", "label": "Прочее", "raw_id": -1, "size": 2},
+        ],
+        "series": [
+            {"topic_key": "15", "label": "Тема 15", "date": "2026-08-01", "comments": 4},
+        ],
+        "posts": [
+            {
+                "topic_key": "15",
+                "label": "Тема 15",
+                "title": "Hormuz tanker traffic slows",
+                "num_comments": 9,
+            },
+        ],
+    }
+    out = relabel_topic_payload(payload, label_fn=lambda _reps: {15: "Ормузский пролив"})
+    assert topic_payload_needs_relabel(payload) is False
+    assert out["topics"][0]["label"] == "Ормузский пролив"
+    assert out["series"][0]["label"] == "Ормузский пролив"
+    assert out["posts"][0]["label"] == "Ормузский пролив"
+    assert out["topics"][1]["label"] == "Прочее"
 
 
 def test_select_diverse_topics_skips_near_duplicates():

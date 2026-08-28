@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = ROOT / "docker" / "cloud-init.yaml"
 DEFAULT_OUT = ROOT / ".scratch" / "timeweb-cloud-init.rendered.yaml"
 
-PLACEHOLDERS = (
+REQUIRED_PLACEHOLDERS = (
     "REPLACE_DEEPSEEK_API_KEY",
     "REPLACE_OPENROUTER_API_KEY",
     "REPLACE_DEMO_LOGIN_USER",
@@ -23,6 +23,7 @@ ENV_MAP = {
     "REPLACE_OPENROUTER_API_KEY": "OPENROUTER_API_KEY",
     "REPLACE_DEMO_LOGIN_USER": "DEMO_LOGIN_USER",
     "REPLACE_DEMO_LOGIN_PASSWORD": "DEMO_LOGIN_PASSWORD",
+    "REPLACE_LANGSMITH_API_KEY": "LANGSMITH_API_KEY",
 }
 
 
@@ -44,13 +45,13 @@ def main() -> int:
     env = load_env(ROOT / ".env")
     text = TEMPLATE.read_text(encoding="utf-8")
 
-    missing = [name for name in PLACEHOLDERS if not env.get(ENV_MAP[name], "").strip()]
+    missing = [name for name in REQUIRED_PLACEHOLDERS if not env.get(ENV_MAP[name], "").strip()]
     if missing:
         print("Missing values in .env:", ", ".join(ENV_MAP[m] for m in missing), file=sys.stderr)
         return 1
 
     for placeholder, key in ENV_MAP.items():
-        text = text.replace(placeholder, env[key])
+        text = text.replace(placeholder, env.get(key, "").strip())
 
     if re.search(r"REPLACE_[A-Z0-9_]+", text):
         print("Unresolved REPLACE_* placeholders remain in output", file=sys.stderr)

@@ -7,11 +7,15 @@
 #   RAM: 8 GB
 #   Disk: 80 GB NVMe
 #
-# Usage: create VPS → Cloud-init / user-data → paste this entire file.
-# Before paste: replace REPLACE_DEEPSEEK_API_KEY, REPLACE_OPENROUTER_API_KEY,
-# REPLACE_DEMO_LOGIN_USER, REPLACE_DEMO_LOGIN_PASSWORD.
+# Usage: create VPS → Cloud-init / user-data → paste the rendered file
+#   python scripts/render-timeweb-cloud-init.py
+#   → .scratch/timeweb-cloud-init.rendered.yaml
+# Or paste this template after replacing REPLACE_DEEPSEEK_API_KEY,
+# REPLACE_OPENROUTER_API_KEY, REPLACE_DEMO_LOGIN_USER, REPLACE_DEMO_LOGIN_PASSWORD
+# (optional REPLACE_LANGSMITH_API_KEY).
 #
-# After boot (~15–25 min first build on 4 vCPU): http://<server-ip>:8000
+# Production tracks origin/dev. After boot (~15–25 min first build on 4 vCPU):
+#   http://<server-ip>:8000
 # Logs: /var/log/analyst-bootstrap.log
 
 timezone: Europe/Moscow
@@ -42,8 +46,12 @@ write_files:
       DEMO_LOGIN_PASSWORD=REPLACE_DEMO_LOGIN_PASSWORD
       DEMO_RATE_LIMIT_MAX=15
       DEMO_RATE_LIMIT_WINDOW_SEC=3600
-      LANGSMITH_TRACING=false
-      LANGCHAIN_TRACING_V2=false
+      LANGSMITH_TRACING=true
+      LANGSMITH_API_KEY=REPLACE_LANGSMITH_API_KEY
+      LANGSMITH_PROJECT=pr-drab-realization-91
+      LANGCHAIN_TRACING_V2=true
+      LANGCHAIN_API_KEY=REPLACE_LANGSMITH_API_KEY
+      LANGCHAIN_PROJECT=pr-drab-realization-91
 
   - path: /usr/local/bin/analyst-demo-bootstrap.sh
     permissions: "0755"
@@ -53,7 +61,7 @@ write_files:
       set -euo pipefail
       LOG=/var/log/analyst-bootstrap.log
       REPO_URL="${ANALYST_REPO_URL:-https://github.com/semenoffalex/agent_oil_analyst.git}"
-      REPO_BRANCH="${ANALYST_REPO_BRANCH:-exp}"
+      REPO_BRANCH="${ANALYST_REPO_BRANCH:-dev}"
       APP_DIR=/opt/agent_oil_analyst
       MIN_FREE_GB=25
 
@@ -89,10 +97,10 @@ write_files:
       if [[ ! -d "$APP_DIR/.git" ]]; then
         echo "Cloning $REPO_URL ($REPO_BRANCH)..."
         rm -rf "$APP_DIR"
-        git clone --depth 1 --branch "$REPO_BRANCH" "$REPO_URL" "$APP_DIR"
+        git clone --branch "$REPO_BRANCH" "$REPO_URL" "$APP_DIR"
       else
         echo "Repo exists, pulling..."
-        git -C "$APP_DIR" fetch --depth 1 origin "$REPO_BRANCH"
+        git -C "$APP_DIR" fetch origin "$REPO_BRANCH"
         git -C "$APP_DIR" checkout "$REPO_BRANCH"
         git -C "$APP_DIR" pull --ff-only origin "$REPO_BRANCH" || true
       fi
@@ -106,7 +114,7 @@ write_files:
 
       echo "Waiting for analyst health..."
       for _ in $(seq 1 90); do
-        if curl -fsS -o /dev/null http://127.0.0.1:8000/; then
+        if curl -fsS -o /dev/null http://127.0.0.1:8000/_stcore/health; then
           echo "Dashboard is up on :8000"
           break
         fi

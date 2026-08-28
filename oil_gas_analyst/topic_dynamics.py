@@ -7,6 +7,7 @@ HDBSCAN, UMAP above 15 docs) without importing BERTopic/Torch. Labels are Russia
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 import time
@@ -22,7 +23,13 @@ from zoneinfo import ZoneInfo
 
 import httpx
 
-from oil_gas_analyst.settings import DEEPSEEK_BASE_URL_DEFAULT, DEEPSEEK_MODEL, require_deepseek_key
+from oil_gas_analyst.settings import (
+    DEEPSEEK_BASE_URL_DEFAULT,
+    DEEPSEEK_MODEL,
+    require_deepseek_key,
+)
+
+_LOG = logging.getLogger(__name__)
 
 _MOSCOW = ZoneInfo("Europe/Moscow")
 
@@ -78,6 +85,18 @@ _THEME_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("tanker", re.compile(r"\btanker\b|vessel.{0,20}sunk", re.I)),
     ("jobs", re.compile(r"wireline|coiled tubing|odessa|midland|hiring", re.I)),
 )
+_THEME_LABELS_RU = {
+    "daily_price": "Дневные цены",
+    "hormuz": "Ормузский пролив",
+    "iran": "Иран",
+    "eia_spr": "Запасы EIA / SPR",
+    "opec": "ОПЕК+",
+    "china": "Китайский спрос",
+    "tanker": "Танкеры",
+    "jobs": "Вакансии в добыче",
+}
+_GENERIC_TOPIC_LABEL = re.compile(r"^Тема\s+\d+$")
+_OPENROUTER_LABEL_MODEL = "nvidia/nemotron-3-super-120b-a12b:free"
 
 TOPIC_CHART_EMPTY_COPY = (
     "Нет Reddit-тем за 30 дней. Не выдумываем нарративы — "
@@ -601,13 +620,31 @@ def parse_labels_json(content: str) -> dict[int, str]:
     fence = re.search(r"```(?:json)?\s*(.*?)\s*```", text, re.DOTALL)
     if fence:
         text = fence.group(1).strip()
+    if not text.startswith("{"):
+        match = re.search(r"\{.*\}", text, re.DOTALL)
+        if match:
+            text = match.group(0)
     data = json.loads(text)
     if not isinstance(data, dict):
         raise ValueError("labeler output must be a JSON object")
     raw = data.get("labels", data)
     if not isinstance(raw, dict):
         raise ValueError("labeler JSON must contain a labels object")
-    return {int(key): str(value) for key, value in raw.items()}
+    return {int(key): str(value).strip() for key, value in raw.items() if str(value).strip()}
+
+
+def _chat_headers(base_url: str, api_key: str) -> dict[str, str]:
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}",
+    }
+    if "openrouter.ai" in base_url:
+        headers["HTTP-Referer"] = os.environ.get(
+            "OPENROUTER_HTTP_REFERER",
+            "https://github.com/semenoffalex/agent_oil_analyst",
+        )
+        headers["X-Title"] = os.environ.get("OPENROUTER_APP_TITLE", "Oil Gas Analyst")
+    return headers
 
 
 def _chat_completion(
@@ -628,15 +665,120 @@ def _chat_completion(
     req = Request(
         f"{base}/chat/completions",
         data=body,
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}",
-        },
+        headers=_chat_headers(base, api_key),
         method="POST",
     )
-    with urlopen(req, timeout=timeout) as resp:
-        payload = json.loads(resp.read().decode("utf-8"))
-    return str(payload["choices"][0]["message"]["content"])
+    try:
+        with urlopen(req, timeout=timeout) as resp:
+            payload = json.loads(resp.read().decode("utf-8"))
+    except HTTPError as exc:
+        detail = exc.read().decode("utf-8", "replace")[:400]
+        raise RuntimeError(f"chat HTTP {exc.code} {exc.reason}: {detail}") from exc
+    message = payload["choices"][0]["message"]
+    content = str(message.get("content") or message.get("reasoning_content") or "")
+    if not content.strip():
+        raise RuntimeError("chat completion returned empty content")
+    return content
+
+
+def _label_messages(to_label: dict[int, list[str]]) -> list[dict[str, str]]:
+    payload = []
+    for tid, docs in sorted(to_label.items()):
+        joined = "\n---\n".join(docs[:3])
+        payload.append(f"topic_id={tid}:\n{joined}")
+    return [
+        {
+            "role": "system",
+            "content": (
+                "Ты подписываешь кластеры Reddit-постов про нефть. "
+                "Короткие русские лейблы (2–5 слов), без кавычек. "
+                "Каждый лейбл про разный сюжет: не повторяй Ормуз/Иран/цены разными словами. "
+                'Верни только JSON: {"labels": {"<topic_id>": "<лейбл>"}}.'
+            ),
+        },
+        {"role": "user", "content": "\n\n".join(payload)},
+    ]
+
+
+def _headline_label(docs: list[str]) -> str:
+    for doc in docs:
+        line = re.sub(r"\s+", " ", (doc or "").strip().split("\n")[0]).strip()
+        if len(line) < 8:
+            continue
+        if len(line) > 52:
+            clipped = line[:49].rsplit(" ", 1)[0]
+            line = (clipped or line[:49]) + "…"
+        return line
+    return "Нефтяные обсуждения"
+
+
+def _heuristic_topic_labels(to_label: dict[int, list[str]]) -> dict[int, str]:
+    used: set[str] = set()
+    out: dict[int, str] = {}
+    for tid, docs in to_label.items():
+        theme = cluster_theme(docs)
+        label = _THEME_LABELS_RU.get(theme or "", "")
+        if not label or label in used:
+            label = _headline_label(docs)
+        if label in used:
+            label = f"{label} ({tid})"
+        used.add(label)
+        out[tid] = label
+    return out
+
+
+def _is_generic_topic_label(label: object) -> bool:
+    return bool(_GENERIC_TOPIC_LABEL.match(str(label or "").strip()))
+
+
+def _fill_topic_labels(
+    to_label: dict[int, list[str]], parsed: dict[int, str]
+) -> dict[int, str]:
+    heuristics = _heuristic_topic_labels(to_label)
+    out = dict(parsed)
+    for tid in to_label:
+        current = str(out.get(tid) or "").strip()
+        if not current or _is_generic_topic_label(current):
+            out[tid] = heuristics[tid]
+    return out
+
+
+def _label_with_llm(
+    to_label: dict[int, list[str]],
+    *,
+    chat_fn: Callable[..., str],
+    model: str,
+    base_url: str,
+    api_key: str,
+) -> dict[int, str]:
+    raw = chat_fn(
+        _label_messages(to_label),
+        model=model,
+        base_url=base_url,
+        api_key=api_key,
+    )
+    return parse_labels_json(raw)
+
+
+def _openrouter_label_attempt() -> tuple[str, str, str] | None:
+    key = (
+        os.environ.get("OPENROUTER_API_KEY", "").strip()
+        or os.environ.get("EMBEDDING_API_KEY", "").strip()
+    )
+    if not key:
+        return None
+    model = (
+        os.environ.get("TOPIC_LABEL_MODEL", "").strip()
+        or os.environ.get("EVAL_CHAT_MODEL", "").strip()
+        or _OPENROUTER_LABEL_MODEL
+    )
+    if "::" in model:
+        model = model.split("::", 1)[1]
+    base = (
+        os.environ.get("OPENROUTER_BASE_URL", "").strip()
+        or "https://openrouter.ai/api/v1"
+    )
+    return model, base, key
 
 
 def label_topics(
@@ -657,39 +799,53 @@ def label_topics(
     }
     if not to_label:
         return labels
-    payload = []
-    for tid, docs in sorted(to_label.items()):
-        joined = "\n---\n".join(docs[:3])
-        payload.append(f"topic_id={tid}:\n{joined}")
-    messages = [
-        {
-            "role": "system",
-            "content": (
-                "Ты подписываешь кластеры Reddit-постов про нефть. "
-                "Короткие русские лейблы (2–5 слов), без кавычек. "
-                "Каждый лейбл про разный сюжет: не повторяй Ормуз/Иран/цены разными словами. "
-                'Верни только JSON: {"labels": {"<topic_id>": "<лейбл>"}}.'
-            ),
-        },
-        {"role": "user", "content": "\n\n".join(payload)},
-    ]
-    try:
-        raw = (chat_fn or _chat_completion)(
-            messages,
-            model=model or os.environ.get("DEEPSEEK_MODEL", "").strip() or DEEPSEEK_MODEL,
-            base_url=(
+
+    parsed: dict[int, str] = {}
+    completer = chat_fn or _chat_completion
+    attempts: list[tuple[str, str, str]] = []
+    if chat_fn is not None:
+        attempts.append(
+            (
+                model or os.environ.get("DEEPSEEK_MODEL", "").strip() or DEEPSEEK_MODEL,
                 base_url
                 or os.environ.get("DEEPSEEK_BASE_URL", "").strip()
-                or os.environ.get("OPENAI_COMPATIBLE_BASE_URL", "").strip()
-                or DEEPSEEK_BASE_URL_DEFAULT
-            ),
-            api_key=api_key if api_key is not None else require_deepseek_key(),
+                or DEEPSEEK_BASE_URL_DEFAULT,
+                api_key or "",
+            )
         )
-        labels.update(parse_labels_json(raw))
-    except Exception:
-        pass
-    for tid in to_label:
-        labels.setdefault(tid, f"Тема {tid}")
+    else:
+        try:
+            attempts.append(
+                (
+                    model or os.environ.get("DEEPSEEK_MODEL", "").strip() or DEEPSEEK_MODEL,
+                    base_url
+                    or os.environ.get("DEEPSEEK_BASE_URL", "").strip()
+                    or os.environ.get("OPENAI_COMPATIBLE_BASE_URL", "").strip()
+                    or DEEPSEEK_BASE_URL_DEFAULT,
+                    api_key if api_key is not None else require_deepseek_key(),
+                )
+            )
+        except Exception as exc:
+            _LOG.warning("DeepSeek key unavailable for topic labels: %s", exc)
+        fallback = _openrouter_label_attempt()
+        if fallback:
+            attempts.append(fallback)
+
+    for attempt_model, attempt_base, attempt_key in attempts:
+        try:
+            parsed = _label_with_llm(
+                to_label,
+                chat_fn=completer,
+                model=attempt_model,
+                base_url=attempt_base,
+                api_key=attempt_key,
+            )
+            if parsed:
+                break
+        except Exception as exc:
+            _LOG.warning("topic labeler failed (%s): %s", attempt_model, exc)
+
+    labels.update(_fill_topic_labels(to_label, parsed))
     return labels
 
 
@@ -817,7 +973,7 @@ def build_topic_payload(
             display_key[tid] = key
             topic_meta[key] = {
                 "key": key,
-                "label": labels.get(tid) or f"Тема {tid}",
+                "label": labels.get(tid) or _headline_label(reps.get(tid) or []),
                 "raw_id": tid,
             }
         else:
@@ -954,6 +1110,58 @@ def topic_payload_is_fresh(payload: dict | None, *, now: datetime | None = None)
     return (stamp - fetched).total_seconds() < CACHE_TTL_SEC
 
 
+def topic_payload_needs_relabel(payload: dict | None) -> bool:
+    if not payload:
+        return False
+    named = [row for row in (payload.get("topics") or []) if row.get("key") != OTHER_KEY]
+    return bool(named) and any(_is_generic_topic_label(row.get("label")) for row in named)
+
+
+def relabel_topic_payload(payload: dict, *, label_fn: LabelFn | None = None) -> dict:
+    """Replace generic «Тема N» labels on an existing cache payload."""
+    reps: dict[int, list[str]] = {}
+    for topic in payload.get("topics") or []:
+        if topic.get("key") == OTHER_KEY:
+            continue
+        try:
+            tid = int(topic.get("raw_id", topic.get("key")))
+        except (TypeError, ValueError):
+            continue
+        posts = [
+            row
+            for row in (payload.get("posts") or [])
+            if row.get("topic_key") == topic.get("key")
+        ]
+        posts.sort(key=lambda row: int(row.get("num_comments") or 0), reverse=True)
+        titles = [str(row.get("title") or "").strip() for row in posts[:3]]
+        reps[tid] = [title for title in titles if title] or [str(topic.get("label") or tid)]
+    if not reps:
+        return payload
+    labels = (label_fn or label_topics)(reps)
+    by_key: dict[str, str] = {}
+    for topic in payload.get("topics") or []:
+        if topic.get("key") == OTHER_KEY:
+            continue
+        try:
+            tid = int(topic.get("raw_id", topic.get("key")))
+        except (TypeError, ValueError):
+            continue
+        label = labels.get(tid)
+        if not label:
+            continue
+        topic["label"] = label
+        by_key[str(topic["key"])] = label
+    for row in payload.get("series") or []:
+        key = str(row.get("topic_key") or "")
+        if key in by_key:
+            row["label"] = by_key[key]
+    for row in payload.get("posts") or []:
+        key = str(row.get("topic_key") or "")
+        if key in by_key:
+            row["label"] = by_key[key]
+    return payload
+
+
 def refresh_topic_dynamics_payload(
     *,
     cache_dir: Path | str | None = None,
@@ -967,6 +1175,10 @@ def refresh_topic_dynamics_payload(
 ) -> dict:
     cached = load_cached_topic_payload(cache_dir=cache_dir)
     if not force and topic_payload_is_fresh(cached) and cached is not None:
+        if topic_payload_needs_relabel(cached):
+            relabeled = relabel_topic_payload(cached, label_fn=label_fn)
+            save_topic_payload_cache(relabeled, cache_dir=cache_dir)
+            return relabeled
         return cached
 
     start, end = window_dates(today=today)
@@ -1019,17 +1231,35 @@ _NAMED_TOPIC_COLORS = (
 )
 _OTHER_TOPIC_COLOR = "#64748B"
 
+TOPIC_CHART_RIVER = "Река"
+TOPIC_CHART_RIDGES = "По осям"
 
-def topic_streamgraph_altair(frame, *, height: int = 280):
-    """Classic ThemeRiver: centered stack, volume = comments."""
-    import altair as alt
 
+def _topic_color_scale(frame) -> tuple[list[str], list[str]]:
     labels = list(dict.fromkeys(frame.sort_values("date")["label"].tolist()))
     named = [name for name in labels if name != OTHER_LABEL]
     domain = named + ([OTHER_LABEL] if OTHER_LABEL in labels else [])
     palette = [_NAMED_TOPIC_COLORS[i % len(_NAMED_TOPIC_COLORS)] for i in range(len(named))]
     if OTHER_LABEL in domain:
         palette.append(_OTHER_TOPIC_COLOR)
+    return domain, palette
+
+
+def _topic_tooltip():
+    import altair as alt
+
+    return [
+        alt.Tooltip("date:T", title="Дата"),
+        alt.Tooltip("label:N", title="Тема"),
+        alt.Tooltip("comments:Q", title="Комментарии"),
+    ]
+
+
+def topic_streamgraph_altair(frame, *, height: int = 280):
+    """Classic ThemeRiver: centered stack, volume = comments."""
+    import altair as alt
+
+    domain, palette = _topic_color_scale(frame)
     return (
         alt.Chart(frame)
         .mark_area(interpolate="monotone")
@@ -1042,14 +1272,82 @@ def topic_streamgraph_altair(frame, *, height: int = 280):
                 scale=alt.Scale(domain=domain, range=palette),
                 legend=alt.Legend(orient="bottom"),
             ),
-            tooltip=[
-                alt.Tooltip("date:T", title="Дата"),
-                alt.Tooltip("label:N", title="Тема"),
-                alt.Tooltip("comments:Q", title="Комментарии"),
-            ],
+            tooltip=_topic_tooltip(),
         )
         .properties(height=height)
     )
+
+
+def _ordered_topic_labels(frame, label_order: list[str] | None) -> tuple[list[str], list[str]]:
+    domain, palette = _topic_color_scale(frame)
+    if not label_order:
+        return domain, palette
+    present = set(domain)
+    ordered = [name for name in label_order if name in present]
+    domain = ordered + [name for name in domain if name not in ordered]
+    named = [name for name in domain if name != OTHER_LABEL]
+    palette = [_NAMED_TOPIC_COLORS[i % len(_NAMED_TOPIC_COLORS)] for i in range(len(named))]
+    if OTHER_LABEL in domain:
+        palette.append(_OTHER_TOPIC_COLOR)
+    return domain, palette
+
+
+def topic_ridgeline_charts(frame, *, row_height: int = 78, label_order: list[str] | None = None):
+    """One unit area chart per topic. Width is ``container`` so Streamlit can stretch."""
+    import altair as alt
+
+    domain, palette = _ordered_topic_labels(frame, label_order)
+    charts: list[tuple[str, object]] = []
+    for index, name in enumerate(domain):
+        color = palette[index % len(palette)] if palette else _NAMED_TOPIC_COLORS[0]
+        charts.append(
+            (
+                name,
+                alt.Chart(frame.loc[frame["label"] == name])
+                .mark_area(
+                    interpolate="monotone",
+                    color=color,
+                    opacity=0.9,
+                    line={"color": color, "strokeWidth": 1.5},
+                )
+                .encode(
+                    x=alt.X(
+                        "date:T",
+                        title=None,
+                        axis=alt.Axis(
+                            format="%d.%m",
+                            grid=True,
+                            tickCount=6,
+                            labelFontSize=11,
+                            labelColor="#94A3B8",
+                            gridColor="#334155",
+                            domainColor="#475569",
+                            tickColor="#475569",
+                        ),
+                    ),
+                    y=alt.Y(
+                        "comments:Q",
+                        title=None,
+                        stack=None,
+                        axis=None,
+                        scale=alt.Scale(zero=True, nice=True),
+                    ),
+                    tooltip=_topic_tooltip(),
+                )
+                .properties(width="container", height=row_height),
+            )
+        )
+    return charts
+
+
+def topic_ridgeline_altair(frame, *, row_height: int = 52, label_order: list[str] | None = None):
+    """Stacked small multiples (tests / non-Streamlit). Dashboard uses unit charts."""
+    import altair as alt
+
+    plots = [chart for _, chart in topic_ridgeline_charts(frame, row_height=row_height, label_order=label_order)]
+    if not plots:
+        return alt.Chart()
+    return alt.vconcat(*plots, spacing=8).resolve_scale(y="independent")
 
 
 def posts_for_topic(payload: dict, topic_key: str, *, limit: int = DRILL_IN_LIMIT) -> list[dict]:

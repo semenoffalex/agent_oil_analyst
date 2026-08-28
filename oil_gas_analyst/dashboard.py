@@ -36,6 +36,8 @@ from oil_gas_analyst.topic_dynamics import (
     OTHER_KEY,
     OTHER_LABEL,
     TOPIC_CHART_EMPTY_COPY,
+    TOPIC_CHART_RIDGES,
+    TOPIC_CHART_RIVER,
     TOPIC_PANEL_TITLE,
     TOPIC_REFRESH_COPY,
     load_cached_topic_payload,
@@ -43,6 +45,8 @@ from oil_gas_analyst.topic_dynamics import (
     refresh_topic_dynamics_payload,
     topic_chart_dataframe,
     topic_payload_is_fresh,
+    topic_payload_needs_relabel,
+    topic_ridgeline_charts,
     topic_streamgraph_altair,
 )
 
@@ -61,18 +65,27 @@ _DASHBOARD_CSS = """
     :root {
         --workspace-height: 28rem;
         --chart-plot-height: 22rem;
-        --chat-height: 17.5rem;
+        --chat-messages-height: 28rem;
     }
-    html, body, [data-testid="stAppViewContainer"], section.main {
+    html, body {
         overflow-x: hidden;
+        overflow-y: auto;
+        height: auto;
+        min-height: 100%;
     }
     [data-testid="stAppViewContainer"] > section.main {
-        overflow: visible;
+        overflow: visible !important;
     }
     section[data-testid="stSidebar"] {display: none;}
     div[data-testid="stToolbar"] {visibility: hidden; height: 0;}
     header[data-testid="stHeader"] {background: transparent;}
-    .stApp {overflow-x: hidden;}
+    .stApp,
+    [data-testid="stAppViewContainer"] {
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        height: auto !important;
+        min-height: 100vh;
+    }
     footer, [data-testid="stFooter"] {visibility: hidden; height: 0;}
     /* Streamlit 1.62+ titles the html shim "st.iframe"; do not match Vega charts. */
     iframe[title="streamlit_components_v1"],
@@ -101,9 +114,8 @@ _DASHBOARD_CSS = """
     .block-container, [data-testid="stMainBlockContainer"] {
         padding-top: 0.75rem;
         max-width: 96rem;
-        padding-bottom: 0 !important;
+        padding-bottom: 7rem !important;
     }
-    section.main > div.block-container {padding-bottom: 0;}
     h1 {margin-bottom: 0.15rem; font-size: 1.85rem;}
     h3 {margin-top: 0.55rem; margin-bottom: 0.2rem; font-size: 1.05rem;}
     div[data-testid="stMetric"] {margin-bottom: 0;}
@@ -122,18 +134,35 @@ _DASHBOARD_CSS = """
         height: var(--chart-plot-height) !important;
         max-height: var(--chart-plot-height) !important;
     }
+    .st-key-topic_ridges [data-testid="stArrowVegaLiteChart"],
+    .st-key-topic_ridges [data-testid="stVegaLiteChart"],
+    .st-key-topic_ridges .vega-embed,
+    .st-key-topic_ridges .vega-embed > svg,
+    .st-key-topic_ridges canvas {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    .topic-ridge-label {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: rgba(248, 250, 252, 0.94);
+        margin: 0.55rem 0 0.05rem 0;
+        line-height: 1.3;
+    }
     .st-key-chat_panel {
         margin-top: 0.65rem;
-        min-height: var(--chat-height);
-        max-height: 22rem;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
+        overflow: visible;
     }
-    .st-key-chat_panel [data-testid="stVerticalBlockBorderWrapper"] {
-        flex: 1 1 auto;
-        min-height: 0;
-        overflow-y: auto;
+    .st-key-chat_messages,
+    .st-key-chat_messages [data-testid="stVerticalBlock"],
+    .st-key-chat_messages [data-testid="stVerticalBlockBorderWrapper"] {
+        max-height: var(--chat-messages-height);
+        overflow-x: hidden;
+        overflow-y: auto !important;
+    }
+    .st-key-chat_messages {
+        padding-right: 0.15rem;
+        margin-bottom: 0.25rem;
     }
     .chat-hint {
         color: rgba(148, 163, 184, 0.95);
@@ -143,11 +172,11 @@ _DASHBOARD_CSS = """
         max-width: none;
     }
     [data-testid="stChatInput"] {
-        position: relative;
-        bottom: auto;
-        z-index: 1;
-        background: transparent;
-        padding: 0.35rem 0 0;
+        position: sticky;
+        bottom: 0;
+        z-index: 20;
+        background: var(--background-color, #0e1117);
+        padding: 0.45rem 0 0.85rem;
         max-width: none;
     }
     [data-testid="stChatInput"] textarea {
@@ -397,8 +426,9 @@ def _start_background_refreshes() -> None:
         )
     if not _news_refresh_in_progress():
         st.session_state._news_refresh_future = _CHAT_EXECUTOR.submit(refresh_top_news_hits)
-    if not _topics_refresh_in_progress() and not topic_payload_is_fresh(
-        st.session_state.get("topic_payload")
+    topic_payload = st.session_state.get("topic_payload")
+    if not _topics_refresh_in_progress() and (
+        not topic_payload_is_fresh(topic_payload) or topic_payload_needs_relabel(topic_payload)
     ):
         st.session_state._topics_refresh_future = _CHAT_EXECUTOR.submit(
             refresh_topic_dynamics_payload
@@ -768,11 +798,34 @@ def _render_chart_panel(payload: dict | None, *, refreshing: bool = False) -> No
 
 
 def _render_topic_panel(payload: dict | None, *, refreshing: bool = False) -> None:
-    title_col, btn_col = st.columns([8, 1])
+    title_col, mode_col, btn_col = st.columns([5.2, 2.6, 1.2])
     with title_col:
         st.subheader(TOPIC_PANEL_TITLE)
         if refreshing or _topics_refresh_in_progress():
             st.caption(TOPIC_REFRESH_COPY)
+    with mode_col:
+        options = (TOPIC_CHART_RIVER, TOPIC_CHART_RIDGES)
+        try:
+            mode = st.segmented_control(
+                "Вид графика",
+                options,
+                default=TOPIC_CHART_RIVER,
+                key="topic_chart_mode",
+                label_visibility="collapsed",
+                required=True,
+                width="stretch",
+            )
+        except Exception:
+            mode = st.radio(
+                "Вид графика",
+                options,
+                index=0,
+                horizontal=True,
+                key="topic_chart_mode",
+                label_visibility="collapsed",
+            )
+        if mode not in options:
+            mode = TOPIC_CHART_RIVER
     with btn_col:
         if st.button(
             "Обновить темы",
@@ -800,10 +853,28 @@ def _render_topic_panel(payload: dict | None, *, refreshing: bool = False) -> No
             st.caption(str(payload["unavailable_reason"]))
         return
 
-    chart = topic_streamgraph_altair(frame, height=280)
-    st.altair_chart(chart, use_container_width=True)
     topics = payload.get("topics") or []
+    label_order = [
+        str(row.get("label") or row.get("key"))
+        for row in topics
+        if row.get("key") != OTHER_KEY
+    ]
+    if mode == TOPIC_CHART_RIDGES:
+        with st.container(key="topic_ridges"):
+            for name, ridge in topic_ridgeline_charts(frame, label_order=label_order):
+                st.markdown(
+                    f'<div class="topic-ridge-label">{html.escape(name)}</div>',
+                    unsafe_allow_html=True,
+                )
+                try:
+                    st.altair_chart(ridge, width="stretch", theme=None)
+                except TypeError:
+                    st.altair_chart(ridge, use_container_width=True, theme=None)
+    else:
+        st.altair_chart(topic_streamgraph_altair(frame, height=280), use_container_width=True)
     other = next((row for row in topics if row.get("key") == OTHER_KEY), None)
+    if mode == TOPIC_CHART_RIDGES:
+        st.caption("Каждая тема на своей оси. Высота — комментарии за день.")
     if other and int(other.get("size") or 0) > 0:
         st.caption(
             f"Река — топ-темы по комментариям. «{OTHER_LABEL}»: "
@@ -887,7 +958,7 @@ def _render_chat_panel(*, busy: bool) -> None:
         st.subheader("Вопрос аналитику")
         st.markdown(f'<p class="chat-hint">{_CHAT_HINT}</p>', unsafe_allow_html=True)
         if messages or pending:
-            with st.container():
+            with st.container(key="chat_messages"):
                 _render_chat_messages()
                 if pending:
                     _render_thinking_indicator()
