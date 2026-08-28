@@ -65,6 +65,12 @@ def _interval(pred: np.ndarray, resid_std: float) -> tuple[float, float, float]:
     return point, point - band, point + band
 
 
+def _endog_for_fit(y: pd.Series) -> pd.Series:
+    """RangeIndex so get_forecast works when Yahoo/Stooq dates have no freq."""
+    values = pd.to_numeric(y, errors="coerce").dropna().astype(float)
+    return pd.Series(values.to_numpy(), index=pd.RangeIndex(len(values)), name="close")
+
+
 def _path_from_pred(pred: np.ndarray) -> tuple[float, ...]:
     return tuple(float(x) for x in np.asarray(pred, dtype=float).ravel())
 
@@ -99,11 +105,17 @@ def _method_from_forecast(
     fitted,
     horizon: int,
 ) -> tuple[MethodForecast, tuple[float, ...]]:
-    fc = fitted.get_forecast(horizon)
-    mean = np.asarray(fc.predicted_mean)
-    ci = fc.conf_int()
-    low = float(np.asarray(ci.iloc[:, 0])[-1])
-    high = float(np.asarray(ci.iloc[:, 1])[-1])
+    if hasattr(fitted, "get_forecast"):
+        fc = fitted.get_forecast(horizon)
+        mean = np.asarray(fc.predicted_mean)
+        ci = np.asarray(fc.conf_int())
+    else:
+        n = len(np.asarray(fitted.model.endog).ravel())
+        pred = fitted.get_prediction(start=n, end=n + horizon - 1)
+        mean = np.asarray(pred.predicted_mean)
+        ci = np.asarray(pred.conf_int())
+    low = float(ci[-1, 0])
+    high = float(ci[-1, 1])
     point = float(mean[-1])
     if low > high:
         low, high = high, low
@@ -125,7 +137,7 @@ def _fit_auto_arima(y: pd.Series, horizon: int) -> MethodForecast:
 
 
 def _fit_auto_arima_with_path(y: pd.Series, horizon: int) -> tuple[MethodForecast, tuple[float, ...]]:
-    endog = y.astype(float)
+    endog = _endog_for_fit(y)
     cfg = load_forecast_config()
     max_p = int(cfg.get("auto_arima_max_p", 2))
     max_d = int(cfg.get("auto_arima_max_d", 1))
@@ -164,7 +176,7 @@ def _fit_unobserved_components(y: pd.Series, horizon: int) -> MethodForecast:
 def _fit_unobserved_components_with_path(
     y: pd.Series, horizon: int
 ) -> tuple[MethodForecast, tuple[float, ...]]:
-    endog = y.astype(float)
+    endog = _endog_for_fit(y)
     try:
         fitted = UnobservedComponents(endog, level="local linear trend").fit(disp=False)
         return _method_from_forecast(
@@ -188,12 +200,12 @@ def _fit_autoreg(y: pd.Series, horizon: int) -> MethodForecast:
 
 
 def _fit_autoreg_with_path(y: pd.Series, horizon: int) -> tuple[MethodForecast, tuple[float, ...]]:
-    endog = y.astype(float)
+    endog = _endog_for_fit(y)
     try:
         maxlag = min(int(load_forecast_config().get("autoreg_max_lag", 21)), max(1, len(endog) // 3))
         sel = ar_select_order(endog, maxlag=maxlag, ic="aic")
-        lags = sel.ar_lags
-        fitted = AutoReg(endog, lags=lags, old_names=False).fit()
+        lags = sel.ar_lags or [1]
+        fitted = AutoReg(endog, lags=lags).fit()
         return _method_from_forecast(
             name="autoreg",
             interpretation=f"AutoReg lags={list(lags)}; last point is day {horizon}.",

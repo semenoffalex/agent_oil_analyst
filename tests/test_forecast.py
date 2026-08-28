@@ -182,7 +182,72 @@ def test_forecast_plot_payload_includes_history_and_two_paths():
         assert len(method["path"]) == 21
         assert method["point"] == method["path"][-1]
         assert method["low"] <= method["point"] <= method["high"]
+        assert "fallback" not in (method.get("interpretation") or "")
+    paths = [tuple(m["path"]) for m in payload["methods"]]
+    assert len(set(paths)) == 3
     assert "average" not in payload
+
+
+def test_forecast_plot_payload_irregular_dates_still_three_distinct_paths():
+    from oil_gas_analyst.forecast import forecast_plot_payload
+
+    idx = pd.to_datetime(
+        [
+            "2026-01-02",
+            "2026-01-05",
+            "2026-01-06",
+            "2026-01-07",
+            "2026-01-08",
+            "2026-01-09",
+            "2026-01-12",
+            "2026-01-13",
+            "2026-01-14",
+            "2026-01-15",
+            "2026-01-16",
+            "2026-01-20",
+            "2026-01-21",
+            "2026-01-22",
+            "2026-01-23",
+            "2026-01-26",
+            "2026-01-27",
+            "2026-01-28",
+            "2026-01-29",
+            "2026-01-30",
+            "2026-02-02",
+            "2026-02-03",
+            "2026-02-04",
+            "2026-02-05",
+            "2026-02-06",
+            "2026-02-09",
+            "2026-02-10",
+            "2026-02-11",
+            "2026-02-12",
+            "2026-02-13",
+            "2026-02-17",
+            "2026-02-18",
+            "2026-02-19",
+            "2026-02-20",
+            "2026-02-23",
+            "2026-02-24",
+            "2026-02-25",
+            "2026-02-26",
+            "2026-02-27",
+            "2026-03-02",
+        ]
+    )
+    rng = np.random.default_rng(2)
+    series = pd.Series(70 + np.cumsum(rng.normal(0, 0.6, len(idx))), index=idx, name="close")
+    assert series.index.freq is None
+
+    payload = forecast_plot_payload(load_history=lambda symbol: series)
+    assert payload.get("unavailable_reason") in (None, "")
+    names = {m["name"] for m in payload["methods"]}
+    assert names == {"auto_arima", "unobserved_components", "autoreg"}
+    for method in payload["methods"]:
+        assert "fallback" not in (method.get("interpretation") or "")
+        assert len(method["path"]) == 21
+    paths = [tuple(m["path"]) for m in payload["methods"]]
+    assert len(set(paths)) == 3
 
 
 def test_forecast_plot_payload_history_start_handles_tz_aware_index():
