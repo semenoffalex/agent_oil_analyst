@@ -10,7 +10,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements-analyst.txt .
-RUN pip install --no-cache-dir --default-timeout=300 --retries 5 -r requirements-analyst.txt
+# Wheels only for hdbscan/numba: compiling them in Docker Desktop can freeze the VM for an hour.
+RUN pip install --no-cache-dir --default-timeout=300 --retries 5 \
+    --only-binary=hdbscan,llvmlite,numba \
+    -r requirements-analyst.txt
 
 COPY config/ config/
 COPY .streamlit/ .streamlit/
