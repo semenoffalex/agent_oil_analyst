@@ -5,7 +5,6 @@ import html
 import uuid
 
 import streamlit as st
-import streamlit.components.v1 as components
 
 from oil_gas_analyst.chat_ui import handle_chat_message, wait_loop
 from oil_gas_analyst.corpus_strip import corpus_strip_entries
@@ -57,59 +56,11 @@ _CHAT_LOADING_COPY = "Подключение чата…"
 _THINKING_COPY = "Аналитик готовит ответ… Обычно это занимает 30–60 секунд."
 _THINKING_HINT = "Можно дождаться ответа здесь — поле ввода снова откроется после завершения."
 
-_WORKSPACE_RESIZE_HTML = """
-<script>
-(function () {
-  const host = window.parent !== window ? window.parent : window;
-  const doc = host.document;
-  const root = doc.documentElement;
-  const chartChrome = 96;
-  const bottomGap = 8;
-  const chatReserve = 280;
-
-  function chartWrap() {
-    const marker = doc.querySelector(".brent-chart-panel-marker");
-    if (!marker) return null;
-    return marker.closest('[data-testid="stVerticalBlockBorderWrapper"]');
-  }
-
-  function resizeWorkspace() {
-    const wrap = chartWrap();
-    if (!wrap) return;
-    const top = wrap.getBoundingClientRect().top;
-    const height = Math.max(
-      280,
-      Math.floor(host.innerHeight - top - bottomGap - chatReserve)
-    );
-    root.style.setProperty("--workspace-height", height + "px");
-    root.style.setProperty(
-      "--chart-plot-height",
-      Math.max(200, height - chartChrome) + "px"
-    );
-    root.style.setProperty("--chat-height", chatReserve + "px");
-  }
-
-  function schedule() {
-    host.requestAnimationFrame(resizeWorkspace);
-  }
-
-  schedule();
-  host.addEventListener("resize", schedule);
-  host.addEventListener("orientationchange", schedule);
-  new MutationObserver(schedule).observe(doc.body, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-  });
-})();
-</script>
-"""
-
 _DASHBOARD_CSS = """
 <style>
     :root {
-        --workspace-height: 22rem;
-        --chart-plot-height: calc(var(--workspace-height) - 4.75rem);
+        --workspace-height: 28rem;
+        --chart-plot-height: 22rem;
         --chat-height: 17.5rem;
     }
     html, body, [data-testid="stAppViewContainer"], section.main {
@@ -123,19 +74,28 @@ _DASHBOARD_CSS = """
     header[data-testid="stHeader"] {background: transparent;}
     .stApp {overflow-x: hidden;}
     footer, [data-testid="stFooter"] {visibility: hidden; height: 0;}
-    iframe[title="streamlit_components_v1"] {
+    /* Streamlit 1.62+ titles the html shim "st.iframe"; do not match Vega charts. */
+    iframe[title="streamlit_components_v1"],
+    iframe[title="st.iframe"],
+    [data-testid="stIFrame"] {
         display: block;
         height: 0 !important;
+        min-height: 0 !important;
+        width: 0 !important;
         border: 0;
+        position: absolute !important;
+        overflow: hidden !important;
     }
-    /* Only collapse the html() shim, not every ancestor that contains it. */
     [data-testid="stElementContainer"]:has(> iframe[title="streamlit_components_v1"]),
-    [data-testid="element-container"]:has(> iframe[title="streamlit_components_v1"]) {
+    [data-testid="element-container"]:has(> iframe[title="streamlit_components_v1"]),
+    [data-testid="stElementContainer"]:has(> [data-testid="stIFrame"]),
+    [data-testid="element-container"]:has(> [data-testid="stIFrame"]) {
         height: 0 !important;
         min-height: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
         overflow: hidden !important;
+        position: absolute !important;
     }
     [data-testid="stAppViewContainer"] {padding-bottom: 0;}
     .block-container, [data-testid="stMainBlockContainer"] {
@@ -150,46 +110,29 @@ _DASHBOARD_CSS = """
     div[data-testid="stMetricLabel"] p {font-size: 0.82rem;}
     .news-rail-card {font-size: 0.82rem; line-height: 1.3;}
     .news-rail-card p {margin-bottom: 0.25rem;}
-    .brent-chart-panel-marker,
-    .chat-panel-marker {
-        display: none;
-    }
-    [data-testid="stVerticalBlockBorderWrapper"]:has(.brent-chart-panel-marker) {
-        height: var(--workspace-height) !important;
-        max-height: var(--workspace-height) !important;
-        min-height: var(--workspace-height) !important;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
+    .st-key-brent_chart_panel {
+        min-height: var(--workspace-height);
         margin-top: 0.15rem;
     }
-    [data-testid="stVerticalBlockBorderWrapper"]:has(.brent-chart-panel-marker)
-    [data-testid="stArrowVegaLiteChart"] {
-        flex: 1 1 auto;
-        min-height: 0;
-        max-height: var(--chart-plot-height) !important;
+    .st-key-brent_chart_panel [data-testid="stArrowVegaLiteChart"] {
+        min-height: var(--chart-plot-height);
         height: var(--chart-plot-height) !important;
     }
-    [data-testid="stVerticalBlockBorderWrapper"]:has(.brent-chart-panel-marker)
-    [data-testid="stArrowVegaLiteChart"] iframe {
+    .st-key-brent_chart_panel [data-testid="stArrowVegaLiteChart"] iframe {
         height: var(--chart-plot-height) !important;
         max-height: var(--chart-plot-height) !important;
     }
-    [data-testid="stVerticalBlockBorderWrapper"]:has(.chat-panel-marker) {
+    .st-key-chat_panel {
         margin-top: 0.65rem;
         min-height: var(--chat-height);
-        max-height: var(--chat-height);
-        height: var(--chat-height) !important;
+        max-height: 22rem;
         overflow: hidden;
         display: flex;
         flex-direction: column;
     }
-    [data-testid="stVerticalBlockBorderWrapper"]:has(.chat-panel-marker)
-    [data-testid="stVerticalBlockBorderWrapper"] {
+    .st-key-chat_panel [data-testid="stVerticalBlockBorderWrapper"] {
         flex: 1 1 auto;
         min-height: 0;
-        height: auto !important;
-        max-height: none !important;
         overflow-y: auto;
     }
     .chat-hint {
@@ -494,8 +437,13 @@ def _collect_background_refreshes() -> bool:
     if isinstance(topics_future, concurrent.futures.Future) and topics_future.done():
         try:
             st.session_state.topic_payload = topics_future.result()
-        except Exception:
-            pass
+        except Exception as exc:
+            st.session_state.topic_payload = {
+                "topics": [],
+                "series": [],
+                "posts": [],
+                "unavailable_reason": str(exc)[:240],
+            }
         st.session_state.pop("_topics_refresh_future", None)
         updated = True
 
@@ -766,8 +714,7 @@ def _render_news_pills(
 
 
 def _render_chart_panel(payload: dict | None, *, refreshing: bool = False) -> None:
-    with st.container(border=True):
-        st.markdown('<div class="brent-chart-panel-marker"></div>', unsafe_allow_html=True)
+    with st.container(border=True, key="brent_chart_panel"):
         if payload is None:
             if refreshing or _chart_refresh_in_progress():
                 with st.spinner(_CHART_LOADING_COPY):
@@ -936,8 +883,7 @@ def _render_chat_panel(*, busy: bool) -> None:
     messages = st.session_state.get("messages") or []
     pending = _chat_turn_pending()
 
-    with st.container(border=True):
-        st.markdown('<div class="chat-panel-marker"></div>', unsafe_allow_html=True)
+    with st.container(border=True, key="chat_panel"):
         st.subheader("Вопрос аналитику")
         st.markdown(f'<p class="chat-hint">{_CHAT_HINT}</p>', unsafe_allow_html=True)
         if messages or pending:
@@ -970,10 +916,6 @@ def _render_chat_panel(*, busy: bool) -> None:
             st.rerun()
 
 
-def _render_workspace_resize() -> None:
-    components.html(_WORKSPACE_RESIZE_HTML, height=0, scrolling=False)
-
-
 def main() -> None:
     st.set_page_config(
         page_title="Нефтегазовый аналитик",
@@ -981,7 +923,6 @@ def main() -> None:
         initial_sidebar_state="collapsed",
     )
     st.markdown(_DASHBOARD_CSS, unsafe_allow_html=True)
-    _render_workspace_resize()
 
     cfg = load_demo_login_config()
     if not _render_login_gate():

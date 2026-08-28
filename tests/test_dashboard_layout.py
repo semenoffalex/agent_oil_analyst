@@ -28,16 +28,20 @@ def test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top():
     assert "chat_col, chart_col" not in main_block
     assert "_render_topic_panel" in text
     assert "topicsReserve" not in text
-    assert "brent-chart-panel-marker" in text
-    assert "chat-panel-marker" in text
+    assert "brent-chart-panel-marker" not in text
+    assert "chat-panel-marker" not in text
+    assert 'key="brent_chart_panel"' in text
+    assert 'key="chat_panel"' in text
+    assert "st-key-brent_chart_panel" in text
+    assert "st-key-chat_panel" in text
     assert "topic_streamgraph_altair" in text
     assert "st.pills" in text
     assert "Обновить темы" in text
     assert "--workspace-height" in text
     assert "--chat-height" in text
-    assert "_WORKSPACE_RESIZE_HTML" in text
-    assert "window.parent" in text
-    assert "_render_workspace_resize" in text
+    assert "st.iframe" in text
+    assert "_WORKSPACE_RESIZE_HTML" not in text
+    assert "_render_workspace_resize" not in text
     assert "Обновить график" not in main_block
     assert "st.divider()" not in main_block
     assert "_render_news_pills" in text
