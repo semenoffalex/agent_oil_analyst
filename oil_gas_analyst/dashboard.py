@@ -63,26 +63,30 @@ _WORKSPACE_RESIZE_HTML = """
   const host = window.parent !== window ? window.parent : window;
   const doc = host.document;
   const root = doc.documentElement;
-  const chartChrome = 76;
+  const chartChrome = 96;
   const bottomGap = 8;
-  const topicsReserve = 340;
+  const chatReserve = 280;
 
-  function workspaceRow() {
-    return doc.querySelector(
-      '[data-testid="stHorizontalBlock"]:has([data-testid="stChatInput"])'
-    );
+  function chartWrap() {
+    const marker = doc.querySelector(".brent-chart-panel-marker");
+    if (!marker) return null;
+    return marker.closest('[data-testid="stVerticalBlockBorderWrapper"]');
   }
 
   function resizeWorkspace() {
-    const row = workspaceRow();
-    if (!row) return;
-    const top = row.getBoundingClientRect().top;
-    const height = Math.max(220, Math.floor(host.innerHeight - top - bottomGap - topicsReserve));
+    const wrap = chartWrap();
+    if (!wrap) return;
+    const top = wrap.getBoundingClientRect().top;
+    const height = Math.max(
+      280,
+      Math.floor(host.innerHeight - top - bottomGap - chatReserve)
+    );
     root.style.setProperty("--workspace-height", height + "px");
     root.style.setProperty(
       "--chart-plot-height",
-      Math.max(140, height - chartChrome) + "px"
+      Math.max(200, height - chartChrome) + "px"
     );
+    root.style.setProperty("--chat-height", chatReserve + "px");
   }
 
   function schedule() {
@@ -106,6 +110,7 @@ _DASHBOARD_CSS = """
     :root {
         --workspace-height: 22rem;
         --chart-plot-height: calc(var(--workspace-height) - 4.75rem);
+        --chat-height: 17.5rem;
     }
     html, body, [data-testid="stAppViewContainer"], section.main {
         overflow-x: hidden;
@@ -145,43 +150,47 @@ _DASHBOARD_CSS = """
     div[data-testid="stMetricLabel"] p {font-size: 0.82rem;}
     .news-rail-card {font-size: 0.82rem; line-height: 1.3;}
     .news-rail-card p {margin-bottom: 0.25rem;}
-    div[data-testid="stHorizontalBlock"]:has([data-testid="stChatInput"]) {
-        align-items: stretch;
-        margin-top: 0.15rem;
-        margin-bottom: 0;
+    .brent-chart-panel-marker,
+    .chat-panel-marker {
+        display: none;
     }
-    div[data-testid="stHorizontalBlock"]:has([data-testid="stChatInput"])
-    > div[data-testid="column"] > div > div[data-testid="stVerticalBlockBorderWrapper"] {
+    [data-testid="stVerticalBlockBorderWrapper"]:has(.brent-chart-panel-marker) {
         height: var(--workspace-height) !important;
         max-height: var(--workspace-height) !important;
         min-height: var(--workspace-height) !important;
         overflow: hidden;
         display: flex;
         flex-direction: column;
+        margin-top: 0.15rem;
     }
-    div[data-testid="stHorizontalBlock"]:has([data-testid="stChatInput"])
-    > div[data-testid="column"]:first-child
-    [data-testid="stVerticalBlockBorderWrapper"]
-    > [data-testid="stVerticalBlockBorderWrapper"] {
-        flex: 1 1 auto;
-        min-height: 0;
-        height: auto !important;
-        max-height: none !important;
-        overflow-y: auto;
-    }
-    div[data-testid="stHorizontalBlock"]:has([data-testid="stChatInput"])
-    > div[data-testid="column"]:last-child
+    [data-testid="stVerticalBlockBorderWrapper"]:has(.brent-chart-panel-marker)
     [data-testid="stArrowVegaLiteChart"] {
         flex: 1 1 auto;
         min-height: 0;
         max-height: var(--chart-plot-height) !important;
         height: var(--chart-plot-height) !important;
     }
-    div[data-testid="stHorizontalBlock"]:has([data-testid="stChatInput"])
-    > div[data-testid="column"]:last-child
+    [data-testid="stVerticalBlockBorderWrapper"]:has(.brent-chart-panel-marker)
     [data-testid="stArrowVegaLiteChart"] iframe {
         height: var(--chart-plot-height) !important;
         max-height: var(--chart-plot-height) !important;
+    }
+    [data-testid="stVerticalBlockBorderWrapper"]:has(.chat-panel-marker) {
+        margin-top: 0.65rem;
+        min-height: var(--chat-height);
+        max-height: var(--chat-height);
+        height: var(--chat-height) !important;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    [data-testid="stVerticalBlockBorderWrapper"]:has(.chat-panel-marker)
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        flex: 1 1 auto;
+        min-height: 0;
+        height: auto !important;
+        max-height: none !important;
+        overflow-y: auto;
     }
     .chat-hint {
         color: rgba(148, 163, 184, 0.95);
@@ -758,6 +767,7 @@ def _render_news_pills(
 
 def _render_chart_panel(payload: dict | None, *, refreshing: bool = False) -> None:
     with st.container(border=True):
+        st.markdown('<div class="brent-chart-panel-marker"></div>', unsafe_allow_html=True)
         if payload is None:
             if refreshing or _chart_refresh_in_progress():
                 with st.spinner(_CHART_LOADING_COPY):
@@ -776,8 +786,8 @@ def _render_chart_panel(payload: dict | None, *, refreshing: bool = False) -> No
             if payload.get("unavailable_reason"):
                 st.caption(str(payload["unavailable_reason"]))
             return
-        toggle_col, _ = st.columns([3, 2])
-        with toggle_col:
+        toggle_row, _ = st.columns([3, 5])
+        with toggle_row:
             t1, t2, t3 = st.columns(3)
             with t1:
                 show_auto_arima = st.checkbox(
@@ -807,7 +817,7 @@ def _render_chart_panel(payload: dict | None, *, refreshing: bool = False) -> No
             if toggles[name]:
                 display_cols.append(CHART_METHOD_LABELS[name])
         display_frame = chart_display_dataframe(frame)[display_cols]
-        st.altair_chart(brent_chart_altair(display_frame, height=280), use_container_width=True)
+        st.altair_chart(brent_chart_altair(display_frame, height=380), use_container_width=True)
 
 
 def _render_topic_panel(payload: dict | None, *, refreshing: bool = False) -> None:
@@ -927,6 +937,7 @@ def _render_chat_panel(*, busy: bool) -> None:
     pending = _chat_turn_pending()
 
     with st.container(border=True):
+        st.markdown('<div class="chat-panel-marker"></div>', unsafe_allow_html=True)
         st.subheader("Вопрос аналитику")
         st.markdown(f'<p class="chat-hint">{_CHAT_HINT}</p>', unsafe_allow_html=True)
         if messages or pending:
@@ -1002,13 +1013,9 @@ def main() -> None:
 
     _render_kpi_corpus_row(chart_payload, news_hits)
     _render_news_pills(news_hits, max_cards=5, refreshing=news_refreshing)
-
-    chat_col, chart_col = st.columns([1, 1], gap="large")
-    with chat_col:
-        _render_chat_panel(busy=_chat_turn_pending())
-    with chart_col:
-        _render_chart_panel(chart_payload, refreshing=chart_refreshing)
     _render_topic_panel(topic_payload, refreshing=topics_refreshing)
+    _render_chart_panel(chart_payload, refreshing=chart_refreshing)
+    _render_chat_panel(busy=_chat_turn_pending())
 
 
 if __name__ == "__main__":

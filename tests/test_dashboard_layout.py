@@ -1,4 +1,4 @@
-"""Dashboard layout — chat above the fold, no sidebar logout."""
+"""Dashboard layout — news and topics first, full-width Brent, chat below."""
 
 from oil_gas_analyst.dashboard import chat_turn_in_progress
 
@@ -21,18 +21,20 @@ def test_dashboard_puts_chat_left_of_chart_and_news_rail_at_top():
     main_block = text.split("def main() -> None:", 1)[1]
     kpi_pos = main_block.index("_render_kpi_corpus_row(")
     rail_pos = main_block.index("_render_news_pills(")
+    topics_pos = main_block.index("_render_topic_panel(")
     chat_pos = main_block.index("_render_chat_panel(")
     chart_pos = main_block.index("_render_chart_panel(")
-    topics_pos = main_block.index("_render_topic_panel(")
-    assert kpi_pos < rail_pos < chat_pos < chart_pos < topics_pos
-    assert "chat_col, chart_col = st.columns" in main_block
+    assert kpi_pos < rail_pos < topics_pos < chart_pos < chat_pos
+    assert "chat_col, chart_col" not in main_block
     assert "_render_topic_panel" in text
-    assert "topicsReserve" in text
+    assert "topicsReserve" not in text
+    assert "brent-chart-panel-marker" in text
+    assert "chat-panel-marker" in text
     assert "topic_streamgraph_altair" in text
     assert "st.pills" in text
     assert "Обновить темы" in text
-    assert "chat_col, chart_col = st.columns" in main_block
     assert "--workspace-height" in text
+    assert "--chat-height" in text
     assert "_WORKSPACE_RESIZE_HTML" in text
     assert "window.parent" in text
     assert "_render_workspace_resize" in text

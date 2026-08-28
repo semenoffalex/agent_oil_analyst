@@ -12,7 +12,7 @@ Yandex/ddgs cannot supply a dated 30-day news archive. Reddit's official JSON AP
 
 ## Decision
 
-The Dashboard shows an Altair **ThemeRiver** (centered stack) of oil-related Reddit discussion for the last **30 Moscow calendar days**, full width under chat | Brent. Stream **width is the sum of `num_comments`** on posts in that topic that day — not 100% shares and not fetched comment bodies.
+The Dashboard shows an Altair **ThemeRiver** (centered stack) of oil-related Reddit discussion for the last **30 Moscow calendar days**, full width under the news rail and above the full-width Brent chart (chat sits below the chart). Stream **width is the sum of `num_comments`** on posts in that topic that day — not 100% shares and not fetched comment bodies.
 
 Corpus: Arctic Shift posts from `r/oil`, `r/energy`, `r/CrudeOil`, `r/commodities`, keyword-filtered, dropping NSFW / stickied / removed. Clustering reuses the sample's **precomputed-embedding HDBSCAN** (UMAP when n ≥ 15) without importing BERTopic or Torch. Embeddings are OpenRouter Nemotron; labels are short Russian strings from DeepSeek. The chart shows the top six clusters plus **«Прочее»**. One fit per cache generation (TTL 6 hours, or an explicit refresh). Click a stream to list up to 20 posts in that topic for the whole window, sorted by comments.
 
